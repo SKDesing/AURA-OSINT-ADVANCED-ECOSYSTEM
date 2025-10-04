@@ -204,7 +204,7 @@
             analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Analyse...';
             
             try {
-                const response = await fetch('http://localhost:3000/api/sessions', {
+                const response = await fetch('http://localhost:3002/api/sessions', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -283,7 +283,7 @@
         async function monitorSession(sessionId) {
             const interval = setInterval(async () => {
                 try {
-                    const response = await fetch(`http://localhost:3000/api/sessions/${sessionId}/users`);
+                    const response = await fetch(`http://localhost:3002/api/sessions/${sessionId}/users`);
                     if (response.ok) {
                         const users = await response.json();
                         const totalComments = users.reduce((sum, user) => sum + parseInt(user.comment_count || 0), 0);
@@ -324,7 +324,7 @@
         }
         
         window.exportLive = function(sessionId) {
-            window.open(`http://localhost:3000/api/sessions/${sessionId}/export/json`, '_blank');
+            window.open(`http://localhost:3002/api/sessions/${sessionId}/export/json`, '_blank');
             showNotification('Export en cours...', 'info');
         };
         
