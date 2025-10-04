@@ -12,8 +12,8 @@ class TikTokLiveCapture {
 
   async startCapture() {
     const browser = await chromium.launch({ 
-      headless: false,
-      args: ['--disable-web-security', '--disable-features=VizDisplayCompositor']
+      headless: true,
+      args: ['--disable-web-security', '--disable-features=VizDisplayCompositor', '--no-sandbox']
     });
     
     const context = await browser.newContext({
@@ -22,12 +22,8 @@ class TikTokLiveCapture {
     
     const page = await context.newPage();
 
-    // Créer la session
-    const sessionResponse = await axios.post('http://localhost:3002/api/sessions', {
-      url: this.url,
-      title: this.sessionTitle
-    });
-    this.sessionId = sessionResponse.data.id;
+    // Utiliser l'ID de session passé en paramètre
+    this.sessionId = process.argv[4] || 1;
 
     // Démarrer l'enregistrement vidéo
     await page.video.start({ 

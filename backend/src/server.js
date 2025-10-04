@@ -54,7 +54,7 @@ app.post('/api/sessions', async (req, res) => {
     );
     
     // Lancer la capture automatiquement
-    const captureProcess = spawn('node', ['capture.js', url, title], {
+    const captureProcess = spawn('node', ['capture.js', url, title, result.rows[0].id], {
       detached: true,
       stdio: 'ignore'
     });
