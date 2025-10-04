@@ -71,8 +71,18 @@ class TikTokLiveCapture {
   async handleComment(commentData) {
     const comment = {
       username: commentData.nickname || commentData.unique_id,
+      unique_id: commentData.unique_id,
       content: commentData.content,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      user_id: commentData.user_id,
+      avatar_url: commentData.avatar_thumb?.url_list?.[0] || null,
+      is_moderator: commentData.user_badge_list?.some(badge => badge.type === 'moderator') || false,
+      is_owner: commentData.user_badge_list?.some(badge => badge.type === 'owner') || false,
+      is_vip: commentData.user_badge_list?.some(badge => badge.type === 'vip') || false,
+      follower_count: commentData.follower_count || 0,
+      following_count: commentData.following_count || 0,
+      badges: commentData.user_badge_list || [],
+      gift_id: commentData.gift_id || null
     };
 
     this.comments.push(comment);

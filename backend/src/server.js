@@ -6,6 +6,7 @@ import multer from 'multer';
 import { Client } from 'minio';
 import pkg from 'pg';
 const { Pool } = pkg;
+import exportRoutes from './routes/export.js';
 
 const app = express();
 const server = createServer(app);
@@ -15,6 +16,7 @@ const io = new Server(server, {
 
 app.use(cors());
 app.use(express.json());
+app.use('/api', exportRoutes);
 
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -48,11 +50,11 @@ app.post('/api/sessions', async (req, res) => {
 
 app.post('/api/sessions/:id/comments', async (req, res) => {
   const { id } = req.params;
-  const { username, content, timestamp } = req.body;
+  const { username, unique_id, content, timestamp, user_id, avatar_url, is_moderator, is_owner, is_vip, follower_count, following_count, badges, gift_id } = req.body;
   try {
     const result = await pool.query(
-      'INSERT INTO comments (session_id, username, content, timestamp) VALUES ($1, $2, $3, $4) RETURNING *',
-      [id, username, content, timestamp]
+      'INSERT INTO comments (session_id, username, unique_id, content, timestamp, user_id, avatar_url, is_moderator, is_owner, is_vip, follower_count, following_count, badges, gift_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *',
+      [id, username, unique_id, content, timestamp, user_id, avatar_url, is_moderator, is_owner, is_vip, follower_count, following_count, JSON.stringify(badges), gift_id]
     );
     io.emit('new-comment', result.rows[0]);
     res.json(result.rows[0]);
