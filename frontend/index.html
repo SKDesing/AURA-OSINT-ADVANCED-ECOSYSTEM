@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Live Analyser - Tableau de Bord</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #25F4EE;
+            --secondary-color: #FE2C55;
+            --dark-bg: #161823;
+            --card-bg: #1F1F2E;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A8ABB2;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-bg);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(37, 244, 238, 0.4);
+        }
+        
+        .sidebar-item {
+            padding: 12px 20px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .sidebar-item:hover {
+            background-color: rgba(37, 244, 238, 0.1);
+        }
+        
+        .sidebar-item.active {
+            background-color: rgba(37, 244, 238, 0.2);
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .comment-item {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
+        }
+        
+        .comment-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .live-badge {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(37, 244, 238, 0.1), rgba(254, 44, 85, 0.1));
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        }
+        
+        .video-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .comment-timeline {
+            position: relative;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .comment-marker {
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background-color: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        .comment-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--card-bg);
+            padding: 8px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+        }
+        
+        .comment-marker:hover .comment-tooltip {
+            opacity: 1;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            background-color: var(--card-bg);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            border-left: 4px solid #10B981;
+        }
+        
+        .notification.error {
+            border-left: 4px solid #EF4444;
+        }
+        
+        .notification.info {
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .search-container {
+            position: relative;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+        
+        .search-input {
+            padding-left: 45px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+        
+        .tab-button {
+            padding: 10px 20px;
+            border-radius: 8px 8px 0 0;
+            background-color: transparent;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .tab-button.active {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--primary-color);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification Container -->
+    <div id="notification" class="notification">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span id="notification-message"></span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-gray-900 shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fab fa-tiktok text-3xl gradient-text mr-3"></i>
+                <h1 class="text-2xl font-bold gradient-text">TikTok Live Analyser</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input" class="search-input py-2 px-4 w-64" placeholder="Rechercher un live...">
+                </div>
+                <button id="refresh-btn" class="btn-primary">
+                    <i class="fas fa-sync-alt mr-2"></i>Actualiser
+                </button>
+                <button id="settings-btn" class="text-gray-400 hover:text-white transition">
+                    <i class="fas fa-cog text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex h-screen pt-16">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gray-900 shadow-lg">
+            <nav class="mt-8">
+                <div class="sidebar-item active" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt mr-3"></i>Tableau de Bord
+                </div>
+                <div class="sidebar-item" data-page="lives">
+                    <i class="fas fa-video mr-3"></i>Lives Actifs
+                </div>
+                <div class="sidebar-item" data-page="analytics">
+                    <i class="fas fa-chart-line mr-3"></i>Analyses
+                </div>
+                <div class="sidebar-item" data-page="capture">
+                    <i class="fas fa-camera mr-3"></i>Nouvelle Capture
+                </div>
+                <div class="sidebar-item" data-page="history">
+                    <i class="fas fa-history mr-3"></i>Historique
+                </div>
+                <div class="sidebar-item" data-page="settings">
+                    <i class="fas fa-cog mr-3"></i>Paramètres
+                </div>
+            </nav>
+            
+            <div class="absolute bottom-0 left-0 right-0 p-4">
+                <div class="text-xs text-gray-500 mb-2">État du système</div>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-gray-400">Base de données</span>
+                    <span class="text-green-400"><i class="fas fa-circle text-xs mr-1"></i>Connectée</span>
+                </div>
+                <div class="flex items-center justify-between text-xs mt-1">
+                    <span class="text-gray-400">Stockage</span>
+                    <span class="text-green-400"><i class="fas fa-circle text-xs mr-1"></i>Disponible</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-gray-800">
+            <!-- Dashboard Page -->
+            <div id="dashboard-page" class="page-content p-6">
+                <h2 class="text-2xl font-bold mb-6">Tableau de Bord</h2>
+                
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400 text-sm">Lives Actifs</p>
+                                <p class="text-3xl font-bold mt-1">3</p>
+                            </div>
+                            <div class="text-3xl text-blue-400">
+                                <i class="fas fa-video"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400 text-sm">Total Commentaires</p>
+                                <p class="text-3xl font-bold mt-1">1,247</p>
+                            </div>
+                            <div class="text-3xl text-green-400">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400 text-sm">Durée Totale</p>
+                                <p class="text-3xl font-bold mt-1">5h 42m</p>
+                            </div>
+                            <div class="text-3xl text-purple-400">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-400 text-sm">Espace Utilisé</p>
+                                <p class="text-3xl font-bold mt-1">2.4 GB</p>
+                            </div>
+                            <div class="text-3xl text-yellow-400">
+                                <i class="fas fa-hdd"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Lives -->
+                <div class="card p-6 mb-8">
+                    <h3 class="text-xl font-semibold mb-4">Lives Récents</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-gray-400 border-b border-gray-700">
+                                    <th class="pb-3">Utilisateur</th>
+                                    <th class="pb-3">Titre</th>
+                                    <th class="pb-3">Date</th>
+                                    <th class="pb-3">Durée</th>
+                                    <th class="pb-3">Commentaires</th>
+                                    <th class="pb-3">Statut</th>
+                                    <th class="pb-3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-lives-table">
+                                <tr class="border-b border-gray-700 hover:bg-gray-700 transition">
+                                    <td class="py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://picsum.photos/seed/user1/40/40.jpg" alt="Avatar" class="w-10 h-10 rounded-full mr-3">
+                                            <span>@don_corleon13</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3">Session Live du Soir</td>
+                                    <td class="py-3">12/06/2023</td>
+                                    <td class="py-3">1h 24m</td>
+                                    <td class="py-3">342</td>
+                                    <td class="py-3">
+                                        <span class="live-badge">EN DIRECT</span>
+                                    </td>
+                                    <td class="py-3">
+                                        <button class="text-blue-400 hover:text-blue-300 mr-2 view-live" data-id="1">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="text-green-400 hover:text-green-300 mr-2">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                        <button class="text-red-400 hover:text-red-300">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-700 hover:bg-gray-700 transition">
+                                    <td class="py-3">
+                                        <div class="flex items-center">
+                                            <img src="https://picsum.photos/seed/user2/40/40.jpg" alt="Avatar" class="w-10 h-10 rounded-full mr-3">
+                                            <span>@bella.bylka213</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3">Test Investigation</td>
+                                    <td class="py-3">11/06/2023</td>
+                                    <td class="py-3">45m</td>
+                                    <td class="py-3">128</td>
+                                    <td class="py-3">
+                                        <span class="bg-gray-600 text-white px-2 py-1 rounded text-xs">Terminé</span>
+                                    </td>
+                                    <td class="py-3">
+                                        <button class="text-blue-400 hover:text-blue-300 mr-2 view-live" data-id="2">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="text-green-400 hover:text-green-300 mr-2">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                        <button class="text-red-400 hover:text-red-300">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Activity Chart -->
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold mb-4">Activité des 7 derniers jours</h3>
+                    <div class="chart-container">
+                        <canvas id="activity-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Capture Page -->
+            <div id="capture-page" class="page-content p-6 hidden">
+                <h2 class="text-2xl font-bold mb-6">Nouvelle Capture</h2>
+                
+                <div class="card p-6">
+                    <form id="capture-form">
+                        <div class="mb-6">
+                            <label class="block text-gray-400 mb-2">URL du Live TikTok</label>
+                            <input type="text" id="live-url" class="w-full bg-gray-700 text-white px-4 py-2 rounded" placeholder="https://www.tiktok.com/@username/live" value="https://www.tiktok.com/@don_corleon13/live">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-400 mb-2">Nom de la Capture</label>
+                            <input type="text" id="capture-name" class="w-full bg-gray-700 text-white px-4 py-2 rounded" placeholder="Ex: Investigation Live - 12/06/2023">
+                        </div>
+                        
+                        <button type="submit" class="btn-primary w-full">
+                            <i class="fas fa-video mr-2"></i>Démarrer la Capture
+                        </button>
+                    </form>
+                </div>
+                
+                <div id="capture-status" class="card p-6 mt-6 hidden">
+                    <h3 class="text-xl font-semibold mb-4">État de la Capture</h3>
+                    <div class="mb-4">
+                        <div class="flex justify-between mb-1">
+                            <span>Progression</span>
+                            <span id="capture-progress-text">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="capture-progress-bar" class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-gray-400 text-sm">Durée</p>
+                            <p class="text-lg font-semibold" id="capture-duration">00:00:00</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-400 text-sm">Commentaires Capturés</p>
+                            <p class="text-lg font-semibold" id="capture-comments-count">0</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex space-x-2">
+                        <button id="pause-capture" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded transition">
+                            <i class="fas fa-pause mr-2"></i>Pause
+                        </button>
+                        <button id="stop-capture" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition">
+                            <i class="fas fa-stop mr-2"></i>Arrêter
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other pages hidden for brevity -->
+            <div id="lives-page" class="page-content p-6 hidden">
+                <h2 class="text-2xl font-bold mb-6">Lives Actifs</h2>
+                <p class="text-gray-400">Contenu des lives actifs...</p>
+            </div>
+
+            <div id="analytics-page" class="page-content p-6 hidden">
+                <h2 class="text-2xl font-bold mb-6">Analyses</h2>
+                <p class="text-gray-400">Contenu des analyses...</p>
+            </div>
+
+            <div id="history-page" class="page-content p-6 hidden">
+                <h2 class="text-2xl font-bold mb-6">Historique</h2>
+                <p class="text-gray-400">Contenu de l'historique...</p>
+            </div>
+
+            <div id="settings-page" class="page-content p-6 hidden">
+                <h2 class="text-2xl font-bold mb-6">Paramètres</h2>
+                <p class="text-gray-400">Contenu des paramètres...</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // DOM Elements
+        const sidebarItems = document.querySelectorAll('.sidebar-item');
+        const pageContents = document.querySelectorAll('.page-content');
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notification-message');
+        const captureForm = document.getElementById('capture-form');
+        const captureStatus = document.getElementById('capture-status');
+        const refreshBtn = document.getElementById('refresh-btn');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeCharts();
+        });
+        
+        // Sidebar Navigation
+        sidebarItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const targetPage = item.getAttribute('data-page');
+                
+                // Update active sidebar item
+                sidebarItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Show target page
+                pageContents.forEach(page => {
+                    if (page.id === `${targetPage}-page`) {
+                        page.classList.remove('hidden');
+                    } else {
+                        page.classList.add('hidden');
+                    }
+                });
+            });
+        });
+        
+        // Notification System
+        function showNotification(message, type = 'info') {
+            notificationMessage.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Capture Form
+        captureForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const liveUrl = document.getElementById('live-url').value;
+            const captureName = document.getElementById('capture-name').value;
+            
+            if (!liveUrl || !captureName) {
+                showNotification('Veuillez remplir tous les champs obligatoires', 'error');
+                return;
+            }
+            
+            // Show capture status
+            captureStatus.classList.remove('hidden');
+            
+            // Simulate capture progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(progressInterval);
+                    showNotification('Capture terminée avec succès!', 'success');
+                }
+                
+                document.getElementById('capture-progress-bar').style.width = `${progress}%`;
+                document.getElementById('capture-progress-text').textContent = `${Math.round(progress)}%`;
+                
+                // Update other stats
+                const duration = Math.floor(progress * 1.5); // Simulated duration in seconds
+                const minutes = Math.floor(duration / 60);
+                const seconds = duration % 60;
+                document.getElementById('capture-duration').textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:00`;
+                
+                document.getElementById('capture-comments-count').textContent = Math.floor(progress * 3.42);
+            }, 1000);
+        });
+        
+        // Refresh Button
+        refreshBtn.addEventListener('click', () => {
+            showNotification('Données actualisées', 'success');
+        });
+        
+        // Initialize Charts
+        function initializeCharts() {
+            // Activity Chart
+            const activityCtx = document.getElementById('activity-chart').getContext('2d');
+            new Chart(activityCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+                    datasets: [{
+                        label: 'Lives Capturés',
+                        data: [3, 5, 2, 8, 4, 6, 3],
+                        borderColor: '#25F4EE',
+                        backgroundColor: 'rgba(37, 244, 238, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Commentaires',
+                        data: [120, 190, 80, 350, 200, 280, 150],
+                        borderColor: '#FE2C55',
+                        backgroundColor: 'rgba(254, 44, 85, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#A8ABB2'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            },
+                            ticks: {
+                                color: '#A8ABB2'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            },
+                            ticks: {
+                                color: '#A8ABB2'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Capture Controls
+        document.getElementById('pause-capture')?.addEventListener('click', () => {
+            const button = document.getElementById('pause-capture');
+            if (button.innerHTML.includes('Pause')) {
+                button.innerHTML = '<i class="fas fa-play mr-2"></i>Reprendre';
+                showNotification('Capture en pause', 'info');
+            } else {
+                button.innerHTML = '<i class="fas fa-pause mr-2"></i>Pause';
+                showNotification('Capture reprise', 'info');
+            }
+        });
+        
+        document.getElementById('stop-capture')?.addEventListener('click', () => {
+            if (confirm('Êtes-vous sûr de vouloir arrêter la capture?')) {
+                captureStatus.classList.add('hidden');
+                showNotification('Capture arrêtée', 'success');
+                
+                // Reset form
+                captureForm.reset();
+            }
+        });
+    </script>
+</body>
+</html>
