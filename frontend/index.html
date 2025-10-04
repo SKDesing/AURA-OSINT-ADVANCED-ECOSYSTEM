@@ -320,11 +320,14 @@
             </div>
             <div class="flex items-center space-x-4">
                 <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="search-input" class="search-input py-2 px-4 w-64" placeholder="Rechercher un live...">
+                    <i class="fas fa-link search-icon"></i>
+                    <input type="text" id="live-url-input" class="search-input py-2 px-4 w-80" placeholder="https://www.tiktok.com/@username/live">
                 </div>
-                <button id="refresh-btn" class="btn-primary">
-                    <i class="fas fa-sync-alt mr-2"></i>Actualiser
+                <button id="analyze-btn" class="btn-primary">
+                    <i class="fas fa-play mr-2"></i>Analyser ce Live
+                </button>
+                <button id="refresh-btn" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded transition">
+                    <i class="fas fa-sync-alt mr-1"></i>
                 </button>
                 <button id="settings-btn" class="text-gray-400 hover:text-white transition">
                     <i class="fas fa-cog text-xl"></i>
@@ -427,9 +430,15 @@
                     </div>
                 </div>
                 
-                <!-- Recent Lives -->
+                <!-- Analyzed Lives -->
                 <div class="card p-6 mb-8">
-                    <h3 class="text-xl font-semibold mb-4">Lives Récents</h3>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold">Lives Analysés</h3>
+                        <span id="total-lives" class="text-sm text-gray-400">0 lives analysés</span>
+                    </div>
+                    <div id="live-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 hidden">
+                        <!-- Live cards will be added here dynamically -->
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead>
@@ -598,6 +607,12 @@
         const captureForm = document.getElementById('capture-form');
         const captureStatus = document.getElementById('capture-status');
         const refreshBtn = document.getElementById('refresh-btn');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const liveUrlInput = document.getElementById('live-url-input');
+        const liveCardsContainer = document.getElementById('live-cards-container');
+        const totalLives = document.getElementById('total-lives');
+        
+        let analyzedLives = [];
         
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
@@ -673,9 +688,196 @@
             }, 1000);
         });
         
+        // Analyze Button
+        analyzeBtn.addEventListener('click', () => {
+            const url = liveUrlInput.value.trim();
+            if (!url) {
+                showNotification('Veuillez entrer une URL de live TikTok', 'error');
+                return;
+            }
+            
+            if (!url.includes('tiktok.com') || !url.includes('/live')) {
+                showNotification('URL invalide. Format attendu: https://www.tiktok.com/@username/live', 'error');
+                return;
+            }
+            
+            analyzeLive(url);
+        });
+        
+        // Enter key support
+        liveUrlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                analyzeBtn.click();
+            }
+        });
+        
+        // Analyze Live Function
+        async function analyzeLive(url) {
+            analyzeBtn.disabled = true;
+            analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Analyse en cours...';
+            
+            try {
+                // Create session
+                const sessionResponse = await fetch('http://localhost:3000/api/sessions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        url: url,
+                        title: `Analyse Live - ${new Date().toLocaleString()}`
+                    })
+                });
+                
+                if (!sessionResponse.ok) {
+                    throw new Error('Erreur lors de la création de la session');
+                }
+                
+                const session = await sessionResponse.json();
+                
+                // Extract username from URL
+                const username = url.match(/@([^/]+)/)?.[1] || 'unknown';
+                
+                // Create live card
+                const liveData = {
+                    id: session.id,
+                    username: `@${username}`,
+                    url: url,
+                    title: session.title,
+                    created_at: new Date().toLocaleString(),
+                    status: 'En cours d\'analyse',
+                    comments_count: 0,
+                    users_count: 0
+                };
+                
+                addLiveCard(liveData);
+                analyzedLives.push(liveData);
+                updateStats();
+                
+                liveUrlInput.value = '';
+                showNotification(`Analyse démarrée pour ${username}`, 'success');
+                
+                // Start monitoring this session
+                monitorSession(session.id);
+                
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
+            } finally {
+                analyzeBtn.disabled = false;
+                analyzeBtn.innerHTML = '<i class="fas fa-play mr-2"></i>Analyser ce Live';
+            }
+        }
+        
+        // Add Live Card
+        function addLiveCard(liveData) {
+            const card = document.createElement('div');
+            card.className = 'card p-4';
+            card.id = `live-card-${liveData.id}`;
+            
+            card.innerHTML = `
+                <div class="flex items-center mb-3">
+                    <img src="https://picsum.photos/seed/${liveData.username}/40/40.jpg" alt="Avatar" class="w-10 h-10 rounded-full mr-3">
+                    <div>
+                        <h4 class="font-semibold">${liveData.username}</h4>
+                        <p class="text-xs text-gray-400">${liveData.created_at}</p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Statut:</span>
+                        <span id="status-${liveData.id}" class="text-yellow-400">${liveData.status}</span>
+                    </div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Commentaires:</span>
+                        <span id="comments-${liveData.id}">${liveData.comments_count}</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Utilisateurs:</span>
+                        <span id="users-${liveData.id}">${liveData.users_count}</span>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="btn-primary flex-1 text-sm" onclick="viewLiveDetails(${liveData.id})">
+                        <i class="fas fa-eye mr-1"></i>Détails
+                    </button>
+                    <button class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm" onclick="exportLive(${liveData.id})">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+            `;
+            
+            liveCardsContainer.appendChild(card);
+            liveCardsContainer.classList.remove('hidden');
+        }
+        
+        // Monitor Session
+        async function monitorSession(sessionId) {
+            const interval = setInterval(async () => {
+                try {
+                    const response = await fetch(`http://localhost:3000/api/sessions/${sessionId}/users`);
+                    if (response.ok) {
+                        const users = await response.json();
+                        
+                        // Update card stats
+                        const commentsElement = document.getElementById(`comments-${sessionId}`);
+                        const usersElement = document.getElementById(`users-${sessionId}`);
+                        const statusElement = document.getElementById(`status-${sessionId}`);
+                        
+                        if (commentsElement && usersElement && statusElement) {
+                            const totalComments = users.reduce((sum, user) => sum + parseInt(user.comment_count), 0);
+                            commentsElement.textContent = totalComments;
+                            usersElement.textContent = users.length;
+                            
+                            if (totalComments > 0) {
+                                statusElement.textContent = 'Actif';
+                                statusElement.className = 'text-green-400';
+                            }
+                        }
+                        
+                        updateStats();
+                    }
+                } catch (error) {
+                    console.error('Erreur monitoring:', error);
+                }
+            }, 5000); // Check every 5 seconds
+            
+            // Stop monitoring after 1 hour
+            setTimeout(() => clearInterval(interval), 3600000);
+        }
+        
+        // Update Stats
+        function updateStats() {
+            totalLives.textContent = `${analyzedLives.length} lives analysés`;
+            
+            // Update dashboard stats
+            const totalCommentsElements = document.querySelectorAll('.stat-card p.text-3xl');
+            if (totalCommentsElements.length > 1) {
+                const totalComments = Array.from(document.querySelectorAll('[id^="comments-"]'))
+                    .reduce((sum, el) => sum + parseInt(el.textContent || 0), 0);
+                totalCommentsElements[1].textContent = totalComments.toLocaleString();
+            }
+        }
+        
+        // View Live Details
+        window.viewLiveDetails = function(sessionId) {
+            // Redirect to analytics page or open modal with detailed view
+            showNotification(`Affichage des détails pour la session ${sessionId}`, 'info');
+        };
+        
+        // Export Live
+        window.exportLive = function(sessionId) {
+            const exportUrl = `http://localhost:3000/api/sessions/${sessionId}/export/json`;
+            window.open(exportUrl, '_blank');
+            showNotification('Export en cours...', 'info');
+        };
+        
         // Refresh Button
         refreshBtn.addEventListener('click', () => {
             showNotification('Données actualisées', 'success');
+            // Refresh all monitored sessions
+            analyzedLives.forEach(live => {
+                if (live.id) monitorSession(live.id);
+            });
         });
         
         // Initialize Charts

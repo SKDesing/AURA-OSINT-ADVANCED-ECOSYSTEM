@@ -35,17 +35,26 @@ class TikTokLiveCapture {
       size: { width: 1920, height: 1080 }
     });
 
-    // Intercepter les WebSockets
+    // Intercepter les WebSockets avec retry
     page.on('websocket', ws => {
+      console.log('WebSocket connecté:', ws.url());
+      
       ws.on('framereceived', event => {
         try {
           const data = JSON.parse(event.payload);
           if (data.type === 'msg' && data.data?.content) {
             this.handleComment(data.data);
+          } else if (data.type === 'gift') {
+            this.handleGift(data.data);
           }
         } catch (e) {
-          // Ignorer les messages non-JSON
+          console.warn('Message WebSocket non parsable:', e.message);
         }
+      });
+      
+      ws.on('close', () => {
+        console.log('WebSocket fermé, tentative de reconnexion...');
+        setTimeout(() => page.reload(), 5000);
       });
     });
 
@@ -66,6 +75,10 @@ class TikTokLiveCapture {
     setInterval(() => {
       console.log(`Commentaires capturés: ${this.comments.length}`);
     }, 10000);
+  }
+
+  async handleGift(giftData) {
+    console.log(`🎁 Cadeau reçu: ${giftData.gift_name} de ${giftData.user?.nickname}`);
   }
 
   async handleComment(commentData) {

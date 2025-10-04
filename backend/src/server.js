@@ -22,7 +22,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 // Database connection
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
+  connectionString: process.env.DATABASE_URL || 'postgresql://aura_user:secure_password@localhost:5433/aura_investigations'
 });
 
 // MinIO client
@@ -32,6 +32,15 @@ const minioClient = new Client({
   useSSL: false,
   accessKey: 'minioadmin',
   secretKey: 'minioadmin'
+});
+
+// Route racine pour éviter 404
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'AURA Backend API', 
+    version: '1.0.0',
+    endpoints: ['/api/sessions', '/api/sessions/:id/comments', '/api/sessions/:id/export/json']
+  });
 });
 
 // Routes
@@ -90,5 +99,6 @@ app.get('/api/sessions', async (req, res) => {
 });
 
 server.listen(3000, () => {
-  console.log('AURA Backend running on port 3000');
+  console.log('✅ AURA Backend running on port 3000');
+  console.log('📡 API endpoints: http://localhost:3000/api/sessions');
 });
