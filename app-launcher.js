@@ -1,13 +1,9 @@
 const { chromium } = require('playwright');
 const { spawn } = require('child_process');
-const path = require('path');
-const fs = require('fs');
 
 class AuraAppLauncher {
   constructor() {
     this.browser = null;
-    this.backendProcess = null;
-    this.services = [];
   }
 
   async launch() {
@@ -20,31 +16,29 @@ class AuraAppLauncher {
       // 2. Attendre que les services soient prêts
       await this.waitForServices();
       
-      // 3. Lancer Chromium avec l'interface
+      // 3. Lancer Chromium
       await this.launchBrowser();
       
     } catch (error) {
-      console.error('❌ Erreur lors du lancement:', error);
-      await this.cleanup();
+      console.error('❌ Erreur:', error);
     }
   }
 
   async startServices() {
-    console.log('📦 Démarrage des services Docker...');
+    console.log('📦 Démarrage des services...');
     
-    return new Promise((resolve, reject) => {
+    // Nettoyer d'abord
+    spawn('docker', ['rm', '-f', 'aura_frontend_manual'], { stdio: 'ignore' });
+    
+    return new Promise((resolve) => {
       const dockerProcess = spawn('docker-compose', ['up', '-d'], {
-        stdio: 'pipe',
+        stdio: 'inherit',
         cwd: __dirname
       });
 
       dockerProcess.on('close', (code) => {
-        if (code === 0) {
-          console.log('✅ Services Docker démarrés');
-          resolve();
-        } else {
-          reject(new Error(`Docker failed with code ${code}`));
-        }
+        console.log('✅ Services démarrés');
+        resolve();
       });
     });
   }
@@ -52,12 +46,25 @@ class AuraAppLauncher {
   async waitForServices() {
     console.log('⏳ Attente des services...');
     
-    // Attendre que le backend soit prêt
+    // Attendre le backend
     for (let i = 0; i < 30; i++) {
       try {
         const response = await fetch('http://localhost:3002/');
         if (response.ok) {
           console.log('✅ Backend prêt');
+          break;
+        }
+      } catch (e) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+    }
+    
+    // Attendre le frontend
+    for (let i = 0; i < 30; i++) {
+      try {
+        const response = await fetch('http://localhost:3001/');
+        if (response.ok) {
+          console.log('✅ Frontend prêt');
           break;
         }
       } catch (e) {
@@ -74,12 +81,12 @@ class AuraAppLauncher {
       args: [
         '--start-maximized',
         '--disable-web-security',
-        '--disable-features=VizDisplayCompositor'
+        '--no-sandbox'
       ]
     });
 
     const context = await this.browser.newContext({
-      viewport: null // Utilise la taille de la fenêtre
+      viewport: null
     });
 
     const page = await context.newPage();
@@ -88,7 +95,7 @@ class AuraAppLauncher {
     await page.goto('http://localhost:3001');
     
     console.log('✅ AURA lancé dans Chromium');
-    console.log('🎯 Interface disponible dans le navigateur');
+    console.log('🎯 Interface disponible');
     
     // Gérer la fermeture
     this.browser.on('disconnected', () => {
@@ -96,30 +103,29 @@ class AuraAppLauncher {
       this.cleanup();
     });
 
-    // Maintenir l'application en vie
     process.on('SIGINT', () => {
-      console.log('\\n🛑 Arrêt de AURA...');
+      console.log('\n🛑 Arrêt...');
       this.cleanup();
     });
+    
+    // Maintenir en vie
+    await new Promise(() => {});
   }
 
-  async cleanup() {
-    console.log('🧹 Nettoyage...');
-    
+  cleanup() {
     if (this.browser) {
-      await this.browser.close();
+      this.browser.close();
     }
-
-    // Arrêter les services Docker
+    
+    // Arrêter Docker
     spawn('docker-compose', ['down'], {
       stdio: 'inherit',
       cwd: __dirname
     });
-
-    process.exit(0);
+    
+    setTimeout(() => process.exit(0), 2000);
   }
 }
 
-// Lancement de l'application
 const launcher = new AuraAppLauncher();
 launcher.launch().catch(console.error);
