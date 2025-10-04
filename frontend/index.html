@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AURA - TikTok Live Analyser</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="AURA - Analyseur en temps réel pour les lives TikTok. Surveillez les commentaires, statistiques et interactions des streams TikTok.">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <style>
         :root {
             --primary: #25F4EE;
@@ -14,7 +17,7 @@
             --card: #1F1F2E;
         }
         
-        body { background: var(--dark); color: white; font-family: 'Inter', sans-serif; }
+        body { background: var(--dark); color: white; font-family: 'Inter', sans-serif; font-display: swap; }
         .card { background: var(--card); border-radius: 12px; transition: transform 0.3s; }
         .card:hover { transform: translateY(-2px); }
         .gradient-text { background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -56,10 +59,10 @@
                     <i class="fas fa-link search-icon"></i>
                     <input type="text" id="live-url-input" class="search-input py-2 px-4 w-80 text-white" placeholder="https://www.tiktok.com/@username/live">
                 </div>
-                <button id="analyze-btn" class="btn-primary">
+                <button id="analyze-btn" class="btn-primary" aria-label="Analyser le live TikTok">
                     <i class="fas fa-play mr-2"></i>Analyser
                 </button>
-                <button id="refresh-btn" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded">
+                <button id="refresh-btn" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded" aria-label="Actualiser les données">
                     <i class="fas fa-sync-alt"></i>
                 </button>
             </div>
