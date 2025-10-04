@@ -1,0 +1,15 @@
+{
+  "name": "aura-tiktok-analyser",
+  "version": "1.0.0",
+  "description": "TikTok Live Analyser with integrated Chromium launcher",
+  "main": "app-launcher.js",
+  "scripts": {
+    "start": "node app-launcher.js",
+    "dev": "node app-launcher.js"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0"
+  },
+  "author": "AURA Team",
+  "license": "MIT"
+}
