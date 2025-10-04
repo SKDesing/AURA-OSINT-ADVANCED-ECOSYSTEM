@@ -7,6 +7,7 @@ import { Client } from 'minio';
 import pkg from 'pg';
 const { Pool } = pkg;
 import exportRoutes from './routes/export.js';
+import { spawn } from 'child_process';
 
 const app = express();
 const server = createServer(app);
@@ -51,6 +52,15 @@ app.post('/api/sessions', async (req, res) => {
       'INSERT INTO sessions (url, title, created_at) VALUES ($1, $2, NOW()) RETURNING *',
       [url, title]
     );
+    
+    // Lancer la capture automatiquement
+    const captureProcess = spawn('node', ['capture.js', url, title], {
+      detached: true,
+      stdio: 'ignore'
+    });
+    captureProcess.unref();
+    
+    console.log(`🎬 Capture lancée pour session ${result.rows[0].id}: ${url}`);
     res.json(result.rows[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
