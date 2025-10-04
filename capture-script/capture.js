@@ -13,11 +13,14 @@ class TikTokLiveCapture {
   async startCapture() {
     const browser = await chromium.launch({ 
       headless: true,
-      args: ['--disable-web-security', '--disable-features=VizDisplayCompositor', '--no-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     
     const context = await browser.newContext({
-      viewport: { width: 1920, height: 1080 }
+      storageState: 'tiktok-session.json',
+      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      viewport: { width: 1920, height: 1080 },
+      locale: 'fr-FR'
     });
     
     const page = await context.newPage();
@@ -38,13 +41,9 @@ class TikTokLiveCapture {
       ws.on('framereceived', event => {
         try {
           const data = JSON.parse(event.payload);
-          if (data.type === 'msg' && data.data?.content) {
-            this.handleComment(data.data);
-          } else if (data.type === 'gift') {
-            this.handleGift(data.data);
-          }
+          this.handleEvent(data);
         } catch (e) {
-          console.warn('Message WebSocket non parsable:', e.message);
+          // Ignore non-JSON messages
         }
       });
       
@@ -73,16 +72,37 @@ class TikTokLiveCapture {
     }, 10000);
   }
 
-  async handleGift(giftData) {
-    console.log(`🎁 Cadeau reçu: ${giftData.gift_name} de ${giftData.user?.nickname}`);
+  async handleEvent(eventData) {
+    const timestamp = Date.now();
+    
+    switch(eventData.type) {
+      case 'msg':
+        if (eventData.data?.content) {
+          await this.handleComment(eventData.data, timestamp);
+        }
+        break;
+      case 'gift':
+        await this.handleGift(eventData.data, timestamp);
+        break;
+      case 'member':
+      case 'room_user_seq':
+        await this.handleViewerCount(eventData.data, timestamp);
+        break;
+      case 'like':
+        await this.handleLike(eventData.data, timestamp);
+        break;
+      case 'share':
+        await this.handleShare(eventData.data, timestamp);
+        break;
+    }
   }
 
-  async handleComment(commentData) {
+  async handleComment(commentData, timestamp) {
     const comment = {
       username: commentData.nickname || commentData.unique_id,
       unique_id: commentData.unique_id,
       content: commentData.content,
-      timestamp: Date.now(),
+      timestamp: timestamp,
       user_id: commentData.user_id,
       avatar_url: commentData.avatar_thumb?.url_list?.[0] || null,
       is_moderator: commentData.user_badge_list?.some(badge => badge.type === 'moderator') || false,
@@ -94,14 +114,57 @@ class TikTokLiveCapture {
       gift_id: commentData.gift_id || null
     };
 
-    this.comments.push(comment);
-    
-    // Envoyer au backend
+    await this.sendToBackend('comment', comment);
+    console.log(`💬 [${comment.username}]: ${comment.content}`);
+  }
+
+  async handleGift(giftData, timestamp) {
+    const gift = {
+      sender: giftData.user?.nickname,
+      gift_name: giftData.gift?.name,
+      gift_id: giftData.gift?.id,
+      repeat_count: giftData.repeat_count || 1,
+      coin_count: giftData.gift?.diamond_count || 0,
+      timestamp: timestamp
+    };
+    await this.sendToBackend('gift', gift);
+    console.log(`🎁 ${gift.sender} → ${gift.gift_name} x${gift.repeat_count}`);
+  }
+
+  async handleViewerCount(data, timestamp) {
+    const viewers = {
+      total_viewers: data.total_user || data.total || 0,
+      timestamp: timestamp
+    };
+    await this.sendToBackend('viewers', viewers);
+    console.log(`👥 Spectateurs: ${viewers.total_viewers}`);
+  }
+
+  async handleLike(data, timestamp) {
+    const like = {
+      user: data.user?.nickname,
+      count: data.count || 1,
+      timestamp: timestamp
+    };
+    await this.sendToBackend('like', like);
+  }
+
+  async handleShare(data, timestamp) {
+    const share = {
+      user: data.user?.nickname,
+      timestamp: timestamp
+    };
+    await this.sendToBackend('share', share);
+  }
+
+  async sendToBackend(eventType, data) {
     try {
-      await axios.post(`http://localhost:3002/api/sessions/${this.sessionId}/comments`, comment);
-      console.log(`[${comment.username}]: ${comment.content}`);
+      await axios.post(`http://localhost:3002/api/sessions/${this.sessionId}/events`, {
+        event_type: eventType,
+        data: data
+      });
     } catch (error) {
-      console.error('Erreur envoi commentaire:', error.message);
+      console.error(`Erreur envoi ${eventType}:`, error.message);
     }
   }
 

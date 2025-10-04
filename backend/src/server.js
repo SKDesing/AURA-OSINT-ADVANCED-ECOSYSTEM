@@ -99,6 +99,21 @@ app.post('/api/sessions/:id/video', upload.single('video'), async (req, res) => 
   }
 });
 
+app.post('/api/sessions/:id/events', async (req, res) => {
+  const { id } = req.params;
+  const { event_type, data } = req.body;
+  try {
+    const result = await pool.query(
+      'INSERT INTO events (session_id, event_type, data, timestamp) VALUES ($1, $2, $3, $4) RETURNING *',
+      [id, event_type, JSON.stringify(data), Date.now()]
+    );
+    io.emit('new-event', { session_id: id, event_type, data });
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.get('/api/sessions', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM sessions ORDER BY created_at DESC');
