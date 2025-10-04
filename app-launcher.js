@@ -16,11 +16,18 @@ class AuraAppLauncher {
       // 2. Attendre que les services soient prêts
       await this.waitForServices();
       
-      // 3. Lancer Chromium
-      await this.launchBrowser();
+      // 3. Lancer Chromium avec interface web
+      await this.launchBrowser('http://localhost:3001');
       
     } catch (error) {
-      console.error('❌ Erreur:', error);
+      console.log('⚠️ Problème avec les services, lancement en mode local...');
+      
+      try {
+        // Lancer Chromium avec fichier HTML local
+        await this.launchBrowser(`file://${__dirname}/frontend/index.html`);
+      } catch (browserError) {
+        console.error('❌ Impossible de lancer le navigateur:', browserError);
+      }
     }
   }
 
@@ -30,15 +37,19 @@ class AuraAppLauncher {
     // Nettoyer d'abord
     spawn('docker', ['rm', '-f', 'aura_frontend_manual'], { stdio: 'ignore' });
     
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const dockerProcess = spawn('docker-compose', ['up', '-d'], {
         stdio: 'inherit',
         cwd: __dirname
       });
 
       dockerProcess.on('close', (code) => {
-        console.log('✅ Services démarrés');
-        resolve();
+        if (code === 0) {
+          console.log('✅ Services Docker démarrés');
+          resolve();
+        } else {
+          reject(new Error(`Docker failed with code ${code}`));
+        }
       });
     });
   }
@@ -47,33 +58,32 @@ class AuraAppLauncher {
     console.log('⏳ Attente des services...');
     
     // Attendre le backend
-    for (let i = 0; i < 30; i++) {
+    await this.waitForService('http://localhost:3002/', 'Backend');
+    
+    // Attendre le frontend (plus de temps car compilation)
+    await this.waitForService('http://localhost:3001/', 'Frontend', 60000);
+  }
+
+  async waitForService(url, serviceName, timeout = 30000) {
+    console.log(`⏳ Attente de ${serviceName}...`);
+    const startTime = Date.now();
+    
+    while (Date.now() - startTime < timeout) {
       try {
-        const response = await fetch('http://localhost:3002/');
+        const response = await fetch(url);
         if (response.ok) {
-          console.log('✅ Backend prêt');
-          break;
+          console.log(`✅ ${serviceName} prêt`);
+          return;
         }
       } catch (e) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
       }
     }
     
-    // Attendre le frontend
-    for (let i = 0; i < 30; i++) {
-      try {
-        const response = await fetch('http://localhost:3001/');
-        if (response.ok) {
-          console.log('✅ Frontend prêt');
-          break;
-        }
-      } catch (e) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      }
-    }
+    throw new Error(`${serviceName} n'a pas démarré dans les ${timeout / 1000} secondes`);
   }
 
-  async launchBrowser() {
+  async launchBrowser(url) {
     console.log('🌐 Lancement de Chromium...');
     
     this.browser = await chromium.launch({
@@ -92,10 +102,14 @@ class AuraAppLauncher {
     const page = await context.newPage();
     
     // Charger l'interface AURA
-    await page.goto('http://localhost:3001');
+    await page.goto(url);
     
-    console.log('✅ AURA lancé dans Chromium');
-    console.log('🎯 Interface disponible');
+    if (url.startsWith('file://')) {
+      console.log('✅ AURA lancé en mode local');
+    } else {
+      console.log('✅ AURA lancé en mode web');
+    }
+    console.log('🎯 Interface disponible dans Chromium');
     
     // Gérer la fermeture
     this.browser.on('disconnected', () => {

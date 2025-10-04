@@ -55,10 +55,21 @@ app.post('/api/sessions', async (req, res) => {
     
     // Lancer la capture automatiquement
     const captureProcess = spawn('node', ['capture.js', url, title, result.rows[0].id], {
-      detached: true,
-      stdio: 'ignore'
+      detached: false,
+      stdio: ['ignore', 'pipe', 'pipe']
     });
-    captureProcess.unref();
+    
+    captureProcess.stdout.on('data', (data) => {
+      console.log(`[CAPTURE-${result.rows[0].id}] ${data.toString().trim()}`);
+    });
+    
+    captureProcess.stderr.on('data', (data) => {
+      console.error(`[CAPTURE-ERROR-${result.rows[0].id}] ${data.toString().trim()}`);
+    });
+    
+    captureProcess.on('close', (code) => {
+      console.log(`[CAPTURE-${result.rows[0].id}] Process exited with code ${code}`);
+    });
     
     console.log(`🎬 Capture lancée pour session ${result.rows[0].id}: ${url}`);
     res.json(result.rows[0]);
@@ -126,4 +137,5 @@ app.get('/api/sessions', async (req, res) => {
 server.listen(3000, () => {
   console.log('✅ AURA Backend running on port 3000');
   console.log('📡 API endpoints: http://localhost:3000/api/sessions');
+  console.log('🎬 Capture script ready for TikTok Live analysis');
 });

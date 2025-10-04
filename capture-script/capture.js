@@ -13,7 +13,7 @@ class TikTokLiveCapture {
   async startCapture() {
     const browser = await chromium.launch({ 
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
     });
     
     const context = await browser.newContext({
