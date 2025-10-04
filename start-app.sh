@@ -46,7 +46,7 @@ sleep 5
 echo ""
 echo -e "${YELLOW}🌐 Application URLs:${NC}"
 echo -e "${BLUE}   Frontend: http://localhost:3001${NC}"
-echo -e "${BLUE}   Backend API: http://localhost:3000${NC}"
+echo -e "${BLUE}   Backend API: http://localhost:3002${NC}"
 echo ""
 echo -e "${GREEN}🎯 Ready to analyze TikTok Live streams!${NC}"
 echo -e "${PURPLE}✨ Enjoy your analysis session!${NC}"
