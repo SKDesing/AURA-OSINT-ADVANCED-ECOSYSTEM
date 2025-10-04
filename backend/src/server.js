@@ -22,12 +22,12 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 // Database connection
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://aura_user:secure_password@localhost:5433/aura_investigations'
+  connectionString: process.env.DATABASE_URL || 'postgresql://aura_user:secure_password@aura_db:5432/aura_investigations'
 });
 
 // MinIO client
 const minioClient = new Client({
-  endPoint: process.env.MINIO_ENDPOINT || 'localhost',
+  endPoint: process.env.MINIO_ENDPOINT || 'aura_minio',
   port: 9000,
   useSSL: false,
   accessKey: 'minioadmin',
