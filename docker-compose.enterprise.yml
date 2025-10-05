@@ -21,10 +21,12 @@ services:
     environment:
       - NODE_ENV=production
       - REDIS_URL=redis://redis:6379
-      - BRAVE_PATH=/usr/bin/brave-browser
+      - BRAVE_EXECUTABLE_PATH=/usr/bin/brave-browser
+      - USER_DATA_DIR=/data/browser_profile
       - CLUSTER_MODE=true
     volumes:
       - /usr/bin/brave-browser:/usr/bin/brave-browser:ro
+      - browser_profile_data:/data/browser_profile
     networks:
       - scis-network
     depends_on:
@@ -248,6 +250,7 @@ volumes:
   prometheus_data:
   grafana_data:
   reports_storage:
+  browser_profile_data:
 
 networks:
   scis-network:
