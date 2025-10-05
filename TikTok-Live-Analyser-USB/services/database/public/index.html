@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Explorer - SCIS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0F0F0F 0%, #1A1A1A 100%);
+            color: white; min-height: 100vh; padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .title { font-size: 2.5rem; color: #25F4EE; margin-bottom: 10px; }
+        .layout { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+        .sidebar { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px; padding: 20px; height: fit-content;
+        }
+        .main-content { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px; padding: 30px;
+        }
+        .table-list { list-style: none; }
+        .table-item { 
+            padding: 10px; margin: 5px 0; border-radius: 8px; 
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .table-item:hover { background: rgba(37, 244, 238, 0.1); }
+        .table-item.active { background: rgba(37, 244, 238, 0.2); border-left: 4px solid #25F4EE; }
+        .query-editor { 
+            width: 100%; height: 150px; background: #0F0F0F; 
+            border: 1px solid #333; border-radius: 8px; 
+            color: white; padding: 15px; font-family: 'Courier New', monospace;
+            resize: vertical;
+        }
+        .btn { 
+            background: linear-gradient(90deg, #FF0050, #25F4EE); 
+            border: none; padding: 10px 20px; border-radius: 8px; 
+            color: white; cursor: pointer; margin: 10px 5px 0 0;
+        }
+        .results-table { 
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+            background: rgba(0, 0, 0, 0.3); border-radius: 8px; overflow: hidden;
+        }
+        .results-table th, .results-table td { 
+            padding: 12px; text-align: left; border-bottom: 1px solid #333;
+        }
+        .results-table th { background: rgba(37, 244, 238, 0.1); color: #25F4EE; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-card { 
+            background: rgba(255, 255, 255, 0.05); padding: 15px; 
+            border-radius: 8px; text-align: center;
+        }
+        .stat-number { font-size: 1.8rem; color: #25F4EE; font-weight: bold; }
+        .stat-label { color: #B0B0B0; font-size: 14px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🗄️ Database Explorer</h1>
+            <p style="color: #B0B0B0;">Exploration de la base forensique - Port 3006</p>
+        </div>
+
+        <div class="layout">
+            <div class="sidebar">
+                <h3 style="color: #25F4EE; margin-bottom: 15px;">Tables Forensiques</h3>
+                <ul class="table-list">
+                    <li class="table-item active" onclick="selectTable('profils_tiktok')">
+                        👥 profils_tiktok
+                    </li>
+                    <li class="table-item" onclick="selectTable('identites')">
+                        🆔 identites
+                    </li>
+                    <li class="table-item" onclick="selectTable('live_sessions')">
+                        🎥 live_sessions
+                    </li>
+                    <li class="table-item" onclick="selectTable('messages_live')">
+                        💬 messages_live
+                    </li>
+                    <li class="table-item" onclick="selectTable('entreprises')">
+                        🏢 entreprises
+                    </li>
+                    <li class="table-item" onclick="selectTable('agences')">
+                        🏛️ agences
+                    </li>
+                    <li class="table-item" onclick="selectTable('audit_trail')">
+                        📋 audit_trail
+                    </li>
+                    <li class="table-item" onclick="selectTable('evidence_chain')">
+                        🔗 evidence_chain
+                    </li>
+                </ul>
+                
+                <h3 style="color: #25F4EE; margin: 20px 0 15px;">Actions Rapides</h3>
+                <button class="btn" style="width: 100%; margin: 5px 0;" onclick="exportData()">📤 Exporter</button>
+                <button class="btn" style="width: 100%; margin: 5px 0;" onclick="backupDB()">💾 Sauvegarde</button>
+            </div>
+
+            <div class="main-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">1,247</div>
+                        <div class="stat-label">Profils Total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">89</div>
+                        <div class="stat-label">Lives Actifs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">15,432</div>
+                        <div class="stat-label">Messages</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">234</div>
+                        <div class="stat-label">Preuves</div>
+                    </div>
+                </div>
+
+                <h3 style="color: #25F4EE; margin-bottom: 15px;">Éditeur de Requêtes SQL</h3>
+                <textarea class="query-editor" id="queryEditor" placeholder="SELECT * FROM profils_tiktok WHERE status = 'active' LIMIT 10;">SELECT * FROM profils_tiktok WHERE status = 'active' LIMIT 10;</textarea>
+                
+                <button class="btn" onclick="executeQuery()">▶️ Exécuter</button>
+                <button class="btn" onclick="clearQuery()">🗑️ Effacer</button>
+                <button class="btn" onclick="saveQuery()">💾 Sauvegarder</button>
+
+                <div id="resultsContainer">
+                    <h3 style="color: #25F4EE; margin: 30px 0 15px;">Résultats</h3>
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Plateforme</th>
+                                <th>Status</th>
+                                <th>Dernière Analyse</th>
+                                <th>Niveau Risque</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>@titilepirate3</td>
+                                <td>TikTok</td>
+                                <td><span style="color: #00ff00;">Actif</span></td>
+                                <td>2025-01-05 14:30</td>
+                                <td><span style="color: #ff9900;">Moyen</span></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>@suspect_user</td>
+                                <td>Instagram</td>
+                                <td><span style="color: #ff0000;">Surveillance</span></td>
+                                <td>2025-01-05 12:15</td>
+                                <td><span style="color: #ff0000;">Élevé</span></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>@target_profile</td>
+                                <td>TikTok</td>
+                                <td><span style="color: #00ff00;">Actif</span></td>
+                                <td>2025-01-05 10:45</td>
+                                <td><span style="color: #25F4EE;">Faible</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectTable(tableName) {
+            document.querySelectorAll('.table-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const query = `SELECT * FROM ${tableName} LIMIT 10;`;
+            document.getElementById('queryEditor').value = query;
+        }
+
+        function executeQuery() {
+            const query = document.getElementById('queryEditor').value;
+            console.log('Exécution de la requête:', query);
+            alert('Requête exécutée:\n' + query);
+        }
+
+        function clearQuery() {
+            document.getElementById('queryEditor').value = '';
+        }
+
+        function saveQuery() {
+            const query = document.getElementById('queryEditor').value;
+            alert('Requête sauvegardée:\n' + query);
+        }
+
+        function exportData() {
+            alert('Export des données en cours...');
+        }
+
+        function backupDB() {
+            alert('Sauvegarde de la base de données en cours...');
+        }
+    </script>
+</body>
+</html>

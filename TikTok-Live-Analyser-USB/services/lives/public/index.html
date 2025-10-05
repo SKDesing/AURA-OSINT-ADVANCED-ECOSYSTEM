@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lives Monitor - SCIS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0F0F0F 0%, #1A1A1A 100%);
+            color: white; min-height: 100vh; padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .title { font-size: 2.5rem; color: #25F4EE; margin-bottom: 10px; }
+        .card { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px; padding: 30px; margin-bottom: 30px;
+        }
+        .live-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+        .live-card { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px; padding: 20px; position: relative;
+        }
+        .live-indicator { 
+            position: absolute; top: 15px; right: 15px;
+            background: #ff0000; color: white; padding: 5px 10px;
+            border-radius: 15px; font-size: 12px; font-weight: bold;
+        }
+        .btn { 
+            background: linear-gradient(90deg, #FF0050, #25F4EE); 
+            border: none; padding: 8px 16px; border-radius: 6px; 
+            color: white; cursor: pointer; margin: 5px; font-size: 14px;
+        }
+        .stats { display: flex; justify-content: space-around; margin-bottom: 20px; }
+        .stat { text-align: center; }
+        .stat-number { font-size: 2rem; color: #25F4EE; font-weight: bold; }
+        .stat-label { color: #B0B0B0; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🎥 Lives Monitor</h1>
+            <p style="color: #B0B0B0;">Surveillance des lives actifs - Port 3004</p>
+        </div>
+
+        <div class="card">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Lives Actifs</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">1,247</div>
+                    <div class="stat-label">Spectateurs Total</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">89</div>
+                    <div class="stat-label">Messages/min</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Alertes</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="color: #25F4EE; margin-bottom: 20px;">Lives en Cours de Surveillance</h3>
+            <div class="live-grid">
+                <div class="live-card">
+                    <div class="live-indicator">🔴 LIVE</div>
+                    <h4 style="color: #25F4EE; margin-bottom: 10px;">@titilepirate3</h4>
+                    <p><strong>Plateforme:</strong> TikTok</p>
+                    <p><strong>Spectateurs:</strong> 847</p>
+                    <p><strong>Durée:</strong> 1h 23min</p>
+                    <p><strong>Messages:</strong> 2,341</p>
+                    <p><strong>Dernière activité:</strong> Il y a 2s</p>
+                    <div style="margin-top: 15px;">
+                        <button class="btn">📊 Analyser</button>
+                        <button class="btn">💾 Enregistrer</button>
+                        <button class="btn">🚨 Alerter</button>
+                    </div>
+                </div>
+                
+                <div class="live-card">
+                    <div class="live-indicator">🔴 LIVE</div>
+                    <h4 style="color: #25F4EE; margin-bottom: 10px;">@suspect_live</h4>
+                    <p><strong>Plateforme:</strong> Instagram</p>
+                    <p><strong>Spectateurs:</strong> 234</p>
+                    <p><strong>Durée:</strong> 45min</p>
+                    <p><strong>Messages:</strong> 567</p>
+                    <p><strong>Dernière activité:</strong> Il y a 5s</p>
+                    <div style="margin-top: 15px;">
+                        <button class="btn">📊 Analyser</button>
+                        <button class="btn">💾 Enregistrer</button>
+                        <button class="btn">🚨 Alerter</button>
+                    </div>
+                </div>
+                
+                <div class="live-card">
+                    <div class="live-indicator">🔴 LIVE</div>
+                    <h4 style="color: #25F4EE; margin-bottom: 10px;">@target_user</h4>
+                    <p><strong>Plateforme:</strong> TikTok</p>
+                    <p><strong>Spectateurs:</strong> 166</p>
+                    <p><strong>Durée:</strong> 12min</p>
+                    <p><strong>Messages:</strong> 89</p>
+                    <p><strong>Dernière activité:</strong> Il y a 1s</p>
+                    <div style="margin-top: 15px;">
+                        <button class="btn">📊 Analyser</button>
+                        <button class="btn">💾 Enregistrer</button>
+                        <button class="btn">🚨 Alerter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="color: #25F4EE; margin-bottom: 20px;">Contrôles</h3>
+            <button class="btn">🔍 Ajouter Surveillance</button>
+            <button class="btn">📈 Rapport Global</button>
+            <button class="btn">⚙️ Configuration</button>
+            <button class="btn" style="background: #FF0050;">🛑 Arrêter Tout</button>
+        </div>
+    </div>
+
+    <script>
+        // Simulation de mise à jour en temps réel
+        setInterval(() => {
+            const indicators = document.querySelectorAll('.live-indicator');
+            indicators.forEach(indicator => {
+                indicator.style.opacity = indicator.style.opacity === '0.5' ? '1' : '0.5';
+            });
+        }, 1000);
+    </script>
+</body>
+</html>
