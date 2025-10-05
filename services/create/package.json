@@ -9,10 +9,14 @@
     "build": "echo 'create build complete'"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
   },
-  "keywords": ["scis", "create", "microservice"],
+  "keywords": [
+    "scis",
+    "create",
+    "microservice"
+  ],
   "author": "SCIS Team",
   "license": "MIT"
 }

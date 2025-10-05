@@ -17,7 +17,7 @@ class AppLauncher {
   }
 
   async checkDependencies() {
-    console.log('🔍 Vérification des dépendances...');
+    console.log('🔍 Vérification des dépendances et services...');
     
     // Vérifier Node.js
     try {
@@ -47,29 +47,59 @@ class AppLauncher {
     console.log('✅ Vérification terminée\n');
   }
 
-  async startBackend() {
-    console.log('🚀 Démarrage du backend...');
+  async startAllServices() {
+    console.log('🚀 Démarrage de tous les services...');
     
-    const backend = spawn('node', ['enhanced-server.js'], {
-      cwd: path.join(__dirname, 'live-tracker'),
-      stdio: 'inherit'
-    });
+    const services = [
+      { name: 'Backend Principal', cmd: 'node', args: ['enhanced-server.js'], cwd: 'live-tracker', port: 4000 },
+      { name: 'Service Analyser', cmd: 'node', args: ['server.js'], cwd: 'services/analyser', port: 3002 },
+      { name: 'Service Profiles', cmd: 'node', args: ['server.js'], cwd: 'services/profiles', port: 3003 },
+      { name: 'Service Lives', cmd: 'node', args: ['server.js'], cwd: 'services/lives', port: 3004 },
+      { name: 'Service Create', cmd: 'node', args: ['server.js'], cwd: 'services/create', port: 3005 },
+      { name: 'Service Database', cmd: 'node', args: ['server.js'], cwd: 'services/database', port: 3006 },
+      { name: 'Service Reports', cmd: 'node', args: ['server.js'], cwd: 'services/reports', port: 3007 },
+      { name: 'Service Forensic', cmd: 'node', args: ['server.js'], cwd: 'services/forensic-integration', port: 3008 }
+    ];
 
-    backend.on('error', (error) => {
-      console.error('❌ Erreur backend:', error.message);
-    });
+    for (const service of services) {
+      try {
+        console.log(`🔄 Démarrage ${service.name}...`);
+        
+        const process = spawn(service.cmd, service.args, {
+          cwd: path.join(__dirname, service.cwd),
+          stdio: 'pipe'
+        });
 
-    backend.on('exit', (code) => {
-      if (!this.isShuttingDown) {
-        console.log(`⚠️  Backend arrêté avec le code: ${code}`);
+        process.stdout.on('data', (data) => {
+          console.log(`[${service.name}] ${data.toString().trim()}`);
+        });
+
+        process.stderr.on('data', (data) => {
+          console.error(`[${service.name}] ERROR: ${data.toString().trim()}`);
+        });
+
+        process.on('error', (error) => {
+          console.error(`❌ Erreur ${service.name}:`, error.message);
+        });
+
+        process.on('exit', (code) => {
+          if (!this.isShuttingDown) {
+            console.log(`⚠️  ${service.name} arrêté avec le code: ${code}`);
+          }
+        });
+
+        this.processes.push(process);
+        console.log(`✅ ${service.name} démarré sur le port ${service.port}`);
+        
+        // Pause entre les démarrages
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+      } catch (error) {
+        console.error(`❌ Impossible de démarrer ${service.name}:`, error.message);
       }
-    });
-
-    this.processes.push(backend);
+    }
     
-    // Attendre que le backend soit prêt
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    console.log('✅ Backend démarré sur le port 4000\n');
+    console.log('\n✅ Tous les services sont démarrés\n');
   }
 
   async startFrontend() {
@@ -151,19 +181,26 @@ class AppLauncher {
       await this.checkDependencies();
       this.setupShutdownHandlers();
       
-      await this.startBackend();
+      await this.startAllServices();
       await this.startFrontend();
       await this.openBrowser();
       
       console.log(`
 ╔══════════════════════════════════════════════════════════════╗
-║                    ✅ SYSTÈME DÉMARRÉ                        ║
+║                    ✅ ARCHITECTURE COMPLÈTE DÉMARRÉE                ║
 ║                                                              ║
-║  🎯 Frontend: http://localhost:3000                          ║
-║  🔧 Backend:  http://localhost:4000                          ║
+║  🎯 Frontend:        http://localhost:3000                  ║
+║  🔧 Backend:         http://localhost:4000                  ║
+║  📊 Service Analyser: http://localhost:3002                  ║
+║  👥 Service Profiles: http://localhost:3003                  ║
+║  🎥 Service Lives:    http://localhost:3004                  ║
+║  ➕ Service Create:    http://localhost:3005                  ║
+║  🗄️ Service Database: http://localhost:3006                  ║
+║  📋 Service Reports:  http://localhost:3007                  ║
+║  🔍 Service Forensic: http://localhost:3008                  ║
 ║                                                              ║
-║  📱 Interface utilisateur prête                              ║
-║  🔒 Système forensique activé                                ║
+║  📱 Interface utilisateur centralisée                        ║
+║  🔒 Architecture microservices active                        ║
 ║                                                              ║
 ║  Appuyez sur Ctrl+C pour arrêter                            ║
 ╚══════════════════════════════════════════════════════════════╝

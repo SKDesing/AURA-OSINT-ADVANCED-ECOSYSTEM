@@ -14,7 +14,7 @@ const io = new Server(server, {
   pingInterval: 25000
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 const CLUSTER_MODE = process.env.CLUSTER_MODE === 'true';
 
 app.use(cors());
