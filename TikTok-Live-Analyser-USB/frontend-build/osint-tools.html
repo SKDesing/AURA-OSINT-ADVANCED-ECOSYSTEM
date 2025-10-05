@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outils OSINT - TikTok Live Analyser</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0e27; color: #fff; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-size: 2.5rem; margin-bottom: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .tool-card { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); }
+        .tool-header { display: flex; align-items: center; margin-bottom: 20px; }
+        .tool-icon { font-size: 2rem; margin-right: 15px; }
+        .tool-title { font-size: 1.3rem; font-weight: 600; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+        .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; }
+        .btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
+        .progress-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin: 15px 0; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); width: 0%; transition: width 0.3s; }
+        .results { margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px; }
+        .status { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: 500; }
+        .status.idle { background: rgba(108, 117, 125, 0.2); color: #6c757d; }
+        .status.running { background: rgba(255, 193, 7, 0.2); color: #ffc107; }
+        .status.completed { background: rgba(40, 167, 69, 0.2); color: #28a745; }
+        .status.error { background: rgba(220, 53, 69, 0.2); color: #dc3545; }
+        .sherlock { border-left: 4px solid #ff6b6b; }
+        .harvester { border-left: 4px solid #4ecdc4; }
+        .spiderfoot { border-left: 4px solid #45b7d1; }
+        .exiftool { border-left: 4px solid #96ceb4; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Outils OSINT Intégrés</h1>
+            <p>Recherche et analyse d'informations publiques</p>
+        </div>
+
+        <div class="tools-grid">
+            <!-- Sherlock -->
+            <div class="tool-card sherlock">
+                <div class="tool-header">
+                    <span class="material-icons tool-icon">search</span>
+                    <div>
+                        <div class="tool-title">Sherlock</div>
+                        <div style="font-size: 0.9rem; opacity: 0.7;">Recherche de pseudonymes</div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Nom d'utilisateur</label>
+                    <input type="text" id="sherlock-username" placeholder="@username">
+                </div>
+                <button class="btn btn-primary" onclick="runSherlock()">Rechercher</button>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="sherlock-progress"></div>
+                </div>
+                <div class="status idle" id="sherlock-status">En attente</div>
+                <div class="results" id="sherlock-results" style="display: none;"></div>
+            </div>
+
+            <!-- theHarvester -->
+            <div class="tool-card harvester">
+                <div class="tool-header">
+                    <span class="material-icons tool-icon">email</span>
+                    <div>
+                        <div class="tool-title">theHarvester</div>
+                        <div style="font-size: 0.9rem; opacity: 0.7;">Collecte d'emails et domaines</div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Domaine cible</label>
+                    <input type="text" id="harvester-domain" placeholder="example.com">
+                </div>
+                <div class="input-group">
+                    <label>Sources</label>
+                    <select id="harvester-sources" multiple>
+                        <option value="google" selected>Google</option>
+                        <option value="bing" selected>Bing</option>
+                        <option value="yahoo">Yahoo</option>
+                        <option value="linkedin">LinkedIn</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="runHarvester()">Collecter</button>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="harvester-progress"></div>
+                </div>
+                <div class="status idle" id="harvester-status">En attente</div>
+                <div class="results" id="harvester-results" style="display: none;"></div>
+            </div>
+
+            <!-- SpiderFoot -->
+            <div class="tool-card spiderfoot">
+                <div class="tool-header">
+                    <span class="material-icons tool-icon">security</span>
+                    <div>
+                        <div class="tool-title">SpiderFoot</div>
+                        <div style="font-size: 0.9rem; opacity: 0.7;">Reconnaissance automatique</div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Cible (IP/Domaine)</label>
+                    <input type="text" id="spiderfoot-target" placeholder="192.168.1.1 ou domain.com">
+                </div>
+                <button class="btn btn-primary" onclick="runSpiderFoot()">Scanner</button>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="spiderfoot-progress"></div>
+                </div>
+                <div class="status idle" id="spiderfoot-status">En attente</div>
+                <div class="results" id="spiderfoot-results" style="display: none;"></div>
+            </div>
+
+            <!-- ExifTool -->
+            <div class="tool-card exiftool">
+                <div class="tool-header">
+                    <span class="material-icons tool-icon">image</span>
+                    <div>
+                        <div class="tool-title">ExifTool</div>
+                        <div style="font-size: 0.9rem; opacity: 0.7;">Analyse de métadonnées</div>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Chemin du fichier</label>
+                    <input type="text" id="exiftool-path" placeholder="/path/to/image.jpg">
+                </div>
+                <button class="btn btn-primary" onclick="runExifTool()">Analyser</button>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="exiftool-progress"></div>
+                </div>
+                <div class="status idle" id="exiftool-status">En attente</div>
+                <div class="results" id="exiftool-results" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateStatus(tool, status, progress = 0) {
+            const statusEl = document.getElementById(`${tool}-status`);
+            const progressEl = document.getElementById(`${tool}-progress`);
+            
+            statusEl.className = `status ${status}`;
+            statusEl.textContent = {
+                idle: 'En attente',
+                running: 'En cours...',
+                completed: 'Terminé',
+                error: 'Erreur'
+            }[status];
+            
+            progressEl.style.width = `${progress}%`;
+        }
+
+        function showResults(tool, results) {
+            const resultsEl = document.getElementById(`${tool}-results`);
+            resultsEl.style.display = 'block';
+            resultsEl.innerHTML = `<pre>${JSON.stringify(results, null, 2)}</pre>`;
+        }
+
+        async function runSherlock() {
+            const username = document.getElementById('sherlock-username').value;
+            if (!username) return;
+
+            updateStatus('sherlock', 'running', 20);
+
+            try {
+                const response = await fetch('/api/osint/sherlock/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username })
+                });
+
+                const data = await response.json();
+                updateStatus('sherlock', 'completed', 100);
+                showResults('sherlock', data);
+            } catch (error) {
+                updateStatus('sherlock', 'error');
+                showResults('sherlock', { error: error.message });
+            }
+        }
+
+        async function runHarvester() {
+            const domain = document.getElementById('harvester-domain').value;
+            const sources = Array.from(document.getElementById('harvester-sources').selectedOptions).map(o => o.value);
+            if (!domain) return;
+
+            updateStatus('harvester', 'running', 30);
+
+            try {
+                const response = await fetch('/api/osint/harvester/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ domain, sources })
+                });
+
+                const data = await response.json();
+                updateStatus('harvester', 'completed', 100);
+                showResults('harvester', data);
+            } catch (error) {
+                updateStatus('harvester', 'error');
+                showResults('harvester', { error: error.message });
+            }
+        }
+
+        async function runSpiderFoot() {
+            const target = document.getElementById('spiderfoot-target').value;
+            if (!target) return;
+
+            updateStatus('spiderfoot', 'running', 10);
+
+            try {
+                const response = await fetch('/api/osint/spiderfoot/scan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ target })
+                });
+
+                const data = await response.json();
+                updateStatus('spiderfoot', 'completed', 100);
+                showResults('spiderfoot', data);
+            } catch (error) {
+                updateStatus('spiderfoot', 'error');
+                showResults('spiderfoot', { error: error.message });
+            }
+        }
+
+        async function runExifTool() {
+            const filePath = document.getElementById('exiftool-path').value;
+            if (!filePath) return;
+
+            updateStatus('exiftool', 'running', 50);
+
+            try {
+                const response = await fetch('/api/osint/exiftool/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filePath })
+                });
+
+                const data = await response.json();
+                updateStatus('exiftool', 'completed', 100);
+                showResults('exiftool', data);
+            } catch (error) {
+                updateStatus('exiftool', 'error');
+                showResults('exiftool', { error: error.message });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide SCIS - Pour Investigateurs</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #fe2c55, #25f4ee);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .content {
+            padding: 2rem;
+        }
+        .section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-left: 4px solid #fe2c55;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .section h2 {
+            color: #fe2c55;
+            margin-top: 0;
+        }
+        .step {
+            background: white;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .step-number {
+            background: #fe2c55;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .btn {
+            background: linear-gradient(45deg, #fe2c55, #ff6b35);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .feature {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            text-align: center;
+        }
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .screenshot {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Guide SCIS</h1>
+            <p>Système de Cartographie d'Influence Sociale<br>
+            <strong>Guide Complet pour Investigateurs</strong></p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>🚀 Démarrage Rapide</h2>
+                <div class="success">
+                    <strong>Installation en 1 clic !</strong> Aucune connaissance technique requise.
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Windows :</strong> Double-cliquez sur <code>DEMARRAGE-SIMPLE.bat</code>
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Linux/Mac :</strong> Double-cliquez sur <code>INSTALLATION-AUTO.sh</code>
+                </div>
+                
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Attendez 30 secondes</strong> - L'interface s'ouvre automatiquement
+                </div>
+
+                <div class="warning">
+                    ⚠️ <strong>Important :</strong> Ne fermez pas la fenêtre noire qui s'ouvre - elle maintient les services actifs.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎯 Interface Principale</h2>
+                <p>L'interface SCIS est conçue pour être intuitive, même pour les non-techniciens :</p>
+                
+                <div class="feature-grid">
+                    <div class="feature">
+                        <div class="feature-icon">📊</div>
+                        <h3>Dashboard</h3>
+                        <p>Vue d'ensemble de vos enquêtes et statistiques en temps réel</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">👥</div>
+                        <h3>Profils</h3>
+                        <p>Gestion des profils suspects avec scoring de risque automatique</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">📡</div>
+                        <h3>Live Monitor</h3>
+                        <p>Surveillance en temps réel des streams TikTok actifs</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🔍</div>
+                        <h3>OSINT Tools</h3>
+                        <p>Outils de recherche automatisés sur 400+ plateformes</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📋 Procédures d'Enquête</h2>
+                
+                <h3>🔍 Créer un Profil Suspect</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Cliquez sur <strong>"Profils"</strong> dans le menu latéral
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Cliquez sur <strong>"➕ Nouveau Profil"</strong>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    Remplissez les informations : nom d'utilisateur, niveau de risque
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    Le profil est automatiquement sauvegardé avec hash forensique
+                </div>
+
+                <h3>📡 Surveiller un Live</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Allez dans <strong>"Live Monitor"</strong>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Entrez l'URL du live TikTok : <code>https://tiktok.com/@username/live</code>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    La capture démarre automatiquement (vidéo + commentaires)
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    Toutes les preuves sont hashées SHA-256 pour admissibilité juridique
+                </div>
+
+                <h3>🔍 Recherche OSINT</h3>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Cliquez sur <strong>"OSINT Tools"</strong>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Entrez le nom d'utilisateur ou email à rechercher
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    Les outils scannent automatiquement 400+ plateformes
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    Résultats compilés dans un rapport forensique
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🗄️ Base de Données Forensique</h2>
+                <p>Toutes vos données sont stockées dans une base PostgreSQL sécurisée :</p>
+                
+                <ul>
+                    <li><strong>Profils :</strong> Informations des suspects avec scoring de risque</li>
+                    <li><strong>Sessions :</strong> Enregistrements de lives avec métadonnées</li>
+                    <li><strong>Commentaires :</strong> Messages capturés avec analyse de sentiment</li>
+                    <li><strong>Preuves :</strong> Fichiers avec hash d'intégrité SHA-256</li>
+                    <li><strong>Logs :</strong> Audit trail complet pour chaîne de custody</li>
+                </ul>
+
+                <div class="success">
+                    ✅ <strong>Admissibilité juridique garantie :</strong> Toutes les preuves respectent les standards forensiques internationaux.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📊 Génération de Rapports</h2>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    Allez dans <strong>"Rapports"</strong>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    Sélectionnez le type : Résumé, Détaillé, Forensique, Juridique
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    Choisissez la période et les données à inclure
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    Export automatique en PDF avec certificat d'intégrité
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🛡️ Sécurité & Conformité</h2>
+                
+                <div class="warning">
+                    <strong>🔒 Sécurité Maximale :</strong>
+                    <ul>
+                        <li>Toutes les données restent sur votre machine (pas de cloud)</li>
+                        <li>Chiffrement AES-256 des données sensibles</li>
+                        <li>Hash SHA-256 de toutes les preuves</li>
+                        <li>Audit trail complet de toutes les actions</li>
+                        <li>Conformité RGPD et standards forensiques</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎨 Personnalisation</h2>
+                
+                <h3>Mode Jour/Nuit</h3>
+                <p>Cliquez sur le bouton 🌙/☀️ en bas du menu latéral pour basculer entre les thèmes.</p>
+                
+                <h3>Navigation</h3>
+                <p>Utilisez le menu latéral pour naviguer entre les sections. Cliquez sur ☰ pour réduire/agrandir.</p>
+            </div>
+
+            <div class="section">
+                <h2>🆘 Support & Dépannage</h2>
+                
+                <h3>Problèmes Courants</h3>
+                <div class="step">
+                    <strong>Interface ne s'ouvre pas :</strong>
+                    <ul>
+                        <li>Vérifiez que Node.js et Python sont installés</li>
+                        <li>Attendez 30 secondes après le démarrage</li>
+                        <li>Ouvrez manuellement : http://localhost:9000</li>
+                    </ul>
+                </div>
+                
+                <div class="step">
+                    <strong>Services non disponibles :</strong>
+                    <ul>
+                        <li>Redémarrez l'application</li>
+                        <li>Vérifiez que les ports 4002-4007 sont libres</li>
+                        <li>Consultez les logs dans le dossier logs/</li>
+                    </ul>
+                </div>
+
+                <h3>Contact Support</h3>
+                <p>Pour assistance technique :</p>
+                <ul>
+                    <li>📧 Email : support@scis-forensics.com</li>
+                    <li>📞 Téléphone : +33 1 XX XX XX XX</li>
+                    <li>💬 Chat : Interface SCIS → Aide</li>
+                </ul>
+            </div>
+
+            <div class="section" style="text-align: center;">
+                <h2>🚀 Prêt à Commencer ?</h2>
+                <p>Lancez SCIS et commencez vos investigations numériques dès maintenant !</p>
+                <a href="http://localhost:9000" class="btn">🎯 Ouvrir SCIS Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ouvrir automatiquement SCIS si disponible
+        fetch('http://localhost:9000')
+            .then(() => {
+                document.querySelector('.btn').style.background = 'linear-gradient(45deg, #22c55e, #16a34a)';
+                document.querySelector('.btn').textContent = '✅ SCIS Disponible - Cliquer pour ouvrir';
+            })
+            .catch(() => {
+                document.querySelector('.btn').style.background = 'linear-gradient(45deg, #ef4444, #dc2626)';
+                document.querySelector('.btn').textContent = '⚠️ SCIS Non Démarré - Lancer d\'abord l\'application';
+            });
+    </script>
+</body>
+</html>

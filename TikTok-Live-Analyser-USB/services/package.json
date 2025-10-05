@@ -1,0 +1,17 @@
+{
+  "name": "scis-services",
+  "version": "1.0.0",
+  "description": "SCIS Dashboard Services",
+  "main": "service-launcher.js",
+  "scripts": {
+    "start": "node service-launcher.js",
+    "dev": "nodemon service-launcher.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

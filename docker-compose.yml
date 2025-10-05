@@ -34,7 +34,7 @@ services:
 
   aura_backend:
     build:
-      context: ./backend
+      context: ./live-tracker
       dockerfile: Dockerfile
     container_name: aura_backend
     environment:
@@ -42,9 +42,9 @@ services:
       REDIS_URL: redis://aura_redis:6379
       MINIO_ENDPOINT: aura_minio
     volumes:
-      - ./backend:/app
+      - ./live-tracker:/app
     ports:
-      - "3002:3000"
+      - "3000:3000"
     depends_on:
       - aura_db
       - aura_redis
@@ -52,13 +52,13 @@ services:
 
   aura_frontend:
     build:
-      context: ./frontend
+      context: ./frontend-react
       dockerfile: Dockerfile
     container_name: aura_frontend
     volumes:
-      - ./frontend:/app
+      - ./frontend-react:/app
     ports:
-      - "3001:5173"
+      - "3001:3000"
     depends_on:
       - aura_backend
 
