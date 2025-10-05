@@ -1,0 +1,236 @@
+version: '3.8'
+
+services:
+  # Frontend React
+  frontend:
+    build: ./frontend-react
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080
+    networks:
+      - scis-network
+    depends_on:
+      - gateway
+
+  # Services Métier
+  analyser:
+    build: ./services/analyser
+    ports:
+      - "3002:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - BRAVE_PATH=/usr/bin/brave-browser
+      - CLUSTER_MODE=true
+    volumes:
+      - /usr/bin/brave-browser:/usr/bin/brave-browser:ro
+    networks:
+      - scis-network
+    depends_on:
+      - redis
+      - consul
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+
+  profiles:
+    build: ./services/profiles
+    ports:
+      - "3003:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://postgres:Mohand/06@postgres:5432/live_tracker
+    networks:
+      - scis-network
+    depends_on:
+      - postgres
+      - redis
+      - consul
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  lives:
+    build: ./services/lives
+    ports:
+      - "3004:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+    networks:
+      - scis-network
+    depends_on:
+      - redis
+      - consul
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.8'
+
+  create:
+    build: ./services/create
+    ports:
+      - "3005:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:Mohand/06@postgres:5432/live_tracker
+    networks:
+      - scis-network
+    depends_on:
+      - postgres
+      - consul
+
+  database:
+    build: ./services/database
+    ports:
+      - "3006:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:Mohand/06@postgres:5432/live_tracker
+    networks:
+      - scis-network
+    depends_on:
+      - postgres
+      - consul
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  reports:
+    build: ./services/reports
+    ports:
+      - "3007:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://postgres:Mohand/06@postgres:5432/live_tracker
+    volumes:
+      - reports_storage:/app/reports
+    networks:
+      - scis-network
+    depends_on:
+      - postgres
+      - redis
+      - consul
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.8'
+
+  # Infrastructure
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: live_tracker
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Mohand/06
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./live-tracker/database-forensic-complete-v2.sql:/docker-entrypoint-initdb.d/01-init.sql
+    networks:
+      - scis-network
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - scis-network
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+
+  consul:
+    image: hashicorp/consul:1.16
+    ports:
+      - "8500:8500"
+    command: consul agent -dev -client=0.0.0.0 -ui
+    networks:
+      - scis-network
+
+  # Gateway Nginx avec configuration avancée
+  gateway:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./nginx-enterprise.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    networks:
+      - scis-network
+    depends_on:
+      - analyser
+      - profiles
+      - lives
+      - create
+      - database
+      - reports
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.3'
+
+  # Monitoring et Logging
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    networks:
+      - scis-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    networks:
+      - scis-network
+    depends_on:
+      - prometheus
+
+volumes:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+  reports_storage:
+
+networks:
+  scis-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

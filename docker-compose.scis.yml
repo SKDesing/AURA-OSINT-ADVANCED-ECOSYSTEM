@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  # Base de données PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: scis-postgres
+    environment:
+      POSTGRES_DB: live_tracker
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Mohand/06
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./live-tracker/database-forensic-complete-v2.sql:/docker-entrypoint-initdb.d/01-init.sql
+    networks:
+      - scis-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Application principale
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scis-app
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=live_tracker
+      - DB_USER=postgres
+      - DB_PASSWORD=Mohand/06
+    volumes:
+      - ./evidence:/app/evidence
+      - ./logs:/app/logs
+    networks:
+      - scis-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Redis pour le cache
+  redis:
+    image: redis:7-alpine
+    container_name: scis-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - scis-network
+    restart: unless-stopped
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: scis-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - scis-network
+    depends_on:
+      - app
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  scis-network:
+    driver: bridge

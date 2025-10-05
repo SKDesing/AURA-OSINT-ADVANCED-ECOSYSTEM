@@ -1,0 +1,197 @@
+version: '3.8'
+
+services:
+  # Gateway principal (Nginx)
+  gateway:
+    image: nginx:alpine
+    container_name: scis-gateway
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./nginx-microservices.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - scis-network
+    depends_on:
+      - dashboard-service
+      - analyser-service
+      - profiles-service
+      - lives-service
+      - database-service
+    restart: unless-stopped
+
+  # Service Dashboard (Port 3001)
+  dashboard-service:
+    build:
+      context: ./services/dashboard
+      dockerfile: Dockerfile
+    container_name: scis-dashboard
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=dashboard
+      - API_GATEWAY=http://gateway
+    networks:
+      - scis-network
+    restart: unless-stopped
+
+  # Service Analyser TikTok (Port 3002)
+  analyser-service:
+    build:
+      context: ./services/analyser
+      dockerfile: Dockerfile
+    container_name: scis-analyser
+    ports:
+      - "3002:3000"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=analyser
+      - PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+    volumes:
+      - ./evidence:/app/evidence
+    networks:
+      - scis-network
+    restart: unless-stopped
+
+  # Service Profils (Port 3003)
+  profiles-service:
+    build:
+      context: ./services/profiles
+      dockerfile: Dockerfile
+    container_name: scis-profiles
+    ports:
+      - "3003:3000"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=profiles
+      - DB_HOST=postgres
+    networks:
+      - scis-network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Service Lives (Port 3004)
+  lives-service:
+    build:
+      context: ./services/lives
+      dockerfile: Dockerfile
+    container_name: scis-lives
+    ports:
+      - "3004:3000"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=lives
+      - DB_HOST=postgres
+    networks:
+      - scis-network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Service Création Profils (Port 3005)
+  create-service:
+    build:
+      context: ./services/create
+      dockerfile: Dockerfile
+    container_name: scis-create
+    ports:
+      - "3005:3000"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=create
+      - DB_HOST=postgres
+    networks:
+      - scis-network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Service Base de Données Explorer (Port 3006)
+  database-service:
+    build:
+      context: ./services/database
+      dockerfile: Dockerfile
+    container_name: scis-database
+    ports:
+      - "3006:3000"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=database
+      - DB_HOST=postgres
+    networks:
+      - scis-network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Service Rapports (Port 3007)
+  reports-service:
+    build:
+      context: ./services/reports
+      dockerfile: Dockerfile
+    container_name: scis-reports
+    ports:
+      - "3007:3000"
+    environment:
+      - NODE_ENV=production
+      - SERVICE_NAME=reports
+      - DB_HOST=postgres
+    networks:
+      - scis-network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Base de données PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: scis-postgres
+    environment:
+      POSTGRES_DB: live_tracker
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Mohand/06
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./live-tracker/database-forensic-complete-v2.sql:/docker-entrypoint-initdb.d/01-init.sql
+    networks:
+      - scis-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis pour cache partagé
+  redis:
+    image: redis:7-alpine
+    container_name: scis-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - scis-network
+    restart: unless-stopped
+
+  # Service Discovery (Consul)
+  consul:
+    image: hashicorp/consul:1.16
+    container_name: scis-consul
+    ports:
+      - "8500:8500"
+    command: consul agent -dev -client=0.0.0.0
+    networks:
+      - scis-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  scis-network:
+    driver: bridge
