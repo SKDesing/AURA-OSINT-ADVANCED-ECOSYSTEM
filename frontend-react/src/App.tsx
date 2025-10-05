@@ -801,12 +801,16 @@ function App() {
       <nav style={{ 
         position: 'fixed',
         top: 0,
-        width: '100%',
-        padding: '15px 40px',
+        left: 0,
+        right: 0,
+        height: '70px',
+        padding: '10px 40px',
         background: 'rgba(15, 15, 15, 0.95)',
         backdropFilter: 'blur(10px)',
         zIndex: 1000,
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        display: 'flex',
+        alignItems: 'center'
       }}>
         <div style={{ 
           display: 'flex',
@@ -902,7 +906,11 @@ function App() {
       </nav>
       
       {/* Contenu principal */}
-      <main style={{ paddingTop: '80px' }}>
+      <main style={{ 
+        paddingTop: '70px',
+        minHeight: 'calc(100vh - 70px)',
+        overflow: 'auto'
+      }}>
         {renderTabContent()}
       </main>
     </div>

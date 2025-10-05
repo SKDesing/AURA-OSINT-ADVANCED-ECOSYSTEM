@@ -98,14 +98,24 @@ class AppLauncher {
   }
 
   async openBrowser() {
-    console.log('🌐 Ouverture du navigateur...');
+    console.log('🌐 Ouverture du navigateur Brave...');
     
     try {
-      const { default: open } = await import('open');
-      await open('http://localhost:3000');
-      console.log('✅ Navigateur ouvert\n');
+      const { getBraveExecutablePath } = require('./src/utils/getBravePath');
+      const { spawn } = require('child_process');
+      
+      const bravePath = getBraveExecutablePath();
+      spawn(bravePath, ['http://localhost:3000'], { detached: true, stdio: 'ignore' });
+      console.log('✅ Brave Browser ouvert\n');
     } catch (error) {
-      console.log('⚠️  Ouverture manuelle requise: http://localhost:3000\n');
+      console.log('⚠️  Erreur ouverture Brave, tentative navigateur par défaut...');
+      try {
+        const { default: open } = await import('open');
+        await open('http://localhost:3000');
+        console.log('✅ Navigateur par défaut ouvert\n');
+      } catch (fallbackError) {
+        console.log('⚠️  Ouverture manuelle requise: http://localhost:3000\n');
+      }
     }
   }
 

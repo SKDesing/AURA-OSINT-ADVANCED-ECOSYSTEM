@@ -13,7 +13,12 @@ const profilesRouter = require('./api/routes/profiles');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: "http://localhost:3000", methods: ["GET", "POST"] }
+  cors: { 
+    origin: ["http://localhost:3000", "http://127.0.0.1:3000"], 
+    methods: ["GET", "POST"],
+    credentials: true
+  },
+  allowEIO3: true
 });
 
 // Logger
@@ -32,9 +37,30 @@ const logger = winston.createLogger({
 // Database
 const db = new Pool(config.database);
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+// Middleware CORS complet
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
+
+// Headers CORS supplémentaires
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Routes API
 app.use('/api/profiles', profilesRouter);
