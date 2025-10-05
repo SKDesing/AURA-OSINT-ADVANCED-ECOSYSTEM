@@ -9,10 +9,16 @@
     "build": "echo 'reports build complete'"
   },
   "dependencies": {
+    "bullmq": "^5.60.0",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
-    "cors": "^2.8.5"
+    "puppeteer-pdf": "^1.2.0"
   },
-  "keywords": ["scis", "reports", "microservice"],
+  "keywords": [
+    "scis",
+    "reports",
+    "microservice"
+  ],
   "author": "SCIS Team",
   "license": "MIT"
 }

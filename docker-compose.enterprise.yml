@@ -114,6 +114,7 @@ services:
       - NODE_ENV=production
       - REDIS_URL=redis://redis:6379
       - DATABASE_URL=postgresql://postgres:Mohand/06@postgres:5432/live_tracker
+      - FORENSIC_SERVICE_URL=http://forensic-integration:3000
     volumes:
       - reports_storage:/app/reports
     networks:
@@ -122,11 +123,31 @@ services:
       - postgres
       - redis
       - consul
+      - forensic-integration
     deploy:
       resources:
         limits:
           memory: 1G
           cpus: '0.8'
+
+  # Service d'intégration Magnet Forensics
+  forensic-integration:
+    build: ./services/forensic-integration
+    ports:
+      - "3008:3000"
+    environment:
+      - NODE_ENV=production
+      - MAGNET_API_KEY=${MAGNET_API_KEY}
+      - MAGNET_API_URL=${MAGNET_API_URL}
+    networks:
+      - scis-network
+    depends_on:
+      - consul
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
 
   # Infrastructure
   postgres:
