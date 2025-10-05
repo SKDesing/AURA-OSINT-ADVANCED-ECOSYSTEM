@@ -22,10 +22,16 @@
     "microservices:restart": "docker-compose -f docker-compose.microservices.yml restart"
   },
   "dependencies": {
-    "open": "^8.4.0"
+    "open": "^8.4.0",
+    "socket.io": "^4.8.1"
   },
-  "devDependencies": {},
-  "keywords": ["tiktok", "forensic", "scraper", "live", "analysis"],
+  "keywords": [
+    "tiktok",
+    "forensic",
+    "scraper",
+    "live",
+    "analysis"
+  ],
   "author": "AURA Forensic Team",
   "license": "MIT",
   "repository": {

@@ -48,7 +48,7 @@ class AppLauncher {
   }
 
   async startAllServices() {
-    console.log('🚀 Démarrage de tous les services...');
+    console.log('🚀 Démarrage de tous les services dans des fenêtres séparées...');
     
     const services = [
       { name: 'Backend Principal', cmd: 'node', args: ['enhanced-server.js'], cwd: 'live-tracker', port: 4000 },
@@ -63,68 +63,60 @@ class AppLauncher {
 
     for (const service of services) {
       try {
-        console.log(`🔄 Démarrage ${service.name}...`);
+        console.log(`🔄 Ouverture ${service.name} dans une nouvelle fenêtre...`);
         
-        const process = spawn(service.cmd, service.args, {
-          cwd: path.join(__dirname, service.cwd),
-          stdio: 'pipe'
-        });
-
-        process.stdout.on('data', (data) => {
-          console.log(`[${service.name}] ${data.toString().trim()}`);
-        });
-
-        process.stderr.on('data', (data) => {
-          console.error(`[${service.name}] ERROR: ${data.toString().trim()}`);
-        });
-
-        process.on('error', (error) => {
-          console.error(`❌ Erreur ${service.name}:`, error.message);
-        });
-
-        process.on('exit', (code) => {
-          if (!this.isShuttingDown) {
-            console.log(`⚠️  ${service.name} arrêté avec le code: ${code}`);
-          }
-        });
-
-        this.processes.push(process);
-        console.log(`✅ ${service.name} démarré sur le port ${service.port}`);
+        const servicePath = path.join(__dirname, service.cwd);
+        const command = `cd "${servicePath}" && ${service.cmd} ${service.args.join(' ')}`;
         
-        // Pause entre les démarrages
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Ouvrir dans une nouvelle fenêtre de terminal
+        const process = spawn('gnome-terminal', [
+          '--title', `${service.name} - Port ${service.port}`,
+          '--', 'bash', '-c', 
+          `echo "🚀 Démarrage ${service.name} sur le port ${service.port}"; ${command}; echo "\n❌ Service arrêté - Appuyez sur Entrée pour fermer"; read`
+        ], {
+          detached: true,
+          stdio: 'ignore'
+        });
+
+        process.unref();
+        console.log(`✅ ${service.name} ouvert dans une nouvelle fenêtre (port ${service.port})`);
+        
+        // Pause entre les ouvertures
+        await new Promise(resolve => setTimeout(resolve, 500));
         
       } catch (error) {
-        console.error(`❌ Impossible de démarrer ${service.name}:`, error.message);
+        console.error(`❌ Impossible d'ouvrir ${service.name}:`, error.message);
       }
     }
     
-    console.log('\n✅ Tous les services sont démarrés\n');
+    console.log('\n✅ Tous les services sont ouverts dans des fenêtres séparées\n');
   }
 
   async startFrontend() {
-    console.log('🎨 Démarrage du frontend...');
+    console.log('🎨 Ouverture du frontend dans une nouvelle fenêtre...');
     
-    const frontend = spawn('npm', ['start'], {
-      cwd: path.join(__dirname, 'frontend-react'),
-      stdio: 'inherit'
-    });
+    try {
+      const frontendPath = path.join(__dirname, 'frontend-react');
+      
+      // Ouvrir le frontend dans une nouvelle fenêtre
+      const process = spawn('gnome-terminal', [
+        '--title', 'Frontend React - Port 3000',
+        '--', 'bash', '-c',
+        `cd "${frontendPath}" && echo "🎨 Démarrage Frontend React sur le port 3000" && npm start; echo "\n❌ Frontend arrêté - Appuyez sur Entrée pour fermer"; read`
+      ], {
+        detached: true,
+        stdio: 'ignore'
+      });
 
-    frontend.on('error', (error) => {
-      console.error('❌ Erreur frontend:', error.message);
-    });
-
-    frontend.on('exit', (code) => {
-      if (!this.isShuttingDown) {
-        console.log(`⚠️  Frontend arrêté avec le code: ${code}`);
-      }
-    });
-
-    this.processes.push(frontend);
-    
-    // Attendre que le frontend soit prêt
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    console.log('✅ Frontend démarré sur le port 3000\n');
+      process.unref();
+      console.log('✅ Frontend ouvert dans une nouvelle fenêtre (port 3000)\n');
+      
+      // Attendre que le frontend soit prêt
+      await new Promise(resolve => setTimeout(resolve, 8000));
+      
+    } catch (error) {
+      console.error('❌ Impossible d\'ouvrir le frontend:', error.message);
+    }
   }
 
   async openBrowser() {
@@ -206,7 +198,9 @@ class AppLauncher {
 ╚══════════════════════════════════════════════════════════════╝
       `);
       
-      // Garder le processus vivant
+      // Garder le processus principal vivant
+      console.log('\n🎮 Contrôleur principal actif - Tous les services tournent dans des fenêtres séparées');
+      console.log('📋 Utilisez Ctrl+C pour arrêter le contrôleur (les services continueront)');
       setInterval(() => {}, 1000);
       
     } catch (error) {

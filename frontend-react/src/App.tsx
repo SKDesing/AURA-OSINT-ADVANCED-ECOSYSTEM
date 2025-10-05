@@ -5,6 +5,7 @@ import TikTokLandingPage from './components/TikTokLandingPage';
 import ForensicProfilesManager from './components/ForensicProfilesManager';
 import ProfileCreationWizard from './components/ProfileCreationWizard';
 import ErrorBoundary from './components/ErrorBoundary';
+import SystemDashboard from './components/SystemDashboard';
 import './styles/globals.css';
 
 interface LiveData {
@@ -202,6 +203,8 @@ function App() {
         return renderDataProcessing();
       case 'reports':
         return renderReports();
+      case 'system':
+        return <SystemDashboard />;
       default:
         return renderDashboard();
     }
@@ -846,6 +849,7 @@ function App() {
                 { id: 'database', label: 'Database', icon: '🗄️' },
                 { id: 'processing', label: 'Traitement', icon: '⚙️' },
                 { id: 'reports', label: 'Rapports', icon: '📋' }
+                { id: 'system', label: 'Système', icon: '🎮' }
               ].map(tab => (
                 <button
                   key={tab.id}

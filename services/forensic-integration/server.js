@@ -3,7 +3,7 @@ const cors = require('cors');
 const MagnetForensicsGateway = require('./magnet-connector');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3008;
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
