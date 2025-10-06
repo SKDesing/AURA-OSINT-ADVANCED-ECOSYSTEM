@@ -1,0 +1,37 @@
+name: Chromium Only Enforcement
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  chromium-compliance:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Scan browser violations
+      run: npm run scan-browser-calls
+      
+    - name: Auto-fix violations (if any)
+      run: npm run fix-browser-calls
+      
+    - name: Commit fixes
+      if: success()
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Chromium Enforcer"
+        git add -A
+        git diff --staged --quiet || git commit -m "🔧 Auto-fix: Enforce Chromium Only policy"
+        git push

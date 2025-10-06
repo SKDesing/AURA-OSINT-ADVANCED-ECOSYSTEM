@@ -23,7 +23,9 @@
     "gui": "node gui-launcher.js",
     "scan-browser-calls": "node chromium-only-enforcer.js scan",
     "fix-browser-calls": "node chromium-only-enforcer.js fix",
-    "enforce-chromium": "node chromium-only-enforcer.js scan && echo 'Scan terminé - Voir résultats ci-dessus'"
+    "enforce-chromium": "node chromium-only-enforcer.js scan && echo 'Scan terminé - Voir résultats ci-dessus'",
+    "prepare": "husky install",
+    "compliance-check": "node chromium-only-enforcer.js scan"
   },
   "dependencies": {
     "express": "^4.18.2",
@@ -43,7 +45,8 @@
     "supertest": "^6.3.3",
     "@types/node": "^20.8.0",
     "eslint": "^8.51.0",
-    "prettier": "^3.0.3"
+    "prettier": "^3.0.3",
+    "husky": "^8.0.3"
   },
   "optionalDependencies": {
     "neo4j-driver": "^5.13.0",
