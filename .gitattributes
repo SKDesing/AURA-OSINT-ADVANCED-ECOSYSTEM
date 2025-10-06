@@ -1,0 +1,19 @@
+# Git-crypt configuration - Chiffrement automatique des fichiers sensibles
+
+# Données sensibles - Chiffrées automatiquement
+*.key filter=git-crypt diff=git-crypt
+*.pem filter=git-crypt diff=git-crypt
+*.env filter=git-crypt diff=git-crypt
+.env.* filter=git-crypt diff=git-crypt
+config/secrets.json filter=git-crypt diff=git-crypt
+database/credentials.json filter=git-crypt diff=git-crypt
+
+# Logs et données forensiques - Chiffrés
+logs/*.log filter=git-crypt diff=git-crypt
+data/forensic/*.json filter=git-crypt diff=git-crypt
+exports/*.csv filter=git-crypt diff=git-crypt
+reports/confidential/*.pdf filter=git-crypt diff=git-crypt
+
+# Configurations de production - Chiffrées
+config/production.json filter=git-crypt diff=git-crypt
+docker-compose.prod.yml filter=git-crypt diff=git-crypt

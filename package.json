@@ -25,7 +25,10 @@
     "fix-browser-calls": "node chromium-only-enforcer.js fix",
     "enforce-chromium": "node chromium-only-enforcer.js scan && echo 'Scan terminé - Voir résultats ci-dessus'",
     "prepare": "husky install",
-    "compliance-check": "node chromium-only-enforcer.js scan"
+    "compliance-check": "node chromium-only-enforcer.js scan",
+    "security-setup": "./security-setup.sh",
+    "security-status": "node security-manager.js status",
+    "security-report": "node security-manager.js report"
   },
   "dependencies": {
     "express": "^4.18.2",

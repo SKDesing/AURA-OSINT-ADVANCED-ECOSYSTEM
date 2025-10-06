@@ -94,6 +94,27 @@ class AuraGUILauncher {
                 res.status(500).json({ error: error.message });
             }
         });
+
+        // API Security management
+        this.app.get('/api/security/status', async (req, res) => {
+            try {
+                const SecurityManager = require('./security-manager');
+                const manager = new SecurityManager();
+                res.json(manager.checkEncryptionStatus());
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.get('/api/security/report', async (req, res) => {
+            try {
+                const SecurityManager = require('./security-manager');
+                const manager = new SecurityManager();
+                res.json(manager.generateSecurityReport());
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
     }
 
     async runInstallation() {
