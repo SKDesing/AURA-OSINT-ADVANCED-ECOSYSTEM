@@ -20,7 +20,10 @@
     "validate-setup": "npm run test-migration && npm run benchmark",
     "full-setup": "npm run migrate-chromium && npm run install-chromium && npm run validate-setup",
     "quick-start": "node quick-start.js",
-    "gui": "node gui-launcher.js"
+    "gui": "node gui-launcher.js",
+    "scan-browser-calls": "node chromium-only-enforcer.js scan",
+    "fix-browser-calls": "node chromium-only-enforcer.js fix",
+    "enforce-chromium": "node chromium-only-enforcer.js scan && echo 'Scan terminé - Voir résultats ci-dessus'"
   },
   "dependencies": {
     "express": "^4.18.2",

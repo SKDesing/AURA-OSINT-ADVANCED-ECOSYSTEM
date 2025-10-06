@@ -145,10 +145,14 @@ class AuraGUILauncher {
 
     openBrowser() {
         const url = `http://localhost:${this.port}`;
-        const start = process.platform === 'darwin' ? 'open' :
-                     process.platform === 'win32' ? 'start' : 'xdg-open';
         
-        spawn(start, [url], { stdio: 'ignore' });
+        try {
+            const { ChromiumLauncher } = require('./chromium-only-enforcer');
+            ChromiumLauncher.launch(url);
+            console.log('🌐 Chromium ouvert automatiquement');
+        } catch (error) {
+            console.log('⚠️  Chromium non disponible, ouvrez manuellement:', url);
+        }
     }
 }
 
