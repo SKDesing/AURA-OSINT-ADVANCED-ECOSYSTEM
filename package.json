@@ -19,7 +19,8 @@
     "install-chromium": "./install-chromium.sh",
     "validate-setup": "npm run test-migration && npm run benchmark",
     "full-setup": "npm run migrate-chromium && npm run install-chromium && npm run validate-setup",
-    "quick-start": "node quick-start.js"
+    "quick-start": "node quick-start.js",
+    "gui": "node gui-launcher.js"
   },
   "dependencies": {
     "express": "^4.18.2",
