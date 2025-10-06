@@ -28,7 +28,11 @@
     "compliance-check": "node chromium-only-enforcer.js scan",
     "security-setup": "./security-setup.sh",
     "security-status": "node security-manager.js status",
-    "security-report": "node security-manager.js report"
+    "security-report": "node security-manager.js report",
+    "ui-sync": "node scripts/ui-sync.js sync",
+    "ui-check": "node scripts/ui-sync.js check",
+    "ui-report": "node scripts/ui-sync.js report",
+    "ui-cleanup": "node scripts/ui-sync.js cleanup"
   },
   "dependencies": {
     "express": "^4.18.2",

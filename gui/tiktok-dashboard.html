@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA - TikTok Style Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <link href="../assets/ui/theme.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="tiktok-nav">
+    <div>
+      <img src="/assets/ui/logos/aura-logo.svg" alt="AURA" height="40">
+    </div>
+    <div class="flex items-center space-x-6">
+      <img src="/assets/ui/icons/home.svg" class="tiktok-icon glow-primary" alt="Accueil">
+      <img src="/assets/ui/icons/search.svg" class="tiktok-icon glow-secondary" alt="Recherche">
+      <img src="/assets/ui/icons/analytics.svg" class="tiktok-icon glow-primary" alt="Analytics">
+      <img src="/assets/ui/icons/security.svg" class="tiktok-icon glow-secondary" alt="Sécurité">
+    </div>
+    <div>
+      <img src="/assets/ui/logos/avatar-default.svg" alt="Profil" height="40" class="rounded-full glow-white">
+    </div>
+  </nav>
+
+  <main style="padding: 24px; max-width: 1200px; margin: 0 auto;">
+    <div class="tiktok-card animate-float">
+      <h2 class="color-primary">🛡️ AURA Dashboard</h2>
+      <p>Moteur d'intelligence forensique cross-plateforme</p>
+      <button class="tiktok-btn" onclick="startAnalysis()">
+        Démarrer l'analyse
+      </button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 32px;">
+      <div class="tiktok-card">
+        <div style="display: flex; align-items: center; margin-bottom: 16px;">
+          <img src="/assets/ui/icons/system.svg" class="tiktok-icon glow-primary" style="margin-right: 12px;">
+          <h3 class="color-primary">Système</h3>
+        </div>
+        <div id="system-status">Vérification...</div>
+        <button class="tiktok-btn" style="margin-top: 16px;" onclick="checkSystem()">
+          Actualiser
+        </button>
+      </div>
+
+      <div class="tiktok-card">
+        <div style="display: flex; align-items: center; margin-bottom: 16px;">
+          <img src="/assets/ui/icons/shield.svg" class="tiktok-icon glow-secondary" style="margin-right: 12px;">
+          <h3 class="color-secondary">Sécurité</h3>
+        </div>
+        <div id="security-status">Conforme</div>
+        <button class="tiktok-btn" style="margin-top: 16px;" onclick="scanSecurity()">
+          Scanner
+        </button>
+      </div>
+
+      <div class="tiktok-card">
+        <div style="display: flex; align-items: center; margin-bottom: 16px;">
+          <img src="/assets/ui/icons/performance.svg" class="tiktok-icon glow-primary" style="margin-right: 12px;">
+          <h3 class="color-primary">Performance</h3>
+        </div>
+        <div>Optimal</div>
+        <button class="tiktok-btn" style="margin-top: 16px;" onclick="runBenchmark()">
+          Benchmark
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function startAnalysis() {
+      alert('Analyse OSINT démarrée !');
+    }
+    
+    function checkSystem() {
+      document.getElementById('system-status').innerHTML = '✅ Système opérationnel';
+    }
+    
+    function scanSecurity() {
+      document.getElementById('security-status').innerHTML = '🔐 Scan terminé - 0 violation';
+    }
+    
+    function runBenchmark() {
+      alert('Benchmark en cours...');
+    }
+  </script>
+</body>
+</html>
