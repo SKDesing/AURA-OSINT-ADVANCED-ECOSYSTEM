@@ -1,122 +1,350 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA Forensic System - Launcher</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="aura-launcher">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo-section">
-                <div class="logo">🔥</div>
-                <div class="title-section">
-                    <h1>AURA FORENSIC SYSTEM</h1>
-                    <span class="version">v2.1 Professional</span>
-                </div>
-            </div>
-            <div class="status-indicator" id="systemStatus">
-                <span class="status-dot offline"></span>
-                <span class="status-text">Système arrêté</span>
-            </div>
-        </header>
+/* 🎨 AURA TIKTOK THEME - Enrichi pour effet TikTok Live immersif */
 
-        <!-- Progress Section -->
-        <section class="progress-section">
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="progress-text" id="progressText">Prêt à installer AURA Forensic System</div>
-                <div class="progress-percentage" id="progressPercentage">0%</div>
-            </div>
-        </section>
+/* Variables TikTok */
+:root {
+  --tiktok-red: #fe2c55;
+  --tiktok-blue: #25f4ee;
+  --tiktok-black: #161823;
+  --tiktok-dark: #0f0f23;
+  --tiktok-gray: #2f2f2f;
+  --tiktok-light-gray: #8a8a8a;
+  --tiktok-white: #fff;
+  --tiktok-pink: #f95bf6;
+  --tiktok-glass: rgba(22,24,35,0.6);
 
-        <!-- Steps Section -->
-        <section class="steps-section">
-            <h3>📋 Étapes d'installation</h3>
-            <div class="steps-list" id="stepsList">
-                <div class="step pending" data-step="system-check">
-                    <span class="step-icon">⏳</span>
-                    <span class="step-text">Vérification système Ubuntu</span>
-                </div>
-                <div class="step pending" data-step="dependencies">
-                    <span class="step-icon">⏳</span>
-                    <span class="step-text">Installation dépendances</span>
-                </div>
-                <div class="step pending" data-step="docker">
-                    <span class="step-icon">⏳</span>
-                    <span class="step-text">Configuration Docker</span>
-                </div>
-                <div class="step pending" data-step="database">
-                    <span class="step-icon">⏳</span>
-                    <span class="step-text">Initialisation base de données</span>
-                </div>
-                <div class="step pending" data-step="services">
-                    <span class="step-icon">⏳</span>
-                    <span class="step-text">Démarrage services AURA</span>
-                </div>
-                <div class="step pending" data-step="tests">
-                    <span class="step-icon">⏳</span>
-                    <span class="step-text">Tests d'intégrité</span>
-                </div>
-            </div>
-        </section>
+  --tiktok-gradient: linear-gradient(135deg, #fe2c55 0%, #25f4ee 100%);
+  --tiktok-live-gradient: linear-gradient(90deg, #fe2c55 0%, #f95bf6 100%);
+  --tiktok-glass-gradient: linear-gradient(135deg, rgba(254,44,85,0.18) 0%, rgba(37,244,238,0.13) 100%);
+  --tiktok-shadow: 0 4px 20px rgba(254,44,85,0.18), 0 2px 12px rgba(37,244,238,0.12);
+  --tiktok-shadow-live: 0 0 24px 8px #fe2c55, 0 0 12px 4px #25f4ee;
+}
 
-        <!-- Terminal Section -->
-        <section class="terminal-section">
-            <div class="terminal-header">
-                <span>📟 Terminal AURA</span>
-                <button class="terminal-clear" onclick="clearTerminal()">Effacer</button>
-            </div>
-            <div class="terminal-output" id="terminalOutput">
-                <div class="terminal-line">🔥 AURA Forensic System v2.1</div>
-                <div class="terminal-line">Prêt pour installation...</div>
-            </div>
-        </section>
+/* Fond général glass + néon */
+body {
+  font-family: 'Segoe UI', 'Poppins', 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--tiktok-glass-gradient), var(--tiktok-black);
+  color: var(--tiktok-white);
+  min-height: 100vh;
+  overflow-x: hidden;
+  backdrop-filter: blur(12px) brightness(1.03);
+  transition: background 0.5s;
+}
 
-        <!-- Auth Section -->
-        <section class="auth-section" id="authSection" style="display: none;">
-            <div class="auth-container">
-                <h3>🔐 Authentification système requise</h3>
-                <p>Installation des dépendances système (Docker, PostgreSQL, Node.js)</p>
-                <div class="auth-form">
-                    <input type="password" id="sudoPassword" placeholder="Mot de passe sudo" class="auth-input">
-                    <button onclick="validateAuth()" class="auth-button">Valider</button>
-                </div>
-            </div>
-        </section>
+/* Conteneur principal glassy */
+.tiktok-container {
+  max-width: 1250px;
+  margin: 36px auto;
+  padding: 32px 20px;
+  background: var(--tiktok-glass);
+  border-radius: 32px;
+  box-shadow: 0 10px 40px 0 rgba(0,0,0,0.25), var(--tiktok-shadow-live);
+  backdrop-filter: blur(24px);
+  border: 1.5px solid rgba(254,44,85,0.13);
+  position: relative;
+  animation: tiktok-fadeIn 0.8s;
+}
 
-        <!-- Actions Section -->
-        <section class="actions-section">
-            <button class="action-btn install-btn" id="installBtn" onclick="startInstallation()">
-                🚀 INSTALLER AURA
-            </button>
-            <button class="action-btn launch-btn" id="launchBtn" onclick="launchAura()" disabled>
-                ▶️ LANCER AURA
-            </button>
-            <button class="action-btn config-btn" onclick="openConfig()">
-                ⚙️ CONFIGURATION
-            </button>
-            <button class="action-btn quit-btn" onclick="quitLauncher()">
-                ❌ QUITTER
-            </button>
-        </section>
+/* Header TikTok */
+.tiktok-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 2.5px solid var(--tiktok-red);
+  background: linear-gradient(90deg, rgba(254,44,85,0.13) 0%, rgba(37,244,238,0.08) 100%);
+  box-shadow: 0 2px 18px 0 rgba(22,24,35,0.13);
+}
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-info">
-                <span>© 2024 AURA Forensic Team</span>
-                <span>|</span>
-                <span>Système optimisé Ubuntu 20.04+</span>
-                <span>|</span>
-                <span><a href="#" onclick="openSupport()">Support technique</a></span>
-            </div>
-        </footer>
-    </div>
+.tiktok-logo {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
 
-    <script src="launcher.js"></script>
-</body>
-</html>
+.tiktok-logo-icon {
+  font-size: 54px;
+  background: var(--tiktok-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: tiktok-pulse 2s infinite;
+  filter: drop-shadow(0 0 12px #fe2c55) drop-shadow(0 0 6px #25f4ee);
+}
+
+@keyframes tiktok-pulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.08); filter: brightness(1.25); }
+}
+
+.tiktok-title {
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--tiktok-red);
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 16px #fe2c55, 0 0 8px #25f4ee;
+  background: var(--tiktok-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tiktok-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--tiktok-live-gradient);
+  color: var(--tiktok-white);
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 16px;
+  padding: 4px 14px 4px 10px;
+  margin-left: 16px;
+  letter-spacing: 1px;
+  box-shadow: 0 0 8px 0 #fe2c55;
+  animation: tiktok-blink-live 1.2s infinite;
+}
+@keyframes tiktok-blink-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; background: var(--tiktok-gradient);}
+}
+
+.tiktok-subtitle {
+  font-size: 15px;
+  color: var(--tiktok-blue);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  margin-top: 3px;
+}
+
+/* Status/Avatars TikTok Style */
+.tiktok-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.14);
+  border-radius: 24px;
+  box-shadow: 0 2px 8px 0 rgba(254,44,85,0.07);
+  border: 1.5px solid rgba(254,44,85,0.18);
+  backdrop-filter: blur(8px);
+}
+
+.tiktok-status-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  box-shadow: 0 0 9px 2px #fe2c55, 0 0 6px 1px #25f4ee;
+  animation: tiktok-blink 1.5s infinite;
+}
+.tiktok-status-dot.online { background: #2ed573; }
+.tiktok-status-dot.offline { background: #ff4757; }
+.tiktok-status-dot.loading { background: #ffa502; }
+
+@keyframes tiktok-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.45; }
+}
+
+/* TikTok Avatars */
+.tiktok-avatar {
+  width: 52px; height: 52px; border-radius: 50%;
+  border: 3px solid var(--tiktok-gradient);
+  box-shadow: 0 0 16px 2px #25f4ee, 0 0 10px #fe2c55;
+  object-fit: cover;
+  margin-right: 14px;
+  background: #222;
+}
+
+/* TikTok Card effet glass + survol */
+.tiktok-card {
+  background: var(--tiktok-glass);
+  border: 1.5px solid rgba(254,44,85,0.16);
+  border-radius: 18px;
+  padding: 28px 22px;
+  box-shadow: 0 6px 28px 0 rgba(254,44,85,0.13), 0 2px 10px #25f4ee33;
+  backdrop-filter: blur(18px);
+  transition: all 0.28s cubic-bezier(.4,2.2,.5,1);
+  margin-bottom: 18px;
+}
+
+.tiktok-card:hover {
+  transform: translateY(-4px) scale(1.025);
+  box-shadow: var(--tiktok-shadow-live), 0 0 12px #f95bf6;
+  border-color: #fe2c55;
+}
+
+/* Live badge sur card */
+.tiktok-card-live {
+  position: absolute; top: 12px; right: 22px;
+  z-index: 5;
+}
+.tiktok-card-live .tiktok-live-badge {
+  font-size: 13px; padding: 3px 10px;
+}
+
+/* Badges animés */
+.tiktok-badge {
+  display: inline-block;
+  background: var(--tiktok-pink);
+  color: var(--tiktok-white);
+  font-weight: 700;
+  padding: 2px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  margin-right: 8px;
+  box-shadow: 0 0 8px #fe2c55, 0 0 6px #25f4ee;
+  animation: tiktok-badge-fade 1.8s infinite;
+}
+@keyframes tiktok-badge-fade {
+  0%,100% { background: var(--tiktok-pink);}
+  50% { background: var(--tiktok-blue);}
+}
+
+/* Progress bar style TikTok Live */
+.tiktok-progress {
+  width: 100%;
+  height: 11px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  position: relative;
+  box-shadow: 0 2px 10px #25f4ee44;
+}
+.tiktok-progress-fill {
+  height: 100%;
+  background: var(--tiktok-gradient);
+  border-radius: 5px;
+  transition: width 0.44s cubic-bezier(.4,1.8,.5,1);
+  position: relative;
+  min-width: 2px;
+}
+.tiktok-progress-fill::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 60%, transparent 100%);
+  animation: tiktok-shimmer 2.1s infinite;
+}
+@keyframes tiktok-shimmer {
+  0% { transform: translateX(-100%);}
+  100% { transform: translateX(100%);}
+}
+
+/* TikTok Buttons effet néon */
+.tiktok-btn {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 13px;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+  position: relative;
+  overflow: hidden;
+  background: var(--tiktok-gradient);
+  color: var(--tiktok-white);
+  box-shadow: 0 2px 10px #fe2c5588, 0 3px 14px #25f4ee55;
+  transition: all 0.23s cubic-bezier(.4,1.5,.5,1);
+  margin-right: 10px;
+}
+.tiktok-btn:active {
+  transform: scale(0.97);
+  filter: brightness(0.97);
+}
+.tiktok-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.tiktok-btn-secondary {
+  background: linear-gradient(135deg, var(--tiktok-blue), #7efff5);
+  color: var(--tiktok-black);
+  box-shadow: 0 2px 10px #25f4ee88;
+}
+.tiktok-btn-danger {
+  background: linear-gradient(135deg, #ff4757, #ff6b7a);
+  color: var(--tiktok-white);
+  box-shadow: 0 2px 12px #fe2c5566;
+}
+
+/* Input TikTok */
+.tiktok-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid rgba(255,255,255,0.18);
+  border-radius: 13px;
+  background: rgba(255,255,255,0.13);
+  color: var(--tiktok-white);
+  font-size: 17px;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(37,244,238,0.05);
+  margin-bottom: 9px;
+}
+.tiktok-input:focus {
+  outline: none;
+  border-color: var(--tiktok-blue);
+  box-shadow: 0 0 22px #25f4ee55;
+}
+.tiktok-input::placeholder {
+  color: var(--tiktok-light-gray);
+  opacity: 1;
+}
+
+/* Terminal TikTok effet glass */
+.tiktok-terminal {
+  background: var(--tiktok-dark);
+  border: 2.5px solid var(--tiktok-pink);
+  border-radius: 13px;
+  overflow: hidden;
+  margin-top: 14px;
+  box-shadow: 0 0 18px #25f4ee33;
+}
+.tiktok-terminal-header {
+  background: var(--tiktok-gray);
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px solid var(--tiktok-red);
+}
+.tiktok-terminal-body {
+  padding: 18px;
+  font-family: 'Fira Mono', 'Courier New', monospace;
+  font-size: 15px;
+  color: var(--tiktok-blue);
+  height: 220px;
+  overflow-y: auto;
+  background: var(--tiktok-black);
+}
+.tiktok-terminal-line { margin-bottom: 4px; line-height: 1.44;}
+.tiktok-terminal-line.error { color: var(--tiktok-red);}
+.tiktok-terminal-line.success { color: #2ed573;}
+.tiktok-terminal-line.warning { color: #ffa502;}
+
+/* Scrollbar custom TikTok */
+::-webkit-scrollbar { width: 10px; background: #181a2b; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #fe2c55 40%, #25f4ee 100%);
+  border-radius: 7px;
+  box-shadow: 0 0 10px #fe2c5544;
+}
+::-webkit-scrollbar-thumb:hover { background: #25f4ee; }
+
+.tiktok-grid {
+  display: grid;
+  gap: 22px;
+}
+.tiktok-grid-2 { grid-template-columns: repeat(auto-fit, minmax(370px, 1fr)); }
+.tiktok-grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.tiktok-grid-4 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+
+@keyframes tiktok-fadeIn {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.tiktok-fade-in { animation: tiktok-fadeIn 0.5s cubic-bezier(.4,2.2,.5,1); }
+
+@media (max-width: 900px) {
+  .tiktok-container { padding: 8px; }
+  .tiktok-header { flex-direction: column; gap: 14px; text-align: center; }
+  .tiktok-grid { grid-template-columns: 1fr; }
+  .tiktok-logo-icon { font-size: 38px; }
+  .tiktok-title { font-size: 20px; }
+}

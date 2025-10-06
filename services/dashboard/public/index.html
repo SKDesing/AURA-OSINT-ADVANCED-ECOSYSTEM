@@ -3,152 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCIS Dashboard</title>
+    <title>AURA Dashboard - TikTok Live Analytics</title>
+    <link rel="stylesheet" href="../../shared/tiktok-theme.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0F0F0F 0%, #1A1A1A 100%);
-            color: white; min-height: 100vh;
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-        .header { text-align: center; margin-bottom: 60px; }
-        .title { 
-            font-size: 3rem; 
-            background: linear-gradient(90deg, #FF0050, #25F4EE);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-            margin-bottom: 20px;
+        .stat-card {
+            text-align: center;
+            padding: 30px 20px;
         }
-        .subtitle { color: #B0B0B0; font-size: 1.2rem; }
-        .services-grid { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; margin-bottom: 60px;
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: var(--tiktok-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
         }
-        .service-card { 
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px; padding: 30px; text-align: center;
-            transition: all 0.3s ease; cursor: pointer;
+        .stat-label {
+            color: var(--tiktok-light-gray);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .service-card:hover { 
-            transform: translateY(-5px); border-color: #25F4EE;
-            box-shadow: 0 10px 30px rgba(37, 244, 238, 0.2);
-        }
-        .service-icon { font-size: 3rem; margin-bottom: 20px; }
-        .service-title { font-size: 1.5rem; margin-bottom: 15px; color: #25F4EE; }
-        .service-desc { color: #B0B0B0; margin-bottom: 20px; }
-        .service-port { 
-            background: #FF0050; color: white; padding: 5px 15px; 
-            border-radius: 20px; font-size: 0.9rem; display: inline-block;
-        }
-        .stats { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 20px; margin-bottom: 40px;
-        }
-        .stat-card { 
-            background: rgba(255, 255, 255, 0.05); padding: 20px;
-            border-radius: 10px; text-align: center;
-        }
-        .stat-number { font-size: 2rem; color: #25F4EE; font-weight: bold; }
-        .stat-label { color: #B0B0B0; margin-top: 5px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1 class="title">🎯 SCIS Dashboard</h1>
-            <p class="subtitle">Système de Cartographie d'Influence Sociale - Architecture Microservices</p>
-        </div>
+    <div class="tiktok-container">
+        <header class="tiktok-header">
+            <div class="tiktok-logo">
+                <div class="tiktok-logo-icon">📊</div>
+                <div>
+                    <h1 class="tiktok-title">AURA DASHBOARD</h1>
+                    <span class="tiktok-subtitle">TikTok Live Analytics</span>
+                </div>
+            </div>
+            <div class="tiktok-status">
+                <span class="tiktok-status-dot online"></span>
+                <span>Système actif</span>
+            </div>
+        </header>
 
-        <div class="stats" id="stats">
-            <div class="stat-card">
-                <div class="stat-number" id="servicesActifs">-</div>
-                <div class="stat-label">Services Actifs</div>
+        <div class="dashboard-grid">
+            <div class="tiktok-card stat-card">
+                <div class="stat-number" id="totalProfiles">0</div>
+                <div class="stat-label">Profils analysés</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="profilsAnalyses">-</div>
-                <div class="stat-label">Profils Analysés</div>
+            <div class="tiktok-card stat-card">
+                <div class="stat-number" id="totalSessions">0</div>
+                <div class="stat-label">Sessions live</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="tablesForensiques">-</div>
-                <div class="stat-label">Tables Forensiques</div>
+            <div class="tiktok-card stat-card">
+                <div class="stat-number" id="totalComments">0</div>
+                <div class="stat-label">Messages interceptés</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="disponibilite">-</div>
-                <div class="stat-label">Disponibilité</div>
-            </div>
-        </div>
-
-        <div class="services-grid">
-            <div class="service-card" onclick="window.open('/analyser', '_blank')">
-                <div class="service-icon">📡</div>
-                <div class="service-title">TikTok Analyser</div>
-                <div class="service-desc">Analyse en temps réel des lives TikTok</div>
-                <div class="service-port">Port 3002</div>
-            </div>
-
-            <div class="service-card" onclick="window.open('/profiles', '_blank')">
-                <div class="service-icon">👥</div>
-                <div class="service-title">Profils Manager</div>
-                <div class="service-desc">Gestion des profils forensiques</div>
-                <div class="service-port">Port 3003</div>
-            </div>
-
-            <div class="service-card" onclick="window.open('/lives', '_blank')">
-                <div class="service-icon">🎥</div>
-                <div class="service-title">Lives Monitor</div>
-                <div class="service-desc">Surveillance des lives actifs</div>
-                <div class="service-port">Port 3004</div>
-            </div>
-
-            <div class="service-card" onclick="window.open('/create', '_blank')">
-                <div class="service-icon">➕</div>
-                <div class="service-title">Profile Creator</div>
-                <div class="service-desc">Création de profils complets</div>
-                <div class="service-port">Port 3005</div>
-            </div>
-
-            <div class="service-card" onclick="window.open('/database', '_blank')">
-                <div class="service-icon">🗄️</div>
-                <div class="service-title">Database Explorer</div>
-                <div class="service-desc">Exploration de la base forensique</div>
-                <div class="service-port">Port 3006</div>
-            </div>
-
-            <div class="service-card" onclick="window.open('/reports', '_blank')">
-                <div class="service-icon">📋</div>
-                <div class="service-title">Reports Generator</div>
-                <div class="service-desc">Génération de rapports d'enquête</div>
-                <div class="service-port">Port 3007</div>
+            <div class="tiktok-card stat-card">
+                <div class="stat-number" id="totalGifts">0</div>
+                <div class="stat-label">Cadeaux détectés</div>
             </div>
         </div>
 
-        <div style="text-align: center; color: #666; margin-top: 40px;">
-            <p>🐳 Architecture Microservices - Routage via Gateway Nginx</p>
-            <p>Gateway: Port 8080 | PostgreSQL: Port 5433 | Redis: Port 6379</p>
+        <div class="tiktok-grid-2">
+            <div class="tiktok-card">
+                <h3 style="color: var(--tiktok-red); margin-bottom: 15px;">🎯 Actions rapides</h3>
+                <div class="tiktok-grid-2" style="gap: 10px;">
+                    <button class="tiktok-btn tiktok-btn-primary" onclick="startCapture()">Démarrer capture</button>
+                    <button class="tiktok-btn tiktok-btn-secondary" onclick="viewReports()">Voir rapports</button>
+                    <button class="tiktok-btn tiktok-btn-secondary" onclick="exportData()">Exporter données</button>
+                    <button class="tiktok-btn tiktok-btn-danger" onclick="stopCapture()">Arrêter capture</button>
+                </div>
+            </div>
+            
+            <div class="tiktok-card">
+                <h3 style="color: var(--tiktok-red); margin-bottom: 15px;">📡 Status système</h3>
+                <div id="systemStatus">
+                    <div style="margin-bottom: 10px;">
+                        <span style="color: var(--tiktok-blue);">Backend:</span> 
+                        <span id="backendStatus">🟢 Actif</span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <span style="color: var(--tiktok-blue);">Database:</span> 
+                        <span id="dbStatus">🟢 Connecté</span>
+                    </div>
+                    <div>
+                        <span style="color: var(--tiktok-blue);">Stealth Mode:</span> 
+                        <span id="stealthStatus">🟢 Actif</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Chargement des statistiques dynamiques
+        // Charger les statistiques
         async function loadStats() {
             try {
-                const response = await fetch('/api/stats');
+                const response = await fetch('/api/reports/summary');
                 const stats = await response.json();
                 
-                document.getElementById('servicesActifs').textContent = stats.servicesActifs;
-                document.getElementById('profilsAnalyses').textContent = stats.profilsAnalyses;
-                document.getElementById('tablesForensiques').textContent = stats.tablesForensiques;
-                document.getElementById('disponibilite').textContent = stats.disponibilite;
+                document.getElementById('totalProfiles').textContent = stats.total_profiles || 0;
+                document.getElementById('totalSessions').textContent = stats.total_sessions || 0;
+                document.getElementById('totalComments').textContent = stats.total_comments || 0;
+                document.getElementById('totalGifts').textContent = stats.total_gifts || 0;
             } catch (error) {
-                console.error('Erreur lors du chargement des statistiques:', error);
+                console.error('Erreur chargement stats:', error);
             }
         }
 
-        // Chargement initial
+        function startCapture() {
+            window.open('/lives', '_blank');
+        }
+
+        function viewReports() {
+            window.open('/reports', '_blank');
+        }
+
+        function exportData() {
+            window.open('/api/export/all', '_blank');
+        }
+
+        function stopCapture() {
+            if (confirm('Arrêter toutes les captures en cours ?')) {
+                fetch('/api/capture/stop', { method: 'POST' });
+            }
+        }
+
+        // Charger au démarrage
         loadStats();
-        
-        // Actualisation toutes les 30 secondes
-        setInterval(loadStats, 30000);
+        setInterval(loadStats, 5000);
     </script>
 </body>
 </html>
