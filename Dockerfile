@@ -1,66 +1,33 @@
-# Multi-stage build pour optimiser la taille
-FROM node:18-alpine AS base
-
-# Installer les dépendances système nécessaires
-RUN apk add --no-cache \
-    chromium \
-    nss \
-    freetype \
-    freetype-dev \
-    harfbuzz \
-    ca-certificates \
-    ttf-freefont \
-    postgresql-client
-
-# Variables d'environnement pour Puppeteer
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+FROM node:18-alpine
 
 WORKDIR /app
 
-# Copier les package.json
-COPY package*.json ./
-COPY live-tracker/package*.json ./live-tracker/
-COPY frontend-react/package*.json ./frontend-react/
+# Install Chromium
+RUN apk add --no-cache chromium
 
-# Stage pour le backend
-FROM base AS backend
-WORKDIR /app/live-tracker
-COPY live-tracker/ .
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
 RUN npm ci --only=production
 
-# Stage pour le frontend
-FROM base AS frontend-build
-WORKDIR /app/frontend-react
-COPY frontend-react/ .
-RUN npm ci && npm run build
+# Copy application code
+COPY . .
 
-# Stage final
-FROM base AS production
-WORKDIR /app
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S aura -u 1001
 
-# Copier les fichiers de configuration
-COPY config.js ./
-COPY app-launcher.js ./
+# Set permissions
+RUN chown -R aura:nodejs /app
+USER aura
 
-# Copier le backend
-COPY --from=backend /app/live-tracker ./live-tracker
+# Expose ports
+EXPOSE 3000 4002
 
-# Copier le frontend buildé
-COPY --from=frontend-build /app/frontend-react/build ./frontend-react/build
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/api/status || exit 1
 
-# Créer les dossiers nécessaires
-RUN mkdir -p evidence/{profiles,screenshots,raw,reports} logs
-
-# Créer un utilisateur non-root
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nextjs -u 1001
-
-# Changer les permissions
-RUN chown -R nextjs:nodejs /app
-USER nextjs
-
-EXPOSE 3000 4000
-
-# Script de démarrage
-CMD ["node", "app-launcher.js"]
+# Default command
+CMD ["npm", "run", "gui"]

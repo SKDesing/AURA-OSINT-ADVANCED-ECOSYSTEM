@@ -32,7 +32,12 @@
     "ui-sync": "node scripts/ui-sync.js sync",
     "ui-check": "node scripts/ui-sync.js check",
     "ui-report": "node scripts/ui-sync.js report",
-    "ui-cleanup": "node scripts/ui-sync.js cleanup"
+    "ui-cleanup": "node scripts/ui-sync.js cleanup",
+    "prod:build": "docker-compose -f docker-compose.prod.yml build",
+    "prod:up": "docker-compose -f docker-compose.prod.yml up -d",
+    "prod:down": "docker-compose -f docker-compose.prod.yml down",
+    "prod:logs": "docker-compose -f docker-compose.prod.yml logs -f",
+    "prod:deploy": "npm run prod:build && npm run prod:up"
   },
   "dependencies": {
     "express": "^4.18.2",
