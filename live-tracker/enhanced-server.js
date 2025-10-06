@@ -5,7 +5,23 @@ const { Pool } = require('pg');
 const winston = require('winston');
 const cors = require('cors');
 const { TikTokForensicScraper } = require('./tiktok-scraper-advanced');
-const config = require('../config');
+// Configuration directe pour éviter les erreurs
+const config = {
+  database: {
+    host: 'localhost',
+    port: 5432,
+    database: 'live_tracker',
+    user: 'postgres',
+    password: 'Mohand/06'
+  },
+  servers: {
+    backend: { port: 3000 }
+  },
+  logging: {
+    level: 'info',
+    files: { main: './logs/app.log' }
+  }
+};
 const BraveLauncher = require('./brave-launcher');
 const BrowserInterceptor = require('./browser-interceptor');
 const DataPipeline = require('./data-pipeline');
@@ -67,7 +83,9 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Routes API complètes
 const apiRoutes = require('./api-routes-complete');
+const stealthRoutes = require('./stealth-routes');
 app.use('/api', apiRoutes);
+app.use('/api/stealth', stealthRoutes);
 app.use('/api/profiles', profilesRouter);
 
 // Route pour lancer Brave
@@ -352,6 +370,20 @@ app.get('/api/reports/summary', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+// Health check endpoints
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    service: 'AURA Stealth API',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0'
+  });
 });
 
 // Socket.IO

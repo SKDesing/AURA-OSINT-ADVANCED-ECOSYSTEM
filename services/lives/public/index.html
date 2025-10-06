@@ -3,139 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lives Monitor - SCIS</title>
+    <title>AURA Lives - TikTok Live Tracker</title>
+    <link rel="stylesheet" href="../../shared/tiktok-theme.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0F0F0F 0%, #1A1A1A 100%);
-            color: white; min-height: 100vh; padding: 20px;
+        .live-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .header { text-align: center; margin-bottom: 40px; }
-        .title { font-size: 2.5rem; color: #25F4EE; margin-bottom: 10px; }
-        .card { 
-            background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px; padding: 30px; margin-bottom: 30px;
+        .live-url-input {
+            flex: 1;
         }
-        .live-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
-        .live-card { 
-            background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px; padding: 20px; position: relative;
+        .messages-container {
+            height: 400px;
+            overflow-y: auto;
+            border: 2px solid var(--tiktok-red);
+            border-radius: 12px;
+            padding: 15px;
+            background: var(--tiktok-black);
         }
-        .live-indicator { 
-            position: absolute; top: 15px; right: 15px;
-            background: #ff0000; color: white; padding: 5px 10px;
-            border-radius: 15px; font-size: 12px; font-weight: bold;
+        .message-item {
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: rgba(254, 44, 85, 0.1);
+            border-left: 3px solid var(--tiktok-blue);
         }
-        .btn { 
-            background: linear-gradient(90deg, #FF0050, #25F4EE); 
-            border: none; padding: 8px 16px; border-radius: 6px; 
-            color: white; cursor: pointer; margin: 5px; font-size: 14px;
+        .message-user {
+            color: var(--tiktok-red);
+            font-weight: bold;
+            margin-right: 8px;
         }
-        .stats { display: flex; justify-content: space-around; margin-bottom: 20px; }
-        .stat { text-align: center; }
-        .stat-number { font-size: 2rem; color: #25F4EE; font-weight: bold; }
-        .stat-label { color: #B0B0B0; font-size: 14px; }
+        .message-text {
+            color: var(--tiktok-white);
+        }
+        .message-time {
+            color: var(--tiktok-light-gray);
+            font-size: 12px;
+            float: right;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1 class="title">🎥 Lives Monitor</h1>
-            <p style="color: #B0B0B0;">Surveillance des lives actifs - Port 3004</p>
-        </div>
+    <div class="tiktok-container">
+        <header class="tiktok-header">
+            <div class="tiktok-logo">
+                <div class="tiktok-logo-icon">🎥</div>
+                <div>
+                    <h1 class="tiktok-title">AURA LIVES</h1>
+                    <span class="tiktok-subtitle">TikTok Live Tracker</span>
+                </div>
+            </div>
+            <div class="tiktok-status">
+                <span class="tiktok-status-dot" id="captureStatus">offline</span>
+                <span id="statusText">Prêt à capturer</span>
+            </div>
+        </header>
 
-        <div class="card">
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-number">3</div>
-                    <div class="stat-label">Lives Actifs</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">1,247</div>
-                    <div class="stat-label">Spectateurs Total</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">89</div>
-                    <div class="stat-label">Messages/min</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">12</div>
-                    <div class="stat-label">Alertes</div>
-                </div>
+        <div class="tiktok-card">
+            <h3 style="color: var(--tiktok-red); margin-bottom: 15px;">🎯 Contrôles de capture</h3>
+            <div class="live-controls">
+                <input type="text" id="liveUrl" placeholder="URL du TikTok Live" class="tiktok-input live-url-input">
+                <button class="tiktok-btn tiktok-btn-primary" onclick="startCapture()">Démarrer</button>
+                <button class="tiktok-btn tiktok-btn-danger" onclick="stopCapture()">Arrêter</button>
             </div>
         </div>
 
-        <div class="card">
-            <h3 style="color: #25F4EE; margin-bottom: 20px;">Lives en Cours de Surveillance</h3>
-            <div class="live-grid">
-                <div class="live-card">
-                    <div class="live-indicator">🔴 LIVE</div>
-                    <h4 style="color: #25F4EE; margin-bottom: 10px;">@titilepirate3</h4>
-                    <p><strong>Plateforme:</strong> TikTok</p>
-                    <p><strong>Spectateurs:</strong> 847</p>
-                    <p><strong>Durée:</strong> 1h 23min</p>
-                    <p><strong>Messages:</strong> 2,341</p>
-                    <p><strong>Dernière activité:</strong> Il y a 2s</p>
-                    <div style="margin-top: 15px;">
-                        <button class="btn">📊 Analyser</button>
-                        <button class="btn">💾 Enregistrer</button>
-                        <button class="btn">🚨 Alerter</button>
-                    </div>
-                </div>
-                
-                <div class="live-card">
-                    <div class="live-indicator">🔴 LIVE</div>
-                    <h4 style="color: #25F4EE; margin-bottom: 10px;">@suspect_live</h4>
-                    <p><strong>Plateforme:</strong> Instagram</p>
-                    <p><strong>Spectateurs:</strong> 234</p>
-                    <p><strong>Durée:</strong> 45min</p>
-                    <p><strong>Messages:</strong> 567</p>
-                    <p><strong>Dernière activité:</strong> Il y a 5s</p>
-                    <div style="margin-top: 15px;">
-                        <button class="btn">📊 Analyser</button>
-                        <button class="btn">💾 Enregistrer</button>
-                        <button class="btn">🚨 Alerter</button>
-                    </div>
-                </div>
-                
-                <div class="live-card">
-                    <div class="live-indicator">🔴 LIVE</div>
-                    <h4 style="color: #25F4EE; margin-bottom: 10px;">@target_user</h4>
-                    <p><strong>Plateforme:</strong> TikTok</p>
-                    <p><strong>Spectateurs:</strong> 166</p>
-                    <p><strong>Durée:</strong> 12min</p>
-                    <p><strong>Messages:</strong> 89</p>
-                    <p><strong>Dernière activité:</strong> Il y a 1s</p>
-                    <div style="margin-top: 15px;">
-                        <button class="btn">📊 Analyser</button>
-                        <button class="btn">💾 Enregistrer</button>
-                        <button class="btn">🚨 Alerter</button>
+        <div class="tiktok-grid-2">
+            <div class="tiktok-card">
+                <h3 style="color: var(--tiktok-red); margin-bottom: 15px;">💬 Messages en temps réel</h3>
+                <div class="messages-container" id="messagesContainer">
+                    <div style="text-align: center; color: var(--tiktok-light-gray); padding: 50px;">
+                        En attente de messages...
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card">
-            <h3 style="color: #25F4EE; margin-bottom: 20px;">Contrôles</h3>
-            <button class="btn">🔍 Ajouter Surveillance</button>
-            <button class="btn">📈 Rapport Global</button>
-            <button class="btn">⚙️ Configuration</button>
-            <button class="btn" style="background: #FF0050;">🛑 Arrêter Tout</button>
+            <div class="tiktok-card">
+                <h3 style="color: var(--tiktok-red); margin-bottom: 15px;">📊 Statistiques session</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--tiktok-blue);" id="messageCount">0</div>
+                        <div style="color: var(--tiktok-light-gray); font-size: 12px;">Messages</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--tiktok-blue);" id="giftCount">0</div>
+                        <div style="color: var(--tiktok-light-gray); font-size: 12px;">Cadeaux</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--tiktok-blue);" id="viewerCount">0</div>
+                        <div style="color: var(--tiktok-light-gray); font-size: 12px;">Viewers</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--tiktok-blue);" id="duration">00:00</div>
+                        <div style="color: var(--tiktok-light-gray); font-size: 12px;">Durée</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Simulation de mise à jour en temps réel
-        setInterval(() => {
-            const indicators = document.querySelectorAll('.live-indicator');
-            indicators.forEach(indicator => {
-                indicator.style.opacity = indicator.style.opacity === '0.5' ? '1' : '0.5';
-            });
-        }, 1000);
+        let isCapturing = false;
+        let sessionStats = { messages: 0, gifts: 0, viewers: 0, startTime: null };
+
+        function startCapture() {
+            const url = document.getElementById('liveUrl').value;
+            if (!url) {
+                alert('Veuillez entrer une URL TikTok Live');
+                return;
+            }
+
+            isCapturing = true;
+            sessionStats.startTime = Date.now();
+            
+            document.getElementById('captureStatus').className = 'tiktok-status-dot online';
+            document.getElementById('statusText').textContent = 'Capture active';
+            
+            // Simuler des messages pour la démo
+            startMessageSimulation();
+        }
+
+        function stopCapture() {
+            isCapturing = false;
+            document.getElementById('captureStatus').className = 'tiktok-status-dot offline';
+            document.getElementById('statusText').textContent = 'Capture arrêtée';
+        }
+
+        function addMessage(user, text, type = 'comment') {
+            const container = document.getElementById('messagesContainer');
+            if (container.children[0].textContent.includes('En attente')) {
+                container.innerHTML = '';
+            }
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-item';
+            messageDiv.innerHTML = `
+                <span class="message-time">${new Date().toLocaleTimeString()}</span>
+                <span class="message-user">${user}:</span>
+                <span class="message-text">${text}</span>
+            `;
+            
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+
+            // Mettre à jour les stats
+            if (type === 'comment') {
+                sessionStats.messages++;
+                document.getElementById('messageCount').textContent = sessionStats.messages;
+            } else if (type === 'gift') {
+                sessionStats.gifts++;
+                document.getElementById('giftCount').textContent = sessionStats.gifts;
+            }
+        }
+
+        function startMessageSimulation() {
+            if (!isCapturing) return;
+
+            const users = ['User123', 'TikTokFan', 'LiveViewer', 'ChatUser', 'Follower1'];
+            const messages = ['Hello!', 'Great live!', '🔥🔥🔥', 'Amazing content', 'Love this!'];
+            
+            setTimeout(() => {
+                if (isCapturing) {
+                    const user = users[Math.floor(Math.random() * users.length)];
+                    const message = messages[Math.floor(Math.random() * messages.length)];
+                    addMessage(user, message);
+                    startMessageSimulation();
+                }
+            }, Math.random() * 3000 + 1000);
+        }
+
+        function updateDuration() {
+            if (sessionStats.startTime) {
+                const elapsed = Date.now() - sessionStats.startTime;
+                const minutes = Math.floor(elapsed / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                document.getElementById('duration').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        setInterval(updateDuration, 1000);
     </script>
 </body>
 </html>
