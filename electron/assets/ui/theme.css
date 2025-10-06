@@ -1,0 +1,153 @@
+/* AURA TikTok UI Theme - Variables CSS Globales */
+
+:root {
+  /* Palette TikTok */
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-fuchsia: #ee1d52;
+  --color-turquoise: #69c9d0;
+  --color-gray-dark: #222222;
+  --color-gray-medium: #333333;
+  --color-gray-light: #666666;
+  
+  /* Effets */
+  --glow-fuchsia: 0 0 8px #ee1d52;
+  --glow-turquoise: 0 0 8px #69c9d0;
+  --glow-white: 0 0 12px #ffffff88;
+  
+  /* Typographie */
+  --font-primary: 'Montserrat', sans-serif;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  
+  /* Espacements */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Bordures */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 32px;
+  --radius-full: 50%;
+  
+  /* Ombres */
+  --shadow-card: 0 4px 24px rgba(17, 17, 17, 0.7);
+  --shadow-button: 0 0 12px rgba(105, 201, 208, 0.7);
+}
+
+/* Reset et base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--color-black);
+  color: var(--color-white);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.6;
+}
+
+/* Classes utilitaires */
+.color-primary { color: var(--color-fuchsia); }
+.color-secondary { color: var(--color-turquoise); }
+.color-white { color: var(--color-white); }
+
+.bg-black { background: var(--color-black); }
+.bg-dark { background: var(--color-gray-dark); }
+.bg-primary { background: var(--color-fuchsia); }
+.bg-secondary { background: var(--color-turquoise); }
+
+.glow-primary { filter: drop-shadow(var(--glow-fuchsia)); }
+.glow-secondary { filter: drop-shadow(var(--glow-turquoise)); }
+.glow-white { filter: drop-shadow(var(--glow-white)); }
+
+/* Composants de base */
+.tiktok-nav {
+  background: var(--color-black);
+  border-bottom: 1px solid var(--color-gray-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 var(--spacing-lg);
+}
+
+.tiktok-card {
+  background: var(--color-gray-dark);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-card);
+  margin-bottom: var(--spacing-lg);
+}
+
+.tiktok-btn {
+  background: var(--color-turquoise);
+  color: var(--color-white);
+  padding: 12px var(--spacing-xl);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: 1.1em;
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  box-shadow: var(--shadow-button);
+  transition: all 0.2s ease;
+}
+
+.tiktok-btn:hover {
+  background: var(--color-fuchsia);
+  box-shadow: 0 0 16px rgba(238, 29, 82, 0.7);
+  transform: translateY(-2px);
+}
+
+.tiktok-icon {
+  height: 24px;
+  width: 24px;
+  transition: all 0.2s ease;
+}
+
+.tiktok-icon:hover {
+  transform: scale(1.15) rotate(-8deg);
+  filter: drop-shadow(var(--glow-fuchsia));
+}
+
+.tiktok-icon-lg {
+  height: 48px;
+  width: 48px;
+}
+
+/* Animations */
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(var(--glow-fuchsia)); }
+  50% { filter: drop-shadow(0 0 16px #ee1d52); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tiktok-nav {
+    padding: 0 var(--spacing-md);
+  }
+  
+  .tiktok-card {
+    padding: var(--spacing-lg);
+    margin: 0 var(--spacing-md) var(--spacing-lg);
+  }
+}
