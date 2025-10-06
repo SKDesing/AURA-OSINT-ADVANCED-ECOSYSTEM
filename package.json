@@ -2,7 +2,7 @@
   "name": "aura-database-maestro",
   "version": "2.0.0",
   "description": "AURA Database Maestro - Moteur d'intelligence forensique cross-plateforme world-class",
-  "main": "correlation-engine-advanced.js",
+  "main": "correlation-engine-complete.js",
   "scripts": {
     "start": "node analytics-api.js",
     "test": "node test-maestro.js",
@@ -13,7 +13,13 @@
     "build": "echo 'Building AURA Maestro...' && npm test",
     "deploy": "npm run build && echo 'Ready for production deployment'",
     "health": "curl -s http://localhost:4002/api/analytics/dashboard | jq .",
-    "install-deps": "npm install && echo 'Dependencies installed for world-class performance'"
+    "install-deps": "npm install && echo 'Dependencies installed for world-class performance'",
+    "migrate-chromium": "node migrate-to-chromium.js",
+    "test-migration": "node test-chromium-migration.js",
+    "install-chromium": "./install-chromium.sh",
+    "validate-setup": "npm run test-migration && npm run benchmark",
+    "full-setup": "npm run migrate-chromium && npm run install-chromium && npm run validate-setup",
+    "quick-start": "node quick-start.js"
   },
   "dependencies": {
     "express": "^4.18.2",
@@ -21,11 +27,11 @@
     "dotenv": "^16.3.1",
     "natural": "^6.12.0",
     "fast-levenshtein": "^3.0.0",
-    "crypto": "^1.0.1",
     "cors": "^2.8.5",
     "helmet": "^7.1.0",
     "compression": "^1.7.4",
-    "rate-limiter-flexible": "^2.4.2"
+    "rate-limiter-flexible": "^2.4.2",
+    "puppeteer": "^21.5.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1",
