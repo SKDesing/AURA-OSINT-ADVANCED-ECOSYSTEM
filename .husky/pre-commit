@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Chromium Only enforcement
+npm run scan-browser-calls || {
+  echo "❌ Violations détectées - correction automatique..."
+  npm run fix-browser-calls
+  git add -A
+  echo "✅ Violations corrigées automatiquement"
+}

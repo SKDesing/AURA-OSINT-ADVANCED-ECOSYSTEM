@@ -68,6 +68,32 @@ class AuraGUILauncher {
             const diagnostic = await this.generateDiagnostic();
             res.json(diagnostic);
         });
+
+        // API Chromium compliance
+        this.app.get('/api/chromium/scan', async (req, res) => {
+            try {
+                const scanner = spawn('node', ['chromium-only-enforcer.js', '--scan-only']);
+                let output = '';
+                scanner.stdout.on('data', (data) => output += data.toString());
+                scanner.on('close', (code) => {
+                    const violations = (output.match(/VIOLATION:/g) || []).length;
+                    res.json({ violations, details: output });
+                });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        this.app.post('/api/chromium/fix', async (req, res) => {
+            try {
+                const fixer = spawn('npm', ['run', 'fix-browser-calls']);
+                fixer.on('close', (code) => {
+                    res.json({ success: code === 0, fixed: code === 0 ? 'Toutes' : 0 });
+                });
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
     }
 
     async runInstallation() {
