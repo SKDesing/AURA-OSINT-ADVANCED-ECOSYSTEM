@@ -1,0 +1,38 @@
+{
+   "extensions": {
+      "settings": {
+         "aura-stealth-extractor": {
+            "active_permissions": {
+               "api": [
+                  "devtools",
+                  "webRequest", 
+                  "storage",
+                  "notifications",
+                  "activeTab",
+                  "identity"
+               ],
+               "explicit_host": [
+                  "*://*.tiktok.com/*",
+                  "*://*.musical.ly/*"
+               ]
+            },
+            "creation_flags": 1,
+            "from_webstore": false,
+            "install_time": "13404150409399935",
+            "location": 4,
+            "manifest": {
+               "name": "AURA Stealth Extractor"
+            },
+            "path": "aura-stealth-extractor",
+            "state": 1,
+            "was_installed_by_default": false,
+            "was_installed_by_oem": false
+         }
+      }
+   },
+   "browser": {
+      "show_home_button": true
+   },
+   "homepage": "file://launcher-interface/index.html",
+   "homepage_is_newtabpage": false
+}
