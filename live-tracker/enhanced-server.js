@@ -6,6 +6,9 @@ const winston = require('winston');
 const cors = require('cors');
 const { TikTokForensicScraper } = require('./tiktok-scraper-advanced');
 const config = require('../config');
+const BraveLauncher = require('./brave-launcher');
+const BrowserInterceptor = require('./browser-interceptor');
+const DataPipeline = require('./data-pipeline');
 
 // Import des nouvelles routes
 const profilesRouter = require('./api/routes/profiles');
@@ -62,12 +65,110 @@ app.use((req, res, next) => {
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
-// Routes API
+// Routes API complètes
+const apiRoutes = require('./api-routes-complete');
+app.use('/api', apiRoutes);
 app.use('/api/profiles', profilesRouter);
+
+// Route pour lancer Brave
+app.post('/api/launch-brave', async (req, res) => {
+  try {
+    const launcher = new BraveLauncher();
+    const result = await launcher.launchSeparateWindows();
+    res.json(result);
+  } catch (error) {
+    logger.error('Error launching Brave', { error: error.message });
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Route pour capturer les données du navigateur
+app.post('/api/capture', async (req, res) => {
+  try {
+    const { type, data, token } = req.body;
+    
+    // Vérifier le token de sécurité (si disponible)
+    if (token && !token.startsWith('AURA_')) {
+      logger.warn('Invalid security token detected', { token });
+      return res.status(403).json({ error: 'Invalid security token' });
+    }
+    
+    switch (type) {
+      case 'AURA_COMMENT':
+      case 'AURA_COMMENT_DOM':
+        if (dataPipeline) await dataPipeline.processComment(data);
+        break;
+      case 'AURA_GIFT':
+        if (dataPipeline) await dataPipeline.processGift(data);
+        break;
+      case 'AURA_STATS':
+        if (dataPipeline) await dataPipeline.processStats(data);
+        break;
+      case 'AURA_UNKNOWN':
+        // Logger les messages inconnus pour analyse
+        const ForensicLogger = require('./forensic-logger');
+        const forensicLogger = new ForensicLogger();
+        await forensicLogger.logUnknownMessage(data);
+        break;
+    }
+    
+    // Diffuser en temps réel via WebSocket
+    io.emit('live-data', { type, data });
+    
+    res.json({ success: true });
+  } catch (error) {
+    logger.error('Error processing captured data', { error: error.message });
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Route pour démarrer une session de capture
+app.post('/api/capture/start', async (req, res) => {
+  try {
+    const { liveUrl, title } = req.body;
+    const sessionId = await dataPipeline.startSession(liveUrl, title);
+    res.json({ success: true, sessionId });
+  } catch (error) {
+    logger.error('Error starting capture session', { error: error.message });
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Route pour arrêter une session de capture
+app.post('/api/capture/stop', async (req, res) => {
+  try {
+    await dataPipeline.stopSession();
+    res.json({ success: true });
+  } catch (error) {
+    logger.error('Error stopping capture session', { error: error.message });
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // Variables globales
 const activeSessions = new Map();
 const scraperInstances = new Map();
+let dataPipeline;
+let browserInterceptor;
+
+// Initialiser la base de données
+async function initializeDatabase() {
+  try {
+    // Vérifier la connexion
+    await db.query('SELECT NOW()');
+    console.log('✅ Base de données connectée');
+    
+    // Initialiser les modules
+    dataPipeline = new DataPipeline();
+    browserInterceptor = new BrowserInterceptor();
+    console.log('✅ Modules de capture initialisés');
+  } catch (error) {
+    console.error('❌ Erreur initialisation DB:', error.message);
+  }
+}
+
+// Initialiser après 2 secondes
+setTimeout(initializeDatabase, 2000);
 
 // Route de scraping (conservée pour compatibilité)
 app.post('/api/profiles/scrape', async (req, res) => {
