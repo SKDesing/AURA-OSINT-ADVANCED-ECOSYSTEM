@@ -1,0 +1,17 @@
+name: update-watch
+on:
+  schedule:
+    - cron: "0 7 * * 1-5"  # 07:00 CET, jours ouvrés
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check npm outdated
+        run: npm -g i npm-check >/dev/null 2>&1 || true; npx npm-check -u || true
+      - name: Pip audit
+        run: pip install pip-audit >/dev/null 2>&1 || true; pip-audit || true
+      - name: Container base image scan
+        run: trivy fs --exit-code 0 --severity HIGH,CRITICAL .
+      - name: Open summary
+        run: echo "Mises à jour détectées: voir artifacts" >> $GITHUB_STEP_SUMMARY

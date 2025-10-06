@@ -1,0 +1,8 @@
+%% Data Lineage & Classification — v1.0 — 2025-01-15
+flowchart LR
+SRC(((TikTok Live))):::external-->RAW[/RAW: live.raw/]:::queue-->STG[(STG_events [PII hashed])]:::data-->CUR[(CUR_analytics)]:::data-->SERVE[(SERVE_dashboards)]:::data
+STG--[30j retention]-->CUR
+CUR--[export]-->ES[(Search idx)]:::data
+classDef queue fill:#FB8500,stroke:#A55,color:#111
+classDef data fill:#8338EC,stroke:#421,color:#fff
+classDef external fill:#8D99AE,stroke:#555,color:#111

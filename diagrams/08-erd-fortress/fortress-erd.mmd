@@ -1,0 +1,98 @@
+%% Fortress Database ERD - Core Tables
+erDiagram
+    FORTRESS_USERS ||--o{ FORTRESS_LIVE_STREAMS : hosts
+    FORTRESS_LIVE_STREAMS ||--o{ FORTRESS_CHAT_MESSAGES : contains
+    FORTRESS_LIVE_STREAMS ||--o{ FORTRESS_VIEWERS : attracts
+    FORTRESS_LIVE_STREAMS ||--o{ FORTRESS_GIFT_TRANSACTIONS : receives
+    FORTRESS_USERS ||--o{ OSINT_RESULTS : investigated
+    FORTRESS_USERS ||--o{ IDENTITY_CORRELATIONS : correlated
+
+    FORTRESS_USERS {
+        bigint user_id PK
+        varchar tiktok_user_id UK "Unique TikTok ID"
+        varchar username "Display username"
+        varchar display_name "Full display name"
+        text bio "Profile biography"
+        bigint follower_count "Follower count"
+        boolean is_verified "Verification status"
+        jsonb identity_markers "Email, phone, etc"
+        timestamp first_seen_at "First detection"
+        timestamp last_seen_at "Last activity"
+    }
+
+    FORTRESS_LIVE_STREAMS {
+        bigint stream_id PK
+        varchar room_id UK "TikTok room ID"
+        bigint streamer_user_id FK
+        text title "Stream title"
+        varchar status "live, ended, unknown"
+        integer current_viewers "Current viewer count"
+        integer peak_viewers "Peak viewer count"
+        bigint total_coins "Total coins received"
+        timestamp started_at "Stream start time"
+        timestamp ended_at "Stream end time"
+        varchar data_integrity_hash "SHA-256 evidence hash"
+    }
+
+    FORTRESS_CHAT_MESSAGES {
+        bigint message_id PK
+        bigint stream_id FK
+        bigint user_id FK
+        text message_content "Chat message text"
+        varchar message_type "text, emoji, system"
+        decimal sentiment_score "ML sentiment -1 to 1"
+        decimal toxicity_score "ML toxicity 0 to 1"
+        boolean contains_emojis "Has emoji content"
+        text emoji_list "Extracted emojis"
+        timestamp sent_at "Message timestamp"
+        jsonb ml_analysis "ML enrichment data"
+    }
+
+    FORTRESS_VIEWERS {
+        bigint viewer_id PK
+        bigint stream_id FK
+        bigint user_id FK
+        timestamp joined_at "Join timestamp"
+        timestamp left_at "Leave timestamp"
+        integer messages_sent "Messages count"
+        integer gifts_sent "Gifts sent count"
+        boolean is_follower "Follows streamer"
+        varchar device_type "mobile, desktop, tablet"
+        inet ip_address "Viewer IP address"
+        varchar country "Geo country code"
+    }
+
+    FORTRESS_GIFT_TRANSACTIONS {
+        bigint transaction_id PK
+        bigint stream_id FK
+        bigint sender_user_id FK
+        bigint receiver_user_id FK
+        integer gift_id "Gift type ID"
+        integer quantity "Gift quantity"
+        integer total_coins "Total cost in coins"
+        boolean is_combo "Combo gift"
+        timestamp transaction_timestamp "Gift timestamp"
+        varchar transaction_hash "Evidence hash"
+    }
+
+    OSINT_RESULTS {
+        bigint id PK
+        bigint user_id FK
+        varchar type "username_search, email_harvest"
+        varchar target "Search target"
+        varchar platform "Found platform"
+        jsonb data "Search results JSON"
+        decimal confidence_score "Result confidence"
+        timestamp created_at "Search timestamp"
+    }
+
+    IDENTITY_CORRELATIONS {
+        bigint id PK
+        bigint identity1_id FK
+        bigint identity2_id FK
+        decimal correlation_score "ML correlation score"
+        jsonb evidence "Correlation evidence"
+        varchar correlation_type "username, email, behavioral"
+        boolean verified "Manual verification"
+        timestamp created_at "Correlation timestamp"
+    }

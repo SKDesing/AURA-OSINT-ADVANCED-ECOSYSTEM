@@ -1,0 +1,24 @@
+@startuml
+' Réseau & Déploiement — v1.0 — 2025-01-15
+skinparam defaultFontName Roboto
+cloud "Internet" {
+  node "EDGE-ALB :443" as ALB
+}
+node "VPC 10.20.0.0/16" {
+  frame "Public Subnet 10.20.1.0/24" {
+    node "NAT GW"
+    ALB -down- [GW-API]
+  }
+  frame "Private Subnet 10.20.2.0/24" {
+    component "SVC-LIVE-INGEST" as ING
+    component "SVC-OSINT-API" as OSINT
+    queue "RabbitMQ 5672" as MQ
+    database "PostgreSQL 5432" as PG
+  }
+}
+cloud "TikTok" as TTK
+TTK -[#gray]-> ING : WS/443
+ALB -down-> OSINT : HTTPS/443
+ING -right-> MQ : AMQP/5672
+OSINT -down-> PG : TCP/5432
+@enduml

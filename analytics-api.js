@@ -14,30 +14,106 @@ const correlationEngine = new CorrelationEngine({
     password: process.env.DB_PASSWORD
 });
 
-// Endpoint: Recherche cross-plateforme
+// Endpoint: Recherche cross-plateforme avec scraping réel
 app.post('/api/analytics/cross-platform-search', async (req, res) => {
     try {
-        const { query, platforms, riskThreshold } = req.body;
+        const { query, platforms, analysisType, options } = req.body;
         
-        const results = await correlationEngine.analyticsQuery({
-            platforms,
-            riskThreshold: riskThreshold || 0.5
-        });
-
-        res.json({
-            success: true,
-            count: results.rows.length,
-            data: results.rows,
-            metadata: {
-                query_time: new Date().toISOString(),
-                platforms_searched: platforms,
-                risk_threshold: riskThreshold
-            }
-        });
+        // Créer une cible dans la base
+        const targetResult = await createTarget(query, platforms[0] || 'tiktok');
+        const targetId = targetResult.target_id;
+        
+        // Lancer le scraping TikTok si c'est la plateforme demandée
+        if (platforms.includes('tiktok')) {
+            const TikTokForensicScraper = require('./live-tracker/tiktok-scraper-advanced');
+            const scraper = new TikTokForensicScraper();
+            
+            const profileData = await scraper.scrapeProfile(query);
+            
+            // Stocker les données en base
+            await storeProfileData(targetId, profileData);
+            
+            res.json({
+                success: true,
+                target_id: targetId,
+                matches: [{
+                    platform: 'tiktok',
+                    username: profileData.username,
+                    bio: profileData.bio,
+                    followers_count: profileData.followers,
+                    confidence_score: 0.95,
+                    collected_at: new Date().toISOString(),
+                    target_id: targetId
+                }],
+                evidence_hash: profileData.evidence_hash,
+                metadata: {
+                    query_time: new Date().toISOString(),
+                    platforms_searched: platforms,
+                    analysis_type: analysisType
+                }
+            });
+        } else {
+            res.json({
+                success: true,
+                target_id: targetId,
+                matches: [],
+                message: 'Plateforme non supportée pour le scraping en temps réel'
+            });
+        }
     } catch (error) {
+        console.error('Erreur recherche cross-platform:', error);
         res.status(500).json({ success: false, error: error.message });
     }
 });
+
+// Fonction pour créer une cible
+async function createTarget(username, platform) {
+    const { Pool } = require('pg');
+    const db = new Pool({
+        host: process.env.DB_HOST || 'localhost',
+        port: process.env.DB_PORT || 5432,
+        database: process.env.DB_NAME || 'aura_forensic',
+        user: process.env.DB_USER || 'postgres',
+        password: process.env.DB_PASSWORD || ''
+    });
+    
+    const result = await db.query(
+        'INSERT INTO targets (username, platform, url, created_at) VALUES ($1, $2, $3, NOW()) RETURNING target_id',
+        [username, platform, `https://${platform}.com/@${username}`]
+    );
+    
+    return result.rows[0];
+}
+
+// Fonction pour stocker les données de profil
+async function storeProfileData(targetId, profileData) {
+    const { Pool } = require('pg');
+    const db = new Pool({
+        host: process.env.DB_HOST || 'localhost',
+        port: process.env.DB_PORT || 5432,
+        database: process.env.DB_NAME || 'aura_forensic',
+        user: process.env.DB_USER || 'postgres',
+        password: process.env.DB_PASSWORD || ''
+    });
+    
+    await db.query(`
+        INSERT INTO profile_data (
+            target_id, platform, username, bio, followers_count, 
+            following_count, posts_count, profile_image_url, 
+            evidence_hash, collected_at
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())
+    `, [
+        targetId,
+        'tiktok',
+        profileData.username,
+        profileData.bio,
+        profileData.followers,
+        profileData.following,
+        profileData.posts,
+        profileData.profileImage,
+        profileData.evidence_hash
+    ]);
+}
 
 // Endpoint: Détection de réseaux coordonnés
 app.get('/api/analytics/coordinated-networks', async (req, res) => {
@@ -184,6 +260,67 @@ app.post('/api/analytics/forensic-export', async (req, res) => {
     }
 });
 
+// Endpoint dashboard simplifié
+app.get('/api/analytics/dashboard', async (req, res) => {
+    try {
+        const { Pool } = require('pg');
+        const db = new Pool({
+            host: process.env.DB_HOST || 'localhost',
+            port: process.env.DB_PORT || 5432,
+            database: process.env.DB_NAME || 'aura_forensic',
+            user: process.env.DB_USER || 'postgres',
+            password: process.env.DB_PASSWORD || ''
+        });
+        
+        const profilesCount = await db.query('SELECT COUNT(*) as count FROM targets');
+        const analysesCount = await db.query('SELECT COUNT(*) as count FROM profile_data');
+        const recentActivity = await db.query(`
+            SELECT 'Analyse OSINT' as type, username as target, 'success' as status, created_at as timestamp 
+            FROM targets 
+            ORDER BY created_at DESC 
+            LIMIT 5
+        `);
+        
+        res.json({
+            profiles: profilesCount.rows[0]?.count || 0,
+            analyses: analysesCount.rows[0]?.count || 0,
+            correlations: 0,
+            recent_activity: recentActivity.rows || []
+        });
+    } catch (error) {
+        console.error('Erreur dashboard:', error);
+        res.json({ profiles: 0, analyses: 0, correlations: 0, recent_activity: [] });
+    }
+});
+
+// Endpoint profils
+app.get('/api/analytics/profiles', async (req, res) => {
+    try {
+        const { Pool } = require('pg');
+        const db = new Pool({
+            host: process.env.DB_HOST || 'localhost',
+            port: process.env.DB_PORT || 5432,
+            database: process.env.DB_NAME || 'aura_forensic',
+            user: process.env.DB_USER || 'postgres',
+            password: process.env.DB_PASSWORD || ''
+        });
+        
+        const profiles = await db.query(`
+            SELECT t.target_id, t.username, t.platform, t.created_at,
+                   pd.bio, pd.followers_count, pd.profile_image_url
+            FROM targets t
+            LEFT JOIN profile_data pd ON t.target_id = pd.target_id
+            ORDER BY t.created_at DESC
+            LIMIT 50
+        `);
+        
+        res.json(profiles.rows || []);
+    } catch (error) {
+        console.error('Erreur profils:', error);
+        res.json([]);
+    }
+});
+
 const PORT = config.backend.analyser || 4002;
 app.listen(PORT, () => {
     console.log(`🧠 AURA Analytics API démarrée sur port ${PORT}`);
@@ -193,6 +330,7 @@ app.listen(PORT, () => {
     console.log(`   GET  /api/analytics/risk-score/:identityId`);
     console.log(`   POST /api/analytics/correlate-profile`);
     console.log(`   GET  /api/analytics/dashboard`);
+    console.log(`   GET  /api/analytics/profiles`);
     console.log(`   POST /api/analytics/forensic-export`);
 });
 

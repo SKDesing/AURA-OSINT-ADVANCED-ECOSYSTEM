@@ -1,0 +1,14 @@
+%% Legend v1.0 — 2025-01-15
+flowchart LR
+  subgraph Legend [Legend — Conventions]
+    A[Service (Compute)]:::compute --> B[(Base de données)]:::data
+    C[/Queue/Stream/]:::queue
+    D{{API Gateway}}:::gateway
+    E(((Externe))):::external
+  end
+  %% Styles
+  classDef compute fill:#06D6A0,stroke:#064,color:#111
+  classDef data fill:#8338EC,stroke:#421,color:#fff
+  classDef queue fill:#FB8500,stroke:#A55,color:#111
+  classDef gateway fill:#118AB2,stroke:#045,color:#fff
+  classDef external fill:#8D99AE,stroke:#555,color:#111

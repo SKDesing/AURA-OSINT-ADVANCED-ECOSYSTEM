@@ -1,0 +1,28 @@
+%% AURA — C4 Context — v1.0 — 2025-01-15
+%% Auteur: Backend Lead | Hyp: TikTok via WS; RGPD UE; RPO 5m
+%% Risques: burst trafic; limites TikTok; conformité sources
+%% TODO: valider sous-domaines Staging
+
+flowchart LR
+USER(((Stakeholders))):::external
+EXT_TT(((EXT-TIKTOK-WS))):::external
+GW{{GW-API [HTTPS/443]}}:::gateway
+SVC_ING[SVC-LIVE-INGEST [WS][Critical]]:::compute
+SVC_OSINT[SVC-OSINT-API [PII][Secrets]]:::compute
+Q_ENRICH[/Q-ENRICH (AMQP/5672)/]:::queue
+DB_PG[(DB-FORTERESSE-PG [TCP 5432])]:::data
+OBS[SVC-OBS (Prom/Grafana/Loki/Tempo)]:::compute
+
+USER--[HTTPS/443]-->GW
+EXT_TT--[WS/443]-->SVC_ING
+GW--REST-->SVC_OSINT
+SVC_ING--Event-->Q_ENRICH
+SVC_OSINT--Data-->DB_PG
+SVC_ING-.metrics.->OBS
+SVC_OSINT-.logs/traces.->OBS
+
+classDef compute fill:#06D6A0,stroke:#064,color:#111
+classDef data fill:#8338EC,stroke:#421,color:#fff
+classDef queue fill:#FB8500,stroke:#A55,color:#111
+classDef gateway fill:#118AB2,stroke:#045,color:#fff
+classDef external fill:#8D99AE,stroke:#555,color:#111

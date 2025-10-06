@@ -197,8 +197,8 @@ class ChromiumOnlyEnforcer {
 // Classe ChromiumLauncher améliorée
 class ChromiumLauncher {
     static detect() {
-        const ChromiumPathDetector = require('./src/utils/getChromiumPath');
-        return ChromiumPathDetector.detect();
+        const getChromiumPath = require('./src/utils/getChromiumPath');
+        return getChromiumPath();
     }
     
     static async launch(url, options = {}) {

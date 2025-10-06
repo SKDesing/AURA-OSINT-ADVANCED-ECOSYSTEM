@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: timescale/timescaledb:latest-pg16
+    container_name: aura-fortress-db
+    environment:
+      POSTGRES_DB: aura_fortress
+      POSTGRES_USER: aura_admin
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../database/fortress-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    container_name: aura-redis
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+
+  fortress-ingestion:
+    build: ../apps/fortress-ingestion
+    container_name: aura-fortress-ingestion
+    environment:
+      DATABASE_URL: postgresql://aura_admin:${DB_PASSWORD}@postgres:5432/aura_fortress
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  analytics-api:
+    build: ../apps/analytics-api
+    container_name: aura-analytics-api
+    environment:
+      DATABASE_URL: postgresql://aura_admin:${DB_PASSWORD}@postgres:5432/aura_fortress
+      PORT: 4000
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+
+  dashboard:
+    build: ../apps/dashboard
+    container_name: aura-dashboard
+    ports:
+      - "3000:3000"
+    depends_on:
+      - analytics-api
+
+volumes:
+  postgres_data:

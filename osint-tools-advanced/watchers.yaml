@@ -1,0 +1,111 @@
+# AURA Watchers Configuration - Differential monitoring for entities
+# Tracks changes in official sources and triggers alerts
+
+targets:
+  # Company monitoring example
+  - kind: company
+    siren: "123456789"
+    name: "ACME SAS"
+    sources: [sirene, rne, bodacc]
+    interval: "1d"
+    track: [address, name, legal_form, directors, capital]
+    alert_threshold: "any_change"
+    
+  - kind: company  
+    siren: "987654321"
+    name: "Example SARL"
+    sources: [sirene, bodacc]
+    interval: "12h"
+    track: [address, legal_form, status]
+    alert_threshold: "significant_change"
+
+  # Domain monitoring example
+  - kind: domain
+    fqdn: "acme.fr"
+    sources: [rdap, ctlogs, whois]
+    interval: "6h"
+    track: [registrant, ns, not_before, not_after, mx]
+    alert_threshold: "any_change"
+    
+  - kind: domain
+    fqdn: "example.com"
+    sources: [ctlogs, whois]
+    interval: "24h"
+    track: [registrant, not_after]
+    alert_threshold: "expiry_warning"
+
+  # Person monitoring (RGPD compliant)
+  - kind: person
+    email_hash: "sha256:abc123..."  # Hashed for privacy
+    sources: [hibp, social_mentions]
+    interval: "7d"
+    track: [breach_status, public_mentions]
+    alert_threshold: "new_breach"
+
+# Global settings
+settings:
+  max_concurrent: 5
+  retry_attempts: 3
+  retry_delay: "30s"
+  user_agent: "AURA-Watcher/1.0"
+  respect_robots: true
+  rate_limits:
+    sirene: "30/minute"
+    rne: "10/minute" 
+    rdap: "100/minute"
+    ctlogs: "1000/hour"
+
+# Alert configuration
+alerts:
+  channels:
+    - type: "database"
+      table: "watcher_alerts"
+    - type: "webhook"
+      url: "http://localhost:4002/api/alerts/webhook"
+      headers:
+        Authorization: "Bearer ${ALERT_TOKEN}"
+    - type: "email"
+      smtp_server: "localhost:587"
+      from: "alerts@aura-osint.local"
+      to: ["admin@aura-osint.local"]
+
+# Source-specific configurations
+sources:
+  sirene:
+    base_url: "https://api.insee.fr/entreprises/sirene/V3"
+    auth_type: "bearer"
+    token: "${SIRENE_TOKEN}"
+    endpoints:
+      company: "/siret/{siret}"
+      search: "/siret?q={query}"
+    
+  rne:
+    base_url: "https://data.inpi.fr/export/rne"
+    auth_type: "none"
+    format: "csv"
+    endpoints:
+      daily_export: "/rne_daily.csv"
+      
+  bodacc:
+    base_url: "https://echanges.dila.gouv.fr/OPENDATA/BODACC"
+    auth_type: "none"
+    format: "xml"
+    endpoints:
+      daily: "/BODACC-{date}.xml"
+      
+  rdap:
+    base_url: "https://rdap.org"
+    auth_type: "none"
+    endpoints:
+      domain: "/domain/{domain}"
+      
+  ctlogs:
+    base_url: "https://crt.sh"
+    auth_type: "none"
+    endpoints:
+      search: "/?q=%.{domain}&output=json"
+      
+  whois:
+    base_url: "https://whois.iana.org"
+    auth_type: "none"
+    rate_limit: "1/second"

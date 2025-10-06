@@ -95,6 +95,9 @@ class AuraGUILauncher {
             }
         });
 
+        // Proxy vers Stealth API
+        this.app.use('/api/stealth', this.createStealthProxy());
+        
         // API Security management
         this.app.get('/api/security/status', async (req, res) => {
             try {
@@ -188,6 +191,27 @@ class AuraGUILauncher {
             // Ouvrir automatiquement le navigateur
             this.openBrowser();
         });
+    }
+
+    createStealthProxy() {
+        return async (req, res) => {
+            try {
+                const fetch = require('node-fetch');
+                const targetUrl = `http://localhost:4003${req.originalUrl}`;
+                
+                const response = await fetch(targetUrl, {
+                    method: req.method,
+                    headers: req.headers,
+                    body: req.method !== 'GET' ? JSON.stringify(req.body) : undefined
+                });
+                
+                const data = await response.json();
+                res.status(response.status).json(data);
+                
+            } catch (error) {
+                res.status(500).json({ error: 'Stealth API non disponible' });
+            }
+        };
     }
 
     openBrowser() {

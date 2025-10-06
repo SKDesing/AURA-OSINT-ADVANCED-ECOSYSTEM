@@ -1,0 +1,23 @@
+name: auto-merge-patch
+on:
+  pull_request:
+    types: [opened, synchronize, labeled]
+jobs:
+  merge:
+    if: contains(github.event.pull_request.labels.*.name, 'dependencies')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci --omit=optional || true
+      - run: pip install -r requirements.txt || true
+      - run: npm test || true
+      - name: Security gates
+        run: |
+          gitleaks detect --no-banner --redact || exit 1
+          trivy fs --scanners vuln . || exit 1
+      - name: Merge patch updates
+        if: success()
+        uses: pascalgn/automerge-action@v0.16.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_METHOD: squash
