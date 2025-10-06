@@ -9,11 +9,12 @@ const Hero = () => {
             <span className="brand">AURA</span><br/>
             TikTok Live Analyser
           </h1>
-          <p className="lead mb-4">
+          <p className="lead mb-4" style={{color: 'var(--color-accent2)'}}>
             Solution forensique anti-harcèlement.<br/>
-            Investigation automatisée, preuves horodatées.
+            Investigation automatisée, preuves horodatées, sécurité maximale.
           </p>
           <button className="btn btn-gradient me-3">Demander une démo</button>
+          <button className="btn btn-outline-light">En savoir plus</button>
         </div>
         <div className="col-lg-5 text-center">
           <div style={{
@@ -25,7 +26,8 @@ const Hero = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '4rem'
+            fontSize: '4rem',
+            color: 'white'
           }}>
             <i className="bi bi-shield-check"></i>
           </div>
