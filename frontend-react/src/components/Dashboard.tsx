@@ -77,7 +77,7 @@ const Dashboard: React.FC = () => {
       </Box>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={2}>
           <Card sx={{ background: 'linear-gradient(135deg, #fe2c55, #ff6b35)', color: 'white' }}>
             <CardContent>
               <Typography variant="h6">Profiles</Typography>
@@ -85,7 +85,7 @@ const Dashboard: React.FC = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={2}>
           <Card sx={{ background: 'linear-gradient(135deg, #25f4ee, #00d4ff)', color: 'white' }}>
             <CardContent>
               <Typography variant="h6">Sessions</Typography>
@@ -93,7 +93,7 @@ const Dashboard: React.FC = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={2}>
           <Card sx={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)', color: 'white' }}>
             <CardContent>
               <Typography variant="h6">Comments</Typography>
@@ -101,7 +101,7 @@ const Dashboard: React.FC = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={3}>
           <Card sx={{ background: 'linear-gradient(135deg, #10b981, #34d399)', color: 'white' }}>
             <CardContent>
               <Typography variant="h6">Gifts</Typography>
@@ -109,7 +109,7 @@ const Dashboard: React.FC = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={2.4}>
+        <Grid item xs={12} md={3}>
           <Card sx={{ background: 'linear-gradient(135deg, #f59e0b, #fbbf24)', color: 'white' }}>
             <CardContent>
               <Typography variant="h6">Active</Typography>
