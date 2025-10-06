@@ -26,6 +26,13 @@ const services = {
         port: config.frontend.landing,
         env: { PORT: config.frontend.landing }
     },
+    'analytics': { 
+        cmd: 'node', 
+        args: ['analytics-api.js'], 
+        cwd: './',
+        port: config.backend.analyser,
+        env: { PORT: config.backend.analyser }
+    },
     'osint': { 
         cmd: 'node', 
         args: ['osint-server.js'], 
