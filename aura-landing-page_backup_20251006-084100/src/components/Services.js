@@ -1,21 +1,21 @@
-import React from 'react';
+
 
 const Services = () => {
   const services = [
     {
       icon: 'bi-search',
-      title: 'OSINT TikTok',
-      desc: 'Analyse massive et détection de réseaux toxiques.'
+      title: 'OSINT TikTok Avancé',
+      desc: 'Analyse massive, extraction comportementale, détection de réseaux toxiques.'
     },
     {
       icon: 'bi-robot',
       title: 'Scraping Industriel',
-      desc: 'Collecte à grande échelle et archivage forensique.'
+      desc: 'Collecte à grande échelle, archivage forensique & monitoring temps réel.'
     },
     {
       icon: 'bi-shield-check',
-      title: 'Détection IA',
-      desc: 'IA pour détecter les discours haineux automatiquement.'
+      title: 'Détection de la Haine',
+      desc: 'IA pour détecter et archiver les discours haineux automatiquement.'
     }
   ];
 

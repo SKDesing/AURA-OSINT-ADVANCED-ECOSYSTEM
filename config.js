@@ -1,72 +1,64 @@
-module.exports = {
-  // Configuration de la base de données
-  database: {
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5432,
-    database: process.env.DB_NAME || 'live_tracker',
-    user: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || 'Mohand/06'
-  },
+// AURA/SCIS - Configuration Centralisée
+// ====================================
 
-  // Configuration des serveurs
-  servers: {
-    backend: {
-      port: process.env.BACKEND_PORT || 4000,
-      host: process.env.BACKEND_HOST || 'localhost'
-    },
+require('dotenv').config({ path: './ports-config.env' });
+
+const config = {
+    // Frontend & Interfaces
     frontend: {
-      port: process.env.FRONTEND_PORT || 3000,
-      host: process.env.FRONTEND_HOST || 'localhost'
+        port: process.env.FRONTEND_PORT || 3000,
+        osint: process.env.OSINT_PORT || 3001,
+        analyser: process.env.ANALYSER_PORT || 3002,
+        profiles: process.env.PROFILES_PORT || 3003,
+        lives: process.env.LIVES_PORT || 3004,
+        creator: process.env.CREATOR_PORT || 3005,
+        database: process.env.DATABASE_PORT || 3006,
+        reports: process.env.REPORTS_PORT || 3007,
+        forensic: process.env.FORENSIC_PORT || 3008,
+        landing: process.env.LANDING_PAGE_PORT || 5000
+    },
+    
+    // Backend & API
+    backend: {
+        main: process.env.BACKEND_PORT || 4000,
+        analyser: process.env.ANALYSER_API_PORT || 4002,
+        profiles: process.env.PROFILES_API_PORT || 4003,
+        lives: process.env.LIVES_API_PORT || 4004,
+        creator: process.env.CREATOR_API_PORT || 4005,
+        database: process.env.DATABASE_API_PORT || 4006,
+        reports: process.env.REPORTS_API_PORT || 4007
+    },
+    
+    // Infrastructure
+    infrastructure: {
+        postgres: process.env.POSTGRES_PORT || 5432,
+        postgresTest: process.env.POSTGRES_TEST_PORT || 5433,
+        redis: process.env.REDIS_PORT || 6379,
+        dashboard: process.env.DASHBOARD_PORT || 8080,
+        scisDashboard: process.env.SCIS_DASHBOARD_PORT || 9000
+    },
+    
+    // Development
+    development: {
+        dev: process.env.DEV_PORT || 5001,
+        test: process.env.TEST_PORT || 5002,
+        staging: process.env.STAGING_PORT || 5003
     }
-  },
-
-  // Configuration Puppeteer/Brave
-  browser: {
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/snap/bin/brave',
-    userDataDir: process.env.PUPPETEER_USER_DATA_DIR || (process.env.HOME + '/.config/BraveSoftware/Brave-Browser'),
-    headless: process.env.NODE_ENV === 'production' ? true : false,
-    args: [
-      '--no-first-run',
-      '--disable-web-security',
-      '--disable-features=VizDisplayCompositor',
-      '--no-sandbox',
-      '--disable-blink-features=AutomationControlled',
-      '--disable-dev-shm-usage',
-      '--disable-gpu',
-      '--disable-dev-shm-usage',
-      '--disable-setuid-sandbox',
-      '--no-first-run',
-      '--no-zygote',
-      '--single-process'
-    ]
-  },
-
-  // Profils TikTok à analyser
-  profiles: [
-    'historia_med',
-    'titilepirate2', 
-    'titi.le.pirate',
-    'titilepirate3',
-    'saadallahnordine',
-    'sedsky777'
-  ],
-
-  // Configuration forensique
-  forensic: {
-    evidenceDir: process.env.EVIDENCE_DIR || './evidence',
-    maxRetries: parseInt(process.env.MAX_RETRIES) || 3,
-    screenshotQuality: parseInt(process.env.SCREENSHOT_QUALITY) || 90,
-    enableNetworkLogging: process.env.ENABLE_NETWORK_LOGGING !== 'false',
-    enableScreenshots: process.env.ENABLE_SCREENSHOTS !== 'false'
-  },
-
-  // Logging
-  logging: {
-    level: process.env.LOG_LEVEL || 'info',
-    files: {
-      main: process.env.LOG_MAIN_FILE || 'app.log',
-      scraper: process.env.LOG_SCRAPER_FILE || 'tiktok-scraper.log',
-      evidence: process.env.LOG_EVIDENCE_FILE || 'evidence.log'
-    }
-  }
 };
+
+// Fonction utilitaire pour obtenir un port libre
+const getAvailablePort = (basePort) => {
+    const net = require('net');
+    return new Promise((resolve) => {
+        const server = net.createServer();
+        server.listen(basePort, () => {
+            const port = server.address().port;
+            server.close(() => resolve(port));
+        });
+        server.on('error', () => {
+            resolve(getAvailablePort(basePort + 1));
+        });
+    });
+};
+
+module.exports = { config, getAvailablePort };
