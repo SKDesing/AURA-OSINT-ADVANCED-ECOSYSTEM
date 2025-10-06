@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA Forensic System - Launcher</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="aura-launcher">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo">🔥</div>
+                <div class="title-section">
+                    <h1>AURA FORENSIC SYSTEM</h1>
+                    <span class="version">v2.1 Professional</span>
+                </div>
+            </div>
+            <div class="status-indicator" id="systemStatus">
+                <span class="status-dot offline"></span>
+                <span class="status-text">Système arrêté</span>
+            </div>
+        </header>
+
+        <!-- Progress Section -->
+        <section class="progress-section">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Prêt à installer AURA Forensic System</div>
+                <div class="progress-percentage" id="progressPercentage">0%</div>
+            </div>
+        </section>
+
+        <!-- Steps Section -->
+        <section class="steps-section">
+            <h3>📋 Étapes d'installation</h3>
+            <div class="steps-list" id="stepsList">
+                <div class="step pending" data-step="system-check">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Vérification système Ubuntu</span>
+                </div>
+                <div class="step pending" data-step="dependencies">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Installation dépendances</span>
+                </div>
+                <div class="step pending" data-step="docker">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Configuration Docker</span>
+                </div>
+                <div class="step pending" data-step="database">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Initialisation base de données</span>
+                </div>
+                <div class="step pending" data-step="services">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Démarrage services AURA</span>
+                </div>
+                <div class="step pending" data-step="tests">
+                    <span class="step-icon">⏳</span>
+                    <span class="step-text">Tests d'intégrité</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Terminal Section -->
+        <section class="terminal-section">
+            <div class="terminal-header">
+                <span>📟 Terminal AURA</span>
+                <button class="terminal-clear" onclick="clearTerminal()">Effacer</button>
+            </div>
+            <div class="terminal-output" id="terminalOutput">
+                <div class="terminal-line">🔥 AURA Forensic System v2.1</div>
+                <div class="terminal-line">Prêt pour installation...</div>
+            </div>
+        </section>
+
+        <!-- Auth Section -->
+        <section class="auth-section" id="authSection" style="display: none;">
+            <div class="auth-container">
+                <h3>🔐 Authentification système requise</h3>
+                <p>Installation des dépendances système (Docker, PostgreSQL, Node.js)</p>
+                <div class="auth-form">
+                    <input type="password" id="sudoPassword" placeholder="Mot de passe sudo" class="auth-input">
+                    <button onclick="validateAuth()" class="auth-button">Valider</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actions Section -->
+        <section class="actions-section">
+            <button class="action-btn install-btn" id="installBtn" onclick="startInstallation()">
+                🚀 INSTALLER AURA
+            </button>
+            <button class="action-btn launch-btn" id="launchBtn" onclick="launchAura()" disabled>
+                ▶️ LANCER AURA
+            </button>
+            <button class="action-btn config-btn" onclick="openConfig()">
+                ⚙️ CONFIGURATION
+            </button>
+            <button class="action-btn quit-btn" onclick="quitLauncher()">
+                ❌ QUITTER
+            </button>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-info">
+                <span>© 2024 AURA Forensic Team</span>
+                <span>|</span>
+                <span>Système optimisé Ubuntu 20.04+</span>
+                <span>|</span>
+                <span><a href="#" onclick="openSupport()">Support technique</a></span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="launcher.js"></script>
+</body>
+</html>

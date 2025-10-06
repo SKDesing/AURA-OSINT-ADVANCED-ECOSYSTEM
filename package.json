@@ -1,41 +1,44 @@
 {
-  "name": "tiktok-live-analyser",
-  "version": "2.0.0",
-  "description": "TikTok Live Analyser - Solution Forensique Professionnelle",
+  "name": "aura-forensic-system",
+  "version": "2.1.0",
+  "description": "AURA - Système Forensique TikTok Live Professionnel",
   "main": "app-launcher.js",
   "scripts": {
     "start": "node app-launcher.js",
-    "dev": "node app-launcher.js",
-    "install-all": "npm install && cd live-tracker && npm install && cd ../frontend-react && npm install",
+    "dev": "npm run backend & npm run frontend",
     "backend": "cd live-tracker && node enhanced-server.js",
     "frontend": "cd frontend-react && npm start",
-    "scraper": "cd live-tracker && node tiktok-scraper-advanced.js",
-    "docker:build": "./docker-scripts/build.sh",
-    "docker:start": "./docker-scripts/start.sh",
-    "docker:stop": "./docker-scripts/stop.sh",
-    "docker:logs": "docker-compose -f docker-compose.scis.yml logs -f",
-    "docker:restart": "docker-compose -f docker-compose.scis.yml restart",
-    "microservices:build": "./docker-scripts/build-microservices.sh",
-    "microservices:start": "docker-compose -f docker-compose.microservices.yml up -d",
-    "microservices:stop": "docker-compose -f docker-compose.microservices.yml down",
-    "microservices:logs": "docker-compose -f docker-compose.microservices.yml logs -f",
-    "microservices:restart": "docker-compose -f docker-compose.microservices.yml restart"
+    "build": "./scripts/build/build.sh",
+    "deploy": "./scripts/deployment/LANCER-APPLICATION.sh",
+    "docker:up": "docker-compose -f config/docker/docker-compose.yml up -d",
+    "docker:down": "docker-compose -f config/docker/docker-compose.yml down",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd live-tracker && npm test",
+    "test:frontend": "cd frontend-react && npm test",
+    "clean": "./scripts/deployment/OPTIMISATION-IMMEDIATE.sh",
+    "audit": "npm audit && cd live-tracker && npm audit && cd ../frontend-react && npm audit"
   },
   "dependencies": {
+    "axios": "^1.12.2",
     "open": "^8.4.0",
     "socket.io": "^4.8.1"
   },
   "keywords": [
-    "tiktok",
     "forensic",
-    "scraper",
-    "live",
-    "analysis"
+    "tiktok",
+    "live-analysis",
+    "investigation",
+    "osint",
+    "evidence-collection"
   ],
   "author": "AURA Forensic Team",
-  "license": "MIT",
+  "license": "Commercial",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-repo/tiktok-live-analyser"
+    "url": "https://github.com/aura-forensic/tiktok-live-analyser"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }
