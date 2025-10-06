@@ -28,6 +28,7 @@ const DataPipeline = require('./data-pipeline');
 
 // Import des nouvelles routes
 const profilesRouter = require('./api/routes/profiles');
+const networkRoutes = require('./network-routes');
 
 const app = express();
 const server = http.createServer(app);
@@ -87,6 +88,7 @@ const stealthRoutes = require('./stealth-routes');
 app.use('/api', apiRoutes);
 app.use('/api/stealth', stealthRoutes);
 app.use('/api/profiles', profilesRouter);
+app.use('/api/network', networkRoutes);
 
 // Route pour lancer Brave
 app.post('/api/launch-brave', async (req, res) => {

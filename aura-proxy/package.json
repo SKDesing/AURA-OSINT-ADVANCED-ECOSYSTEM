@@ -1,0 +1,16 @@
+{
+  "name": "aura-stealth-proxy",
+  "version": "1.0.0",
+  "description": "AURA Forensic Stealth Proxy for TikTok Live Analysis",
+  "main": "launcher-stealth.js",
+  "scripts": {
+    "start": "node launcher-stealth.js",
+    "proxy": "node stealth-proxy.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "keywords": ["forensic", "proxy", "stealth", "tiktok"],
+  "author": "AURA Forensic System",
+  "license": "PROPRIETARY"
+}
