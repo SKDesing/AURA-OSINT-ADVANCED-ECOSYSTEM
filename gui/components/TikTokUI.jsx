@@ -3,7 +3,7 @@
 import React from 'react';
 import '../assets/ui/theme.css';
 
-// Composant Icon générique
+// corposant Icon générique
 export const TikTokIcon = ({ 
   name, 
   size = 'md', 

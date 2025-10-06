@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA - Interface Zéro CLI</title>
+    <title>AURA - Intelligence OSINT</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="assets/css/aura-gui.css" rel="stylesheet">
 </head>
 <body class="bg-dark text-light">
@@ -13,7 +14,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="#">
-                <i class="bi bi-shield-check me-2"></i>AURA
+                <i class="bi bi-shield-check me-2"></i>AURA Intelligence
             </a>
             <div class="navbar-nav ms-auto">
                 <span class="nav-link" id="status-indicator">
@@ -31,27 +32,37 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link active" href="#" data-section="dashboard">
-                                <i class="bi bi-house-door me-2"></i>Tableau de bord
+                                <i class="bi bi-house-door me-2"></i>Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" data-section="installation">
-                                <i class="bi bi-download me-2"></i>Installation
+                            <a class="nav-link" href="#" data-section="osint">
+                                <i class="bi bi-search me-2"></i>OSINT Engine
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" data-section="analysis">
-                                <i class="bi bi-search me-2"></i>Analyse OSINT
+                            <a class="nav-link" href="#" data-section="profiles">
+                                <i class="bi bi-person-lines-fill me-2"></i>Profils
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="correlation">
+                                <i class="bi bi-diagram-3 me-2"></i>Corrélation
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="dorks">
+                                <i class="bi bi-code-slash me-2"></i>Google Dorks
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="stealth">
+                                <i class="bi bi-eye-slash me-2"></i>Stealth Logger
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-section="reports">
                                 <i class="bi bi-file-earmark-text me-2"></i>Rapports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" data-section="diagnostic">
-                                <i class="bi bi-gear me-2"></i>Diagnostic
                             </a>
                         </li>
                     </ul>
@@ -63,79 +74,199 @@
                 <!-- Dashboard Section -->
                 <div id="dashboard-section" class="content-section">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Tableau de bord AURA</h1>
+                        <h1 class="h2">🛡️ AURA Intelligence Dashboard</h1>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card bg-primary text-white mb-3">
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <i class="bi bi-cpu me-2"></i>Système
+                                        <i class="bi bi-database me-2"></i>Profils
                                     </h5>
-                                    <p class="card-text" id="system-status">Vérification...</p>
-                                    <button class="btn btn-light btn-sm" onclick="checkSystemStatus()">
-                                        Actualiser
-                                    </button>
+                                    <p class="card-text" id="profiles-count">0 profils</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="card bg-success text-white mb-3">
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <i class="bi bi-play-circle me-2"></i>Services
+                                        <i class="bi bi-activity me-2"></i>Analyses
                                     </h5>
-                                    <p class="card-text" id="services-status">0 actifs</p>
-                                    <button class="btn btn-light btn-sm" onclick="startAllServices()">
-                                        Démarrer tout
-                                    </button>
+                                    <p class="card-text" id="analyses-count">0 analyses</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <div class="card bg-warning text-white mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <i class="bi bi-link-45deg me-2"></i>Corrélations
+                                    </h5>
+                                    <p class="card-text" id="correlations-count">0 liens</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="card bg-info text-white mb-3">
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        <i class="bi bi-shield-check me-2"></i>Chromium Only
+                                        <i class="bi bi-shield-check me-2"></i>Status
                                     </h5>
-                                    <p class="card-text" id="chromium-status">Vérification...</p>
-                                    <button class="btn btn-light btn-sm" onclick="checkChromiumCompliance()">
-                                        Scanner
-                                    </button>
+                                    <p class="card-text" id="system-status">Opérationnel</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Activité récente -->
+                    <div class="card bg-dark mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">🔍 Activité récente</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="recent-activity">
+                                <p class="text-muted">Aucune activité récente</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OSINT Engine Section -->
+                <div id="osint-section" class="content-section d-none">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">🔍 OSINT Intelligence Engine</h1>
+                    </div>
+
+                    <!-- Formulaire de recherche -->
+                    <div class="card bg-dark mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Nouvelle analyse OSINT</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="osint-form">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Plateforme cible</label>
+                                            <select class="form-select bg-secondary text-light" id="platform-select">
+                                                <option value="tiktok">TikTok</option>
+                                                <option value="instagram">Instagram</option>
+                                                <option value="twitter">Twitter</option>
+                                                <option value="facebook">Facebook</option>
+                                                <option value="all">Toutes plateformes</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Type d'analyse</label>
+                                            <select class="form-select bg-secondary text-light" id="analysis-type">
+                                                <option value="profile">Profil utilisateur</option>
+                                                <option value="network">Analyse réseau</option>
+                                                <option value="correlation">Corrélation identités</option>
+                                                <option value="deep">Analyse approfondie</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">Identifiant cible</label>
+                                            <input type="text" class="form-control bg-secondary text-light" id="target-input" placeholder="@username ou URL">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="deep-search">
+                                                <label class="form-check-label" for="deep-search">
+                                                    Recherche approfondie (plus lent)
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="include-metadata">
+                                                <label class="form-check-label" for="include-metadata">
+                                                    Inclure métadonnées
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-play-circle me-2"></i>Lancer l'analyse
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Fenêtre de processus -->
+                    <div id="analysis-process" class="card bg-dark d-none">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">🔄 Analyse en cours</h5>
+                            <button class="btn btn-sm btn-outline-danger" onclick="stopAnalysis()">
+                                <i class="bi bi-stop-circle"></i> Arrêter
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="progress mb-3">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" id="analysis-progress" style="width: 0%"></div>
+                            </div>
+                            <div id="process-steps">
+                                <!-- Les étapes seront ajoutées dynamiquement -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Résultats -->
+                    <div id="analysis-results" class="d-none">
+                        <!-- Les résultats seront affichés ici -->
+                    </div>
+                </div>
+
+                <!-- Profils Section -->
+                <div id="profiles-section" class="content-section d-none">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">👥 Base de données des profils</h1>
+                        <button class="btn btn-primary" onclick="refreshProfiles()">
+                            <i class="bi bi-arrow-clockwise me-2"></i>Actualiser
+                        </button>
+                    </div>
+
+                    <div id="profiles-list">
+                        <!-- Les profils seront chargés ici -->
+                    </div>
+                </div>
+
+                <!-- Google Dorks Section -->
+                <div id="dorks-section" class="content-section d-none">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">🔍 Bibliothèque Google Dorks</h1>
+                    </div>
+
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-md-6">
                             <div class="card bg-dark">
                                 <div class="card-header">
-                                    <h5 class="mb-0">Actions rapides</h5>
+                                    <h5 class="mb-0">Catégories de Dorks</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <button class="btn btn-primary w-100 mb-2" onclick="showSection('analysis')">
-                                                <i class="bi bi-search me-2"></i>Nouvelle analyse
-                                            </button>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button class="btn btn-success w-100 mb-2" onclick="exportReport()">
-                                                <i class="bi bi-download me-2"></i>Exporter rapport
-                                            </button>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button class="btn btn-warning w-100 mb-2" onclick="showSection('diagnostic')">
-                                                <i class="bi bi-gear me-2"></i>Diagnostic
-                                            </button>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button class="btn btn-info w-100 mb-2" onclick="openHelp()">
-                                                <i class="bi bi-question-circle me-2"></i>Aide
-                                            </button>
-                                        </div>
+                                    <div class="list-group" id="dorks-categories">
+                                        <!-- Catégories chargées dynamiquement -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-dark">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Dorks sélectionnés</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="selected-dorks">
+                                        <p class="text-muted">Sélectionnez une catégorie</p>
                                     </div>
                                 </div>
                             </div>
@@ -143,92 +274,127 @@
                     </div>
                 </div>
 
-                <!-- Installation Section -->
-                <div id="installation-section" class="content-section d-none">
+                <!-- Corrélation Section -->
+                <div id="correlation-section" class="content-section d-none">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Installation & Configuration</h1>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="card bg-dark">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Assistant d'installation</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <h6>Étape 1: Migration Chromium</h6>
-                                        <p class="text-muted">Migrer de Brave vers Chromium pour une compatibilité universelle</p>
-                                        <button class="btn btn-primary" onclick="migrateChromium()">
-                                            <i class="bi bi-arrow-right-circle me-2"></i>Migrer vers Chromium
-                                        </button>
-                                    </div>
-                                    <div class="mb-3">
-                                        <h6>Étape 2: Installation complète</h6>
-                                        <p class="text-muted">Installation automatique de toutes les dépendances</p>
-                                        <button class="btn btn-success" onclick="fullInstall()">
-                                            <i class="bi bi-download me-2"></i>Installation complète
-                                        </button>
-                                    </div>
-                                    <div class="mb-3">
-                                        <h6>Étape 3: Validation</h6>
-                                        <p class="text-muted">Vérifier que tout fonctionne correctement</p>
-                                        <button class="btn btn-info" onclick="validateInstall()">
-                                            <i class="bi bi-check-circle me-2"></i>Valider l'installation
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card bg-secondary">
-                                <div class="card-header">
-                                    <h6 class="mb-0">Progression</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div id="install-progress">
-                                        <div class="progress mb-2">
-                                            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
-                                        </div>
-                                        <small class="text-muted">Prêt à commencer</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Analysis Section -->
-                <div id="analysis-section" class="content-section d-none">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Analyse OSINT</h1>
+                        <h1 class="h2">🔗 Moteur de corrélation</h1>
                     </div>
 
                     <div class="card bg-dark">
                         <div class="card-body">
-                            <form id="analysis-form">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Type d'analyse</label>
-                                            <select class="form-select bg-secondary text-light">
-                                                <option>Profil TikTok</option>
-                                                <option>Analyse cross-plateforme</option>
-                                                <option>Détection de réseau</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Identifiant cible</label>
-                                            <input type="text" class="form-control bg-secondary text-light" placeholder="@username ou URL">
-                                        </div>
+                            <p>Analyse des liens entre profils et identités</p>
+                            <div id="correlation-graph">
+                                <!-- Graphique de corrélation -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stealth Logger Section -->
+                <div id="stealth-section" class="content-section d-none">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">🕵️ Chromium Stealth Logger</h1>
+                        <div>
+                            <button class="btn btn-success" id="start-stealth-btn" onclick="startStealthSession()">
+                                <i class="bi bi-play-circle me-2"></i>Démarrer
+                            </button>
+                            <button class="btn btn-danger d-none" id="stop-stealth-btn" onclick="stopStealthSession()">
+                                <i class="bi bi-stop-circle me-2"></i>Arrêter
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Status de la session -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card bg-secondary">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Status</h5>
+                                    <p class="card-text" id="stealth-status">Inactif</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-info">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Logs collectés</h5>
+                                    <p class="card-text" id="stealth-logs-count">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-warning">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Données forensiques</h5>
+                                    <p class="card-text" id="stealth-forensic-count">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-success">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Uptime</h5>
+                                    <p class="card-text" id="stealth-uptime">0s</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Configuration -->
+                    <div class="card bg-dark mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">⚙️ Configuration Stealth</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">URL cible</label>
+                                        <input type="text" class="form-control bg-secondary text-light" id="stealth-target-url" value="https://www.tiktok.com" placeholder="https://www.tiktok.com/@username">
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-play me-2"></i>Démarrer l'analyse
-                                </button>
-                            </form>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Profil Chromium</label>
+                                        <input type="text" class="form-control bg-secondary text-light" id="stealth-profile-path" placeholder="Auto-détecté">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logs en temps réel -->
+                    <div class="card bg-dark mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">📊 Logs temps réel</h5>
+                            <div>
+                                <select class="form-select form-select-sm bg-secondary text-light" id="logs-filter" onchange="filterStealthLogs()">
+                                    <option value="all">Tous les logs</option>
+                                    <option value="network">Réseau</option>
+                                    <option value="console">Console</option>
+                                    <option value="forensic">Forensique</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="stealth-logs-container" style="height: 400px; overflow-y: auto; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;">
+                                <p class="text-muted">Aucune session active</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analyse forensique -->
+                    <div class="card bg-dark">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">🔍 Analyse forensique TikTok</h5>
+                            <button class="btn btn-sm btn-primary" onclick="refreshForensicAnalysis()">
+                                <i class="bi bi-arrow-clockwise"></i> Actualiser
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div id="forensic-analysis">
+                                <p class="text-muted">Démarrez une session pour voir l'analyse</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -236,53 +402,32 @@
                 <!-- Reports Section -->
                 <div id="reports-section" class="content-section d-none">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Rapports & Exports</h1>
+                        <h1 class="h2">📊 Rapports forensiques</h1>
                     </div>
 
                     <div class="card bg-dark">
                         <div class="card-body">
-                            <p>Génération et export de rapports forensiques</p>
-                            <button class="btn btn-success">
-                                <i class="bi bi-file-pdf me-2"></i>Exporter PDF
-                            </button>
-                            <button class="btn btn-info ms-2">
-                                <i class="bi bi-file-excel me-2"></i>Exporter CSV
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Diagnostic Section -->
-                <div id="diagnostic-section" class="content-section d-none">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Diagnostic Système</h1>
-                    </div>
-
-                    <div class="card bg-dark">
-                        <div class="card-body">
-                            <button class="btn btn-warning mb-3" onclick="generateDiagnostic()">
-                                <i class="bi bi-gear me-2"></i>Générer diagnostic
-                            </button>
-                            <div id="diagnostic-results">
-                                <p class="text-muted">Cliquez sur "Générer diagnostic" pour analyser le système</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <button class="btn btn-success w-100 mb-2">
+                                        <i class="bi bi-file-pdf me-2"></i>Rapport PDF
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-info w-100 mb-2">
+                                        <i class="bi bi-file-excel me-2"></i>Export CSV
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-warning w-100 mb-2">
+                                        <i class="bi bi-file-code me-2"></i>Export JSON
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </main>
-        </div>
-    </div>
-
-    <!-- Notifications -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
-        <div id="notification-toast" class="toast" role="alert">
-            <div class="toast-header">
-                <strong class="me-auto">AURA</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-            </div>
-            <div class="toast-body" id="toast-message">
-                Message
-            </div>
         </div>
     </div>
 

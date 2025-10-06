@@ -1,0 +1,34 @@
+# AURA OSINT - Gitleaks Allowlist
+# Faux positifs connus et exemples de documentation
+
+# Exemples dans la documentation
+**/README*.md:*example*
+**/GUIDE*.md:*password*
+**/docs/**:*secret*
+
+# Clés de test et exemples
+**/test*/**:*test_key*
+**/examples/**:*api_key*
+**/*.example:*
+
+# Hashes et fingerprints (pas des secrets)
+**/*:sha256:*
+**/*:md5:*
+**/*:fingerprint:*
+
+# URLs d'exemple
+**/*:https://example.com*
+**/*:http://localhost*
+
+# Variables d'environnement d'exemple
+**/*:YOUR_API_KEY_HERE*
+**/*:CHANGE_ME*
+**/*:your_*_here*
+
+# Certificats auto-signés de développement
+certs/server.crt:*
+certs/server.key:*
+
+# Logs de test avec données fictives
+**/*test*.log:*
+security-test-results-*/**:*

@@ -1,0 +1,52 @@
+{
+  "name": "aura-showcase-landing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site vitrine professionnel pour AURA OSINT - Plateforme d'intelligence forensique",
+  "homepage": "https://aura-osint.com",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "framer-motion": "^10.16.0",
+    "lucide-react": "^0.292.0",
+    "react-intersection-observer": "^9.5.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "deploy": "npm run build && ./deploy.sh",
+    "lighthouse": "lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "keywords": [
+    "OSINT",
+    "TikTok",
+    "Analysis",
+    "Forensic",
+    "Intelligence",
+    "Investigation",
+    "Security"
+  ],
+  "author": "Kaabache Soufiane <contact@tiktokliveanalyser.com>",
+  "license": "MIT"
+}

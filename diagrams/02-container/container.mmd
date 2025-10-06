@@ -1,0 +1,52 @@
+%% AURA Container Diagram - Services Architecture
+flowchart TB
+    subgraph AURA ["🏰 AURA Container Architecture"]
+        
+        subgraph Frontend ["Frontend Layer"]
+            GUI[🖥️ GUI Launcher<br/>Express.js:3000]:::compute
+            DASHBOARD[📊 Analytics Dashboard<br/>React:3001]:::compute
+        end
+        
+        subgraph API ["API Layer"]
+            API_ANALYTICS[🔌 Analytics API<br/>Node.js:4000]:::compute
+            API_OSINT[🔍 OSINT API<br/>Integrated]:::compute
+        end
+        
+        subgraph Processing ["Processing Layer"]
+            OSINT_ENGINE[🧠 OSINT Intelligence<br/>Sherlock+theHarvester]:::compute
+            FORTRESS_INGEST[🏰 Fortress Ingestion<br/>Batch Processing]:::compute
+            CORRELATION[🔗 Correlation Engine<br/>ML/NLP]:::compute
+            STEALTH[👻 Chromium Stealth<br/>DevTools Protocol]:::compute
+        end
+        
+        subgraph Storage ["Storage Layer"]
+            DB_FORTRESS[(🗄️ Fortress PostgreSQL<br/>:5432)]:::data
+            REDIS[(⚡ Redis Cache<br/>:6379)]:::data
+            RABBITMQ[/📨 RabbitMQ<br/>:5672/]:::queue
+        end
+    end
+
+    %% External
+    TIKTOK(((🎵 TikTok Live))):::external
+    USERS[👥 Investigators]:::external
+
+    %% Connections
+    USERS --> GUI
+    USERS --> DASHBOARD
+    GUI --> API_ANALYTICS
+    DASHBOARD --> API_ANALYTICS
+    API_ANALYTICS --> API_OSINT
+    API_OSINT --> OSINT_ENGINE
+    TIKTOK --> STEALTH
+    STEALTH --> FORTRESS_INGEST
+    FORTRESS_INGEST --> RABBITMQ
+    RABBITMQ --> DB_FORTRESS
+    OSINT_ENGINE --> DB_FORTRESS
+    CORRELATION --> DB_FORTRESS
+    API_ANALYTICS <--> REDIS
+
+    %% Styles
+    classDef compute fill:#06D6A0,stroke:#064,stroke-width:2px
+    classDef data fill:#8338EC,stroke:#421,stroke-width:2px,color:#fff
+    classDef queue fill:#FB8500,stroke:#A55,stroke-width:2px
+    classDef external fill:#8D99AE,stroke:#555,stroke-width:2px

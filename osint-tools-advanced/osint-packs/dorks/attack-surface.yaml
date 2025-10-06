@@ -1,0 +1,68 @@
+pack: "Attack Surface (safe)"
+version: "1.1"
+locale: "fr-FR"
+scope: "authorized-osint"
+defaults:
+  engine: "searxng"
+  max_results: 60
+  throttle_ms: 800
+  lang: "fr"
+variables:
+  - { name: domain, required: true }
+
+dorks:
+  - id: well_known_norms
+    title: "Fichiers normatifs"
+    description: "robots.txt / sitemap.xml / security.txt"
+    query: 'site:{domain} (robots.txt OR sitemap.xml OR security.txt)'
+    tags: ["surface","norms"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: open_indexes_backup
+    title: "Répertoires listés (backup/archives)"
+    description: "Indexations publiques non authentifiées."
+    query: 'site:{domain} intitle:"index of" (backup|archives|export)'
+    tags: ["surface","misconfig"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: login_pages_generic
+    title: "Portails de connexion"
+    description: "Découverte de pages de login génériques."
+    query: 'site:{domain} (inurl:login|inurl:signin) -github.com -gitlab.com'
+    tags: ["surface","inventory"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: swagger_openapi
+    title: "Docs API publiques (Swagger/OpenAPI)"
+    description: "Découverte de specs d'API exposées."
+    query: 'site:{domain} (swagger.json OR swagger.yaml OR "OpenAPI" OR "Swagger UI")'
+    tags: ["surface","api","docs"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: status_pages
+    title: "Pages statut/monitoring"
+    description: "Statut public, incidents."
+    query: 'site:{domain} (status OR "état du service" OR incidents) -site:twitter.com -site:x.com'
+    tags: ["surface","ops"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: well_known_security
+    title: "Security.txt / vulnerability disclosure"
+    description: "Politique de divulgation."
+    query: 'site:{domain} ("security.txt" OR "vulnerability disclosure" OR "security policy")'
+    tags: ["surface","security"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: tech_fingerprints
+    title: "Empreintes techno publiques"
+    description: "Pistes frontend/CDN sans scan actif."
+    query: 'site:{domain} ("cdn" OR "webpack" OR "sentry" OR "newrelic" OR "datadog")'
+    tags: ["surface","tech-intel"]
+    outputs: ["url"]
+    risk: "low"

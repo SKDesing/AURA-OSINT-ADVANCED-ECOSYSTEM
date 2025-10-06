@@ -1,0 +1,64 @@
+pack: "FR Identity"
+version: "1.1"
+locale: "fr-FR"
+scope: "authorized-osint"
+defaults:
+  engine: "searxng"
+  max_results: 50
+  throttle_ms: 800
+  lang: "fr"
+variables:
+  - { name: full_name,    required: false }
+  - { name: first_name,   required: false }
+  - { name: last_name,    required: false }
+  - { name: username,     required: false }
+  - { name: city,         required: false }
+
+dorks:
+  - id: fr_fullname_pdf_public
+    title: "Docs PDF publics mentionnant {full_name}"
+    description: "Publications, rapports, notices — surface web."
+    query: 'filetype:pdf "{full_name}" -site:facebook.com -site:linkedin.com'
+    tags: ["identity","docs","fr"]
+    outputs: ["url","document"]
+    risk: "low"
+
+  - id: fr_fullname_city_profiles
+    title: "Profils/bios {full_name} avec ville {city}"
+    description: "Bios, À propos, CV publics avec contrainte de ville."
+    query: '"{full_name}" "{city}" (profil|cv|bio|"à propos") -site:facebook.com'
+    tags: ["identity","profiles","fr"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: username_dev_presence
+    title: "Présence dev pour {username}"
+    description: "Empreinte développeur (communautés publiques)."
+    query: '"{username}" (site:github.com OR site:gitlab.com OR site:stackoverflow.com)'
+    tags: ["identity","dev"]
+    outputs: ["url","profile"]
+    risk: "low"
+
+  - id: fullname_conf_slides
+    title: "Slides/conférences {full_name}"
+    description: "Talks, meetups, supports partagés."
+    query: '("{full_name}" (conférence OR meetup OR talk)) (filetype:ppt OR filetype:pdf)'
+    tags: ["identity","events"]
+    outputs: ["url","document"]
+    risk: "low"
+
+  - id: fullname_media_mentions
+    title: "Mentions presse/médias {full_name}"
+    description: "Repérage de mentions non sociales."
+    query: '"{full_name}" (interview OR "a déclaré" OR "a annoncé") -site:twitter.com -site:x.com'
+    tags: ["identity","media"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: fullname_academic_refs
+    title: "Références académiques {full_name}"
+    description: "Dépôts universitaires et publications."
+    query: '"{full_name}" (memoire OR thèse OR publication) (filetype:pdf OR filetype:docx)'
+    tags: ["identity","academia","fr"]
+    outputs: ["url","document"]
+    risk: "low"

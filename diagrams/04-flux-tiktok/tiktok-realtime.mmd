@@ -1,0 +1,33 @@
+%% TikTok Live Real-time Data Flow
+sequenceDiagram
+    autonumber
+    participant TT as 🎵 TikTok Live
+    participant ST as 👻 Stealth Logger
+    participant FI as 🏰 Fortress Ingestion
+    participant RQ as 📨 RabbitMQ
+    participant DB as 🗄️ Fortress DB
+    participant AN as 📊 Analytics
+
+    Note over TT,AN: Real-time TikTok Live Intelligence Pipeline
+
+    TT->>ST: WebSocket Connection [WS/443]
+    Note right of ST: Chromium DevTools Protocol<br/>Stealth Mode Active
+
+    ST->>ST: Extract Live Data<br/>• Chat Messages<br/>• Viewer Count<br/>• Gift Transactions
+    
+    ST->>FI: Raw Events [JSON]
+    Note right of FI: Batch Size: 1000<br/>Flush Interval: 5s
+
+    FI->>RQ: Publish to Queue [AMQP]
+    Note right of RQ: Topic: live.raw<br/>Durability: true
+
+    RQ->>FI: Consume Batch
+    FI->>FI: Data Enrichment<br/>• ML Sentiment<br/>• User Correlation<br/>• Risk Scoring
+
+    FI->>DB: Bulk Insert [TCP/5432]
+    Note right of DB: Tables:<br/>• fortress_live_streams<br/>• fortress_chat_messages<br/>• fortress_viewers
+
+    DB->>AN: Real-time Metrics
+    AN->>AN: Generate Dashboards<br/>• Live Viewer Count<br/>• Message Rate<br/>• Revenue Tracking
+
+    Note over TT,AN: Latency Target: <1s end-to-end<br/>Throughput: 1000 msg/s<br/>SLA: 99.9% uptime

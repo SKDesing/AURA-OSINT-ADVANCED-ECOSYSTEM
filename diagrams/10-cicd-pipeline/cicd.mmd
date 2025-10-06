@@ -1,0 +1,3 @@
+%% CI/CD Pipeline — v1.0 — 2025-01-15
+flowchart LR
+COMMIT[Commit/PR]-->LINT[Lint/Test]-->SAST[SAST/DAST]-->BUILD[Build images]-->IAC[Terraform plan/apply]-->DEPLOY[Deploy (canary)]-->VERIFY[Smoke/SLI checks]-->PROMOTE[Promote]-->ROLLBACK[Rollback path]

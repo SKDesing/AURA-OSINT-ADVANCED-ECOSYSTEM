@@ -1,0 +1,25 @@
+digraph routing {
+  rankdir=LR; fontname="Roboto";
+  node [shape=box, fontname="Roboto"];
+
+  subgraph cluster_dev { label="Dev"; color="#118AB2";
+    "dev-client" -> "dev-gw-api" [label="[HTTPS/443]"];
+    "dev-gw-api" -> "dev-osint" [label="REST /v1/osint/*"];
+    "dev-ingest" -> "dev-rabbitmq" [label="AMQP 5672"];
+    "dev-osint" -> "dev-postgres" [label="TCP 5432"];
+  }
+
+  subgraph cluster_stg { label="Staging"; color="#FFB703";
+    "stg-client" -> "stg-gw-api" [label="[HTTPS/443]"];
+    "stg-gw-api" -> "stg-osint" [label="REST /v1/osint/*"];
+    "stg-ingest" -> "stg-rabbitmq" [label="AMQP 5672"];
+    "stg-osint" -> "stg-postgres" [label="TCP 5432"];
+  }
+
+  subgraph cluster_prod { label="Prod"; color="#D7263D";
+    "prod-client" -> "prod-gw-api" [label="[HTTPS/443]"];
+    "prod-gw-api" -> "prod-osint" [label="REST /v1/osint/*"];
+    "prod-ingest" -> "prod-rabbitmq" [label="AMQP 5672"];
+    "prod-osint" -> "prod-postgres" [label="TCP 5432"];
+  }
+}

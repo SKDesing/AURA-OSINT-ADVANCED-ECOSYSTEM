@@ -1,0 +1,71 @@
+pack: "FR Company"
+version: "1.1"
+locale: "fr-FR"
+scope: "authorized-osint"
+defaults:
+  engine: "searxng"
+  max_results: 50
+  throttle_ms: 800
+  lang: "fr"
+variables:
+  - { name: company,  required: false }
+  - { name: domain,   required: true }
+  - { name: siren,    required: false }
+  - { name: siret,    required: false }
+
+dorks:
+  - id: company_policy_security_rgpd
+    title: "Politique sécurité/RGPD {company}"
+    description: "Pages de politique sécurité, confidentialité, RGPD."
+    query: 'site:{domain} ("politique de sécurité" OR "sécurité" OR "RGPD" OR "protection des données")'
+    tags: ["company","security","rgpd","fr"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: company_public_pdf
+    title: "Documents PDF publics {company}"
+    description: "Docs PDF officiels depuis le domaine."
+    query: 'site:{domain} filetype:pdf "{company}"'
+    tags: ["company","docs","fr"]
+    outputs: ["url","document"]
+    risk: "low"
+
+  - id: company_jobs_stack
+    title: "Offres d'emploi révélant la stack"
+    description: "Tech intel par annonces internes."
+    query: 'site:{domain} (offre|recrute|emploi) (kubernetes OR aws OR gcp OR azure OR terraform OR ansible)'
+    tags: ["company","tech-intel","jobs"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: company_press_newsroom
+    title: "Communiqués / newsroom"
+    description: "Salle de presse, communiqués."
+    query: 'site:{domain} (newsroom OR "salle de presse" OR "communiqué de presse")'
+    tags: ["company","media"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: company_legals
+    title: "Mentions légales / CGU / CGV"
+    description: "Conformité légale publique."
+    query: 'site:{domain} ("mentions légales" OR CGU OR CGV OR "conditions générales")'
+    tags: ["company","compliance","fr"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: company_siren_mentions
+    title: "Mentions SIREN/SIRET {siren}/{siret}"
+    description: "Empreinte registre hors domaine."
+    query: '"{siren}" OR "{siret}" -site:{domain}'
+    tags: ["company","registry","fr"]
+    outputs: ["url"]
+    risk: "low"
+
+  - id: company_docs_slide_decks
+    title: "Slides corporate {company}"
+    description: "Présentations publiques de l'entreprise."
+    query: '("{company}" site:{domain}) (filetype:ppt OR filetype:pptx OR filetype:pdf) (présentation OR conférence)'
+    tags: ["company","docs"]
+    outputs: ["url","document"]
+    risk: "low"

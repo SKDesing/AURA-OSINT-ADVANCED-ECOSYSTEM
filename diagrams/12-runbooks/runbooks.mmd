@@ -1,0 +1,8 @@
+%% Runbook Incident — v1.0 — 2025-01-15
+flowchart TB
+ALERT[Alert trigger]-->Triage{Sev ?}
+Triage--Sev1-->Page[Page on-call]-->Mitigate[Mitigation (feature flag/scale)]
+Triage--Sev2/3-->Investigate[Investigate logs/traces]
+Mitigate-->Fix[Hotfix/rollback]
+Investigate-->RCA[Root Cause Analysis]
+RCA-->Report[Postmortem 48h]

@@ -1,6 +1,8 @@
 # 🛡️ AURA - Advanced Universal Recognition & Analysis
 
 [![CI/CD](https://img.shields.io/github/actions/workflow/status/SKDesing/TikTok-Live-Analyser/chromium-enforcement.yml?branch=main&label=CI%2FCD&logo=github)](https://github.com/SKDesing/TikTok-Live-Analyser/actions)
+[![Security Audit](https://img.shields.io/github/actions/workflow/status/SKDesing/TikTok-Live-Analyser/security-audit.yml?branch=main&label=Security%20Audit&logo=shield)](https://github.com/SKDesing/TikTok-Live-Analyser/actions)
+[![Update Guardian](https://img.shields.io/badge/Update%20Guardian-Active%20%E2%9C%93-brightgreen?logo=dependabot)](./AURA-UPDATE-GUARDIAN.md)
 [![Security](https://img.shields.io/badge/Security-git--crypt%20%E2%9C%93-green?logo=lock)](./README-SECURITY.md)
 [![Chromium Only](https://img.shields.io/badge/Browser-Chromium%20Only%20%E2%9C%93-blue?logo=googlechrome)](./chromium-only-enforcer.js)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
@@ -328,6 +330,31 @@ git-crypt unlock aura-security.key
 | macOS | ✅ Full | Intel + Apple Silicon |
 
 </details>
+
+---
+
+## 🎨 Frontend Architecture Moderne
+
+### Stack Technique
+- **Framework**: Next.js 14 (App Router) + TypeScript
+- **UI**: Radix UI + Tailwind CSS avec design tokens AURA
+- **State**: TanStack Query + Zustand
+- **API**: Client type-safe avec Zod validation
+- **i18n**: next-intl (FR/EN)
+
+### Composants Clés
+- **AppShell**: Navigation responsive avec sidebar
+- **Design System**: Composants accessibles (Button, Input, Toast)
+- **Dashboard**: Stats temps réel et actions rapides
+- **API Client**: Gestion d'erreurs et retry automatique
+
+### Fonctionnalités UX
+- Interface "Beginner-first" avec mode Pro
+- Progressive disclosure et guidance contextuelle
+- SSE pour updates temps réel
+- Accessibilité WCAG 2.2 AA
+
+📖 **Détails complets**: [FRONTEND-REFACTORING-PLAN.md](./FRONTEND-REFACTORING-PLAN.md) | [ARCHITECTURE-VISUELLE.md](./ARCHITECTURE-VISUELLE.md)
 
 ---
 
