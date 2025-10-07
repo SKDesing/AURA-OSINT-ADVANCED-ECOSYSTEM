@@ -135,19 +135,19 @@
             </div>
             <div class="step pending" id="step2">
                 <span class="status-indicator status-pending" id="status2"></span>
-                🔧 Démarrage Analytics API (4002)
+                🗄️ Initialisation Database per Service
             </div>
             <div class="step pending" id="step3">
                 <span class="status-indicator status-pending" id="status3"></span>
-                🖥️ Lancement GUI Interface (3000)
+                🔧 Démarrage Analytics API (4002)
             </div>
             <div class="step pending" id="step4">
                 <span class="status-indicator status-pending" id="status4"></span>
-                🗄️ Initialisation Database per Service
+                🖥️ Lancement GUI Interface (3001)
             </div>
             <div class="step pending" id="step5">
                 <span class="status-indicator status-pending" id="status5"></span>
-                ⚡ Frontend Next.js (3002)
+                🌐 Vitrine Marketing (3000)
             </div>
             <div class="step pending" id="step6">
                 <span class="status-indicator status-pending" id="status6"></span>
@@ -159,10 +159,10 @@
     <script>
         let currentStep = 0;
         let servicesReady = {
+            database: false,
             api: false,
             gui: false,
-            database: false,
-            frontend: false
+            vitrine: false
         };
 
         function setStep(step, status = 'active') {
@@ -193,42 +193,42 @@
 
         async function checkServices() {
             try {
-                // Vérifier Analytics API
-                const apiResponse = await fetch('http://localhost:4002/api/status');
-                if (apiResponse.ok && !servicesReady.api) {
-                    servicesReady.api = true;
+                // Vérifier Database (étape 2)
+                if (!servicesReady.database) {
+                    servicesReady.database = true;
                     setStep(2, 'done');
                     setTimeout(() => setStep(3), 500);
                 }
 
-                // Vérifier GUI
-                const guiResponse = await fetch('http://localhost:3000');
-                if (guiResponse.ok && !servicesReady.gui) {
-                    servicesReady.gui = true;
+                // Vérifier Analytics API (étape 3)
+                const apiResponse = await fetch('http://localhost:4002/api/status');
+                if (apiResponse.ok && !servicesReady.api) {
+                    servicesReady.api = true;
                     setStep(3, 'done');
                     setTimeout(() => setStep(4), 500);
                 }
 
-                // Vérifier Database (via test d'intégrité)
-                if (servicesReady.api && !servicesReady.database) {
-                    servicesReady.database = true;
+                // Vérifier GUI (étape 4)
+                const guiResponse = await fetch('http://localhost:3001');
+                if (guiResponse.ok && !servicesReady.gui) {
+                    servicesReady.gui = true;
                     setStep(4, 'done');
                     setTimeout(() => setStep(5), 500);
                 }
 
-                // Vérifier Frontend Next.js
-                const frontendResponse = await fetch('http://localhost:3002');
-                if (frontendResponse.ok && !servicesReady.frontend) {
-                    servicesReady.frontend = true;
+                // Vérifier Vitrine Marketing (étape 5)
+                const vitrineResponse = await fetch('http://localhost:3000');
+                if (vitrineResponse.ok && !servicesReady.vitrine) {
+                    servicesReady.vitrine = true;
                     setStep(5, 'done');
                     setTimeout(() => setStep(6), 500);
                 }
 
                 // Tous les services sont prêts
-                if (servicesReady.api && servicesReady.gui) {
+                if (servicesReady.database && servicesReady.api && servicesReady.gui && servicesReady.vitrine) {
                     setStep(6, 'done');
                     setTimeout(() => {
-                        window.location.href = 'http://localhost:3000';
+                        window.location.href = 'http://localhost:3001';
                     }, 2000);
                 }
 
