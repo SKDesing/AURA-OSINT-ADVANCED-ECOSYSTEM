@@ -19,8 +19,31 @@ class StartupOrchestrator {
         ];
     }
 
+    async cleanupPorts() {
+        console.log('🧹 Nettoyage des ports...');
+        const { exec } = require('child_process');
+        
+        const ports = [3000, 4001, 4002];
+        for (const port of ports) {
+            try {
+                await new Promise((resolve) => {
+                    exec(`lsof -ti:${port} | xargs kill -9 2>/dev/null || true`, () => resolve());
+                });
+            } catch (error) {
+                // Port déjà libre
+            }
+        }
+        
+        // Attendre que les ports se libèrent
+        await new Promise(r => setTimeout(r, 2000));
+        console.log('✅ Ports nettoyés');
+    }
+
     async start() {
         console.log('🚀 AURA Startup Orchestrator - Workflow Optimal');
+        
+        // 0. NETTOYAGE DES PORTS
+        await this.cleanupPorts();
         
         // 1. LANCEMENT IMMÉDIAT DE CHROMIUM
         this.launchChromiumWithWizard();
