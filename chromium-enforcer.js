@@ -28,16 +28,12 @@ class ChromiumEnforcer {
     static launchWithStartup() {
         try {
             const chromiumPath = this.getChromiumPath();
-            const startupFile = path.join(__dirname, 'startup-wizard.html');
-            
-            if (!fs.existsSync(startupFile)) {
-                throw new Error(`❌ Fichier startup-wizard.html introuvable: ${startupFile}`);
-            }
+            const wizardUrl = 'http://localhost:3001/install';
             
             console.log('🚀 Lancement Chromium avec wizard d\'installation...');
-            console.log(`📁 Fichier: ${startupFile}`);
+            console.log(`🌐 URL: ${wizardUrl}`);
             
-            const command = `"${chromiumPath}" "${startupFile}" --new-window --disable-web-security --disable-features=VizDisplayCompositor --no-sandbox`;
+            const command = `"${chromiumPath}" "${wizardUrl}" --app="${wizardUrl}" --start-maximized --disable-web-security --no-sandbox --disable-features=VizDisplayCompositor`;
             
             exec(command, (error, stdout, stderr) => {
                 if (error) {
