@@ -7,6 +7,8 @@ import { OSINTWorkflow } from './components/features/OSINTWorkflow';
 import InvestigationTimeline from './components/forensic/InvestigationTimeline';
 import AnalyticsDashboard from './components/analytics/AnalyticsDashboard';
 import SystemHealth from './components/system/SystemHealth';
+import InteractiveDemo from './components/demo/InteractiveDemo';
+import APIDocumentation from './components/docs/APIDocumentation';
 import './styles/App.css';
 
 const mockItems = [
@@ -49,7 +51,11 @@ function App() {
             <InvestigationTimeline />
             <AnalyticsDashboard />
           </div>
-          <div className="max-w-4xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8">
+            <InteractiveDemo />
+            <APIDocumentation />
+          </div>
+          <div className="max-w-4xl mx-auto mt-8">
             <SystemHealth />
           </div>
         </div>
