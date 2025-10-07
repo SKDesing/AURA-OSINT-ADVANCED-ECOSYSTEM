@@ -72,6 +72,10 @@ class AuraGUILauncher {
         // API Chromium Control (nouvelle architecture)
         const chromiumControlAPI = require('./api/chromium-control-api');
         this.app.use('/api/chromium', chromiumControlAPI);
+        
+        // API Forensique (Axe C)
+        const forensicAPI = require('./api/forensic-api');
+        this.app.use('/api/forensic', forensicAPI);
 
         // API Chromium compliance (legacy)
         this.app.get('/api/chromium/scan', async (req, res) => {
