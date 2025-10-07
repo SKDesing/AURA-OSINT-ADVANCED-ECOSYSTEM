@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA TikTok Intelligence - Démarrage</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1a1a1a; color: white; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .logo { font-size: 2.5em; margin-bottom: 20px; color: #ff0050; }
+        .status { background: #2a2a2a; padding: 20px; border-radius: 10px; margin: 20px 0; }
+        .success { color: #00ff88; }
+        .error { color: #ff4444; }
+        .loading { color: #ffaa00; }
+        button { background: #ff0050; color: white; border: none; padding: 15px 30px; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 10px; }
+        button:hover { background: #cc0040; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🛡️ AURA TikTok Intelligence</div>
+        <h2>Moteur d'Intelligence OSINT</h2>
+        
+        <div class="status">
+            <h3>État du Système</h3>
+            <div id="status-content">
+                <p class="loading">⚙️ Initialisation en cours...</p>
+            </div>
+        </div>
+
+        <div class="status">
+            <h3>Actions Rapides</h3>
+            <button onclick="window.location.href='http://localhost:3000'">🎯 Dashboard Principal</button>
+            <button onclick="window.location.href='http://localhost:4001'">📊 Analytics</button>
+            <button onclick="checkHealth()">🔍 Vérifier Santé</button>
+        </div>
+    </div>
+
+    <script>
+        async function checkHealth() {
+            const statusDiv = document.getElementById('status-content');
+            statusDiv.innerHTML = '<p class="loading">🔄 Vérification...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:4000/health');
+                const data = await response.json();
+                statusDiv.innerHTML = `<p class="success">✅ Système opérationnel</p>`;
+            } catch (error) {
+                statusDiv.innerHTML = `<p class="error">❌ Services en démarrage...</p>`;
+            }
+        }
+
+        setInterval(checkHealth, 3000);
+        checkHealth();
+    </script>
+</body>
+</html>

@@ -45,43 +45,65 @@ class StartupOrchestrator {
         // 0. NETTOYAGE DES PORTS
         await this.cleanupPorts();
         
-        // 1. LANCEMENT IMMÉDIAT DE CHROMIUM
-        this.launchChromiumWithWizard();
+        // 1. DÉMARRAGE SERVICES BACKEND D'ABORD
+        this.startBackendServices();
         
-        // 2. DÉMARRAGE SERVICES BACKEND EN ARRIÈRE-PLAN
-        setTimeout(() => this.startBackendServices(), 1000);
+        // 2. ATTENDRE QUE GUI SOIT PRÊT PUIS LANCER CHROMIUM
+        setTimeout(async () => {
+            const guiReady = await this.waitForService(3000, '/api/status', 10000);
+            if (guiReady) {
+                this.launchChromiumWithUrl('http://localhost:3000');
+            }
+        }, 3000);
         
         console.log('✅ Workflow optimal démarré');
-        console.log('🌐 Chromium ouvert sur page d\'installation');
-        console.log('⚙️ Services backend démarrent en arrière-plan...');
+        console.log('⚙️ Services backend démarrent...');
+        console.log('🌐 Chromium s\'ouvrira sur http://localhost:3000');
     }
 
-    launchChromiumWithWizard() {
-        const ChromiumEnforcer = require('./chromium-enforcer');
+    launchChromiumWithUrl(url) {
         const os = require('os');
         
-        try {
-            const chromiumPath = ChromiumEnforcer.getChromiumPath();
-            
-            if (!fs.existsSync(this.startupFile)) {
-                console.error('❌ startup-wizard.html introuvable');
-                return false;
+        // Chemins Chrome/Chromium possibles
+        const chromePaths = [
+            '/usr/bin/google-chrome',
+            '/usr/bin/google-chrome-stable', 
+            '/usr/bin/chromium-browser',
+            '/usr/bin/chromium',
+            '/snap/bin/chromium'
+        ];
+        
+        let chromiumPath = null;
+        for (const testPath of chromePaths) {
+            if (fs.existsSync(testPath)) {
+                chromiumPath = testPath;
+                break;
             }
-            
+        }
+        
+        if (!chromiumPath) {
+            console.error('❌ Chrome/Chromium non trouvé!');
+            console.log(`📝 Ouvrez manuellement: ${url}`);
+            return false;
+        }
+        
+        try {
             // Créer un profil utilisateur dédié pour AURA
             const userDataDir = path.join(os.homedir(), '.config', 'aura-chromium');
             if (!fs.existsSync(userDataDir)) {
                 fs.mkdirSync(userDataDir, { recursive: true });
             }
             
-            console.log('🌐 Lancement Chromium avec wizard...');
-            const command = `"${chromiumPath}" "${this.startupFile}" --new-window --user-data-dir="${userDataDir}" --disable-web-security --no-sandbox --disable-features=VizDisplayCompositor`;
+            console.log(`🌐 Lancement Chrome sur ${url}...`);
+            console.log(`✅ Chrome trouvé: ${chromiumPath}`);
+            
+            const command = `"${chromiumPath}" "${url}" --new-window --user-data-dir="${userDataDir}" --disable-web-security --no-sandbox`;
             
             const chromiumProcess = exec(command, (error) => {
                 if (error) {
-                    console.error('❌ Erreur Chromium:', error.message);
+                    console.error('❌ Erreur Chrome:', error.message);
                 } else {
-                    console.log('✅ Chromium lancé avec succès');
+                    console.log('✅ Chrome lancé avec succès!');
                 }
             });
             
@@ -90,8 +112,8 @@ class StartupOrchestrator {
             
             return true;
         } catch (error) {
-            console.error('❌ Échec lancement Chromium:', error.message);
-            console.log('📝 Continuez manuellement sur http://localhost:3000');
+            console.error('❌ Échec lancement Chrome:', error.message);
+            console.log(`📝 Accédez manuellement à ${url}`);
             return false;
         }
     }
@@ -120,28 +142,25 @@ class StartupOrchestrator {
     async startBackendServices() {
         console.log('⚙️ Démarrage services backend...');
         
-        // 1. Analytics API (port 4002) - Service critique
+        // 1. Analytics API (port 4002)
         this.startService('analytics', ['node', 'backend/api/analytics-api.js']);
-        const analyticsReady = await this.waitForService(4002, '/api/analytics/dashboard');
         
-        if (analyticsReady) {
-            console.log('🎯 Analytics API prêt, démarrage GUI...');
-            // 2. GUI Launcher (port 3000) - Interface utilisateur
-            this.startService('gui', ['node', 'scripts/setup/gui-launcher.js']);
-            
-            const guiReady = await this.waitForService(3000, '/api/status');
-            
-            if (guiReady) {
-                console.log('🖥️ GUI prêt, démarrage orchestrateur...');
-                // 3. Service Orchestrator (port 4001) - Services additionnels
-                this.startService('orchestrator', ['node', 'service-orchestrator.js']);
-            } else {
-                console.error('❌ GUI non disponible, continuez manuellement');
-            }
-        } else {
-            console.error('❌ Analytics API critique non disponible');
-            console.log('🔧 Vérifiez les logs et redémarrez manuellement');
-        }
+        // 2. GUI Launcher (port 3000) - PRIORITAIRE
+        this.startService('gui', ['node', 'scripts/setup/gui-launcher.js']);
+        
+        // 3. Service Orchestrator (port 4001)
+        setTimeout(() => {
+            this.startService('orchestrator', ['node', 'service-orchestrator.js']);
+        }, 4000);
+        
+        console.log('✅ Tous les services démarrés');
+        console.log('🔗 URLs d\'accès:');
+        console.log('   🌐 Dashboard: http://localhost:3000');
+        console.log('   📊 Analytics: http://localhost:4002/api/analytics/dashboard');
+        console.log('   ⚙️ Orchestrator: http://localhost:4001/api/status');
+        
+        // Maintenir le processus en vie
+        process.stdin.resume();
     }
 
     startService(name, command) {

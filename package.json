@@ -1,14 +1,14 @@
 {
-  "name": "aura-database-maestro",
+  "name": "@aura/tiktok-intelligence",
   "version": "2.0.0",
-  "description": "AURA Database Maestro - Moteur d'intelligence forensique cross-plateforme world-class",
-  "main": "scripts/setup/aura-master-launcher.js",
+  "description": "AURA TikTok Intelligence Engine - Professional OSINT Platform for TikTok Live Analysis",
+  "main": "engines/tiktok/TikTokEngine.js",
   "scripts": {
-    "start": "node scripts/setup/aura-master-launcher.js",
+    "start": "node scripts/setup/startup-orchestrator.js",
     "test": "node tests/unit/aura-test-suite.js",
     "benchmark": "node tests/performance/benchmark-suite.js",
     "audit-ports": "node backend/config/port-audit.js",
-    "orchestrator": "node scripts/setup/service-orchestrator.js",
+    "analytics": "node backend/api/analytics-api.js",
     "dev": "nodemon analytics-api.js",
     "build": "echo 'Building AURA Maestro...' && npm test",
     "deploy": "npm run build && echo 'Ready for production deployment'",
@@ -19,16 +19,16 @@
     "install-chromium": "./scripts/setup/install-chromium.sh",
     "validate-setup": "npm run test-migration && npm run benchmark",
     "full-setup": "npm run migrate-chromium && npm run install-chromium && npm run validate-setup",
-    "quick-start": "node scripts/setup/quick-start.js",
+
     "gui": "node scripts/setup/startup-orchestrator.js",
-    "scan-browser-calls": "node scripts/setup/chromium-only-enforcer.js scan",
-    "fix-browser-calls": "node scripts/setup/chromium-only-enforcer.js fix",
-    "enforce-chromium": "node scripts/setup/chromium-only-enforcer.js scan && echo 'Scan terminé - Voir résultats ci-dessus'",
+
+
     "prepare": "husky install",
     "compliance-check": "node scripts/setup/chromium-only-enforcer.js scan",
     "backup": "node backups/backup-scheduler.js",
     "monitor": "node monitoring/system-monitor.js",
     "test:monitor": "node tests/unit/test-system-monitor.js",
+    "test:engine-base": "node tests/unit/test-engine-base.js",
     "security-setup": "./security-setup.sh",
     "security-status": "node backend/services/security-manager.js status",
     "security-report": "node backend/services/security-manager.js report",
@@ -43,7 +43,10 @@
     "prod:deploy": "npm run prod:build && npm run prod:up",
     "monitoring:up": "docker-compose -f monitoring/docker-compose.monitoring.yml up -d",
     "monitoring:down": "docker-compose -f monitoring/docker-compose.monitoring.yml down",
-    "architecture:validate": "node scripts/architecture-validator.js"
+    "architecture:validate": "node scripts/architecture-validator.js",
+    "tiktok:start": "node engines/tiktok/TikTokEngine.js",
+    "platform:status": "node -e \"console.log(require('./EXPANSION-ROADMAP.md'))\"",
+    "roadmap": "cat EXPANSION-ROADMAP.md"
   },
   "dependencies": {
     "axios": "^1.12.2",

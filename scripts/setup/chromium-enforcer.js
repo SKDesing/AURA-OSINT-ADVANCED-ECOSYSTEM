@@ -5,6 +5,7 @@ const path = require('path');
 class ChromiumEnforcer {
     static getChromiumPath() {
         const paths = [
+            path.join(__dirname, '../../chrome/chrome'), // AURA Chromium local
             '/usr/bin/chromium-browser',
             '/usr/bin/chromium',
             '/snap/bin/chromium',
@@ -28,7 +29,7 @@ class ChromiumEnforcer {
     static launchWithStartup() {
         try {
             const chromiumPath = this.getChromiumPath();
-            const wizardUrl = 'http://localhost:3001/install';
+            const wizardUrl = 'http://localhost:3000/install';
             
             console.log('🚀 Lancement Chromium avec wizard d\'installation...');
             console.log(`🌐 URL: ${wizardUrl}`);
