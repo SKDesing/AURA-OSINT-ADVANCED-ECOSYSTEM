@@ -1,14 +1,14 @@
 import React from 'react';
-import { HeroSearch } from './components/hero/HeroSearch';
-import { MegaMenu } from './components/navigation/MegaMenu';
-import { CardMasonry } from './components/cards/CardMasonry';
-import { ForensicDemo } from './components/forensic/ForensicDemo';
-import { OSINTWorkflow } from './components/features/OSINTWorkflow';
-import InvestigationTimeline from './components/forensic/InvestigationTimeline';
-import AnalyticsDashboard from './components/analytics/AnalyticsDashboard';
-import SystemHealth from './components/system/SystemHealth';
-import InteractiveDemo from './components/demo/InteractiveDemo';
-import APIDocumentation from './components/docs/APIDocumentation';
+import { HeroSearch } from './components/hero/HeroSearch.tsx';
+import { MegaMenu } from './components/navigation/MegaMenu.tsx';
+import { CardMasonry } from './components/cards/CardMasonry.tsx';
+import { ForensicDemo } from './components/forensic/ForensicDemo.tsx';
+import { OSINTWorkflow } from './components/features/OSINTWorkflow.tsx';
+import InvestigationTimeline from './components/forensic/InvestigationTimeline.tsx';
+import AnalyticsDashboard from './components/analytics/AnalyticsDashboard.tsx';
+import SystemHealth from './components/system/SystemHealth.tsx';
+import InteractiveDemo from './components/demo/InteractiveDemo.tsx';
+import APIDocumentation from './components/docs/APIDocumentation.tsx';
 import './styles/App.css';
 
 const mockItems = [
