@@ -307,14 +307,7 @@ class AuraGUILauncher {
         console.log('   - /api/forensic/* (Gestion profils)');
         console.log('   - /api/security/* (Sécurité & compliance)');
         
-        // LANCER CHROMIUM IMMÉDIATEMENT avec wizard
-        try {
-            const ChromiumEnforcer = require('./chromium-enforcer');
-            ChromiumEnforcer.enforceChromiumOnly();
-            ChromiumEnforcer.launchWithStartup();
-        } catch (error) {
-            console.log('⚠️ Chromium non disponible, continuez manuellement sur http://localhost:3000');
-        }
+        // Chromium géré par master launcher - pas de lancement ici
         
         this.app.listen(this.port, () => {
             console.log(`✅ AURA GUI prête sur http://localhost:${this.port}`);
