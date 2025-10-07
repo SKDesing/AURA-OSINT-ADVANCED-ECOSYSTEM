@@ -189,6 +189,17 @@ class AuraGUILauncher {
                 ]
             });
         });
+
+        // API Demo Interactive
+        this.app.post('/api/demo/run', (req, res) => {
+            const { step } = req.body;
+            const demoResults = {
+                1: { status: 'success', message: '3 profils trouvés', data: { platforms: ['TikTok', 'Instagram', 'Twitter'] } },
+                2: { status: 'success', message: 'Corrélation 94.7%', data: { score: 0.947, confidence: 'high' } },
+                3: { status: 'success', message: 'Rapport généré', data: { reportId: `RPT-${Date.now()}`, hash: `sha256:${Math.random().toString(36)}` } }
+            };
+            res.json(demoResults[step] || { status: 'error', message: 'Étape inconnue' });
+        });
         
         // API Security management
         this.app.get('/api/security/status', async (req, res) => {
@@ -292,6 +303,7 @@ class AuraGUILauncher {
         console.log('   - /api/system/health (Santé système)');
         console.log('   - /api/investigation/timeline (Timeline enquêtes)');
         console.log('   - /api/reports/export (Export forensique)');
+        console.log('   - /api/demo/run (Démo interactive)');
         console.log('   - /api/forensic/* (Gestion profils)');
         console.log('   - /api/security/* (Sécurité & compliance)');
         
