@@ -1,0 +1,32 @@
+[
+  {
+    "timestamp": "2025-10-07T19:09:46.014Z",
+    "alerts": [
+      {
+        "type": "SERVICE_DOWN",
+        "services": [
+          "database",
+          "api",
+          "gui"
+        ],
+        "severity": "CRITICAL"
+      }
+    ],
+    "severity": "CRITICAL"
+  },
+  {
+    "timestamp": "2025-10-07T19:09:46.035Z",
+    "alerts": [
+      {
+        "type": "SERVICE_DOWN",
+        "services": [
+          "database",
+          "api",
+          "gui"
+        ],
+        "severity": "CRITICAL"
+      }
+    ],
+    "severity": "CRITICAL"
+  }
+]

@@ -2,7 +2,7 @@
   "name": "aura-database-maestro",
   "version": "2.0.0",
   "description": "AURA Database Maestro - Moteur d'intelligence forensique cross-plateforme world-class",
-  "main": "backend/services/correlation-engine-complete.js",
+  "main": "scripts/setup/aura-master-launcher.js",
   "scripts": {
     "start": "node scripts/setup/aura-master-launcher.js",
     "test": "node tests/unit/aura-test-suite.js",
@@ -12,7 +12,7 @@
     "dev": "nodemon analytics-api.js",
     "build": "echo 'Building AURA Maestro...' && npm test",
     "deploy": "npm run build && echo 'Ready for production deployment'",
-    "health": "curl -s http://localhost:4002/api/analytics/dashboard | jq .",
+    "health": "node monitoring/health-checks.js",
     "install-deps": "npm install && echo 'Dependencies installed for world-class performance'",
     "migrate-chromium": "node scripts/setup/migrate-to-chromium.js",
     "test-migration": "node tests/unit/test-chromium-migration.js",
@@ -26,6 +26,9 @@
     "enforce-chromium": "node scripts/setup/chromium-only-enforcer.js scan && echo 'Scan terminé - Voir résultats ci-dessus'",
     "prepare": "husky install",
     "compliance-check": "node scripts/setup/chromium-only-enforcer.js scan",
+    "backup": "node backups/backup-scheduler.js",
+    "monitor": "node monitoring/system-monitor.js",
+    "test:monitor": "node tests/unit/test-system-monitor.js",
     "security-setup": "./security-setup.sh",
     "security-status": "node backend/services/security-manager.js status",
     "security-report": "node backend/services/security-manager.js report",
@@ -37,9 +40,13 @@
     "prod:up": "docker-compose -f docker-compose.prod.yml up -d",
     "prod:down": "docker-compose -f docker-compose.prod.yml down",
     "prod:logs": "docker-compose -f docker-compose.prod.yml logs -f",
-    "prod:deploy": "npm run prod:build && npm run prod:up"
+    "prod:deploy": "npm run prod:build && npm run prod:up",
+    "monitoring:up": "docker-compose -f monitoring/docker-compose.monitoring.yml up -d",
+    "monitoring:down": "docker-compose -f monitoring/docker-compose.monitoring.yml down",
+    "architecture:validate": "node scripts/architecture-validator.js"
   },
   "dependencies": {
+    "axios": "^1.12.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
