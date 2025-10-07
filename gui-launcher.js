@@ -184,12 +184,17 @@ class AuraGUILauncher {
     }
 
     start() {
+        console.log('🖥️  AURA GUI en cours de démarrage...');
+        
+        // LANCER CHROMIUM IMMÉDIATEMENT avec wizard
+        const ChromiumEnforcer = require('./chromium-enforcer');
+        ChromiumEnforcer.enforceChromiumOnly();
+        ChromiumEnforcer.launchWithStartup();
+        
         this.app.listen(this.port, () => {
-            console.log(`🖥️  AURA GUI démarrée sur http://localhost:${this.port}`);
+            console.log(`✅ AURA GUI prête sur http://localhost:${this.port}`);
             console.log('🎯 Interface Zéro CLI disponible');
-            
-            // Ouvrir automatiquement le navigateur
-            this.openBrowser();
+            console.log('🌐 Chromium ouvert avec wizard d\'installation');
         });
     }
 
@@ -215,15 +220,9 @@ class AuraGUILauncher {
     }
 
     openBrowser() {
-        const url = `http://localhost:${this.port}`;
-        
-        try {
-            const { ChromiumLauncher } = require('./chromium-only-enforcer');
-            ChromiumLauncher.launch(url);
-            console.log('🌐 Chromium ouvert automatiquement');
-        } catch (error) {
-            console.log('⚠️  Chromium non disponible, ouvrez manuellement:', url);
-        }
+        // Cette méthode est maintenant gérée par ChromiumEnforcer
+        // Chromium est lancé AVANT le démarrage du serveur
+        console.log('🌐 Chromium déjà lancé avec wizard d\'installation');
     }
 }
 
