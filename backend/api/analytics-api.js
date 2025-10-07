@@ -1,7 +1,7 @@
 // AURA Analytics API - API pour requêtes analytiques cross-plateforme
 const express = require('express');
 const CorrelationEngine = require('./correlation-engine');
-const { config } = require('./config');
+const config = require('./config');
 
 const app = express();
 

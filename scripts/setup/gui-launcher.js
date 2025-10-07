@@ -9,7 +9,7 @@ const fs = require('fs');
 class AuraGUILauncher {
     constructor() {
         this.app = express();
-        this.port = 3001;
+        this.port = 3000;
         this.services = new Map();
         this.setupMiddleware();
         this.setupRoutes();
@@ -29,7 +29,7 @@ class AuraGUILauncher {
 
         // Route wizard
         this.app.get('/install', (req, res) => {
-            res.sendFile(path.join(__dirname, 'frontend', 'pages', 'startup-wizard.html'));
+            res.sendFile(path.join(__dirname, 'startup-wizard.html'));
         });
 
         // Route admin dashboard
@@ -103,9 +103,8 @@ class AuraGUILauncher {
         });
 
         // Admin Dashboard API
-        const AdminDashboard = require('./backend/api/admin-dashboard');
-        const adminDashboard = new AdminDashboard();
-        this.app.use('/admin', adminDashboard.app);
+        const adminDashboard = require('../../backend/api/admin-dashboard');
+        this.app.use('/admin', adminDashboard);
 
         // API System Health
         this.app.get('/api/system/health', (req, res) => {
