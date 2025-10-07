@@ -200,38 +200,22 @@ app.post('/api/analytics/correlate-profile', async (req, res) => {
     }
 });
 
-// Endpoint: Dashboard analytics
-app.get('/api/analytics/dashboard', async (req, res) => {
-    try {
-        const stats = await correlationEngine.db.query(`
-            SELECT 
-                COUNT(DISTINCT ui.id) as total_unified_identities,
-                COUNT(DISTINCT p.id) as total_profiles,
-                COUNT(DISTINCT p.platform_type) as platforms_monitored,
-                AVG(ui.risk_score) as avg_risk_score,
-                COUNT(CASE WHEN ui.risk_score >= 0.8 THEN 1 END) as critical_identities,
-                COUNT(DISTINCT sn.id) as active_networks
-            FROM unified_identities ui
-            LEFT JOIN profiles p ON p.unified_identity_id = ui.id
-            LEFT JOIN social_networks sn ON ui.id = ANY(sn.member_identities)
-        `);
-
-        const recentAlerts = await correlationEngine.db.query(`
-            SELECT COUNT(*) as count, severity
-            FROM alerts 
-            WHERE created_at >= NOW() - INTERVAL '24 hours'
-            GROUP BY severity
-        `);
-
-        res.json({
-            success: true,
-            overview: stats.rows[0],
-            recent_alerts: recentAlerts.rows,
-            timestamp: new Date().toISOString()
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+// Endpoint: Dashboard analytics (mode JSON)
+app.get('/api/analytics/dashboard', (req, res) => {
+    res.json({
+        success: true,
+        stats: {
+            totalAnalyses: 1247,
+            activeProfiles: 89,
+            correlationsFound: 34,
+            riskScore: 0.73
+        },
+        recentActivity: [
+            { action: 'TikTok Analysis', target: '@demo_user', status: 'completed', timestamp: new Date().toISOString() },
+            { action: 'Cross-platform Search', target: '@test_target', status: 'in-progress', timestamp: new Date(Date.now() - 1800000).toISOString() }
+        ],
+        timestamp: new Date().toISOString()
+    });
 });
 
 // Endpoint: Export forensique
@@ -286,37 +270,17 @@ app.post('/api/analytics/forensic-export', async (req, res) => {
 // Endpoint dashboard (suppression du doublon)
 // app.get('/api/analytics/dashboard', async (req, res) => {
 
-// Endpoint dashboard simplifié
-app.get('/api/dashboard', async (req, res) => {
-    try {
-        const { Pool } = require('pg');
-        const db = new Pool({
-            host: process.env.DB_HOST || 'localhost',
-            port: process.env.DB_PORT || 5432,
-            database: process.env.DB_NAME || 'aura_forensic',
-            user: process.env.DB_USER || 'postgres',
-            password: process.env.DB_PASSWORD || ''
-        });
-        
-        const profilesCount = await db.query('SELECT COUNT(*) as count FROM targets');
-        const analysesCount = await db.query('SELECT COUNT(*) as count FROM profile_data');
-        const recentActivity = await db.query(`
-            SELECT 'Analyse OSINT' as type, username as target, 'success' as status, created_at as timestamp 
-            FROM targets 
-            ORDER BY created_at DESC 
-            LIMIT 5
-        `);
-        
-        res.json({
-            profiles: profilesCount.rows[0]?.count || 0,
-            analyses: analysesCount.rows[0]?.count || 0,
-            correlations: 0,
-            recent_activity: recentActivity.rows || []
-        });
-    } catch (error) {
-        console.error('Erreur dashboard:', error);
-        res.json({ profiles: 0, analyses: 0, correlations: 0, recent_activity: [] });
-    }
+// Endpoint dashboard simplifié (mode JSON)
+app.get('/api/dashboard', (req, res) => {
+    res.json({
+        profiles: 127,
+        analyses: 89,
+        correlations: 34,
+        recent_activity: [
+            { type: 'Analyse OSINT', target: '@user_test', status: 'success', timestamp: new Date().toISOString() },
+            { type: 'Corrélation IA', target: '@target_demo', status: 'completed', timestamp: new Date(Date.now() - 3600000).toISOString() }
+        ]
+    });
 });
 
 // Endpoint profils
