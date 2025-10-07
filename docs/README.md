@@ -1,56 +1,52 @@
-# AURA - Audiovisual User-Generated content Recorder & Analyzer
+# 📚 Documentation AURA
 
-Outil d'enquête journalistique pour capturer et analyser les contenus haineux sur TikTok Live.
+## 📋 Organisation de la Documentation
 
-## Installation Rapide
+### 🏗️ Architecture
+- [**PROJECT-STRUCTURE.md**](./architecture/PROJECT-STRUCTURE.md) - Structure organisée du projet
+- [**README-FINAL.md**](./README-FINAL.md) - Documentation technique complète
+- [**CHANGELOG.md**](./CHANGELOG.md) - Historique des versions et modifications
 
-```bash
-# 1. Cloner et installer
-cd "TikTok Live Analyser"
+### 🚀 Installation & Configuration
+- [**GUI-ZERO-CLI-README.md**](./setup/GUI-ZERO-CLI-README.md) - Interface graphique zéro CLI
 
-# 2. Démarrer l'infrastructure
-docker-compose up -d
+### 🔄 Migration & Mise à Jour
+- [**MIGRATION-CHROMIUM-README.md**](./migration/MIGRATION-CHROMIUM-README.md) - Migration Brave → Chromium
 
-# 3. Initialiser la base de données
-docker exec -i aura_db psql -U aura_user -d aura_investigations < init-db.sql
+### 🌐 Browser & Navigation
+- [**README.md**](./browser/README.md) - Composants browser (profils, extensions)
 
-# 4. Installer le script de capture
-cd capture-script
-npm install
-npx playwright install chromium
+### 🎨 Frontend & Interface
+- [**frontend-react-README.md**](./frontend/frontend-react-README.md) - Application React
 
-# 5. Installer le backend
-cd ../backend
-npm install
-```
+### 🔍 OSINT & Intelligence
+- [**osint-tools-advanced-README.md**](./osint/osint-tools-advanced-README.md) - Suite d'outils OSINT
+- [**osint-packs-README.md**](./osint/osint-packs-README.md) - Packs de requêtes spécialisées
 
-## Utilisation
+### 📈 Marketing & Communication
+- [**email-templates.md**](../marketing/email-templates.md) - Templates email marketing
+- [**presentation-client.md**](../marketing/presentation-client.md) - Pitch deck client
+- [**video-script.md**](../marketing/video-script.md) - Script vidéo démo
+- [**showcase-landing-README.md**](../marketing/showcase-landing-README.md) - Site vitrine professionnel
 
-### 1. Démarrer une capture
-```bash
-cd capture-script
-node capture.js "https://www.tiktok.com/@username/live" "Enquête Haine Live"
-```
+### 📊 Guides & Rapports
+- [**guides/**](./guides/) - Guides d'utilisation détaillés
+- [**reports/**](./reports/) - Rapports générés et analyses
+- [**api/**](./api/) - Documentation API
 
-### 2. Accéder aux interfaces
-- Backend API: http://localhost:3000
-- MinIO Console: http://localhost:9001 (minioadmin/minioadmin)
-- PostgreSQL: localhost:5432
+## 🎯 Navigation Rapide
 
-### 3. Arrêter une capture
-Appuyez sur `Ctrl+C` dans le terminal du script de capture.
+| Besoin | Document |
+|--------|----------|
+| **Démarrer rapidement** | [GUI-ZERO-CLI-README.md](./setup/GUI-ZERO-CLI-README.md) |
+| **Comprendre l'architecture** | [README-FINAL.md](./README-FINAL.md) |
+| **Migrer vers Chromium** | [MIGRATION-CHROMIUM-README.md](./migration/MIGRATION-CHROMIUM-README.md) |
+| **Utiliser les outils OSINT** | [osint-tools-advanced-README.md](./osint/osint-tools-advanced-README.md) |
+| **Configurer le browser** | [README.md](./browser/README.md) |
+| **Développer le frontend** | [frontend-react-README.md](./frontend/frontend-react-README.md) |
 
-## Architecture
+## 📞 Support
 
-- **capture-script/**: Script Playwright pour capturer vidéo + commentaires
-- **backend/**: API Node.js + Socket.IO pour traitement temps réel
-- **PostgreSQL**: Stockage des métadonnées et commentaires
-- **MinIO**: Stockage des fichiers vidéo
-- **Redis**: Cache et file d'attente
-
-## Prochaines Étapes
-
-1. Développer le frontend React
-2. Intégrer l'IA de détection de haine
-3. Ajouter l'export de preuves
-4. Optimiser pour Wayland/Xorg
+- **Issues GitHub** : [TikTok-Live-Analyser/issues](https://github.com/SKDesing/TikTok-Live-Analyser/issues)
+- **Email** : contact@tiktokliveanalyser.com
+- **Documentation Wiki** : [GitHub Wiki](https://github.com/SKDesing/TikTok-Live-Analyser/wiki)
