@@ -4,7 +4,30 @@ const CorrelationEngine = require('./correlation-engine');
 const { config } = require('./config');
 
 const app = express();
+
+// CORS pour éviter les erreurs CSP
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+});
+
 app.use(express.json());
+
+// Endpoint status
+app.get('/api/status', (req, res) => {
+    res.json({
+        status: 'running',
+        service: 'AURA Analytics API',
+        version: '2.0.0',
+        timestamp: new Date().toISOString()
+    });
+});
 
 const correlationEngine = new CorrelationEngine({
     host: process.env.DB_HOST || 'localhost',
@@ -260,8 +283,11 @@ app.post('/api/analytics/forensic-export', async (req, res) => {
     }
 });
 
+// Endpoint dashboard (suppression du doublon)
+// app.get('/api/analytics/dashboard', async (req, res) => {
+
 // Endpoint dashboard simplifié
-app.get('/api/analytics/dashboard', async (req, res) => {
+app.get('/api/dashboard', async (req, res) => {
     try {
         const { Pool } = require('pg');
         const db = new Pool({
