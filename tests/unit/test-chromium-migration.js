@@ -47,7 +47,7 @@ async function testMigration() {
     console.log('\n🔍 Test du détecteur de chemin Chromium:');
     try {
         if (fs.existsSync('src/utils/getChromiumPath.js')) {
-            const ChromiumPathDetector = require('./src/utils/getChromiumPath.js');
+            const ChromiumPathDetector = require('../../src/utils/getChromiumPath.js');
             const chromiumPath = ChromiumPathDetector.detect();
             const profileDir = ChromiumPathDetector.getProfileDir();
             
@@ -64,7 +64,7 @@ async function testMigration() {
     console.log('\n🚀 Test du lanceur Chromium:');
     try {
         if (fs.existsSync('chromium-launcher.js')) {
-            const ChromiumLauncher = require('./chromium-launcher.js');
+            const ChromiumLauncher = require('../../chromium-launcher.js');
             const launcher = new ChromiumLauncher({ headless: true });
             console.log('   ✅ ChromiumLauncher instancié avec succès');
             

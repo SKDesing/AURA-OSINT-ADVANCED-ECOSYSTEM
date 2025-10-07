@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // AURA Benchmark Suite - Tests de performance et précision world-class
 
-const AdvancedCorrelationEngine = require('./correlation-engine-advanced');
+const AdvancedCorrelationEngine = require('../../backend/services/correlation-engine-advanced');
 const crypto = require('crypto');
 
 class AuraBenchmarkSuite {
