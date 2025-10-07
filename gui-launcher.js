@@ -69,7 +69,11 @@ class AuraGUILauncher {
             res.json(diagnostic);
         });
 
-        // API Chromium compliance
+        // API Chromium Control (nouvelle architecture)
+        const chromiumControlAPI = require('./api/chromium-control-api');
+        this.app.use('/api/chromium', chromiumControlAPI);
+
+        // API Chromium compliance (legacy)
         this.app.get('/api/chromium/scan', async (req, res) => {
             try {
                 const scanner = spawn('node', ['chromium-only-enforcer.js', '--scan-only']);
