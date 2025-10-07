@@ -140,7 +140,7 @@ npm run gui
 2. **Configuration sécurité**
    ```bash
    npm run security-setup    # git-crypt + GPG
-   npm run migrate-chromium  # Migration Brave → Chromium
+   npm run migrate-chromium  # Migration Chromium/Chrome → Chromium
    ```
 
 3. **Base de données**

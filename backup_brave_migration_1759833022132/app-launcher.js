@@ -28,11 +28,11 @@ class AppLauncher {
       process.exit(1);
     }
 
-    // Vérifier chromium Browser
+    // Vérifier Brave Browser
     if (fs.existsSync(config.browser.executablePath)) {
-      console.log('✅ chromium Browser trouvé');
+      console.log('✅ Brave Browser trouvé');
     } else {
-      console.log('⚠️  chromium Browser non trouvé, utilisation de Chrome par défaut');
+      console.log('⚠️  Brave Browser non trouvé, utilisation de Chrome par défaut');
     }
 
     // Vérifier les dossiers
@@ -120,17 +120,17 @@ class AppLauncher {
   }
 
   async openBrowser() {
-    console.log('🌐 Ouverture du navigateur chromium...');
+    console.log('🌐 Ouverture du navigateur Brave...');
     
     try {
-      const { getchromiumExecutablePath } = require('./src/utils/getchromiumPath');
+      const { getBraveExecutablePath } = require('./src/utils/getBravePath');
       const { spawn } = require('child_process');
       
-      const chromiumPath = getchromiumExecutablePath();
-      spawn(chromiumPath, ['http://localhost:3000'], { detached: true, stdio: 'ignore' });
-      console.log('✅ chromium Browser ouvert\n');
+      const bravePath = getBraveExecutablePath();
+      spawn(bravePath, ['http://localhost:3000'], { detached: true, stdio: 'ignore' });
+      console.log('✅ Brave Browser ouvert\n');
     } catch (error) {
-      console.log('⚠️  Erreur ouverture chromium, tentative navigateur par défaut...');
+      console.log('⚠️  Erreur ouverture Brave, tentative navigateur par défaut...');
       try {
         const { default: open } = await import('open');
         await open('http://localhost:3000');

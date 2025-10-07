@@ -1,27 +1,32 @@
-const { execSync } = require('child_process');
 const fs = require('fs');
+const path = require('path');
+const os = require('os');
 
-function getChromiumPath() {
-    const paths = [
-        '/usr/bin/chromium',
-        '/usr/bin/chromium-browser',
-        '/usr/bin/google-chrome',
-        '/usr/bin/google-chrome-stable',
-        '/snap/bin/chromium',
-        '/opt/google/chrome/chrome'
-    ];
-    
-    for (const path of paths) {
-        if (fs.existsSync(path)) {
-            return path;
+class ChromiumPathDetector {
+    static detect() {
+        const paths = [
+            '/usr/bin/chromium-browser',
+            '/usr/bin/chromium',
+            '/snap/bin/chromium',
+            '/usr/bin/google-chrome',
+            '/opt/google/chrome/chrome',
+            'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+            'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+        ];
+        
+        for (const chromiumPath of paths) {
+            if (fs.existsSync(chromiumPath)) {
+                return chromiumPath;
+            }
         }
+        
+        throw new Error('Chromium non trouvé');
     }
     
-    try {
-        return execSync('which chromium || which google-chrome', { encoding: 'utf8' }).trim();
-    } catch {
-        return '/usr/bin/chromium';
+    static getProfileDir() {
+        const homeDir = os.homedir();
+        return path.join(homeDir, '.config', 'aura-chromium');
     }
 }
 
-module.exports = getChromiumPath;
+module.exports = ChromiumPathDetector;

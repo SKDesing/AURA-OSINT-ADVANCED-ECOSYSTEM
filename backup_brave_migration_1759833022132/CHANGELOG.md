@@ -1,23 +1,3 @@
-
-## [Migration] - 2025-10-07
-### Changed
-- 🔄 Migration complète de Brave vers Chromium uniquement
-- ✅ Suppression de toutes les dépendances Brave
-- 🚀 Nouveau ChromiumLauncher pour une meilleure compatibilité
-- 📦 Détection automatique du chemin Chromium selon l'OS
-- 🛡️ Configuration sécurisée par défaut (headless, no-sandbox)
-
-### Removed
-- ❌ launch-brave.js
-- ❌ brave-portable-downloader.js
-- ❌ live-tracker/brave-launcher.js
-- ❌ src/utils/getBravePath.js
-
-### Added
-- ✅ src/utils/getChromiumPath.js
-- ✅ chromium-launcher.js
-- ✅ Support universel Chromium/Chrome
-
 # 📋 CHANGELOG - AURA Forensic System
 
 ## [2.1.0] - 2024-10-06 - OPTIMISATION MAJEURE

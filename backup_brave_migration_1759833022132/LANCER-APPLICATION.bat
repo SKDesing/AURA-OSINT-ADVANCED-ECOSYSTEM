@@ -36,10 +36,10 @@ cd ..
 echo [INFO] Initialisation des services (10 secondes)...
 timeout /t 10 /nobreak >nul
 
-:: Ouvrir chrome ou navigateur par defaut
+:: Ouvrir Brave ou navigateur par defaut
 echo [INFO] Ouverture de l'interface...
-if exist "chrome-portable\chrome.exe" (
-    start "" "chrome-portable\chrome.exe" --new-window "http://localhost:3000"
+if exist "brave-portable\brave.exe" (
+    start "" "brave-portable\brave.exe" --new-window "http://localhost:3000"
 ) else (
     start "" "http://localhost:3000"
 )
