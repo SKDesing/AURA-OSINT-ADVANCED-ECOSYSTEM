@@ -187,9 +187,13 @@ class AuraGUILauncher {
         console.log('🖥️  AURA GUI en cours de démarrage...');
         
         // LANCER CHROMIUM IMMÉDIATEMENT avec wizard
-        const ChromiumEnforcer = require('./chromium-enforcer');
-        ChromiumEnforcer.enforceChromiumOnly();
-        ChromiumEnforcer.launchWithStartup();
+        try {
+            const ChromiumEnforcer = require('./chromium-enforcer');
+            ChromiumEnforcer.enforceChromiumOnly();
+            ChromiumEnforcer.launchWithStartup();
+        } catch (error) {
+            console.log('⚠️ Chromium non disponible, continuez manuellement sur http://localhost:3000');
+        }
         
         this.app.listen(this.port, () => {
             console.log(`✅ AURA GUI prête sur http://localhost:${this.port}`);

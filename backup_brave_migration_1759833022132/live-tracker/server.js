@@ -129,7 +129,7 @@ async function startTracking(sessionId, liveUrl) {
         
         // Lancer Brave avec profil utilisateur
         const browser = await puppeteer.launch({
-            executablePath: require('../src/utils/getChromiumPath').detect(),
+            executablePath: '/usr/bin/brave-browser',
             headless: false,
             userDataDir: process.env.HOME + '/.config/BraveSoftware/Brave-Browser',
             args: ['--no-first-run', '--disable-web-security']
