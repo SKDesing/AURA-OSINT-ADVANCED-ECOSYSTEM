@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="admin-root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const AdminDashboard = () => {
+            const [activeSection, setActiveSection] = useState('dashboard');
+            const [stats, setStats] = useState({});
+            const [users, setUsers] = useState([]);
+            const [profiles, setProfiles] = useState([]);
+
+            useEffect(() => {
+                loadStats();
+                if (activeSection === 'users') loadUsers();
+                if (activeSection === 'profiles') loadProfiles();
+            }, [activeSection]);
+
+            const loadStats = async () => {
+                try {
+                    const response = await fetch('/admin/api/stats');
+                    const data = await response.json();
+                    setStats(data);
+                } catch (error) {
+                    console.error('Erreur chargement stats:', error);
+                    // Données de test
+                    setStats({ users: 5, profiles: 150, investigations: 12, logs_24h: 1247 });
+                }
+            };
+
+            const loadUsers = async () => {
+                try {
+                    const response = await fetch('/admin/api/users');
+                    const data = await response.json();
+                    setUsers(data);
+                } catch (error) {
+                    console.error('Erreur chargement utilisateurs:', error);
+                    // Données de test
+                    setUsers([
+                        { id_utilisateur: 1, nom_utilisateur: 'admin', email: 'admin@aura.local', role: 'admin', statut: 'actif' },
+                        { id_utilisateur: 2, nom_utilisateur: 'analyste1', email: 'analyste@aura.local', role: 'analyste', statut: 'actif' }
+                    ]);
+                }
+            };
+
+            const loadProfiles = async () => {
+                try {
+                    const response = await fetch('/admin/api/profiles');
+                    const data = await response.json();
+                    setProfiles(data);
+                } catch (error) {
+                    console.error('Erreur chargement profils:', error);
+                    // Données de test
+                    setProfiles([
+                        { id_utilisateur: 1, pseudo_tiktok: 'test_user', nom_complet: 'Test User', nombre_abonnes: 15000, nombre_publications: 45 },
+                        { id_utilisateur: 2, pseudo_tiktok: 'demo_profile', nom_complet: 'Demo Profile', nombre_abonnes: 8500, nombre_publications: 23 }
+                    ]);
+                }
+            };
+
+            const deleteUser = async (id) => {
+                if (window.confirm('Supprimer cet utilisateur ?')) {
+                    try {
+                        await fetch(`/admin/api/users/${id}`, { method: 'DELETE' });
+                        loadUsers();
+                    } catch (error) {
+                        console.error('Erreur suppression utilisateur:', error);
+                    }
+                }
+            };
+
+            const deleteProfile = async (id) => {
+                if (window.confirm('Supprimer ce profil ?')) {
+                    try {
+                        await fetch(`/admin/api/profiles/${id}`, { method: 'DELETE' });
+                        loadProfiles();
+                    } catch (error) {
+                        console.error('Erreur suppression profil:', error);
+                    }
+                }
+            };
+
+            return (
+                <div className="container-fluid">
+                    <div className="row">
+                        {/* Sidebar */}
+                        <div className="col-md-2 bg-dark text-white p-0" style={{ minHeight: '100vh' }}>
+                            <div className="p-3">
+                                <h4><i className="fas fa-shield-alt"></i> AURA Admin</h4>
+                            </div>
+                            <nav className="nav flex-column">
+                                {[
+                                    { key: 'dashboard', icon: 'tachometer-alt', label: 'Dashboard' },
+                                    { key: 'users', icon: 'users', label: 'Utilisateurs' },
+                                    { key: 'profiles', icon: 'tiktok', label: 'Profils TikTok' },
+                                    { key: 'investigations', icon: 'search', label: 'Investigations' },
+                                    { key: 'logs', icon: 'file-alt', label: 'Logs' },
+                                    { key: 'config', icon: 'cog', label: 'Configuration' }
+                                ].map(item => (
+                                    <a key={item.key} 
+                                       className={`nav-link text-white ${activeSection === item.key ? 'bg-primary' : ''}`}
+                                       href="#" 
+                                       onClick={(e) => { e.preventDefault(); setActiveSection(item.key); }}>
+                                        <i className={`fa${item.key === 'profiles' ? 'b' : 's'} fa-${item.icon}`}></i> {item.label}
+                                    </a>
+                                ))}
+                            </nav>
+                        </div>
+
+                        {/* Main Content */}
+                        <div className="col-md-10 p-4" style={{ background: '#f8f9fa', minHeight: '100vh' }}>
+                            {activeSection === 'dashboard' && (
+                                <div>
+                                    <h2><i className="fas fa-tachometer-alt"></i> Dashboard AURA</h2>
+                                    
+                                    <div className="row mb-4">
+                                        <div className="col-md-3">
+                                            <div className="card bg-primary text-white">
+                                                <div className="card-body">
+                                                    <div className="d-flex justify-content-between">
+                                                        <div>
+                                                            <h4>{stats.users || 0}</h4>
+                                                            <p>Utilisateurs</p>
+                                                        </div>
+                                                        <i className="fas fa-users fa-2x"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <div className="card bg-success text-white">
+                                                <div className="card-body">
+                                                    <div className="d-flex justify-content-between">
+                                                        <div>
+                                                            <h4>{stats.profiles || 0}</h4>
+                                                            <p>Profils TikTok</p>
+                                                        </div>
+                                                        <i className="fab fa-tiktok fa-2x"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <div className="card bg-warning text-white">
+                                                <div className="card-body">
+                                                    <div className="d-flex justify-content-between">
+                                                        <div>
+                                                            <h4>{stats.investigations || 0}</h4>
+                                                            <p>Investigations</p>
+                                                        </div>
+                                                        <i className="fas fa-search fa-2x"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <div className="card bg-info text-white">
+                                                <div className="card-body">
+                                                    <div className="d-flex justify-content-between">
+                                                        <div>
+                                                            <h4>{stats.logs_24h || 0}</h4>
+                                                            <p>Logs 24h</p>
+                                                        </div>
+                                                        <i className="fas fa-file-alt fa-2x"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="card">
+                                                <div className="card-header">
+                                                    <h5><i className="fas fa-bolt"></i> Actions Rapides</h5>
+                                                </div>
+                                                <div className="card-body">
+                                                    <button className="btn btn-primary btn-sm me-2" onClick={() => setActiveSection('users')}>
+                                                        <i className="fas fa-user-plus"></i> Nouvel Utilisateur
+                                                    </button>
+                                                    <button className="btn btn-success btn-sm me-2" onClick={() => setActiveSection('profiles')}>
+                                                        <i className="fas fa-plus"></i> Nouveau Profil
+                                                    </button>
+                                                    <button className="btn btn-warning btn-sm" onClick={() => setActiveSection('investigations')}>
+                                                        <i className="fas fa-search-plus"></i> Nouvelle Investigation
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="card">
+                                                <div className="card-header">
+                                                    <h5><i className="fas fa-chart-line"></i> Système</h5>
+                                                </div>
+                                                <div className="card-body">
+                                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                                        <span>Base aura_users</span>
+                                                        <span className="badge bg-success">Connectée</span>
+                                                    </div>
+                                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                                        <span>Base aura_forensic</span>
+                                                        <span className="badge bg-success">Connectée</span>
+                                                    </div>
+                                                    <div className="d-flex justify-content-between align-items-center">
+                                                        <span>Base aura_system</span>
+                                                        <span className="badge bg-success">Connectée</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {activeSection === 'users' && (
+                                <div>
+                                    <div className="d-flex justify-content-between align-items-center mb-4">
+                                        <h2><i className="fas fa-users"></i> Gestion Utilisateurs</h2>
+                                        <button className="btn btn-primary">
+                                            <i className="fas fa-user-plus"></i> Nouvel Utilisateur
+                                        </button>
+                                    </div>
+                                    
+                                    <div className="card">
+                                        <div className="card-body">
+                                            <table className="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Nom d'utilisateur</th>
+                                                        <th>Email</th>
+                                                        <th>Rôle</th>
+                                                        <th>Statut</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {users.map(user => (
+                                                        <tr key={user.id_utilisateur}>
+                                                            <td>{user.id_utilisateur}</td>
+                                                            <td>{user.nom_utilisateur}</td>
+                                                            <td>{user.email}</td>
+                                                            <td><span className="badge bg-info">{user.role}</span></td>
+                                                            <td><span className={`badge bg-${user.statut === 'actif' ? 'success' : 'danger'}`}>{user.statut}</span></td>
+                                                            <td>
+                                                                <button className="btn btn-sm btn-outline-primary me-1">
+                                                                    <i className="fas fa-edit"></i>
+                                                                </button>
+                                                                <button className="btn btn-sm btn-outline-danger" 
+                                                                        onClick={() => deleteUser(user.id_utilisateur)}>
+                                                                    <i className="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {activeSection === 'profiles' && (
+                                <div>
+                                    <div className="d-flex justify-content-between align-items-center mb-4">
+                                        <h2><i className="fab fa-tiktok"></i> Profils TikTok</h2>
+                                        <button className="btn btn-success">
+                                            <i className="fas fa-plus"></i> Nouveau Profil
+                                        </button>
+                                    </div>
+                                    
+                                    <div className="card">
+                                        <div className="card-body">
+                                            <table className="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Pseudo</th>
+                                                        <th>Nom complet</th>
+                                                        <th>Abonnés</th>
+                                                        <th>Publications</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {profiles.map(profile => (
+                                                        <tr key={profile.id_utilisateur}>
+                                                            <td>{profile.id_utilisateur}</td>
+                                                            <td>@{profile.pseudo_tiktok}</td>
+                                                            <td>{profile.nom_complet}</td>
+                                                            <td>{profile.nombre_abonnes?.toLocaleString()}</td>
+                                                            <td>{profile.nombre_publications}</td>
+                                                            <td>
+                                                                <button className="btn btn-sm btn-outline-primary me-1">
+                                                                    <i className="fas fa-edit"></i>
+                                                                </button>
+                                                                <button className="btn btn-sm btn-outline-danger"
+                                                                        onClick={() => deleteProfile(profile.id_utilisateur)}>
+                                                                    <i className="fas fa-trash"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {['investigations', 'logs', 'config'].includes(activeSection) && (
+                                <div className="alert alert-info">
+                                    <h4>Section {activeSection}</h4>
+                                    <p>Cette section est en cours de développement. Elle sera bientôt disponible avec toutes les fonctionnalités de gestion.</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<AdminDashboard />, document.getElementById('admin-root'));
+    </script>
+</body>
+</html>
