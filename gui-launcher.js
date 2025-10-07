@@ -9,7 +9,7 @@ const fs = require('fs');
 class AuraGUILauncher {
     constructor() {
         this.app = express();
-        this.port = 3000;
+        this.port = process.env.PORT || 3001;
         this.services = new Map();
         this.setupMiddleware();
         this.setupRoutes();
@@ -25,6 +25,11 @@ class AuraGUILauncher {
         // Page principale
         this.app.get('/', (req, res) => {
             res.sendFile(path.join(__dirname, 'gui', 'index.html'));
+        });
+
+        // Route wizard
+        this.app.get('/install', (req, res) => {
+            res.sendFile(path.join(__dirname, 'startup-wizard.html'));
         });
 
         // API Status système
