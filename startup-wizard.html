@@ -147,7 +147,7 @@
             </div>
             <div class="step pending" id="step5">
                 <span class="status-indicator status-pending" id="status5"></span>
-                🌐 Vitrine Marketing (3000)
+                🌐 Vitrine Marketing (5000) - Optionnel
             </div>
             <div class="step pending" id="step6">
                 <span class="status-indicator status-pending" id="status6"></span>
@@ -216,16 +216,24 @@
                     setTimeout(() => setStep(5), 500);
                 }
 
-                // Vérifier Vitrine Marketing (étape 5)
-                const vitrineResponse = await fetch('http://localhost:3000');
-                if (vitrineResponse.ok && !servicesReady.vitrine) {
-                    servicesReady.vitrine = true;
-                    setStep(5, 'done');
-                    setTimeout(() => setStep(6), 500);
+                // Vérifier Vitrine Marketing (étape 5) - Optionnel
+                try {
+                    const vitrineResponse = await fetch('http://localhost:5000');
+                    if (vitrineResponse.ok && !servicesReady.vitrine) {
+                        servicesReady.vitrine = true;
+                        setStep(5, 'done');
+                    }
+                } catch (error) {
+                    // Vitrine optionnelle, continuer sans elle
+                    if (!servicesReady.vitrine) {
+                        servicesReady.vitrine = true;
+                        setStep(5, 'done');
+                    }
                 }
+                setTimeout(() => setStep(6), 500);
 
-                // Tous les services sont prêts
-                if (servicesReady.database && servicesReady.api && servicesReady.gui && servicesReady.vitrine) {
+                // Tous les services sont prêts (vitrine optionnelle)
+                if (servicesReady.database && servicesReady.api && servicesReady.gui) {
                     setStep(6, 'done');
                     setTimeout(() => {
                         window.location.href = 'http://localhost:3001';
