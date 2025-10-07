@@ -33,7 +33,7 @@ class ChromiumEnforcer {
             console.log('🚀 Lancement Chromium avec wizard d\'installation...');
             console.log(`🌐 URL: ${wizardUrl}`);
             
-            const command = `"${chromiumPath}" "${wizardUrl}" --app="${wizardUrl}" --start-maximized --disable-web-security --no-sandbox --disable-features=VizDisplayCompositor`;
+            const command = `"${chromiumPath}" --app="${wizardUrl}" --start-maximized --disable-web-security --disable-features=VizDisplayCompositor --disable-dev-shm-usage`;
             
             exec(command, (error, stdout, stderr) => {
                 if (error) {

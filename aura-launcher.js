@@ -70,14 +70,13 @@ class AuraLauncher {
 
     launchChromium() {
         const flags = [
-            `--app=file://${this.startupFile}`,
+            `--app=http://localhost:3001/install`,
             '--start-maximized',
             '--disable-extensions',
             '--disable-features=TranslateUI,Sync,Autofill,SafeBrowsing,Notifications',
             '--no-default-browser-check',
             '--disable-web-security',
             '--user-data-dir=/tmp/aura-profile',
-            '--no-sandbox',
             '--disable-dev-shm-usage'
         ];
 
