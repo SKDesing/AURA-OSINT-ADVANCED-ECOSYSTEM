@@ -4,6 +4,9 @@ import { MegaMenu } from './components/navigation/MegaMenu';
 import { CardMasonry } from './components/cards/CardMasonry';
 import { ForensicDemo } from './components/forensic/ForensicDemo';
 import { OSINTWorkflow } from './components/features/OSINTWorkflow';
+import InvestigationTimeline from './components/forensic/InvestigationTimeline';
+import AnalyticsDashboard from './components/analytics/AnalyticsDashboard';
+import SystemHealth from './components/system/SystemHealth';
 import './styles/App.css';
 
 const mockItems = [
@@ -40,6 +43,17 @@ function App() {
       />
       <ForensicDemo />
       <OSINTWorkflow />
+      <section className="analytics-section py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-8 mb-8">
+            <InvestigationTimeline />
+            <AnalyticsDashboard />
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <SystemHealth />
+          </div>
+        </div>
+      </section>
       <section className="features-section">
         <div className="container">
           <h2>Découvrez nos ressources</h2>
