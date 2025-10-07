@@ -112,7 +112,7 @@ class AuraQuickStart {
         console.log('\n🔧 Vérification services...');
         try {
             const serviceFiles = [
-                'analytics-api.js',
+                'backend/api/analytics-api.js',
                 'correlation-engine-complete.js',
                 'service-orchestrator.js',
                 'port-audit.js'

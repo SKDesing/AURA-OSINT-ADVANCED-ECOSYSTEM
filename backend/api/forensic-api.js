@@ -1,6 +1,6 @@
 const express = require('express');
 const { param, query } = require('express-validator');
-const ForensicProfileManager = require('../managers/forensic-profile-manager');
+const ForensicProfileManager = require('../services/forensic-profile-manager');
 
 const router = express.Router();
 const manager = new ForensicProfileManager();

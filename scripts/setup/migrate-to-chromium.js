@@ -156,7 +156,7 @@ module.exports = ChromiumPathDetector;`;
         // Créer chromium-launcher.js
         const chromiumLauncherContent = `// AURA Chromium Launcher
 const puppeteer = require('puppeteer');
-const ChromiumPathDetector = require('../src/utils/getChromiumPath');
+const ChromiumPathDetector = require('../../src/utils/getChromiumPath');
 
 class ChromiumLauncher {
     constructor(options = {}) {
@@ -229,7 +229,7 @@ module.exports = ChromiumLauncher;`;
         if (fs.existsSync('live-tracker/server.js')) {
             let content = fs.readFileSync('live-tracker/server.js', 'utf8');
             content = content.replace(/executablePath:\s*['"][^'"]*brave[^'"]*['"]/g, 
-                "executablePath: require('../src/utils/getChromiumPath').detect()");
+                "executablePath: require('../../src/utils/getChromiumPath').detect()");
             content = content.replace(/brave-browser/g, 'chromium-browser');
             fs.writeFileSync('live-tracker/server.js', content);
             console.log('   ✅ Mis à jour: live-tracker/server.js');

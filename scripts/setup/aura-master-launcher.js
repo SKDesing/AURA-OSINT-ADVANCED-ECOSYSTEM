@@ -60,7 +60,7 @@ class AuraMasterLauncher {
         console.log('⚙️ Démarrage services backend...');
         
         // Analytics API (port 4002)
-        const analytics = spawn('node', ['analytics-api.js'], { stdio: 'pipe' });
+        const analytics = spawn('node', ['backend/api/analytics-api.js'], { stdio: 'pipe' });
         this.services.set('analytics', analytics);
         
         await this.portManager.waitForPort(4002);
@@ -70,7 +70,7 @@ class AuraMasterLauncher {
     async startWizard() {
         console.log('🖥️ Démarrage wizard installation (port 3001)...');
         
-        const wizard = spawn('node', ['gui-launcher.js'], { stdio: 'pipe' });
+        const wizard = spawn('node', ['scripts/setup/gui-launcher.js'], { stdio: 'pipe' });
         this.services.set('wizard', wizard);
         
         await this.portManager.waitForPort(3001);

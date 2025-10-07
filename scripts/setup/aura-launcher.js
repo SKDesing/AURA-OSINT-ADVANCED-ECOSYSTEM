@@ -51,7 +51,7 @@ class AuraLauncher {
 
     startBackendServices() {
         // Analytics API
-        const analytics = spawn('node', ['analytics-api.js'], { 
+        const analytics = spawn('node', ['backend/api/analytics-api.js'], { 
             stdio: 'ignore', 
             detached: true 
         });
