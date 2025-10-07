@@ -1,0 +1,66 @@
+[
+  {
+    "timestamp": "2025-10-07T19:09:45.981Z",
+    "cpu": 12,
+    "memory": {
+      "total": 15350,
+      "used": 8350,
+      "free": 7000,
+      "percentage": 54
+    },
+    "disk": {
+      "percentage": 74,
+      "available": "117G",
+      "used": "327G",
+      "total": "468G"
+    },
+    "network": {
+      "activeConnections": 2,
+      "interfaces": [
+        {
+          "name": "wlo1",
+          "address": "192.168.1.54",
+          "netmask": "255.255.255.0"
+        },
+        {
+          "name": "br-88875c310993",
+          "address": "172.18.0.1",
+          "netmask": "255.255.0.0"
+        }
+      ]
+    },
+    "processes": 385
+  },
+  {
+    "timestamp": "2025-10-07T19:09:45.999Z",
+    "cpu": 12,
+    "memory": {
+      "total": 15350,
+      "used": 8353,
+      "free": 6996,
+      "percentage": 54
+    },
+    "disk": {
+      "percentage": 74,
+      "available": "117G",
+      "used": "327G",
+      "total": "468G"
+    },
+    "network": {
+      "activeConnections": 2,
+      "interfaces": [
+        {
+          "name": "wlo1",
+          "address": "192.168.1.54",
+          "netmask": "255.255.255.0"
+        },
+        {
+          "name": "br-88875c310993",
+          "address": "172.18.0.1",
+          "netmask": "255.255.0.0"
+        }
+      ]
+    },
+    "processes": 385
+  }
+]

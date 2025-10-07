@@ -11,11 +11,8 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# Docker
-.docker/
-
 # Logs
-logs
+logs/
 *.log
 
 # Runtime data
@@ -24,29 +21,9 @@ pids
 *.seed
 *.pid.lock
 
-# Coverage directory used by tools like istanbul
+# Coverage directory
 coverage/
-
-# nyc test coverage
 .nyc_output
-
-# Dependency directories
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
-.env
 
 # Build outputs
 dist/
@@ -63,65 +40,37 @@ build/
 Thumbs.db
 
 # Browser profiles and cache
-.brave-profile/
-.chrome-profile/
-.firefox-profile/
+browser/profiles/*/
+!browser/profiles/.gitkeep
 
 # Backup files
-*-backup/
-*-backup.*
-*.backup
+backups/*.sql
+backups/*.tar.gz
+backups/*.sha256
 
-# Generated documentation
-*.md
-!README.md
-!CHANGELOG.md
-!CONTRIBUTING.md
+# Security
+security/keys/
+security/certificates/
+*.key
+*.pem
+*.crt
 
-# Shell scripts (except core ones)
-*.sh
-!docker-scripts/*.sh
-!setup.sh
-!install.sh
+# Temporary files
+tmp/
+temp/
+uploads/
+
+# Database dumps
+*.sql
+*.db
 
 # Archive files
 *.tar.gz
 *.zip
 *.rar
 
-# JSON config files (except package.json)
-*.json
-!package.json
-!package-lock.json
-!tsconfig.json
-
-# Video files (captures)
+# Video files
 *.mp4
 *.webm
 *.avi
 *.mov
-
-# Database dumps
-*.sql
-*.db
-
-# Temporary files
-tmp/
-temp/
-# Secrets et configuration
-.env
-.env.local
-.env.production
-*.key
-*.pem
-secrets/
-config/secrets.json
-
-# Secrets et configuration
-.env
-.env.local
-.env.production
-*.key
-*.pem
-secrets/
-config/secrets.json
