@@ -1,0 +1,60 @@
+.forensic-dashboard {
+  padding: 24px;
+  background: #f0f2f5;
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.ant-statistic-content {
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+code {
+  padding: 2px 6px;
+  background: #f5f5f5;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-family: 'Monaco', 'Courier New', monospace;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: #e6f7ff !important;
+  cursor: pointer;
+}
+
+.ant-badge-status-text {
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+.ant-timeline-item-content {
+  margin-left: 24px;
+}
