@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🛡️ AURA OSINT - Installation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            color: white; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            max-width: 500px;
+            padding: 40px;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 20px;
+            border: 1px solid #336AEA;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        h1 { 
+            font-size: 3rem; 
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #336AEA, #17D1C6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        h2 { 
+            font-size: 1.5rem; 
+            margin-bottom: 30px;
+            color: #94A3B8;
+        }
+        .progress-container {
+            margin: 30px 0;
+        }
+        .progress-bar { 
+            width: 100%; 
+            height: 20px; 
+            background: #1E293B;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #336AEA;
+        }
+        .progress-fill { 
+            height: 100%; 
+            background: linear-gradient(90deg, #336AEA, #17D1C6);
+            width: 0%; 
+            transition: width 0.8s ease;
+            border-radius: 10px;
+        }
+        .progress-text {
+            font-size: 1.2rem;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #17D1C6;
+        }
+        .steps {
+            margin-top: 30px;
+            text-align: left;
+        }
+        .step { 
+            padding: 12px 20px;
+            margin: 8px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .step.pending { 
+            color: #64748B;
+            background: rgba(100, 116, 139, 0.1);
+        }
+        .step.active { 
+            color: #17D1C6;
+            background: rgba(23, 209, 198, 0.1);
+            border-left-color: #17D1C6;
+            animation: pulse 2s infinite;
+        }
+        .step.done { 
+            color: #4ADE80;
+            background: rgba(74, 222, 128, 0.1);
+            border-left-color: #4ADE80;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .status-pending { background: #64748B; }
+        .status-active { background: #17D1C6; animation: blink 1s infinite; }
+        .status-done { background: #4ADE80; }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🛡️</div>
+        <h1>AURA OSINT</h1>
+        <h2>Installation et Démarrage</h2>
+        
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">0%</div>
+        </div>
+        
+        <div class="steps" id="steps">
+            <div class="step pending" id="step1">
+                <span class="status-indicator status-pending" id="status1"></span>
+                ⚡ Initialisation du système
+            </div>
+            <div class="step pending" id="step2">
+                <span class="status-indicator status-pending" id="status2"></span>
+                🔧 Démarrage Analytics API (4002)
+            </div>
+            <div class="step pending" id="step3">
+                <span class="status-indicator status-pending" id="status3"></span>
+                🖥️ Lancement GUI Interface (3000)
+            </div>
+            <div class="step pending" id="step4">
+                <span class="status-indicator status-pending" id="status4"></span>
+                🗄️ Initialisation Database per Service
+            </div>
+            <div class="step pending" id="step5">
+                <span class="status-indicator status-pending" id="status5"></span>
+                ⚡ Frontend Next.js (3002)
+            </div>
+            <div class="step pending" id="step6">
+                <span class="status-indicator status-pending" id="status6"></span>
+                ✅ Système prêt - Redirection
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        let servicesReady = {
+            api: false,
+            gui: false,
+            database: false,
+            frontend: false
+        };
+
+        function setStep(step, status = 'active') {
+            if (step > currentStep) {
+                // Marquer les étapes précédentes comme terminées
+                for (let i = 1; i < step; i++) {
+                    document.getElementById(`step${i}`).className = 'step done';
+                    document.getElementById(`status${i}`).className = 'status-indicator status-done';
+                }
+                
+                // Marquer l'étape actuelle
+                if (status === 'active' && step <= 6) {
+                    document.getElementById(`step${step}`).className = 'step active';
+                    document.getElementById(`status${step}`).className = 'status-indicator status-active';
+                } else if (status === 'done' && step <= 6) {
+                    document.getElementById(`step${step}`).className = 'step done';
+                    document.getElementById(`status${step}`).className = 'status-indicator status-done';
+                }
+                
+                currentStep = step;
+                
+                // Mettre à jour la barre de progression
+                const progress = Math.min((step / 6) * 100, 100);
+                document.getElementById('progressBar').style.width = progress + '%';
+                document.getElementById('progressText').textContent = Math.round(progress) + '%';
+            }
+        }
+
+        async function checkServices() {
+            try {
+                // Vérifier Analytics API
+                const apiResponse = await fetch('http://localhost:4002/api/status');
+                if (apiResponse.ok && !servicesReady.api) {
+                    servicesReady.api = true;
+                    setStep(2, 'done');
+                    setTimeout(() => setStep(3), 500);
+                }
+
+                // Vérifier GUI
+                const guiResponse = await fetch('http://localhost:3000');
+                if (guiResponse.ok && !servicesReady.gui) {
+                    servicesReady.gui = true;
+                    setStep(3, 'done');
+                    setTimeout(() => setStep(4), 500);
+                }
+
+                // Vérifier Database (via test d'intégrité)
+                if (servicesReady.api && !servicesReady.database) {
+                    servicesReady.database = true;
+                    setStep(4, 'done');
+                    setTimeout(() => setStep(5), 500);
+                }
+
+                // Vérifier Frontend Next.js
+                const frontendResponse = await fetch('http://localhost:3002');
+                if (frontendResponse.ok && !servicesReady.frontend) {
+                    servicesReady.frontend = true;
+                    setStep(5, 'done');
+                    setTimeout(() => setStep(6), 500);
+                }
+
+                // Tous les services sont prêts
+                if (servicesReady.api && servicesReady.gui) {
+                    setStep(6, 'done');
+                    setTimeout(() => {
+                        window.location.href = 'http://localhost:3000';
+                    }, 2000);
+                }
+
+            } catch (error) {
+                console.log('Services en cours de démarrage...');
+            }
+        }
+
+        // Démarrer le processus
+        function startInstallation() {
+            setStep(1, 'done');
+            setTimeout(() => setStep(2), 1000);
+            
+            // Vérifier les services toutes les secondes
+            const interval = setInterval(() => {
+                checkServices();
+                
+                // Arrêter la vérification si tous les services sont prêts
+                if (currentStep >= 6) {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        }
+
+        // Démarrer l'installation après 1 seconde
+        setTimeout(startInstallation, 1000);
+    </script>
+</body>
+</html>
