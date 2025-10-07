@@ -108,3 +108,20 @@ Thumbs.db
 # Temporary files
 tmp/
 temp/
+# Secrets et configuration
+.env
+.env.local
+.env.production
+*.key
+*.pem
+secrets/
+config/secrets.json
+
+# Secrets et configuration
+.env
+.env.local
+.env.production
+*.key
+*.pem
+secrets/
+config/secrets.json
