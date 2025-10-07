@@ -13,8 +13,8 @@ class StartupOrchestrator {
         
         // Configuration des services
         this.serviceConfig = [
-            { name: 'analytics', command: ['node', 'analytics-api.js'], port: 4002, endpoint: '/api/analytics/dashboard', critical: true },
-            { name: 'gui', command: ['node', 'gui-launcher.js'], port: 3000, endpoint: '/api/status', critical: true },
+            { name: 'analytics', command: ['node', 'backend/api/analytics-api.js'], port: 4002, endpoint: '/api/analytics/dashboard', critical: true },
+            { name: 'gui', command: ['node', 'scripts/setup/gui-launcher.js'], port: 3000, endpoint: '/api/status', critical: true },
             { name: 'orchestrator', command: ['node', 'service-orchestrator.js'], port: 4001, endpoint: '/api/status', critical: false }
         ];
     }
@@ -121,13 +121,13 @@ class StartupOrchestrator {
         console.log('⚙️ Démarrage services backend...');
         
         // 1. Analytics API (port 4002) - Service critique
-        this.startService('analytics', ['node', 'analytics-api.js']);
+        this.startService('analytics', ['node', 'backend/api/analytics-api.js']);
         const analyticsReady = await this.waitForService(4002, '/api/analytics/dashboard');
         
         if (analyticsReady) {
             console.log('🎯 Analytics API prêt, démarrage GUI...');
             // 2. GUI Launcher (port 3000) - Interface utilisateur
-            this.startService('gui', ['node', 'gui-launcher.js']);
+            this.startService('gui', ['node', 'scripts/setup/gui-launcher.js']);
             
             const guiReady = await this.waitForService(3000, '/api/status');
             

@@ -1,6 +1,6 @@
 // AURA Chromium Launcher
 const puppeteer = require('puppeteer');
-const ChromiumPathDetector = require('../src/utils/getChromiumPath');
+const ChromiumPathDetector = require('../../src/utils/getChromiumPath');
 
 class ChromiumLauncher {
     constructor(options = {}) {

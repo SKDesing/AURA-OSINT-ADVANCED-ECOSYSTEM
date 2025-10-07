@@ -1,6 +1,6 @@
 const express = require('express');
 const { body, param, validationResult } = require('express-validator');
-const AuraChromiumLauncher = require('../launchers/chromium-launcher-v3');
+const AuraChromiumLauncher = require('../services/chromium-launcher-v3');
 
 const router = express.Router();
 const activeSessions = new Map();

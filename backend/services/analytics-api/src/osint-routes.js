@@ -1,5 +1,5 @@
 const express = require('express');
-const OSINTIntelligenceEngine = require('../../../services/osint-intelligence-engine');
+const OSINTIntelligenceEngine = require('../../osint-intelligence-engine');
 
 const router = express.Router();
 
