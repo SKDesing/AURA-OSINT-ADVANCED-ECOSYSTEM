@@ -53,11 +53,7 @@ class AuraMasterLauncher {
         // Attendre que la vitrine soit prête
         await this.portManager.waitForPort(5000);
         
-        // Ouvrir vitrine dans Chromium séparé
-        const vitrineCommand = `"${this.chromiumPath}" --app="http://localhost:5000" --new-window --user-data-dir=/tmp/aura-vitrine`;
-        exec(vitrineCommand);
-        
-        console.log('✅ Vitrine prête sur port 5000');
+        console.log('✅ Vitrine prête sur port 5000 (accès manuel: http://localhost:5000)');
     }
 
     async startBackendServices() {
