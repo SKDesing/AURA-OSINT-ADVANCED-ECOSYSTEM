@@ -2,6 +2,8 @@ import React from 'react';
 import { HeroSearch } from './components/hero/HeroSearch';
 import { MegaMenu } from './components/navigation/MegaMenu';
 import { CardMasonry } from './components/cards/CardMasonry';
+import { ForensicDemo } from './components/forensic/ForensicDemo';
+import { OSINTWorkflow } from './components/features/OSINTWorkflow';
 import './styles/App.css';
 
 const mockItems = [
@@ -36,6 +38,8 @@ function App() {
       <HeroSearch 
         onSearch={(query) => console.log('Search:', query)}
       />
+      <ForensicDemo />
+      <OSINTWorkflow />
       <section className="features-section">
         <div className="container">
           <h2>Découvrez nos ressources</h2>
