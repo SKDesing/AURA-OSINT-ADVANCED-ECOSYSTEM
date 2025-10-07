@@ -9,7 +9,7 @@ const fs = require('fs');
 class AuraGUILauncher {
     constructor() {
         this.app = express();
-        this.port = process.env.PORT || 3001;
+        this.port = 3001;
         this.services = new Map();
         this.setupMiddleware();
         this.setupRoutes();
@@ -74,13 +74,8 @@ class AuraGUILauncher {
             res.json(diagnostic);
         });
 
-        // API Chromium Control (nouvelle architecture)
-        const chromiumControlAPI = require('./api/chromium-control-api');
-        this.app.use('/api/chromium', chromiumControlAPI);
-        
-        // API Forensique (Axe C)
-        const forensicAPI = require('./api/forensic-api');
-        this.app.use('/api/forensic', forensicAPI);
+        // API Chromium Control (legacy endpoints only)
+        // API Forensique (legacy endpoints only)
 
         // API Analytics Dashboard
         this.app.get('/api/analytics/dashboard', (req, res) => {

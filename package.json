@@ -4,7 +4,7 @@
   "description": "AURA Database Maestro - Moteur d'intelligence forensique cross-plateforme world-class",
   "main": "correlation-engine-complete.js",
   "scripts": {
-    "start": "node aura-launcher.js",
+    "start": "node aura-master-launcher.js",
     "test": "node test-maestro.js",
     "benchmark": "node benchmark-suite.js",
     "audit-ports": "node port-audit.js",
