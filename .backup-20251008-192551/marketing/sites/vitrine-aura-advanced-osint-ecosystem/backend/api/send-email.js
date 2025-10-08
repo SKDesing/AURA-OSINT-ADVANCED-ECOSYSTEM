@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 // Configuration Mailtrap
-const transporter = nodemailer.createTransport({
+const transporter = nodemailer.createTransporter({
   host: process.env.MAILTRAP_HOST || 'sandbox.smtp.mailtrap.io',
   port: process.env.MAILTRAP_PORT || 2525,
   auth: {
