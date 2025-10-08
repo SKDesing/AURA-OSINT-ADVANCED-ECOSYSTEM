@@ -1,6 +1,6 @@
 describe('AURA ADVANCED OSINT ECOSYSTEM - E2E Tests', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000');
+    cy.visit('http://localhost:XXXX');
   });
 
   it('loads homepage correctly', () => {

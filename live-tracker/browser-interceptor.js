@@ -204,7 +204,7 @@ class BrowserInterceptor {
                 // Vérifier le token de sécurité
                 if (event.data.type?.startsWith('AURA_') && event.data.token === securityToken) {
                     // Envoyer au backend via fetch
-                    fetch('http://localhost:4000/api/capture', {
+                    fetch('http://localhost:XXXX/api/capture', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(event.data)

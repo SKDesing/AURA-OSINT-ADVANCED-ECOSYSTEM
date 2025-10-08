@@ -20,7 +20,7 @@ module.exports = {
   network: {
     proxy: {
       enabled: process.env.CHROMIUM_PROXY_ENABLED === 'true',
-      server: process.env.CHROMIUM_PROXY_SERVER || 'socks5://127.0.0.1:9050',
+      server: process.env.CHROMIUM_PROXY_SERVER || 'socks5://127.0.0.1:XXXX',
       bypass: process.env.CHROMIUM_PROXY_BYPASS || '<-loopback>'
     },
     timeouts: {

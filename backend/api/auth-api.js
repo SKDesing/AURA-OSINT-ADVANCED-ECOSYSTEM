@@ -240,7 +240,7 @@ app.get('/api/auth/health', (req, res) => {
 const PORT = process.env.AUTH_PORT || 4004;
 app.listen(PORT, () => {
   console.log(`🔐 AURA Auth API running on port ${PORT}`);
-  console.log(`🔗 Health: http://localhost:${PORT}/api/auth/health`);
+  console.log(`🔗 Health: http://localhost:XXXX${PORT}/api/auth/health`);
 });
 
 module.exports = app;

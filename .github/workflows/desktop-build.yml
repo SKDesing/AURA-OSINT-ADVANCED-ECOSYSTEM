@@ -195,7 +195,7 @@ jobs:
             
             ---
             
-            **Full Changelog**: https://github.com/SKDesing/TikTok-Live-Analyser/compare/v1.0.0...v2.0.0
+            **Full Changelog**: https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/compare/v1.0.0...v2.0.0
           draft: false
           prerelease: false
 
@@ -254,15 +254,15 @@ jobs:
             "pub_date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
             "platforms": {
               "windows-x86_64": {
-                "url": "https://github.com/SKDesing/TikTok-Live-Analyser/releases/download/${GITHUB_REF#refs/tags/}/AURA-OSINT-Windows-Installer.exe",
+                "url": "https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/releases/download/${GITHUB_REF#refs/tags/}/AURA-OSINT-Windows-Installer.exe",
                 "signature": "SIGNATURE_PLACEHOLDER"
               },
               "linux-x86_64": {
-                "url": "https://github.com/SKDesing/TikTok-Live-Analyser/releases/download/${GITHUB_REF#refs/tags/}/AURA-OSINT-Linux.AppImage",
+                "url": "https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/releases/download/${GITHUB_REF#refs/tags/}/AURA-OSINT-Linux.AppImage",
                 "signature": "SIGNATURE_PLACEHOLDER"
               },
               "darwin-x86_64": {
-                "url": "https://github.com/SKDesing/TikTok-Live-Analyser/releases/download/${GITHUB_REF#refs/tags/}/AURA-OSINT-macOS.dmg",
+                "url": "https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/releases/download/${GITHUB_REF#refs/tags/}/AURA-OSINT-macOS.dmg",
                 "signature": "SIGNATURE_PLACEHOLDER"
               }
             }
@@ -286,4 +286,4 @@ jobs:
         run: |
           echo "🎉 AURA OSINT Desktop ${GITHUB_REF#refs/tags/} has been successfully built and released!"
           echo "📦 Available for Windows, Linux, and macOS"
-          echo "🔗 Download: https://github.com/SKDesing/TikTok-Live-Analyser/releases/latest"
+          echo "🔗 Download: https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/releases/latest"

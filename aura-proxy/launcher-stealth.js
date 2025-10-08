@@ -52,9 +52,9 @@ class StealthLauncher {
     }
 
     const chromiumArgs = [
-      `--proxy-server=127.0.0.1:8888`,
+      `--proxy-server=127.0.0.1:XXXX`,
       `--user-data-dir=${profileDir}`,
-      `--app=http://localhost:${this.reactPort}`,
+      `--app=http://localhost:XXXX${this.reactPort}`,
       '--no-first-run',
       '--no-default-browser-check',
       '--disable-background-timer-throttling',
@@ -107,7 +107,7 @@ class StealthLauncher {
       
       console.log('🎯 AURA STEALTH SYSTEM - READY');
       console.log('📊 Network traffic intercepted via proxy');
-      console.log('🌐 Frontend accessible at http://localhost:3000');
+      console.log('🌐 Frontend accessible at http://localhost:XXXX');
       console.log('🔒 All TikTok traffic logged for forensic analysis');
       
       this.setupCleanup();

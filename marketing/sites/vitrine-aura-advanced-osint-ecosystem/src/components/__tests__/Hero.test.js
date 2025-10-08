@@ -31,6 +31,6 @@ describe('Hero Component', () => {
     
     const interfaceButton = screen.getByText('Accéder à l\'Interface');
     fireEvent.click(interfaceButton);
-    expect(mockOpen).toHaveBeenCalledWith('http://localhost:3000', '_blank');
+    expect(mockOpen).toHaveBeenCalledWith('http://localhost:XXXX', '_blank');
   });
 });

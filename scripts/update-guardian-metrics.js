@@ -173,9 +173,9 @@ setInterval(collectAllMetrics, 5 * 60 * 1000);
 
 app.listen(PORT, () => {
   console.log(`🛡️ AURA Update Guardian Metrics Server running on port ${PORT}`);
-  console.log(`📊 Metrics: http://localhost:${PORT}/metrics`);
-  console.log(`📋 Status: http://localhost:${PORT}/status`);
-  console.log(`❤️ Health: http://localhost:${PORT}/health`);
+  console.log(`📊 Metrics: http://localhost:XXXX${PORT}/metrics`);
+  console.log(`📋 Status: http://localhost:XXXX${PORT}/status`);
+  console.log(`❤️ Health: http://localhost:XXXX${PORT}/health`);
 });
 
 // Gestion arrêt propre

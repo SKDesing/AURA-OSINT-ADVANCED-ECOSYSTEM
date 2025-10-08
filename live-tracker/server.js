@@ -11,7 +11,7 @@ const PORT = 4000;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: "http://localhost:3000", methods: ["GET", "POST"] }
+  cors: { origin: "http://localhost:XXXX", methods: ["GET", "POST"] }
 });
 
 // Logger forensic
@@ -317,7 +317,7 @@ io.on('connection', (socket) => {
 server.listen(PORT, () => {
     logger.info('LIVE TRACKER PRO démarré', { port: PORT });
     console.log(`🚀 LIVE TRACKER PRO - Port ${PORT}`);
-    console.log('📱 Frontend: http://localhost:3000');
+    console.log('📱 Frontend: http://localhost:XXXX');
 });
 
 // Nettoyage à la fermeture

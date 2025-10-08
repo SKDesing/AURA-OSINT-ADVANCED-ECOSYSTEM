@@ -1,13 +1,46 @@
-node_modules/
+# Secrets et configurations sensibles
 .env
 .env.local
-.env.production
-*.log
+.env.*.local
+*.key
+*.pem
+*.p12
+*.pfx
+config/secrets/
+secrets/
+private/
+
+# Données sensibles
+*.sqlite
+*.db
+data/
 logs/
 temp/
-chrome/
-browser/profiles/
-*.db
-*.db-journal
+uploads/
+cache/
+
+# Développement
+node_modules/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 .DS_Store
 Thumbs.db
+
+# Build et distribution
+dist/
+build/
+coverage/
+.nyc_output/
+
+# Backup
+.backup-original/
+*.backup
+*.bak
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -34,7 +34,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { 
-    origin: ["http://localhost:3000", "http://127.0.0.1:3000"], 
+    origin: ["http://localhost:XXXX", "http://127.0.0.1:XXXX"], 
     methods: ["GET", "POST"],
     credentials: true
   },
@@ -59,7 +59,7 @@ const db = new Pool(config.database);
 
 // Middleware CORS complet
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: ['http://localhost:XXXX', 'http://127.0.0.1:XXXX'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
@@ -67,7 +67,7 @@ app.use(cors({
 
 // Headers CORS supplémentaires
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:XXXX');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -402,7 +402,7 @@ const PORT = config.servers.backend.port;
 server.listen(PORT, () => {
   logger.info('Enhanced server started', { port: PORT });
   console.log(`🚀 Enhanced Server - Port ${PORT}`);
-  console.log('📱 Frontend: http://localhost:3000');
+  console.log('📱 Frontend: http://localhost:XXXX');
 });
 
 // Nettoyage à la fermeture

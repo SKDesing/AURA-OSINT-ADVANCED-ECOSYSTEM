@@ -4,7 +4,7 @@ const axios = require('axios');
 
 const app = express();
 const PORT = process.env.PORT || 3007;
-const FORENSIC_SERVICE_URL = process.env.FORENSIC_SERVICE_URL || 'http://localhost:3008';
+const FORENSIC_SERVICE_URL = process.env.FORENSIC_SERVICE_URL || 'http://localhost:XXXX';
 
 app.use(cors());
 app.use(express.json());

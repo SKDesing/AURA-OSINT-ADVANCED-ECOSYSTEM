@@ -41,7 +41,7 @@ class UnifiedConfig {
                 cors: {
                     origin: this.env === 'production' ? 
                         ['https://aura.forensic.com'] : 
-                        ['http://localhost:3000', 'http://localhost:3001'],
+                        ['http://localhost:XXXX', 'http://localhost:XXXX'],
                     credentials: true
                 }
             },
@@ -201,7 +201,7 @@ class UnifiedConfig {
     }
 
     getRedisUrl() {
-        return process.env.REDIS_URL || 'redis://localhost:6379';
+        return process.env.REDIS_URL || 'redis://localhost:XXXX';
     }
 
     isProduction() {
