@@ -20,7 +20,7 @@ const Contact = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/send-email', {
+      const response = await fetch('http://localhost:XXXX/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

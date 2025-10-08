@@ -76,7 +76,7 @@ const sendWelcomeEmail = async (userEmail, userName) => {
             <h2>Merci de rejoindre AURA OSINT!</h2>
             <p>Nous sommes ravis de t'accueillir sur la plateforme OSINT la plus avancée.</p>
             <p>Tu peux maintenant profiter de toutes nos fonctionnalités d'intelligence.</p>
-            <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard" 
+            <a href="${process.env.FRONTEND_URL || 'http://localhost:XXXX'}/dashboard" 
                style="display: inline-block; margin-top: 20px; padding: 12px 30px; 
                       background: #667eea; color: white; text-decoration: none; 
                       border-radius: 5px;">

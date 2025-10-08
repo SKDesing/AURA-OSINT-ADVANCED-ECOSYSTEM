@@ -203,7 +203,7 @@ app.get('/api/harassment/exam-stats', async (req, res) => {
 const PORT = process.env.PORT || 4003;
 app.listen(PORT, () => {
     console.log(`🛡️ AURA Anti-Harassment API running on port ${PORT}`);
-    console.log(`📊 Dashboard: http://localhost:${PORT}/api/harassment/dashboard`);
+    console.log(`📊 Dashboard: http://localhost:XXXX${PORT}/api/harassment/dashboard`);
 });
 
 module.exports = app;

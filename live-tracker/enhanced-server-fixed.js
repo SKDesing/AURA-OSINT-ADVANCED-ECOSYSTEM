@@ -9,7 +9,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { 
-    origin: ["http://localhost:3000", "http://127.0.0.1:3000"], 
+    origin: ["http://localhost:XXXX", "http://127.0.0.1:XXXX"], 
     methods: ["GET", "POST"],
     credentials: true
   },
@@ -51,7 +51,7 @@ const db = new Pool(config.database);
 
 // Middleware CORS
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: ['http://localhost:XXXX', 'http://127.0.0.1:XXXX'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
@@ -149,7 +149,7 @@ const PORT = config.servers.backend.port;
 server.listen(PORT, () => {
   logger.info('Enhanced server started', { port: PORT });
   console.log(`🚀 AURA Server - Port ${PORT}`);
-  console.log('📱 Launcher: http://localhost:3000');
+  console.log('📱 Launcher: http://localhost:XXXX');
 });
 
 // Nettoyage

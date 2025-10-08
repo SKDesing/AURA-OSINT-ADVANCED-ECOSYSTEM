@@ -1,7 +1,7 @@
 # 🛡️ AURA TikTok Intelligence Engine
 
-[![CI/CD](https://img.shields.io/github/actions/workflow/status/SKDesing/TikTok-Live-Analyser/chromium-enforcement.yml?branch=main&label=CI%2FCD&logo=github)](https://github.com/SKDesing/TikTok-Live-Analyser/actions)
-[![Security Audit](https://img.shields.io/github/actions/workflow/status/SKDesing/TikTok-Live-Analyser/security-audit.yml?branch=main&label=Security%20Audit&logo=shield)](https://github.com/SKDesing/TikTok-Live-Analyser/actions)
+[![CI/CD](https://img.shields.io/github/actions/workflow/status/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/chromium-enforcement.yml?branch=main&label=CI%2FCD&logo=github)](https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/actions)
+[![Security Audit](https://img.shields.io/github/actions/workflow/status/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/security-audit.yml?branch=main&label=Security%20Audit&logo=shield)](https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/actions)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-green?logo=node.js)](https://nodejs.org/)
 
@@ -10,8 +10,8 @@
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/SKDesing/TikTok-Live-Analyser.git
-cd TikTok-Live-Analyser
+git clone https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM.git
+cd AURA-OSINT-ADVANCED-ECOSYSTEM
 npm run full-setup
 npm run gui
 ```
@@ -234,7 +234,7 @@ We welcome contributions to the AURA ecosystem:
 
 **🎯 AURA TikTok Intelligence - Professional OSINT Made Simple**
 
-[![GitHub stars](https://img.shields.io/github/stars/SKDesing/TikTok-Live-Analyser?style=social)](https://github.com/SKDesing/TikTok-Live-Analyser/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM?style=social)](https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/stargazers)
 [![Follow](https://img.shields.io/twitter/follow/AURAIntelligence?style=social)](https://twitter.com/AURAIntelligence)
 
 *Part of the AURA Multi-Platform OSINT Ecosystem*

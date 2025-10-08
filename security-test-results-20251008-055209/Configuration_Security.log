@@ -1,0 +1,4 @@
+./live-tracker/security-enhanced.js:      const result = execSync('grep -r "password.*:" . --exclude-dir=.git --exclude-dir=node_modules | grep -v ".env"', { encoding: 'utf8' });
+./backend/api/auth-api.js:    const { username, password, totpCode, rememberMe } = req.body;
+./backend/api/auth-api.js:    const passwordValid = await bcrypt.compare(password, user.password);
+Hardcoded passwords found

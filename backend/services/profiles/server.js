@@ -5,7 +5,7 @@ const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3003;
-const redisClient = redis.createClient({ url: process.env.REDIS_URL || 'redis://localhost:6379' });
+const redisClient = redis.createClient({ url: process.env.REDIS_URL || 'redis://localhost:XXXX' });
 
 // Rate limiting pour API
 const limiter = rateLimit({

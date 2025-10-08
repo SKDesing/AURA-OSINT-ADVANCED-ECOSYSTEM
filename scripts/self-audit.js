@@ -99,7 +99,7 @@ class ForensicAuditor {
 
   checkDatabase() {
     try {
-      const result = execSync('export PGPASSWORD="Mohand/06" && psql -h localhost -U postgres -d live_tracker -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=\'public\';"', { encoding: 'utf8' });
+      const result = execSync('export PGPASSWORD="[REDACTED]" && psql -h localhost -U postgres -d live_tracker -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=\'public\';"', { encoding: 'utf8' });
       const tableCount = parseInt(result.match(/\d+/)[0]);
       
       return { 

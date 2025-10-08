@@ -25,7 +25,7 @@ const limiter = rateLimit({
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? ['https://aura-osint.com', 'https://www.aura-osint.com']
-    : ['http://localhost:3000', 'http://localhost:3001']
+    : ['http://localhost:XXXX', 'http://localhost:XXXX']
 }));
 app.use(express.json({ limit: '10mb' }));
 
@@ -60,6 +60,6 @@ app.use((error, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ AURA Backend démarré sur http://localhost:${PORT}`);
+  console.log(`✅ AURA Backend démarré sur http://localhost:XXXX${PORT}`);
   console.log(`📧 Mailtrap: ${process.env.MAILTRAP_HOST ? 'Configuré' : 'Non configuré'}`);
 });

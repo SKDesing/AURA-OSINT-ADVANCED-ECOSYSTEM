@@ -156,8 +156,8 @@ class HealthChecks {
 
     async checkNetwork() {
         const testUrls = [
-            'http://localhost:3000',
-            'http://localhost:4002'
+            'http://localhost:XXXX',
+            'http://localhost:XXXX'
         ];
 
         const results = await Promise.all(

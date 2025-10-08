@@ -29,7 +29,7 @@ class ChromiumEnforcer {
     static launchWithStartup() {
         try {
             const chromiumPath = this.getChromiumPath();
-            const wizardUrl = 'http://localhost:3000/install';
+            const wizardUrl = 'http://localhost:XXXX/install';
             
             console.log('🚀 Lancement Chromium avec wizard d\'installation...');
             console.log(`🌐 URL: ${wizardUrl}`);
@@ -54,7 +54,7 @@ class ChromiumEnforcer {
     static launchMainInterface() {
         try {
             const chromiumPath = this.getChromiumPath();
-            const command = `"${chromiumPath}" "http://localhost:3000" --new-window`;
+            const command = `"${chromiumPath}" "http://localhost:XXXX" --new-window`;
             
             console.log('🌐 Lancement interface principale AURA...');
             exec(command);

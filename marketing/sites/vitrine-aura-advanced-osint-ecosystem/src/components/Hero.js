@@ -46,7 +46,7 @@ const Hero = () => {
               className="btn-primary"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => window.open('http://localhost:3000', '_blank')}
+              onClick={() => window.open('http://localhost:XXXX', '_blank')}
             >
               Accéder à l'Interface
             </motion.button>

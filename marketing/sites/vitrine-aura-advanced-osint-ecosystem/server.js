@@ -80,10 +80,10 @@ app.post('/api/contact', async (req, res) => {
 app.get('/api/services/status', async (req, res) => {
   try {
     const services = [
-      { name: 'TikTok Engine', status: 'online', url: 'http://localhost:3000' },
-      { name: 'Analytics API', status: 'online', url: 'http://localhost:4002' },
-      { name: 'Forensic DB', status: 'online', url: 'http://localhost:5432' },
-      { name: 'Dashboard', status: 'online', url: 'http://localhost:3000' }
+      { name: 'TikTok Engine', status: 'online', url: 'http://localhost:XXXX' },
+      { name: 'Analytics API', status: 'online', url: 'http://localhost:XXXX' },
+      { name: 'Forensic DB', status: 'online', url: 'http://localhost:XXXX' },
+      { name: 'Dashboard', status: 'online', url: 'http://localhost:XXXX' }
     ];
     
     res.json({ services, timestamp: new Date().toISOString() });

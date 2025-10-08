@@ -31,7 +31,7 @@ const InstallationWizard = () => {
                 // Vérifier Analytics API
                 if (!services.api) {
                     try {
-                        const apiResponse = await fetch('http://localhost:4002/api/status');
+                        const apiResponse = await fetch('http://localhost:XXXX/api/status');
                         if (apiResponse.ok) {
                             setServices(prev => ({ ...prev, api: true }));
                             setCurrentStep(2);
@@ -45,7 +45,7 @@ const InstallationWizard = () => {
                 // Vérifier GUI
                 if (!services.gui && services.api) {
                     try {
-                        const guiResponse = await fetch('http://localhost:3000');
+                        const guiResponse = await fetch('http://localhost:XXXX');
                         if (guiResponse.ok) {
                             setServices(prev => ({ ...prev, gui: true }));
                             setCurrentStep(3);
@@ -66,7 +66,7 @@ const InstallationWizard = () => {
                 // Vérifier Frontend Next.js
                 if (!services.frontend && services.gui) {
                     try {
-                        const frontendResponse = await fetch('http://localhost:3002');
+                        const frontendResponse = await fetch('http://localhost:XXXX');
                         if (frontendResponse.ok) {
                             setServices(prev => ({ ...prev, frontend: true }));
                             setCurrentStep(5);
@@ -90,7 +90,7 @@ const InstallationWizard = () => {
                     setTimeout(() => {
                         addLog('Redirection vers l\'interface principale...', 'info');
                         setTimeout(() => {
-                            window.location.href = 'http://localhost:3000';
+                            window.location.href = 'http://localhost:XXXX';
                         }, 2000);
                     }, 1000);
                 }

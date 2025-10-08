@@ -203,8 +203,8 @@ app.get('/api/docs', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`🎭 Forensic Gateway Maestro running on port ${PORT}`);
-  console.log(`📚 API Documentation: http://localhost:${PORT}/api/docs`);
-  console.log(`🔬 Health Check: http://localhost:${PORT}/health`);
+  console.log(`📚 API Documentation: http://localhost:XXXX${PORT}/api/docs`);
+  console.log(`🔬 Health Check: http://localhost:XXXX${PORT}/health`);
 });
 
 module.exports = app;

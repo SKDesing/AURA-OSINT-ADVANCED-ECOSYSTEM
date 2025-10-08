@@ -28,5 +28,5 @@ app.post('/test-intercept', express.json(), (req, res) => {
 });
 
 app.listen(3001, () => {
-    console.log('🔍 Moniteur de test actif sur http://localhost:3001/monitor');
+    console.log('🔍 Moniteur de test actif sur http://localhost:XXXX/monitor');
 });

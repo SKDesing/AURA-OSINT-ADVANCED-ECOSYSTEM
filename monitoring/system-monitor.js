@@ -257,7 +257,7 @@ class SystemMonitor {
         return Promise.all(services.map(async service => {
             try {
                 const response = await axios.get(
-                    `http://localhost:${service.port}${service.path}`,
+                    `http://localhost:XXXX${service.port}${service.path}`,
                     { timeout: 3000 }
                 );
                 
