@@ -40,12 +40,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SKDesing/TikTok-Live-Analyser.git"
+    "url": "https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM.git"
   },
   "bugs": {
-    "url": "https://github.com/SKDesing/TikTok-Live-Analyser/issues"
+    "url": "https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/issues"
   },
-  "homepage": "https://github.com/SKDesing/TikTok-Live-Analyser#readme",
+  "homepage": "https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM#readme",
   "devDependencies": {
     "@tauri-apps/cli": "^1.5.0"
   },

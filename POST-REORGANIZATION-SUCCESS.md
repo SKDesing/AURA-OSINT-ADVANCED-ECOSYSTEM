@@ -108,7 +108,7 @@ bash scripts/fix-vitrine-complete.sh
 ## 📁 **STRUCTURE FINALE VALIDÉE**
 
 ```
-TikTok-Live-Analyser/
+AURA-OSINT-ADVANCED-ECOSYSTEM/
 ├── marketing/
 │   └── sites/
 │       └── vitrine-aura-advanced-osint-ecosystem/

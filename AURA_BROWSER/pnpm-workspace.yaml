@@ -1,0 +1,7 @@
+# ⚠️ Exclusions strictes pour éviter les conflits C++/JS
+packages:
+  - "modules/*"      # Modules JS (stealth, automation)
+  - "scraper/*"      # Moteur de scraping
+  - "osint/*"        # Outils d'analyse
+  - "!core/**"       # Chromium géré séparément (GN/Ninja)
+  - "!**/node_modules"  # Interdit les modules imbriqués

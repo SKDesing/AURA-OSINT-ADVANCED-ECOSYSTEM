@@ -5,7 +5,7 @@
 ### **1. 📁 Structure Finale**
 
 ```
-TikTok-Live-Analyser/
+AURA-OSINT-ADVANCED-ECOSYSTEM/
 ├── backend/
 │   ├── api/                    # APIs REST consolidées
 │   ├── services/               # Services métier + moteurs

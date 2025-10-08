@@ -54,7 +54,7 @@ const Hero = () => {
               className="btn-secondary"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => window.open('https://github.com/SKDesing/TikTok-Live-Analyser', '_blank')}
+              onClick={() => window.open('https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM', '_blank')}
             >
               Voir le Code Source
             </motion.button>

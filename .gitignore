@@ -47,3 +47,7 @@ desktop.ini
 # AURA Security
 .aura-key
 decrypt-aura.sh
+logs/
+*.backup
+temp/
+security-test-results-*/
