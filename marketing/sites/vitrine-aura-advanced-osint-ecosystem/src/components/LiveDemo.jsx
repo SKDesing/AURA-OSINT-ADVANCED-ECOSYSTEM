@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Search, Brain, Globe, Zap } from 'lucide-react';
+import EnhancedIcon from './icons/EnhancedIcon';
 import './LiveDemo.css';
 
 const LiveDemo = () => {
@@ -217,28 +219,28 @@ const LiveDemo = () => {
             <h3>🎯 Demo Features</h3>
             <div className="feature-list">
               <div className="feature-item">
-                <span className="feature-icon">🔍</span>
+                <EnhancedIcon icon={Search} color="#00ff88" size="32px" background />
                 <div>
                   <strong>12-Layer Deep Scan</strong>
                   <p>Comprehensive analysis across multiple data dimensions</p>
                 </div>
               </div>
               <div className="feature-item">
-                <span className="feature-icon">🧠</span>
+                <EnhancedIcon icon={Brain} color="#00d4ff" size="32px" background pulse />
                 <div>
                   <strong>AI Correlation</strong>
                   <p>Machine learning powered pattern recognition</p>
                 </div>
               </div>
               <div className="feature-item">
-                <span className="feature-icon">🌐</span>
+                <EnhancedIcon icon={Globe} color="#ff00ff" size="32px" background rotate />
                 <div>
                   <strong>47+ Platforms</strong>
                   <p>Cross-platform intelligence gathering</p>
                 </div>
               </div>
               <div className="feature-item">
-                <span className="feature-icon">⚡</span>
+                <EnhancedIcon icon={Zap} color="#ffff00" size="32px" background pulse />
                 <div>
                   <strong>Real-time Processing</strong>
                   <p>Instant analysis and correlation</p>

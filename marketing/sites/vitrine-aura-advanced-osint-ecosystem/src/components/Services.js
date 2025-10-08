@@ -1,46 +1,47 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaSearch, FaBrain, FaShieldAlt, FaCode, FaUsers, FaChartLine } from 'react-icons/fa';
+import EnhancedIcon from './icons/EnhancedIcon';
 
 const Services = () => {
   const services = [
     {
-      icon: <FaSearch />,
+      icon: <EnhancedIcon icon={FaSearch} color="#00ff88" size="48px" background pulse />,
       title: "OSINT Investigation",
       description: "Enquêtes OSINT complètes avec outils avancés",
       features: ["Multi-platform monitoring", "Real-time data collection", "Automated correlation"],
       price: "À partir de 500€/mois"
     },
     {
-      icon: <FaBrain />,
+      icon: <EnhancedIcon icon={FaBrain} color="#00d4ff" size="48px" background rotate />,
       title: "Intelligence Forensique",
       description: "Analyse forensique avec IA et ML",
       features: ["Pattern recognition", "Behavioral analysis", "Threat detection"],
       price: "À partir de 2000€/mois"
     },
     {
-      icon: <FaCode />,
+      icon: <EnhancedIcon icon={FaCode} color="#ff00ff" size="48px" background />,
       title: "Développement Custom",
       description: "Solutions OSINT sur mesure",
       features: ["Custom integrations", "API development", "White-label solutions"],
       price: "Sur devis"
     },
     {
-      icon: <FaUsers />,
+      icon: <EnhancedIcon icon={FaUsers} color="#ffff00" size="48px" background pulse />,
       title: "Consulting & Formation",
       description: "Expertise et formation OSINT",
       features: ["Professional training", "Best practices", "Compliance guidance"],
       price: "À partir de 1500€/jour"
     },
     {
-      icon: <FaShieldAlt />,
+      icon: <EnhancedIcon icon={FaShieldAlt} color="#ff4444" size="48px" background />,
       title: "Sécurité & Compliance",
       description: "Audit sécurité et conformité",
       features: ["Security audits", "GDPR compliance", "SOC2 certification"],
       price: "À partir de 3000€"
     },
     {
-      icon: <FaChartLine />,
+      icon: <EnhancedIcon icon={FaChartLine} color="#00ff88" size="48px" background pulse />,
       title: "Analytics & Reporting",
       description: "Tableaux de bord et rapports",
       features: ["Real-time dashboards", "Custom reports", "Data visualization"],

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa';
+import EnhancedIcon from './icons/EnhancedIcon';
 import toast, { Toaster } from 'react-hot-toast';
 
 const Contact = () => {
@@ -94,7 +95,7 @@ const Contact = () => {
             <h3>Informations de contact</h3>
             
             <div className="contact-item">
-              <FaEnvelope className="contact-icon" />
+              <EnhancedIcon icon={FaEnvelope} color="#00ff88" size="32px" background />
               <div>
                 <strong>Email</strong>
                 <p>contact@tiktokliveanalyser.com</p>
@@ -103,7 +104,7 @@ const Contact = () => {
             </div>
             
             <div className="contact-item">
-              <FaPhone className="contact-icon" />
+              <EnhancedIcon icon={FaPhone} color="#00d4ff" size="32px" background pulse />
               <div>
                 <strong>Support 24/7</strong>
                 <p>Enterprise SLA disponible</p>
@@ -111,7 +112,7 @@ const Contact = () => {
             </div>
             
             <div className="contact-item">
-              <FaMapMarkerAlt className="contact-icon" />
+              <EnhancedIcon icon={FaMapMarkerAlt} color="#ff00ff" size="32px" background />
               <div>
                 <strong>Localisation</strong>
                 <p>Worldwide - Remote First</p>
@@ -121,9 +122,15 @@ const Contact = () => {
             <div className="social-links">
               <h4>Suivez-nous</h4>
               <div className="social-icons">
-                <a href="https://linkedin.com/company/aura-osint" className="social-link"><FaLinkedin /></a>
-                <a href="https://github.com/SKDesing/TikTok-Live-Analyser" className="social-link"><FaGithub /></a>
-                <a href="https://twitter.com/aura-osint" className="social-link"><FaTwitter /></a>
+                <a href="https://linkedin.com/company/aura-osint" className="social-link">
+                  <EnhancedIcon icon={FaLinkedin} color="#0077b5" size="24px" />
+                </a>
+                <a href="https://github.com/SKDesing/TikTok-Live-Analyser" className="social-link">
+                  <EnhancedIcon icon={FaGithub} color="#00ff88" size="24px" />
+                </a>
+                <a href="https://twitter.com/aura-osint" className="social-link">
+                  <EnhancedIcon icon={FaTwitter} color="#1da1f2" size="24px" />
+                </a>
               </div>
             </div>
           </motion.div>

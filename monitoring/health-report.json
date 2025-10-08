@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-08T16:29:22.428Z",
+  "timestamp": "2025-10-08T16:52:42.799Z",
   "overall": {
     "status": "unhealthy",
     "level": "critical"
@@ -12,7 +12,16 @@
         "stdout": "localhost:5432 - accepting connections\n",
         "stderr": ""
       },
-      "timestamp": "2025-10-08T16:29:22.164Z"
+      "timestamp": "2025-10-08T16:52:42.646Z"
+    },
+    "redis": {
+      "status": "warning",
+      "message": "Redis optional - not critical",
+      "details": {
+        "stdout": "",
+        "stderr": "/bin/sh: 1: redis-cli: not found\n"
+      },
+      "timestamp": "2025-10-08T16:52:42.731Z"
     },
     "filesystem": {
       "status": "unhealthy",
@@ -21,8 +30,8 @@
         {
           "path": "./logs",
           "exists": true,
-          "writable": false,
-          "status": "unhealthy"
+          "writable": true,
+          "status": "healthy"
         },
         {
           "path": "./backups",
@@ -43,27 +52,27 @@
           "status": "unhealthy"
         }
       ],
-      "timestamp": "2025-10-08T16:29:22.222Z"
+      "timestamp": "2025-10-08T16:52:42.732Z"
     },
     "memory": {
-      "status": "healthy",
-      "message": "Memory usage: 56%",
+      "status": "warning",
+      "message": "Memory usage: 85%",
       "details": {
-        "heapUsed": "9 MB",
-        "heapTotal": "16 MB",
-        "percentage": 56
+        "heapUsed": "11 MB",
+        "heapTotal": "13 MB",
+        "percentage": 85
       },
-      "timestamp": "2025-10-08T16:29:22.222Z"
+      "timestamp": "2025-10-08T16:52:42.732Z"
     },
     "processes": {
       "status": "healthy",
-      "message": "Process uptime: 6h",
+      "message": "Process uptime: 3h",
       "details": {
-        "pid": 2450331,
-        "uptime": 22578.830025319,
-        "uptimeFormatted": "6h 16m"
+        "pid": 2652240,
+        "uptime": 9975.058195479,
+        "uptimeFormatted": "3h 46m"
       },
-      "timestamp": "2025-10-08T16:29:22.222Z"
+      "timestamp": "2025-10-08T16:52:42.732Z"
     },
     "network": {
       "status": "warning",
@@ -72,15 +81,15 @@
         {
           "url": "http://localhost:3000",
           "status": "healthy",
-          "responseTime": 1759940962426
+          "responseTime": 1759942362799
         },
         {
           "url": "http://localhost:4002",
           "status": "unhealthy",
-          "responseTime": 1759940962410
+          "responseTime": 1759942362754
         }
       ],
-      "timestamp": "2025-10-08T16:29:22.426Z"
+      "timestamp": "2025-10-08T16:52:42.799Z"
     },
     "services": {
       "status": "healthy",
@@ -99,7 +108,7 @@
           "status": "healthy"
         }
       ],
-      "timestamp": "2025-10-08T16:29:22.427Z"
+      "timestamp": "2025-10-08T16:52:42.799Z"
     }
   }
 }
