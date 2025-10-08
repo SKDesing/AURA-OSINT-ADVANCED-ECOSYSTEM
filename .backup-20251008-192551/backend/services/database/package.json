@@ -1,0 +1,24 @@
+{
+  "name": "scis-database",
+  "version": "1.0.0",
+  "description": "Service database SCIS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "echo 'database build complete'"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "knex": "^3.1.0",
+    "pg": "^8.16.3"
+  },
+  "keywords": [
+    "scis",
+    "database",
+    "microservice"
+  ],
+  "author": "SCIS Team",
+  "license": "MIT"
+}
