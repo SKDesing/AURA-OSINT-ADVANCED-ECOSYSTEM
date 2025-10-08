@@ -1,0 +1,524 @@
+/* ============================================
+   AURA OSINT LOGIN FORM STYLES
+   Professional UI/UX with Security & Accessibility
+   ============================================ */
+
+/* CSS Variables - Design System */
+:root {
+  /* Primary Colors */
+  --aura-primary-900: #0A1929;
+  --aura-primary-800: #1A2332;
+  --aura-primary-700: #1E3A5F;
+  --aura-primary-600: #2E5090;
+  --aura-primary-500: #4A90E2;
+  --aura-primary-400: #6BA3E8;
+  --aura-primary-300: #A8CAEF;
+  
+  /* Secondary Colors */
+  --aura-secondary-500: #00D9FF;
+  --aura-accent-warning: #FFA726;
+  --aura-accent-danger: #EF5350;
+  --aura-accent-success: #66BB6A;
+  
+  /* Neutrals */
+  --aura-neutral-100: #F8F9FA;
+  --aura-neutral-200: #E9ECEF;
+  --aura-neutral-300: #DEE2E6;
+  --aura-neutral-500: #6C757D;
+  --aura-neutral-700: #495057;
+  --aura-neutral-900: #212529;
+  
+  /* Gradients */
+  --aura-gradient-primary: linear-gradient(135deg, #2E5090 0%, #4A90E2 100%);
+  --aura-gradient-cyber: linear-gradient(135deg, #00D9FF 0%, #4A90E2 100%);
+  
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+  
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+}
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
+.login-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  background: var(--aura-neutral-100);
+  font-family: var(--font-primary);
+}
+
+/* ============================================
+   PROMO PANEL (LEFT)
+   ============================================ */
+.promo-panel {
+  position: relative;
+  background: var(--aura-gradient-primary);
+  padding: var(--space-10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.promo-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0,217,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.promo-content {
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  color: white;
+  text-align: center;
+}
+
+.logo-container {
+  margin-bottom: var(--space-6);
+}
+
+.logo {
+  filter: brightness(0) invert(1);
+}
+
+.promo-title {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: var(--space-4);
+  line-height: 1.2;
+}
+
+.promo-subtitle {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  line-height: 1.6;
+  margin-bottom: var(--space-8);
+}
+
+.promo-animation {
+  margin: var(--space-8) 0;
+  display: flex;
+  justify-content: center;
+}
+
+.illustration-svg {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.stat-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--aura-secondary-500);
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+/* ============================================
+   FORM PANEL (RIGHT)
+   ============================================ */
+.form-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background: white;
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 440px;
+}
+
+.form-header {
+  margin-bottom: var(--space-8);
+  text-align: center;
+}
+
+.form-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--aura-neutral-900);
+  margin-bottom: var(--space-2);
+}
+
+.form-subtitle {
+  font-size: 1rem;
+  color: var(--aura-neutral-500);
+}
+
+/* ============================================
+   ERROR BANNER
+   ============================================ */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: rgba(239, 83, 80, 0.1);
+  border: 1px solid var(--aura-accent-danger);
+  border-radius: 8px;
+  margin-bottom: var(--space-6);
+  font-size: 0.875rem;
+  color: var(--aura-accent-danger);
+}
+
+.error-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   FORM ELEMENTS
+   ============================================ */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--aura-neutral-700);
+}
+
+.label-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--aura-primary-500);
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: 1rem;
+  font-family: var(--font-primary);
+  color: var(--aura-neutral-900);
+  background: var(--aura-neutral-100);
+  border: 2px solid var(--aura-neutral-300);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--aura-primary-500);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.input:hover {
+  border-color: var(--aura-neutral-500);
+}
+
+/* ============================================
+   PASSWORD INPUT
+   ============================================ */
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--aura-neutral-500);
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+
+.password-toggle:hover {
+  color: var(--aura-primary-500);
+}
+
+.password-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ============================================
+   FORM OPTIONS
+   ============================================ */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  color: var(--aura-neutral-700);
+}
+
+.checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.checkbox-text {
+  user-select: none;
+}
+
+.link-forgot {
+  color: var(--aura-primary-500);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.link-forgot:hover {
+  color: var(--aura-primary-700);
+  text-decoration: underline;
+}
+
+/* ============================================
+   SUBMIT BUTTON
+   ============================================ */
+.button-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-4);
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: var(--aura-gradient-primary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.button-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(74, 144, 226, 0.4);
+}
+
+.button-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.button-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Spinner Animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+/* ============================================
+   DIVIDER
+   ============================================ */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: var(--space-6) 0;
+  color: var(--aura-neutral-500);
+  font-size: 0.875rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--aura-neutral-300);
+}
+
+.divider span {
+  padding: 0 var(--space-4);
+}
+
+/* ============================================
+   SOCIAL BUTTONS
+   ============================================ */
+.social-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.social-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: white;
+  border: 2px solid var(--aura-neutral-300);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.social-button:hover {
+  border-color: var(--aura-neutral-500);
+  background: var(--aura-neutral-100);
+}
+
+.social-button.google {
+  color: #4285F4;
+}
+
+.social-button.github {
+  color: #333;
+}
+
+.social-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.form-footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--aura-neutral-500);
+}
+
+.link-register {
+  color: var(--aura-primary-500);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link-register:hover {
+  text-decoration: underline;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 1024px) {
+  .login-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .promo-panel {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-panel {
+    padding: var(--space-4);
+  }
+  
+  .form-wrapper {
+    max-width: 100%;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+  }
+  
+  .social-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-options {
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .promo-title {
+    font-size: 2rem;
+  }
+  
+  .promo-subtitle {
+    font-size: 1rem;
+  }
+  
+  .button-submit {
+    padding: var(--space-3);
+    font-size: 0.875rem;
+  }
+}

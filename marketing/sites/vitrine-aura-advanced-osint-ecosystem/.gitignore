@@ -1,0 +1,51 @@
+# === SECRETS & KEYS (CRITIQUE) ===
+*.key
+*.pem
+*.p12
+*.pfx
+*.env
+*.env.local
+*.env.production
+.env.*.local
+secrets/
+keys/
+credentials/
+aura-osint-secret.key
+.git-crypt/
+
+# === BUILD ARTIFACTS ===
+build/
+dist/
+*.bundle.js
+*.chunk.js
+
+# === LOGS & DEBUG ===
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === DEPENDENCIES ===
+node_modules/
+.pnp
+.pnp.js
+
+# === TESTING ===
+coverage/
+.nyc_output/
+
+# === OS FILES ===
+.DS_Store
+Thumbs.db
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === BACKEND SENSIBLE ===
+backend/.env
+backend/config/production.json
+backend/logs/

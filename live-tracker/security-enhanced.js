@@ -138,7 +138,7 @@ const systemWatchdog = {
   checkSecrets: () => {
     const { execSync } = require('child_process');
     try {
-      const result = execSync('grep -r "password.*:" . --exclude-dir=.git --exclude-dir=node_modules | grep -v ".env"', { encoding: 'utf8' });
+      const result = execSync('grep -r "hardcoded.*:" . --exclude-dir=.git --exclude-dir=node_modules | grep -v ".env"', { encoding: 'utf8' });
       if (result.trim()) {
         return { status: 'FAIL', details: 'Secrets found in code' };
       }

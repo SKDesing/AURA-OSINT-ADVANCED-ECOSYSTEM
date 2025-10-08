@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' http://localhost:3000 http://localhost:4002; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+    <title>404 – Page introuvable | AURA</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1a1a1a; color: white; margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .container { text-align: center; max-width: 600px; padding: 40px; }
+        .error-code { font-size: 8em; font-weight: bold; color: #ff0050; margin: 0; }
+        .error-message { font-size: 2em; margin: 20px 0; }
+        .error-description { font-size: 1.2em; color: #ccc; margin: 20px 0; }
+        .btn { background: #ff0050; color: white; border: none; padding: 15px 30px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 10px; }
+        .btn:hover { background: #cc0040; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-code">404</div>
+        <div class="error-message">Ressource introuvable</div>
+        <div class="error-description">
+            La page demandée n'existe pas ou a été supprimée.
+        </div>
+        <a href="/" class="btn">🏠 Retour à l'accueil</a>
+    </div>
+</body>
+</html>

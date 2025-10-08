@@ -1,0 +1,130 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "build": {
+    "beforeBuildCommand": "cd ../../frontend-desktop && npm run build",
+    "beforeDevCommand": "cd ../../frontend-desktop && npm run dev",
+    "devPath": "http://localhost:3000",
+    "distDir": "../../frontend-desktop/dist"
+  },
+  "package": {
+    "productName": "AURA OSINT",
+    "version": "1.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      },
+      "window": {
+        "all": false,
+        "close": true,
+        "hide": true,
+        "show": true,
+        "maximize": true,
+        "minimize": true,
+        "unmaximize": true,
+        "unminimize": true,
+        "startDragging": true
+      },
+      "fs": {
+        "all": false,
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "copyFile": true,
+        "createDir": true,
+        "removeDir": true,
+        "removeFile": true,
+        "renameFile": true,
+        "exists": true,
+        "scope": ["$APPDATA/aura-osint/*", "$DOCUMENT/aura-osint/*"]
+      },
+      "http": {
+        "all": false,
+        "request": true,
+        "scope": [
+          "https://www.tiktok.com/*",
+          "https://webcast.tiktok.com/*",
+          "https://www.youtube.com/*",
+          "https://www.twitch.tv/*"
+        ]
+      }
+    },
+    "bundle": {
+      "active": true,
+      "targets": ["nsis", "deb", "appimage", "dmg"],
+      "identifier": "com.websk.aura-osint",
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "resources": [],
+      "externalBin": [],
+      "copyright": "© 2024 WebSK - AURA Intelligence",
+      "category": "DeveloperTool",
+      "shortDescription": "Professional OSINT Platform for Live Stream Intelligence",
+      "longDescription": "AURA OSINT is the first desktop application for real-time OSINT analysis of TikTok, YouTube, and Twitch live streams. Built for investigators, researchers, and analysts.",
+      "deb": {
+        "depends": ["libwebkit2gtk-4.0-37", "libgtk-3-0"]
+      },
+      "macOS": {
+        "frameworks": [],
+        "minimumSystemVersion": "10.13",
+        "exceptionDomain": "",
+        "signingIdentity": null,
+        "providerShortName": null,
+        "entitlements": null
+      },
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": "",
+        "wix": {
+          "language": ["en-US", "fr-FR"]
+        },
+        "nsis": {
+          "displayLanguageSelector": true,
+          "installerIcon": "icons/icon.ico",
+          "installMode": "perMachine",
+          "languages": ["English", "French"],
+          "template": null
+        }
+      }
+    },
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' https://www.tiktok.com https://webcast.tiktok.com https://www.youtube.com https://www.twitch.tv wss://webcast.tiktok.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;"
+    },
+    "updater": {
+      "active": true,
+      "endpoints": ["https://releases.websk.com/aura/update.json"],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEFBQUFBQUFBQUFBQUFBQUE="
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "AURA OSINT",
+        "width": 1400,
+        "height": 900,
+        "minWidth": 1200,
+        "minHeight": 800,
+        "center": true,
+        "decorations": true,
+        "alwaysOnTop": false,
+        "skipTaskbar": false,
+        "theme": "Dark"
+      }
+    ],
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true,
+      "menuOnLeftClick": false
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "name": "aura-osint-desktop",
+  "version": "1.0.0",
+  "description": "AURA OSINT Desktop Application - Professional OSINT Platform",
+  "main": "src-tauri/src/main.rs",
+  "scripts": {
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "tauri:build-debug": "tauri build --debug",
+    "build": "npm run tauri:build",
+    "dev": "npm run tauri:dev",
+    "test": "cargo test --manifest-path=src-tauri/Cargo.toml",
+    "lint": "cargo clippy --manifest-path=src-tauri/Cargo.toml",
+    "format": "cargo fmt --manifest-path=src-tauri/Cargo.toml",
+    "clean": "cargo clean --manifest-path=src-tauri/Cargo.toml && rm -rf src-tauri/target",
+    "setup": "npm install && cd src-tauri && cargo fetch",
+    "package:windows": "npm run tauri:build -- --target x86_64-pc-windows-msvc",
+    "package:linux": "npm run tauri:build -- --target x86_64-unknown-linux-gnu",
+    "package:macos": "npm run tauri:build -- --target x86_64-apple-darwin",
+    "package:all": "npm run package:windows && npm run package:linux && npm run package:macos",
+    "release": "npm run tauri:build && node scripts/prepare-release.js",
+    "updater:generate": "tauri signer generate -w ~/.tauri/aura-osint.key",
+    "updater:sign": "tauri signer sign"
+  },
+  "keywords": [
+    "osint",
+    "intelligence",
+    "tiktok",
+    "youtube",
+    "twitch",
+    "live-streaming",
+    "harassment-detection",
+    "forensic",
+    "desktop",
+    "tauri",
+    "rust"
+  ],
+  "author": "WebSK <contact@websk.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SKDesing/TikTok-Live-Analyser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SKDesing/TikTok-Live-Analyser/issues"
+  },
+  "homepage": "https://github.com/SKDesing/TikTok-Live-Analyser#readme",
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.5.0"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "tauri": {
+    "build": {
+      "beforeBuildCommand": "echo 'Building AURA OSINT Desktop...'",
+      "beforeDevCommand": "echo 'Starting AURA OSINT Desktop in dev mode...'",
+      "devPath": "../frontend-desktop/dist",
+      "distDir": "../frontend-desktop/dist"
+    }
+  }
+}
