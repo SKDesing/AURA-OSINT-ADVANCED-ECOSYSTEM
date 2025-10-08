@@ -5,7 +5,7 @@ node_modules/
 *.log
 logs/
 temp/
-chrome/chrome
+chrome/
 browser/profiles/
 *.db
 *.db-journal
