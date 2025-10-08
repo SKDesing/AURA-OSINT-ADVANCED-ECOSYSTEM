@@ -66,11 +66,10 @@ class StartupOrchestrator {
         
         // Chemins Chrome/Chromium possibles
         const chromePaths = [
+            '/usr/bin/chromium-browser',  // Priorité système
+            '/snap/bin/chromium',
             '/usr/bin/google-chrome',
-            '/usr/bin/google-chrome-stable', 
-            '/usr/bin/chromium-browser',
-            '/usr/bin/chromium',
-            '/snap/bin/chromium'
+            '/usr/bin/google-chrome-stable'
         ];
         
         let chromiumPath = null;

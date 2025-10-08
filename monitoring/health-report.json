@@ -1,0 +1,105 @@
+{
+  "timestamp": "2025-10-08T00:58:47.173Z",
+  "overall": {
+    "status": "unhealthy",
+    "level": "critical"
+  },
+  "checks": {
+    "database": {
+      "status": "healthy",
+      "message": "Database accessible",
+      "details": {
+        "stdout": "localhost:5432 - accepting connections\n",
+        "stderr": ""
+      },
+      "timestamp": "2025-10-08T00:58:47.171Z"
+    },
+    "filesystem": {
+      "status": "unhealthy",
+      "message": "Some paths have issues",
+      "details": [
+        {
+          "path": "./logs",
+          "exists": true,
+          "writable": true,
+          "status": "healthy"
+        },
+        {
+          "path": "./backups",
+          "exists": true,
+          "writable": true,
+          "status": "healthy"
+        },
+        {
+          "path": "./database",
+          "exists": true,
+          "writable": true,
+          "status": "healthy"
+        },
+        {
+          "path": "./browser/profiles",
+          "exists": false,
+          "writable": false,
+          "status": "unhealthy"
+        }
+      ],
+      "timestamp": "2025-10-08T00:58:47.171Z"
+    },
+    "memory": {
+      "status": "warning",
+      "message": "Memory usage: 80%",
+      "details": {
+        "heapUsed": "8 MB",
+        "heapTotal": "10 MB",
+        "percentage": 80
+      },
+      "timestamp": "2025-10-08T00:58:47.171Z"
+    },
+    "processes": {
+      "status": "healthy",
+      "message": "Process uptime: 0h",
+      "details": {
+        "pid": 2445160,
+        "uptime": 1080.769476805,
+        "uptimeFormatted": "0h 18m"
+      },
+      "timestamp": "2025-10-08T00:58:47.171Z"
+    },
+    "network": {
+      "status": "unhealthy",
+      "message": "0/2 services responding",
+      "details": [
+        {
+          "url": "http://localhost:3000",
+          "status": "unhealthy",
+          "responseTime": 1759885127173
+        },
+        {
+          "url": "http://localhost:4002",
+          "status": "unhealthy",
+          "responseTime": 1759885127173
+        }
+      ],
+      "timestamp": "2025-10-08T00:58:47.173Z"
+    },
+    "services": {
+      "status": "healthy",
+      "message": "3/3 services healthy",
+      "details": [
+        {
+          "name": "forensic-logger",
+          "status": "healthy"
+        },
+        {
+          "name": "system-monitor",
+          "status": "healthy"
+        },
+        {
+          "name": "backup-scheduler",
+          "status": "healthy"
+        }
+      ],
+      "timestamp": "2025-10-08T00:58:47.173Z"
+    }
+  }
+}

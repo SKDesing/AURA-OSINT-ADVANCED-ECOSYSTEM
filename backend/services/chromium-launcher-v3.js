@@ -26,7 +26,7 @@ class AuraChromiumLauncher {
     ].filter(Boolean);
 
     this.browser = await puppeteer.launch({
-      executablePath: path.join(__dirname, '../../chrome/chrome'),
+      executablePath: '/usr/bin/chromium-browser',
       headless: this.config.headless,
       args: launchArgs,
       ignoreHTTPSErrors: this.config.security.ignoreHTTPSErrors,

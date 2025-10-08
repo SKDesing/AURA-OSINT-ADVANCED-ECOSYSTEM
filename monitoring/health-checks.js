@@ -12,6 +12,7 @@ class HealthChecks {
 
     setupChecks() {
         this.checks.set('database', () => this.checkDatabase());
+        this.checks.set('redis', () => this.checkRedis()); // Redis optionnel
         this.checks.set('filesystem', () => this.checkFilesystem());
         this.checks.set('memory', () => this.checkMemory());
         this.checks.set('processes', () => this.checkProcesses());
@@ -57,6 +58,19 @@ class HealthChecks {
                 resolve({
                     status: error ? 'unhealthy' : 'healthy',
                     message: error ? 'Database connection failed' : 'Database accessible',
+                    details: { stdout, stderr },
+                    timestamp: new Date().toISOString()
+                });
+            });
+        });
+    }
+
+    async checkRedis() {
+        return new Promise((resolve) => {
+            exec('redis-cli ping', (error, stdout, stderr) => {
+                resolve({
+                    status: error ? 'warning' : 'healthy', // Warning au lieu d'unhealthy
+                    message: error ? 'Redis optional - not critical' : 'Redis accessible',
                     details: { stdout, stderr },
                     timestamp: new Date().toISOString()
                 });
