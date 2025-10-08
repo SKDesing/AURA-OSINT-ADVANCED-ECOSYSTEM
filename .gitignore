@@ -44,3 +44,6 @@ coverage/
 .DS_Store
 Thumbs.db
 desktop.ini
+# AURA Security
+.aura-key
+decrypt-aura.sh

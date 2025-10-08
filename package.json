@@ -54,7 +54,10 @@
     "fix-browser-calls": "node scripts/ci/fix-browser-violations.js",
     "test:chromium": "node tests/unit/test-chromium-migration.js",
     "security:audit": "npm audit --audit-level=moderate",
-    "security:fix": "npm audit fix --force"
+    "security:fix": "npm audit fix --force",
+    "dev-safe": "node --max-old-space-size=8192 server.js",
+    "debug-safe": "node --inspect --max-old-space-size=8192 server.js",
+    "prod": "pm2 start server.js --name aura-osint --max-memory-restart 1500M"
   },
   "dependencies": {
     "axios": "^1.12.2",
@@ -68,13 +71,14 @@
     "mysql2": "^3.15.1",
     "natural": "^6.12.0",
     "pg": "^8.11.3",
-    "puppeteer": "^21.5.0",
+    "puppeteer": "^24.23.0",
     "rate-limiter-flexible": "^2.4.2",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
     "@types/node": "^20.8.0",
+    "cypress": "^15.4.0",
     "eslint": "^8.51.0",
     "husky": "^8.0.3",
     "jest": "^29.7.0",
