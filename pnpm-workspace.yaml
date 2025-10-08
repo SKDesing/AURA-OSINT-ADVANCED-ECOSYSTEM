@@ -1,0 +1,30 @@
+packages:
+  # Backend Services
+  - 'backend/services/analyser'
+  - 'backend/services/create'
+  - 'backend/services/dashboard'
+  - 'backend/services/database'
+  - 'backend/services/forensic-integration'
+  - 'backend/services/fortress-ingestion'
+  - 'backend/services/lives'
+  - 'backend/services/profiles'
+  - 'backend/services/reports'
+  
+  # Frontend Clients
+  - 'clients/web-react'
+  - 'clients/web/frontend'
+  - 'clients/desktop-electron'
+  
+  # Marketing Sites
+  - 'marketing/sites/vitrine-aura-advanced-osint-ecosystem'
+  
+  # Tools & Utilities
+  - 'live-tracker'
+  - 'aura-proxy'
+  
+  # Desktop Application
+  - 'desktop'
+
+# Exclusions (gérés manuellement)
+# - '01_CORE/aura_browser' (Chromium C++)
+# - 'chrome/' (Chromium artifacts)

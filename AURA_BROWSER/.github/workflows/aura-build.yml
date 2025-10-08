@@ -1,0 +1,32 @@
+name: AURA BROWSER - Build & Validate
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04-16core  # 🔒 Environnement contrôlé
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.0
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build gn
+
+      - name: Build Chromium
+        run: cd AURA_BROWSER && ./scripts/build-aura.sh --release
+
+      - name: Test Integration
+        run: |
+          cd AURA_BROWSER
+          pnpm --filter "./scraper" test
+          ./scraper/engines/aura_chromium --version  # Validation binaire

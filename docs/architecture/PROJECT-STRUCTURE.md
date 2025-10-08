@@ -3,7 +3,7 @@
 ## 🗂️ Architecture Finale
 
 ```
-TikTok-Live-Analyser/
+AURA-OSINT-ADVANCED-ECOSYSTEM/
 ├── 📊 database/
 │   ├── schemas/                    # Schémas SQL
 │   │   ├── schema-aura-users.sql
@@ -51,7 +51,7 @@ TikTok-Live-Analyser/
 ### ❌ Supprimé
 - `aura-landing-page_backup_*` (4 dossiers de backup)
 - `backup_brave_migration_*` (1 dossier de backup)
-- `TikTok-Live-Analyser-USB/` (dossier dupliqué)
+- `AURA-OSINT-ADVANCED-ECOSYSTEM-USB/` (dossier dupliqué)
 - `frontend-build/` (dossier dupliqué)
 - `launcher-interface/` (dossier dupliqué)
 - `views/` (fichiers EJS inutiles)

@@ -125,7 +125,7 @@ const Contact = () => {
                 <a href="https://linkedin.com/company/aura-osint" className="social-link">
                   <EnhancedIcon icon={FaLinkedin} color="#0077b5" size="24px" />
                 </a>
-                <a href="https://github.com/SKDesing/TikTok-Live-Analyser" className="social-link">
+                <a href="https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM" className="social-link">
                   <EnhancedIcon icon={FaGithub} color="#00ff88" size="24px" />
                 </a>
                 <a href="https://twitter.com/aura-osint" className="social-link">

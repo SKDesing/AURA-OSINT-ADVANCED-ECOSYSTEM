@@ -10,7 +10,7 @@
 ## 📍 **1. LOCALISATION & ÉTAT DES LIEUX**
 
 ### **Code Source Chromium**
-- **Emplacement**: `/home/soufiane/TikTok-Live-Analyser/chromium-launcher.js` (Wrapper Puppeteer)
+- **Emplacement**: `/home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/chromium-launcher.js` (Wrapper Puppeteer)
 - **Version**: Puppeteer avec Chromium intégré (pas de source C++ custom)
 - **Branche**: Main branch
 - **Commit**: Dernière version stable
