@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://tiktokliveanalyser.com/sitemap.xml
+
+# Optimisation SEO
+Crawl-delay: 1
+
+# Pages importantes
+Allow: /services
+Allow: /contact
+Allow: /about
+Allow: /portfolio
+
+# Analytics et tracking
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/

@@ -84,7 +84,7 @@ class ChromiumStealthLogger {
                 });
                 
                 // Masquer chrome.runtime
-                delete window.chrome;
+                delete window.navigator.userAgentData || window.chrome;
                 
                 // Simuler des propriétés normales
                 Object.defineProperty(navigator, 'plugins', {

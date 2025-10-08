@@ -22,9 +22,23 @@ class AuraGUILauncher {
     }
 
     setupRoutes() {
+        // CSP Headers
+        this.app.use((req, res, next) => {
+            res.setHeader(
+                "Content-Security-Policy",
+                "default-src 'self'; connect-src 'self' http://localhost:3000 http://localhost:4002; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
+            );
+            next();
+        });
+
         // Page principale
         this.app.get('/', (req, res) => {
             res.sendFile(path.join(__dirname, 'gui', 'index.html'));
+        });
+
+        // Page 404 sécurisée
+        this.app.use((req, res) => {
+            res.status(404).sendFile(path.join(__dirname, 'gui', '404.html'));
         });
 
         // Route wizard

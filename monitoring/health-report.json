@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-08T00:58:47.173Z",
+  "timestamp": "2025-10-08T16:07:18.861Z",
   "overall": {
     "status": "unhealthy",
     "level": "critical"
@@ -12,7 +12,7 @@
         "stdout": "localhost:5432 - accepting connections\n",
         "stderr": ""
       },
-      "timestamp": "2025-10-08T00:58:47.171Z"
+      "timestamp": "2025-10-08T16:07:18.858Z"
     },
     "filesystem": {
       "status": "unhealthy",
@@ -43,44 +43,44 @@
           "status": "unhealthy"
         }
       ],
-      "timestamp": "2025-10-08T00:58:47.171Z"
+      "timestamp": "2025-10-08T16:07:18.859Z"
     },
     "memory": {
-      "status": "warning",
-      "message": "Memory usage: 80%",
+      "status": "healthy",
+      "message": "Memory usage: 50%",
       "details": {
         "heapUsed": "8 MB",
-        "heapTotal": "10 MB",
-        "percentage": 80
+        "heapTotal": "16 MB",
+        "percentage": 50
       },
-      "timestamp": "2025-10-08T00:58:47.171Z"
+      "timestamp": "2025-10-08T16:07:18.859Z"
     },
     "processes": {
       "status": "healthy",
-      "message": "Process uptime: 0h",
+      "message": "Process uptime: 6h",
       "details": {
-        "pid": 2445160,
-        "uptime": 1080.769476805,
-        "uptimeFormatted": "0h 18m"
+        "pid": 2450331,
+        "uptime": 21255.466486468,
+        "uptimeFormatted": "6h 54m"
       },
-      "timestamp": "2025-10-08T00:58:47.171Z"
+      "timestamp": "2025-10-08T16:07:18.859Z"
     },
     "network": {
-      "status": "unhealthy",
-      "message": "0/2 services responding",
+      "status": "warning",
+      "message": "1/2 services responding",
       "details": [
         {
           "url": "http://localhost:3000",
-          "status": "unhealthy",
-          "responseTime": 1759885127173
+          "status": "healthy",
+          "responseTime": 1759939638861
         },
         {
           "url": "http://localhost:4002",
           "status": "unhealthy",
-          "responseTime": 1759885127173
+          "responseTime": 1759939638861
         }
       ],
-      "timestamp": "2025-10-08T00:58:47.173Z"
+      "timestamp": "2025-10-08T16:07:18.861Z"
     },
     "services": {
       "status": "healthy",
@@ -99,7 +99,7 @@
           "status": "healthy"
         }
       ],
-      "timestamp": "2025-10-08T00:58:47.173Z"
+      "timestamp": "2025-10-08T16:07:18.861Z"
     }
   }
 }
