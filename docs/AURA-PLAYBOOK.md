@@ -133,8 +133,8 @@ Front → User: Live logs + download link
 - [x] App Shell + API client
 - [x] Observability Dashboard v0
 - [x] SSE streaming
-- [ ] Configuration centralisée
-- [ ] CORS sécurisé
+- [x] Configuration centralisée
+- [x] CORS sécurisé
 
 ### **Semaine 2 : Core Modules**
 - [ ] Router Decisions viewer

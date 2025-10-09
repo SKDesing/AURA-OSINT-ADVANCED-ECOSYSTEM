@@ -1,8 +1,10 @@
 // AI Gateway - Endpoints pour Front AURA
 const express = require('express');
+const createCorsMiddleware = require('../middleware/cors');
 const app = express();
 
 app.use(express.json());
+app.use(createCorsMiddleware());
 
 // Observability metrics endpoint
 app.get('/ai/observability/summary', (req, res) => {
@@ -59,7 +61,7 @@ app.get('/ai/stream/metrics', (req, res) => {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive',
-    'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGINS?.split(',')[0] || 'http://localhost:3000'
+    'X-Accel-Buffering': 'no'
   });
 
   const sendMetric = () => {
