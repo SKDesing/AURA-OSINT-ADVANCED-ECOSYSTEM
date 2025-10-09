@@ -58,11 +58,13 @@
     "dev-safe": "node --max-old-space-size=8192 server.js",
     "debug-safe": "node --inspect --max-old-space-size=8192 server.js",
     "prod": "pm2 start server.js --name aura-osint --max-memory-restart 1500M",
+    "llm:install": "bash scripts/ai/install-llama-cpp.sh",
     "llm:download:qwen": "bash ai/local-llm/scripts/download-qwen2-1_5b.sh",
     "llm:run:qwen": "bash ai/local-llm/scripts/run-llm-qwen.sh",
-    "llm:test:qwen": "bash ai/local-llm/scripts/test-qwen.sh",
+    "llm:bench:qwen": "bash scripts/ai/bench-qwen.sh",
     "ai:gateway": "ts-node ai/gateway/src/main.ts",
-    "ai:harassment:test": "node ai/engines/harassment/tests/engine.test.js"
+    "ai:harassment:test": "node ai/engines/harassment/tests/engine.test.js",
+    "ai:harassment:test:enhanced": "node ai/engines/harassment/tests/engine-enhanced.test.js"
   },
   "dependencies": {
     "axios": "^1.12.2",
