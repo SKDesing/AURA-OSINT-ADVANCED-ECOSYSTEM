@@ -52,13 +52,13 @@ class StartupOrchestrator {
         setTimeout(async () => {
             const guiReady = await this.waitForService(3000, '/api/status', 10000);
             if (guiReady) {
-                this.launchChromiumWithUrl('http://localhost:XXXX');
+                this.launchChromiumWithUrl('http://localhost:3000');
             }
         }, 3000);
         
         console.log('✅ Workflow optimal démarré');
         console.log('⚙️ Services backend démarrent...');
-        console.log('🌐 Chromium s\'ouvrira sur http://localhost:XXXX');
+        console.log('🌐 Chromium s\'ouvrira sur http://localhost:3000');
     }
 
     launchChromiumWithUrl(url) {
@@ -123,7 +123,7 @@ class StartupOrchestrator {
         
         while (Date.now() - start < timeout) {
             try {
-                const res = await fetch(`http://localhost:XXXX${port}${endpoint}`, { timeout: 2000 });
+                const res = await fetch(`http://localhost:${port}${endpoint}`, { timeout: 2000 });
                 if (res.ok) {
                     console.log(`✅ Service port ${port} opérationnel`);
                     return true;
@@ -154,9 +154,9 @@ class StartupOrchestrator {
         
         console.log('✅ Tous les services démarrés');
         console.log('🔗 URLs d\'accès:');
-        console.log('   🌐 Dashboard: http://localhost:XXXX');
-        console.log('   📊 Analytics: http://localhost:XXXX/api/analytics/dashboard');
-        console.log('   ⚙️ Orchestrator: http://localhost:XXXX/api/status');
+        console.log('   🌐 Dashboard: http://localhost:3000');
+        console.log('   📊 Analytics: http://localhost:4002/api/analytics/dashboard');
+        console.log('   ⚙️ Orchestrator: http://localhost:4001/api/status');
         
         // Maintenir le processus en vie
         process.stdin.resume();

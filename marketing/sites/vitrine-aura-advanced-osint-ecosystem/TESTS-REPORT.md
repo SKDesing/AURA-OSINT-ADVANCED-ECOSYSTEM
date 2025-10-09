@@ -151,4 +151,4 @@ La **VITRINE AURA ADVANCED OSINT ECOSYSTEM** dispose d'une base solide de tests 
 ---
 
 **Équipe**: AURA Intelligence  
-**Contact**: contact@tiktokliveanalyser.com
+**Contact**: contact@aura-osint.com
