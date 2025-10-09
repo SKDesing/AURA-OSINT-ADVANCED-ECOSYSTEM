@@ -1,0 +1,13 @@
+{
+  "model_version": "heuristic-1.0.0",
+  "release_date": "2025-01-20",
+  "accuracy_claim": "Dev baseline – validate with dataset phase 0",
+  "license": "MIT (code) / patterns curated",
+  "performance": {
+    "recall_target": 0.8,
+    "precision_target": 0.7,
+    "f1_target": 0.75
+  },
+  "languages": ["fr", "en"],
+  "categories": ["threats", "insults", "doxxing", "sexualHarassment", "cyberbullying"]
+}
