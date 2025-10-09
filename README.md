@@ -2,6 +2,10 @@
 
 **Professional OSINT Platform for Advanced Intelligence Gathering**
 
+[![Security](https://img.shields.io/badge/Security-Hardened-green)](docs/AURA-PLAYBOOK.md#sécurité--durcissement)
+[![Architecture](https://img.shields.io/badge/Architecture-Documented-blue)](docs/AURA-PLAYBOOK.md#architecture-générale)
+[![Status](https://img.shields.io/badge/Status-Active%20Development-orange)](docs/AURA-PLAYBOOK.md#roadmap--checklists)
+
 ---
 
 ## 🎯 **PROJECT OVERVIEW**
@@ -9,10 +13,12 @@
 **AURA OSINT ADVANCED ECOSYSTEM** is a comprehensive intelligence gathering platform designed for professional OSINT operations, featuring advanced stealth capabilities, multi-platform data collection, and forensic analysis tools.
 
 ### **🏗️ CORE COMPONENTS**
-- **AURA Browser**: Custom Chromium-based stealth browser
-- **Intelligence Engine**: Multi-platform data collection
-- **Forensic Analysis**: Advanced correlation and timeline analysis
-- **Stealth Operations**: Anti-detection and proxy management
+- **🔍 Observability Dashboard**: Real-time KPIs and metrics
+- **🧠 Router Decisions**: AI decision tracking and analysis  
+- **📚 RAG Explorer**: Query and context exploration
+- **🛡️ Guardrails & Policies**: Security rule management
+- **⚡ AI Efficiency**: Token optimization and caching
+- **🕵️ Forensic Timeline**: Correlation and anomaly detection
 
 ---
 

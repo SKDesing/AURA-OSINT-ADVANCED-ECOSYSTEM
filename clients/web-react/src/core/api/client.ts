@@ -9,8 +9,12 @@ const ObservabilitySchema = z.object({
 });
 
 class AuraApiClient {
-  private baseURL = 'http://localhost:4002';
+  private baseURL: string;
   private requestId = crypto.randomUUID();
+
+  constructor(baseURL?: string) {
+    this.baseURL = baseURL || process.env.API_BASE_URL || 'http://localhost:4010';
+  }
 
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const response = await fetch(`${this.baseURL}${endpoint}`, {

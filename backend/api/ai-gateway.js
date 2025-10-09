@@ -28,7 +28,12 @@ app.get('/ai/router/decisions', (req, res) => {
     timestamp: new Date(Date.now() - i * 60000).toISOString()
   }));
   
-  res.json(decisions);
+  res.json({
+    items: decisions,
+    total: decisions.length,
+    limit: parseInt(limit),
+    since: since || null
+  });
 });
 
 // Orchestrator run endpoint
