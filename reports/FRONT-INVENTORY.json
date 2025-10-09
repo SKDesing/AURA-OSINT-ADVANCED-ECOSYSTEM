@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated_at": "2025-10-09T08:55:10.544Z",
+  "generated_at": "2025-10-09T10:03:06.894Z",
   "summary": {
     "frameworks": [
       "React"
@@ -16,10 +16,10 @@
     "totalPackages": 18,
     "errorsCount": 0,
     "totalPages": 19,
-    "dashboards": 94,
+    "dashboards": 100,
     "largeComponents": 27,
     "sweetAlertUsages": 1,
-    "duplications": 35
+    "duplications": 38
   },
   "frameworks": [
     "React"
@@ -1098,13 +1098,28 @@
       "type": "metrics"
     },
     {
+      "file": "ai/gateway/src/metrics/ai-metrics.ts",
+      "size": 80,
+      "type": "dashboard"
+    },
+    {
       "file": "ai/gateway/src/metrics/metrics.registry.ts",
       "size": 91,
       "type": "metrics"
     },
     {
+      "file": "ai/gateway/src/preintel/types.ts",
+      "size": 51,
+      "type": "metrics"
+    },
+    {
       "file": "ai/gateway/src/qwen.service.ts",
-      "size": 190,
+      "size": 289,
+      "type": "metrics"
+    },
+    {
+      "file": "ai/gateway/src/router/decision-engine.ts",
+      "size": 242,
       "type": "metrics"
     },
     {
@@ -1403,6 +1418,11 @@
       "type": "dashboard"
     },
     {
+      "file": "scripts/ai/quality-gate.js",
+      "size": 78,
+      "type": "metrics"
+    },
+    {
       "file": "scripts/analysis/check-thresholds.js",
       "size": 36,
       "type": "dashboard"
@@ -1410,6 +1430,11 @@
     {
       "file": "scripts/analysis/front-inventory.js",
       "size": 555,
+      "type": "analytics"
+    },
+    {
+      "file": "scripts/analysis/refactor-plan.md",
+      "size": 113,
       "type": "analytics"
     },
     {
@@ -1435,6 +1460,11 @@
     {
       "file": "scripts/run/gate.sh",
       "size": 122,
+      "type": "metrics"
+    },
+    {
+      "file": "scripts/run/quick-metrics.js",
+      "size": 105,
       "type": "metrics"
     },
     {
@@ -1601,7 +1631,7 @@
     },
     {
       "file": "package-lock.json",
-      "lines": 8867,
+      "lines": 9470,
       "type": "component"
     },
     {
@@ -1631,6 +1661,7 @@
       "basename": ".env",
       "files": [
         ".env",
+        ".env.embeddings",
         ".env.example",
         ".env.production",
         ".env.template",
@@ -1639,7 +1670,7 @@
         "marketing/sites/vitrine-aura-advanced-osint-ecosystem/backend/.env.example",
         "osint-tools-advanced/.env.example"
       ],
-      "count": 8
+      "count": 9
     },
     {
       "basename": ".gitattributes",
@@ -1814,6 +1845,15 @@
         "ai/router/algorithm-router.ts"
       ],
       "count": 2
+    },
+    {
+      "basename": "types",
+      "files": [
+        "ai/gateway/src/preintel/types.ts",
+        "packages/shared/src/types.ts",
+        "scripts/orchestrator/types.ts"
+      ],
+      "count": 3
     },
     {
       "basename": "config",
@@ -1991,10 +2031,26 @@
       "count": 2
     },
     {
-      "basename": "types",
+      "basename": "llm-response",
       "files": [
-        "packages/shared/src/types.ts",
-        "scripts/orchestrator/types.ts"
+        "packages/contracts/llm-response.ts",
+        "packages/shared/src/types/llm-response.ts"
+      ],
+      "count": 2
+    },
+    {
+      "basename": "bench-router",
+      "files": [
+        "scripts/ai/router/bench-router.js",
+        "scripts/bench-router.sh"
+      ],
+      "count": 2
+    },
+    {
+      "basename": "quick-metrics",
+      "files": [
+        "scripts/run/quick-metrics.js",
+        "scripts/run/quick-metrics.sh"
       ],
       "count": 2
     }
@@ -2134,7 +2190,7 @@
     },
     {
       "file": "package.json",
-      "deps": 26,
+      "deps": 28,
       "framework": [],
       "uiLibs": [],
       "graphLibs": []

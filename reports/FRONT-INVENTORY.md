@@ -1,6 +1,6 @@
 # 🎨 AURA Frontend Inventory Report
 
-Generated: 2025-10-09T08:55:10.545Z
+Generated: 2025-10-09T10:03:06.905Z
 
 ## 📊 Summary
 | Metric | Count |
@@ -12,7 +12,7 @@ Generated: 2025-10-09T08:55:10.545Z
 | Dashboards | undefined |
 | Large Components (>500 lines) | 27 |
 | SweetAlert Usages | 1 |
-| Potential Duplications | 35 |
+| Potential Duplications | 38 |
 
 ## 📦 Package.json Files
 - **AURA_BROWSER/scraper/package.json**: 0 dependencies, Framework: None
@@ -32,7 +32,7 @@ Generated: 2025-10-09T08:55:10.545Z
 - **live-tracker/package.json**: 19 dependencies, Framework: None
 - **marketing/sites/vitrine-aura-advanced-osint-ecosystem/backend/package.json**: 7 dependencies, Framework: None
 - **marketing/sites/vitrine-aura-advanced-osint-ecosystem/package.json**: 33 dependencies, Framework: React
-- **package.json**: 26 dependencies, Framework: None
+- **package.json**: 28 dependencies, Framework: None
 
 ## 📊 Detected Dashboards
 - **ARCHITECTURE-MITM-COMPLETE.md** (250 lines, type: dashboard)
@@ -53,8 +53,11 @@ Generated: 2025-10-09T08:55:10.545Z
 - **REPORT-DIFF.js** (314 lines, type: metrics)
 - **ROADMAP-DESKTOP.md** (89 lines, type: dashboard)
 - **ai/engines/harassment/tests/engine-enhanced.test.js** (121 lines, type: metrics)
+- **ai/gateway/src/metrics/ai-metrics.ts** (80 lines, type: dashboard)
 - **ai/gateway/src/metrics/metrics.registry.ts** (91 lines, type: metrics)
-- **ai/gateway/src/qwen.service.ts** (190 lines, type: metrics)
+- **ai/gateway/src/preintel/types.ts** (51 lines, type: metrics)
+- **ai/gateway/src/qwen.service.ts** (289 lines, type: metrics)
+- **ai/gateway/src/router/decision-engine.ts** (242 lines, type: metrics)
 - **ai/gateway/src/router/router.controller.ts** (29 lines, type: metrics)
 - **ai/gateway/src/router/router.service.ts** (42 lines, type: metrics)
 - **ai/registry/registry.service.ts** (146 lines, type: metrics)
@@ -114,13 +117,16 @@ Generated: 2025-10-09T08:55:10.545Z
 - **monitoring/system-monitor.js** (326 lines, type: metrics)
 - **platform-adapters/instagram/InstagramAdapter.js** (111 lines, type: analytics)
 - **public/all-services.html** (258 lines, type: dashboard)
+- **scripts/ai/quality-gate.js** (78 lines, type: metrics)
 - **scripts/analysis/check-thresholds.js** (36 lines, type: dashboard)
 - **scripts/analysis/front-inventory.js** (555 lines, type: analytics)
+- **scripts/analysis/refactor-plan.md** (113 lines, type: analytics)
 - **scripts/analysis/thresholds.json** (5 lines, type: dashboard)
 - **scripts/cleanup/execute-optimizations.sh** (193 lines, type: metrics)
 - **scripts/cleanup/obsolete-scanner-v2.js** (463 lines, type: analytics)
 - **scripts/cleanup/obsolete-scanner.js** (259 lines, type: metrics)
 - **scripts/run/gate.sh** (122 lines, type: metrics)
+- **scripts/run/quick-metrics.js** (105 lines, type: metrics)
 - **scripts/run/quick-metrics.sh** (40 lines, type: metrics)
 - **scripts/setup/demo-aura-osint.sh** (105 lines, type: dashboard)
 - **scripts/setup/gui/index.html** (94 lines, type: dashboard)
@@ -175,7 +181,7 @@ Generated: 2025-10-09T08:55:10.545Z
 - scripts/analysis/front-inventory.js
 
 ## 🔄 Duplication Candidates
-- **.env**: 8 files (.env, .env.example, .env.production, .env.template, marketing/sites/vitrine-aura-advanced-osint-ecosystem/.env.example, marketing/sites/vitrine-aura-advanced-osint-ecosystem/backend/.env, marketing/sites/vitrine-aura-advanced-osint-ecosystem/backend/.env.example, osint-tools-advanced/.env.example)
+- **.env**: 9 files (.env, .env.embeddings, .env.example, .env.production, .env.template, marketing/sites/vitrine-aura-advanced-osint-ecosystem/.env.example, marketing/sites/vitrine-aura-advanced-osint-ecosystem/backend/.env, marketing/sites/vitrine-aura-advanced-osint-ecosystem/backend/.env.example, osint-tools-advanced/.env.example)
 - **.gitattributes**: 2 files (.gitattributes, marketing/sites/vitrine-aura-advanced-osint-ecosystem/.gitattributes)
 - **.gitignore**: 3 files (.gitignore, clients/web-react/.gitignore, marketing/sites/vitrine-aura-advanced-osint-ecosystem/.gitignore)
 - **pnpm-workspace**: 2 files (AURA_BROWSER/pnpm-workspace.yaml, pnpm-workspace.yaml)
