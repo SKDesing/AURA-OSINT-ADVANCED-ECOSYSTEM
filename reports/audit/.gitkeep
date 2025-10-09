@@ -1,0 +1,10 @@
+# Reports d'audit - générés automatiquement
+# Structure:
+# - DB/ - Base de données
+# - AI/ - Modèles et embeddings  
+# - ORCH/ - Orchestrator et jobs
+# - API/ - Backend et gateway
+# - FRONT/ - Frontend et UX
+# - SEC/ - Sécurité et compliance
+# - DEVOPS/ - Ports et runtime
+# - DOCS/ - Documentation
