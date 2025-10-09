@@ -20,7 +20,7 @@ const Contact = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:XXXX/api/send-email', {
+      const response = await fetch('http://localhost:3001/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -98,8 +98,8 @@ const Contact = () => {
               <EnhancedIcon icon={FaEnvelope} color="#00ff88" size="32px" background />
               <div>
                 <strong>Email</strong>
-                <p>contact@tiktokliveanalyser.com</p>
-                <p>security@tiktokliveanalyser.com</p>
+                <p>contact@aura-osint.com</p>
+                <p>security@aura-osint.com</p>
               </div>
             </div>
             

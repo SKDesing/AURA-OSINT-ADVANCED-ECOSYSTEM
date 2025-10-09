@@ -159,7 +159,7 @@ npm run full-setup
 ## 📞 **Support**
 
 - **Interface** : Bouton "Aide" → "Contact Support"
-- **Email** : contact@tiktokliveanalyser.com
+- **Email** : contact@aura-osint.com
 - **Documentation** : Accessible via l'interface
 - **Issues GitHub** : https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM/issues
 

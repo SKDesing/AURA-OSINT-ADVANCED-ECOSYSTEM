@@ -120,8 +120,8 @@ function App() {
             </div>
             <div className="footer-section">
               <h4>Contact</h4>
-              <p>contact@tiktokliveanalyser.com</p>
-              <p>security@tiktokliveanalyser.com</p>
+              <p>contact@aura-osint.com</p>
+              <p>security@aura-osint.com</p>
             </div>
           </div>
           <div className="footer-bottom">

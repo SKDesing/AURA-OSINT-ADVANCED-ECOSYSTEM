@@ -26,7 +26,7 @@ class AuraGUILauncher {
         this.app.use((req, res, next) => {
             res.setHeader(
                 "Content-Security-Policy",
-                "default-src 'self'; connect-src 'self' http://localhost:XXXX http://localhost:XXXX; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
+                "default-src 'self'; connect-src 'self' http://localhost:4002 http://localhost:4001; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
             );
             next();
         });
@@ -333,10 +333,10 @@ class AuraGUILauncher {
         // Chromium géré par master launcher - pas de lancement ici
         
         this.app.listen(this.port, () => {
-            console.log(`✅ AURA GUI prête sur http://localhost:XXXX${this.port}`);
+            console.log(`✅ AURA GUI prête sur http://localhost:${this.port}`);
             console.log('🎯 Interface Zéro CLI disponible');
             console.log('🌐 Chromium ouvert avec wizard d\'installation');
-            console.log('🔗 Vitrine marketing: http://localhost:XXXX/vitrine-freepik/');
+            console.log('🔗 Vitrine marketing: http://localhost:3001/vitrine-freepik/');
         });
     }
 
@@ -344,7 +344,7 @@ class AuraGUILauncher {
         return async (req, res) => {
             try {
                 const fetch = require('node-fetch');
-                const targetUrl = `http://localhost:XXXX${req.originalUrl}`;
+                const targetUrl = `http://localhost:4003${req.originalUrl}`;
                 
                 const response = await fetch(targetUrl, {
                     method: req.method,
