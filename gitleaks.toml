@@ -1,0 +1,46 @@
+# AURA OSINT Gitleaks Configuration
+title = "AURA OSINT Security Scan"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "aura-api-key"
+description = "AURA API Key"
+regex = '''(?i)(aura[_-]?api[_-]?key|aura[_-]?token)['"\s]*[:=]\s*['"]?[a-zA-Z0-9]{20,}'''
+tags = ["key", "aura"]
+
+[[rules]]
+id = "database-password"
+description = "Database Password"
+regex = '''(?i)(db[_-]?pass|database[_-]?password)['"\s]*[:=]\s*['"]?[^\s'"]{8,}'''
+tags = ["password", "database"]
+
+[[rules]]
+id = "jwt-secret"
+description = "JWT Secret"
+regex = '''(?i)(jwt[_-]?secret|jwt[_-]?key)['"\s]*[:=]\s*['"]?[^\s'"]{16,}'''
+tags = ["secret", "jwt"]
+
+[[rules]]
+id = "mailtrap-credentials"
+description = "Mailtrap Credentials"
+regex = '''(?i)(mailtrap[_-]?pass|mailtrap[_-]?user)['"\s]*[:=]\s*['"]?[^\s'"]{8,}'''
+tags = ["password", "email"]
+
+[allowlist]
+description = "Allowlist for test files and documentation"
+paths = [
+  '''.*test.*''',
+  '''.*example.*''',
+  '''.*\.md$''',
+  '''.*\.example$''',
+  '''.*README.*''',
+  '''.*CHANGELOG.*''',
+]
+
+regexes = [
+  '''nouveau_mot_de_passe''', # Example password in docs
+  '''your-super-secret''',    # Example secrets in .env.example
+  '''91a6345a1b8416''',       # Example Mailtrap user in docs
+]
