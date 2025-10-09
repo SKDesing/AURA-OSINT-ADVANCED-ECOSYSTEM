@@ -1,0 +1,36 @@
+{
+  "bypass": [
+    "Extract named entities (names, emails, phone numbers, SIREN) from the text.",
+    "Return a structured list of entities with types and values.",
+    "Find phone numbers, emails and French SIREN/SIRET.",
+    "Identifie les entités nommées dans ce texte.",
+    "Extraire les numéros de téléphone et adresses email."
+  ],
+  "forensic": [
+    "Analyze login events to detect coordinated activity and bursts.",
+    "Build a timeline of events and highlight anomalies.",
+    "Detect temporal patterns and bursts across timestamps.",
+    "Analyse la timeline des événements et détecte les anomalies.",
+    "Corrélation temporelle entre les pics d'activité."
+  ],
+  "harassment": [
+    "Classify if a sentence contains harassment, insults or abusive content.",
+    "Label toxicity and provide a brief rationale.",
+    "Detect harmful or abusive language.",
+    "Détecter le harcèlement et les contenus toxiques.",
+    "Classifier les messages abusifs ou menaçants."
+  ],
+  "rag_llm": [
+    "Answer factual questions using retrieved context. Cite sources from RAG.",
+    "Summarize documents leveraging retrieval context.",
+    "Use the knowledge base to improve accuracy and reduce hallucinations.",
+    "Selon nos données, quelle est la tendance?",
+    "Résume les conclusions selon nos analyses précédentes."
+  ],
+  "escalate": [
+    "Complex multi-step reasoning or ambiguous request requiring LLM.",
+    "Explain step-by-step and ask clarifying questions if needed.",
+    "Raisonnement complexe nécessitant une analyse approfondie.",
+    "Question ambiguë nécessitant des clarifications."
+  ]
+}
