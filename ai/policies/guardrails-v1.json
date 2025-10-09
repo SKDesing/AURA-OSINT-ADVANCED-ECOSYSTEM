@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "policy_hash": "sha256:guardrails_v1_abc123def456",
+  "created_at": "2025-01-09T08:55:00Z",
+  "categories": {
+    "injection": {
+      "enabled": true,
+      "action": "block",
+      "patterns": [
+        "ignore previous instructions",
+        "system prompt",
+        "jailbreak"
+      ],
+      "severity": "high"
+    },
+    "pii": {
+      "enabled": true,
+      "action": "redact",
+      "patterns": [
+        "\\b\\d{3}-\\d{2}-\\d{4}\\b",
+        "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b"
+      ],
+      "severity": "medium"
+    },
+    "jailbreak": {
+      "enabled": true,
+      "action": "block",
+      "patterns": [
+        "act as",
+        "pretend you are",
+        "roleplay"
+      ],
+      "severity": "high"
+    }
+  },
+  "global_settings": {
+    "log_triggers": true,
+    "simulate_mode": false,
+    "max_violations_per_session": 3
+  }
+}

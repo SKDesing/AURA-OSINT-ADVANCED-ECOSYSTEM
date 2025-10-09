@@ -1,0 +1,147 @@
+name: AURA AI Observability CI
+
+on:
+  pull_request:
+    paths:
+      - 'ai/**'
+      - 'scripts/run/**'
+      - '.github/workflows/observability-ci.yml'
+  push:
+    branches: [main]
+
+jobs:
+  observability-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: aura_rag
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+
+      - name: Setup environment
+        run: |
+          cp .env.example .env
+          echo "PG_RAG_URL=postgresql://postgres:postgres@localhost:5432/aura_rag" >> .env
+          echo "STRESS_COUNT=8" >> .env
+          echo "WAIT_EMB_SEC=5" >> .env
+
+      - name: Apply RAG migrations
+        run: |
+          npm run db:migrate:rag
+
+      - name: Download Qwen model (cached)
+        uses: actions/cache@v3
+        id: qwen-cache
+        with:
+          path: ai/local-llm/models/
+          key: qwen-1.5b-${{ hashFiles('ai/local-llm/scripts/download-qwen2-1_5b.sh') }}
+
+      - name: Download model if not cached
+        if: steps.qwen-cache.outputs.cache-hit != 'true'
+        run: bash ai/local-llm/scripts/download-qwen2-1_5b.sh
+
+      - name: Start services
+        run: |
+          # Start LLM runtime
+          bash ai/local-llm/scripts/run-llm-qwen.sh &
+          LLM_PID=$!
+          echo "LLM_PID=$LLM_PID" >> $GITHUB_ENV
+          
+          # Start Gateway
+          npm run ai:gateway &
+          GATEWAY_PID=$!
+          echo "GATEWAY_PID=$GATEWAY_PID" >> $GITHUB_ENV
+          
+          # Wait for services
+          sleep 10
+
+      - name: Run observability test
+        run: |
+          chmod +x scripts/run/*.sh scripts/run/*.py
+          bash scripts/run/full-run.sh
+
+      - name: Generate metrics and report
+        run: |
+          bash scripts/run/quick-metrics.sh > logs/run/quick-metrics.out
+          python3 scripts/run/aggregate-report.py
+          bash scripts/run/sign-report.sh
+
+      - name: Quality gate
+        run: bash scripts/run/gate.sh
+
+      - name: Compare with previous run
+        continue-on-error: true
+        run: python3 scripts/run/compare-runs.py
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: observability-run-${{ github.run_number }}
+          path: |
+            logs/run/
+            artifacts/
+            reports/AURA-IA-RUN-OBSERVATION-*.md
+
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'logs/run/quick-metrics.out';
+            
+            if (fs.existsSync(path)) {
+              const metrics = fs.readFileSync(path, 'utf8');
+              const body = `## 🔍 AURA AI Observability Results
+              
+              \`\`\`
+              ${metrics}
+              \`\`\`
+              
+              📊 Full report available in artifacts.
+              ✅ Quality gate: PASSED`;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+            }
+
+      - name: Cleanup
+        if: always()
+        run: |
+          kill $LLM_PID $GATEWAY_PID 2>/dev/null || true

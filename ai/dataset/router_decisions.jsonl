@@ -1,0 +1,6 @@
+{"prompt_hash": "a1b2c3", "prompt": "Extraire Jean Dupont email jean@test.com", "expected_class": "ner", "actual_class": "ner", "correct": true, "confidence": 0.9, "timestamp": "2024-01-15T10:00:00Z"}
+{"prompt_hash": "d4e5f6", "prompt": "Analyser chronologie événements 08:30-10:45", "expected_class": "forensic", "actual_class": "forensic", "correct": true, "confidence": 0.85, "timestamp": "2024-01-15T10:01:00Z"}
+{"prompt_hash": "g7h8i9", "prompt": "Ce message est insultant", "expected_class": "harassment", "actual_class": "harassment", "correct": true, "confidence": 0.95, "timestamp": "2024-01-15T10:02:00Z"}
+{"prompt_hash": "j1k2l3", "prompt": "Classifier toxicité commentaire", "expected_class": "nlp", "actual_class": "nlp", "correct": true, "confidence": 0.75, "timestamp": "2024-01-15T10:03:00Z"}
+{"prompt_hash": "m4n5o6", "prompt": "Que disent nos documents OSINT", "expected_class": "rag+llm", "actual_class": "rag+llm", "correct": true, "confidence": 0.8, "timestamp": "2024-01-15T10:04:00Z"}
+{"prompt_hash": "p7q8r9", "prompt": "Expliquer cryptographie quantique", "expected_class": "llm", "actual_class": "llm", "correct": true, "confidence": 0.6, "timestamp": "2024-01-15T10:05:00Z"}

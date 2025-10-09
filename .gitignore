@@ -1,15 +1,42 @@
-# Dependencies
 node_modules/
+.env
+.env.local
+.env.*.local
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.DS_Store
+.vscode/
+.idea/
+*.log
+dist/
+build/
+.cache/
+coverage/
+.nyc_output/
+.tmp/
+.temp/
 
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# AI Local LLM Runtime
+ai/local-llm/runtime/llama.cpp/
+ai/local-llm/models/*.gguf
+ai/local-llm/models/*.bin
+
+# Embeddings cache
+.cache/embeddings/
+
+# Reports (generated)
+reports/*.json
+reports/*.md
+
+# Backups
+backup-*.tar.gz
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 
 # Logs
 logs/
@@ -20,7 +47,7 @@ yarn-error.log*
 lerna-debug.log*
 
 # Runtime data
-pids/
+pids
 *.pid
 *.seed
 *.pid.lock
@@ -42,12 +69,6 @@ jspm_packages/
 # Optional eslint cache
 .eslintcache
 
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-
 # Optional REPL history
 .node_repl_history
 
@@ -60,86 +81,33 @@ jspm_packages/
 # dotenv environment variables file
 .env
 .env.test
+.env.production
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
 
-# Next.js build output
+# next.js build output
 .next
 
-# Nuxt.js build / generate output
+# nuxt.js build output
 .nuxt
-dist
 
-# Gatsby files
-.cache/
-public
+# vuepress build output
+.vuepress/dist
 
-# Storybook build outputs
-.out
-.storybook-out
+# Serverless directories
+.serverless
 
-# Temporary folders
-tmp/
-temp/
+# FuseBox cache
+.fusebox/
 
-# Editor directories and files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# DynamoDB Local files
+.dynamodb/
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Local LLM models and runtime artifacts
-ai/local-llm/models/*.gguf
-ai/local-llm/models/*.gguf.sha256
-ai/local-llm/runtime/llama.cpp/build/
-ai/dataset/captured/*.jsonl
-ai/audit/*.log
-
-# Build artifacts
-build/
-dist/
-out/
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
-
-# Docker
-.dockerignore
-docker-compose.override.yml
-
-# Rust
-target/
-Cargo.lock
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Security
-*.pem
-*.key
-*.crt
-secrets/
-.secrets/
+# TernJS port file
+.tern-port

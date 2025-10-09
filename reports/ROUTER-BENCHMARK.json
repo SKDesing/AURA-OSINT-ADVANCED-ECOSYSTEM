@@ -1,0 +1,117 @@
+{
+  "timestamp": "2025-10-09T09:38:36.621Z",
+  "summary": {
+    "accuracy": 0.56,
+    "bypassRate": 0.32,
+    "avgConfidence": 0.6168,
+    "avgLatency": 0.04,
+    "totalCases": 25,
+    "correctDecisions": 14,
+    "bypassCount": 8
+  },
+  "gates": {
+    "accuracy": {
+      "threshold": 0.75,
+      "actual": 0.56,
+      "passed": false
+    },
+    "bypassRate": {
+      "threshold": 0.55,
+      "actual": 0.32,
+      "passed": false
+    },
+    "avgLatency": {
+      "threshold": 10,
+      "actual": 0.04,
+      "passed": true
+    },
+    "avgConfidence": {
+      "threshold": 0.65,
+      "actual": 0.6168,
+      "passed": false
+    }
+  },
+  "gatesPassed": false,
+  "results": [
+    {
+      "prompt": "Identifie les entités nommées dans ce texte: Jean ...",
+      "expected": "ner",
+      "actual": "llm",
+      "confidence": 0.5,
+      "correct": false,
+      "latency_ms": 1
+    },
+    {
+      "prompt": "Analyse la timeline des événements du 15/01/2025 e...",
+      "expected": "forensic",
+      "actual": "forensic",
+      "confidence": 0.82,
+      "correct": true,
+      "latency_ms": 0
+    },
+    {
+      "prompt": "Ce message contient des menaces directes et du har...",
+      "expected": "harassment",
+      "actual": "harassment",
+      "confidence": 0.85,
+      "correct": true,
+      "latency_ms": 0
+    },
+    {
+      "prompt": "Selon nos données, quelle est la tendance des inci...",
+      "expected": "rag+llm",
+      "actual": "rag+llm",
+      "confidence": 0.74,
+      "correct": true,
+      "latency_ms": 0
+    },
+    {
+      "prompt": "Classify this document as urgent, normal, or low p...",
+      "expected": "classification",
+      "actual": "classification",
+      "confidence": 0.68,
+      "correct": true,
+      "latency_ms": 0
+    },
+    {
+      "prompt": "Bonjour, comment allez-vous aujourd'hui?...",
+      "expected": "llm",
+      "actual": "llm",
+      "confidence": 0.5,
+      "correct": true,
+      "latency_ms": 0
+    },
+    {
+      "prompt": "Extract all phone numbers and email addresses from...",
+      "expected": "ner",
+      "actual": "llm",
+      "confidence": 0.5,
+      "correct": false,
+      "latency_ms": 0
+    },
+    {
+      "prompt": "Timeline: 08h00 incident, 08h15 escalation, 08h30 ...",
+      "expected": "forensic",
+      "actual": "forensic",
+      "confidence": 0.82,
+      "correct": true,
+      "latency_ms": 0
+    },
+    {
+      "prompt": "Tu es stupide et je vais te faire du mal, espèce d...",
+      "expected": "harassment",
+      "actual": "harassment",
+      "confidence": 0.85,
+      "correct": true,
+      "latency_ms": 0
+    },
+    {
+      "prompt": "Analyse les corrélations entre les pics d'activité...",
+      "expected": "rag+llm",
+      "actual": "llm",
+      "confidence": 0.5,
+      "correct": false,
+      "latency_ms": 0
+    }
+  ]
+}

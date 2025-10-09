@@ -52,20 +52,27 @@ mkdir -p build
 cd build
 
 cmake .. $CMAKE_FLAGS -DLLAMA_BUILD_SERVER=ON -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc 2>/dev/null || echo 4) server
+make -j$(nproc 2>/dev/null || echo 4) llama-server
 
-# Verify build
-if [ -f "bin/server" ]; then
-    echo "✅ llama.cpp server built successfully"
-    echo "📍 Binary location: $(pwd)/bin/server"
-    
-    # Create symlink for easy access
-    ln -sf "$(pwd)/bin/server" "../../../scripts/llama-server"
-    echo "🔗 Symlink created: scripts/llama-server"
+# Auto-detect server binary (new convention)
+mkdir -p bin
+if [ -f "llama-server" ]; then
+    ln -sf "../llama-server" "bin/server"
+    echo "✅ llama.cpp server built successfully (llama-server)"
+elif [ -f "bin/llama-server" ]; then
+    ln -sf "llama-server" "bin/server"
+    echo "✅ llama.cpp server built successfully (bin/llama-server)"
+elif [ -f "server" ]; then
+    ln -sf "../server" "bin/server"
+    echo "✅ llama.cpp server built successfully (server)"
 else
-    echo "❌ Build failed - server binary not found"
+    echo "❌ Build failed - no server binary found"
+    ls -la . | grep -E "(server|llama)"
     exit 1
 fi
+
+echo "📍 Binary location: $(pwd)/bin/server"
+echo "🔗 Ready for Qwen execution"
 
 echo ""
 echo "🎉 llama.cpp installation completed"
