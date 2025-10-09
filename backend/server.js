@@ -5,6 +5,7 @@ const { globalRateLimit, sanitizeInput, securityHeaders } = require('./middlewar
 const { searchController, searchLimiter } = require('./controllers/search.controller');
 const osintController = require('./controllers/osint.controller');
 const healthRouter = require('./routes/health');
+const cacheMiddleware = require('./middleware/cache');
 const WebSocketServer = require('./websocket/server');
 
 const app = express();
@@ -25,10 +26,10 @@ app.use(sanitizeInput);
 // Health check
 app.use('/', healthRouter);
 
-// API routes
-app.post('/api/v1/search', searchLimiter, searchController.search);
-app.post('/api/v1/osint/search', searchLimiter, osintController.search);
-app.get('/api/v1/osint/analyze/:profileId', osintController.analyze);
+// API routes avec cache
+app.post('/api/v1/search', searchLimiter, cacheMiddleware(60), searchController.search);
+app.post('/api/v1/osint/search', searchLimiter, cacheMiddleware(120), osintController.search);
+app.get('/api/v1/osint/analyze/:profileId', cacheMiddleware(300), osintController.analyze);
 
 // Error handling
 app.use((err, req, res, next) => {
