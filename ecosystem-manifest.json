@@ -1,0 +1,48 @@
+{
+  "live-tracker": {
+    "path": "backend/services/analyser",
+    "type": "express",
+    "required": true,
+    "build": false,
+    "health": "/health"
+  },
+  "backend-api": {
+    "path": "backend/services/dashboard",
+    "type": "express",
+    "required": true,
+    "build": false,
+    "health": "/health"
+  },
+  "marketing-site": {
+    "path": "marketing/sites/vitrine-aura-advanced-osint-ecosystem",
+    "type": "react-cra",
+    "required": true,
+    "build": true,
+    "artifact": "build/index.html"
+  },
+  "client-web-react": {
+    "path": "clients/web-react",
+    "type": "react-cra",
+    "required": false,
+    "build": true,
+    "artifact": "build/index.html",
+    "status": "SKIP",
+    "note": "Conflits React 17/18 + Node 22; stabiliser (Option A) sous Node 18 LTS"
+  },
+  "client-web-app": {
+    "path": "clients/web-app",
+    "type": "vite",
+    "required": false,
+    "build": true,
+    "artifact": "dist/index.html",
+    "status": "SKIP",
+    "note": "Réactivation dans sprint dédié"
+  },
+  "aura-proxy": {
+    "path": "aura-proxy",
+    "type": "express",
+    "required": true,
+    "build": false,
+    "health": "/health"
+  }
+}
