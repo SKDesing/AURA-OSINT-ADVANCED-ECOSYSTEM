@@ -57,7 +57,12 @@
     "security:fix": "npm audit fix --force",
     "dev-safe": "node --max-old-space-size=8192 server.js",
     "debug-safe": "node --inspect --max-old-space-size=8192 server.js",
-    "prod": "pm2 start server.js --name aura-osint --max-memory-restart 1500M"
+    "prod": "pm2 start server.js --name aura-osint --max-memory-restart 1500M",
+    "llm:download:qwen": "bash ai/local-llm/scripts/download-qwen2-1_5b.sh",
+    "llm:run:qwen": "bash ai/local-llm/scripts/run-llm-qwen.sh",
+    "llm:test:qwen": "bash ai/local-llm/scripts/test-qwen.sh",
+    "ai:gateway": "ts-node ai/gateway/src/main.ts",
+    "ai:harassment:test": "node ai/engines/harassment/tests/engine.test.js"
   },
   "dependencies": {
     "axios": "^1.12.2",
