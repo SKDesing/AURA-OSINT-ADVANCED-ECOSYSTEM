@@ -206,20 +206,26 @@ npm run security:audit
 }
 
 function main() {
+  const fs = require('fs');
+  const path = require('path');
+  
   console.log('🚀 Génération des issues d\'audit AURA...\n');
   
   cellules.forEach((cellule, index) => {
     const filename = `audit-${cellule.category.toLowerCase()}.md`;
     const content = generateIssueContent(cellule);
+    const filepath = path.join(process.cwd(), '.github', 'ISSUE_TEMPLATE', filename);
+    
+    fs.writeFileSync(filepath, content);
     
     console.log(`${index + 1}. 📋 Cellule ${cellule.category} - ${cellule.title}`);
-    console.log(`   📁 Fichier: .github/ISSUE_TEMPLATE/${filename}`);
+    console.log(`   ✅ Créé: .github/ISSUE_TEMPLATE/${filename}`);
     console.log(`   🎯 Cible: ${cellule.cible}`);
     console.log(`   📊 Livrables: ${cellule.livrables.length}`);
     console.log('');
   });
   
-  console.log('✅ Templates d\'issues générés !');
+  console.log('✅ 8 templates d\'issues créés !');
   console.log('\n📋 Prochaines étapes:');
   console.log('1. Créer les issues sur GitHub avec ces templates');
   console.log('2. Assigner chaque issue à la cellule correspondante');
