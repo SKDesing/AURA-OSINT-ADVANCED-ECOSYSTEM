@@ -18,16 +18,44 @@ export const ObservabilityDashboard: React.FC = () => {
       try {
         const data = await apiClient.getObservabilityMetrics();
         setMetrics(data);
+        setLoading(false);
       } catch (error) {
         console.error('Failed to load metrics:', error);
-      } finally {
         setLoading(false);
       }
     };
 
+    // Initial load
     loadMetrics();
-    const interval = setInterval(loadMetrics, 5000); // Refresh every 5s
-    return () => clearInterval(interval);
+
+    // Setup SSE with fallback to polling
+    let eventSource: EventSource | null = null;
+    let pollInterval: NodeJS.Timeout | null = null;
+
+    try {
+      eventSource = apiClient.createSSEStream('/ai/stream/metrics');
+      
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === 'metrics' && data.payload) {
+          setMetrics(data.payload);
+        }
+      };
+
+      eventSource.onerror = () => {
+        console.warn('SSE connection failed, falling back to polling');
+        eventSource?.close();
+        pollInterval = setInterval(loadMetrics, 5000);
+      };
+    } catch (error) {
+      console.warn('SSE not supported, using polling');
+      pollInterval = setInterval(loadMetrics, 5000);
+    }
+
+    return () => {
+      eventSource?.close();
+      if (pollInterval) clearInterval(pollInterval);
+    };
   }, []);
 
   if (loading) return <div className="animate-pulse">Loading metrics...</div>;

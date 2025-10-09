@@ -17,7 +17,7 @@ export const config = {
 
   // Database Configuration
   database: {
-    url: process.env.DATABASE_URL || 'postgresql://aura_user:password@localhost:5432/aura_osint',
+    url: process.env.DATABASE_URL,
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT || '5432'),
     name: process.env.DB_NAME || 'aura_osint',
