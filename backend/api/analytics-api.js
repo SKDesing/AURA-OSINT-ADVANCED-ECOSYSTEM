@@ -5,11 +5,19 @@ const config = require('./config');
 
 const app = express();
 
-// CORS pour éviter les erreurs CSP
+// CORS sécurisé avec liste blanche
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000', 'http://localhost:3001'];
+    const origin = req.headers.origin;
+    
+    if (allowedOrigins.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+    }
+    
+    res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    
     if (req.method === 'OPTIONS') {
         res.sendStatus(200);
     } else {
@@ -89,23 +97,36 @@ app.post('/api/analytics/cross-platform-search', async (req, res) => {
     }
 });
 
-// Fonction pour créer une cible
+// Fonction pour créer une cible (SÉCURISÉE)
 async function createTarget(username, platform) {
+    const Joi = require('joi');
+    
+    // Validation stricte des inputs
+    const schema = Joi.object({
+        username: Joi.string().alphanum().min(1).max(50).required(),
+        platform: Joi.string().valid('tiktok', 'instagram', 'twitter', 'facebook').required()
+    });
+    
+    const { error, value } = schema.validate({ username, platform });
+    if (error) throw new Error(`Invalid input: ${error.details[0].message}`);
+    
     const { Pool } = require('pg');
     const db = new Pool({
         host: process.env.DB_HOST || 'localhost',
         port: process.env.DB_PORT || 5432,
-        database: process.env.DB_NAME || 'aura_forensic',
-        user: process.env.DB_USER || 'postgres',
-        password: process.env.DB_PASSWORD || ''
+        database: process.env.DB_NAME || 'aura_osint',
+        user: process.env.DB_USER || 'aura_user',
+        password: process.env.DB_PASSWORD
     });
     
+    // Requête paramétrée (protection SQL injection)
     const result = await db.query(
-        'INSERT INTO targets (username, platform, url, created_at) VALUES ($1, $2, $3, NOW()) RETURNING target_id',
-        [username, platform, `https://${platform}.com/@${username}`]
+        'INSERT INTO profiles (username, platform, data, created_at) VALUES ($1, $2, $3, NOW()) RETURNING id',
+        [value.username, value.platform, { url: `https://${value.platform}.com/@${value.username}` }]
     );
     
-    return result.rows[0];
+    await db.end();
+    return { target_id: result.rows[0].id };
 }
 
 // Fonction pour stocker les données de profil
