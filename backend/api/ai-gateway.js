@@ -54,7 +54,7 @@ app.get('/ai/stream/metrics', (req, res) => {
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
     'Connection': 'keep-alive',
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGINS?.split(',')[0] || 'http://localhost:3000'
   });
 
   const sendMetric = () => {
