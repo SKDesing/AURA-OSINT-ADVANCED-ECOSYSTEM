@@ -45,6 +45,7 @@ lerna-debug.log*
 .npm
 .eslintcache
 .parcel-cache
+node_modules/@xenova/transformers/.cache/
 
 # AI Local LLM Runtime (heavy files)
 ai/local-llm/runtime/llama.cpp/
@@ -60,6 +61,7 @@ reports/*.md
 # Backups
 backup-*.tar.gz
 *.backup
+backup-pre-optimization-*.tar.gz
 
 # OS generated files
 .DS_Store
