@@ -1,50 +1,15 @@
+# AURA – ignores (embeddings/cache/build/logs/venv)
+
+# Dependencies
 node_modules/
-.env
-.env.local
-.env.*.local
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.DS_Store
-.vscode/
-.idea/
-*.log
-dist/
-build/
-.cache/
-coverage/
-.nyc_output/
-.tmp/
-.temp/
+.pnp
+.pnp.js
 
-# AI Local LLM Runtime
-ai/local-llm/runtime/llama.cpp/
-ai/local-llm/models/*.gguf
-ai/local-llm/models/*.bin
-
-# Embeddings cache
-.cache/embeddings/
-
-# Reports (generated)
-reports/*.json
-reports/*.md
-
-# Backups
-backup-*.tar.gz
-
-# OS generated files
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
+# Production builds
+/build
+/dist
+/.next/
+/out/
 
 # Runtime data
 pids
@@ -55,59 +20,100 @@ pids
 # Coverage directory used by tools like istanbul
 coverage/
 *.lcov
-
-# nyc test coverage
 .nyc_output
 
-# Dependency directories
-node_modules/
-jspm_packages/
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
+# Environment variables
 .env
-.env.test
-.env.production
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.backup
+.env.secure
 
-# parcel-bundler cache (https://parceljs.org/)
-.cache
+# Cache directories
+.cache/
+.cache/embeddings/
+.npm
+.eslintcache
 .parcel-cache
 
-# next.js build output
-.next
+# AI Local LLM Runtime (heavy files)
+ai/local-llm/runtime/llama.cpp/
+ai/local-llm/models/*.gguf
+ai/local-llm/models/*.bin
+ai/local-llm/models/*.safetensors
 
-# nuxt.js build output
-.nuxt
+# Generated reports (can be regenerated)
+reports/*.json
+reports/*.md
+!reports/templates/
 
-# vuepress build output
-.vuepress/dist
+# Backups
+backup-*.tar.gz
+*.backup
 
-# Serverless directories
-.serverless
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
 
-# FuseBox cache
-.fusebox/
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-# DynamoDB Local files
-.dynamodb/
+# Temporary files
+.tmp/
+.temp/
+*.tmp
+*.temp
 
-# TernJS port file
-.tern-port
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Package files
+*.tgz
+*.tar.gz
+
+# Yarn
+.yarn-integrity
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
