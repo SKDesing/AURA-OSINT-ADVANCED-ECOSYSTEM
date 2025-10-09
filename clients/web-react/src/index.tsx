@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import './styles/globals.css';
-import App from './App';
+import { AppMVP } from './App-MVP';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AppMVP />
   </React.StrictMode>,
   document.getElementById('root')
 );
