@@ -120,3 +120,4 @@ htmlcov/
 .yarn/install-state.gz
 .pnp.*
 bfg-1.14.0.jar
+*.env

@@ -26,7 +26,12 @@ const verifyToken = (req, res, next) => {
   }
   
   try {
-    const decoded = jwt.verify(token, AUTH_CONFIG.jwtSecret);
+    // Force HS256 algorithm, reject 'none'
+    const decoded = jwt.verify(token, AUTH_CONFIG.jwtSecret, { 
+      algorithms: ['HS256'],
+      ignoreNotBefore: false,
+      ignoreExpiration: false
+    });
     req.user = decoded;
     next();
   } catch (error) {
