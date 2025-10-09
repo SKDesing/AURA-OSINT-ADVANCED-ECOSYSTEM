@@ -96,14 +96,26 @@ class StartupOrchestrator {
             console.log(`🌐 Lancement Chrome sur ${url}...`);
             console.log(`✅ Chrome trouvé: ${chromiumPath}`);
             
-            const command = `"${chromiumPath}" "${url}" --new-window --user-data-dir="${userDataDir}" --disable-web-security --no-sandbox`;
+            const args = [
+                url,
+                '--new-window',
+                `--user-data-dir=${userDataDir}`
+            ];
             
-            const chromiumProcess = exec(command, (error) => {
-                if (error) {
-                    console.error('❌ Erreur Chrome:', error.message);
-                } else {
-                    console.log('✅ Chrome lancé avec succès!');
-                }
+            // Flags dev uniquement si pas en production
+            if (process.env.NODE_ENV !== 'production') {
+                args.push('--disable-web-security', '--no-sandbox');
+            }
+            
+            const chromiumProcess = spawn(chromiumPath, args, { stdio: 'ignore', detached: false });
+            
+            chromiumProcess.on('error', (error) => {
+                console.error('❌ Erreur Chrome:', error.message);
+            });
+            
+            chromiumProcess.on('exit', (code) => {
+                if (code === 0) console.log('✅ Chrome lancé avec succès!');
+                else console.warn(`⚠️ Chrome s'est terminé avec le code: ${code}`);
             });
             
             // Stocker le processus Chromium pour gestion
@@ -118,12 +130,17 @@ class StartupOrchestrator {
     }
 
     async waitForService(port, endpoint = '/api/status', timeout = 15000) {
-        const fetch = require('node-fetch');
         const start = Date.now();
         
         while (Date.now() - start < timeout) {
             try {
-                const res = await fetch(`http://localhost:${port}${endpoint}`, { timeout: 2000 });
+                const controller = new AbortController();
+                const id = setTimeout(() => controller.abort(), 2000);
+                
+                const res = await fetch(`http://localhost:${port}${endpoint}`, { signal: controller.signal });
+                
+                clearTimeout(id);
+                
                 if (res.ok) {
                     console.log(`✅ Service port ${port} opérationnel`);
                     return true;
