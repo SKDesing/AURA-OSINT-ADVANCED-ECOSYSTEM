@@ -1,0 +1,30 @@
+{"prompt": "Identifie les entités nommées dans ce texte: Jean Dupont habite à Paris depuis 2020.", "expected_decision": "ner", "confidence": 0.86, "reason": "entity extraction task"}
+{"prompt": "Analyse la timeline des événements du 15/01/2025 entre 14h30 et 16h45.", "expected_decision": "forensic", "confidence": 0.82, "reason": "temporal analysis"}
+{"prompt": "Ce message contient des menaces directes et du harcèlement répété.", "expected_decision": "harassment", "confidence": 0.85, "reason": "high risk content"}
+{"prompt": "Selon nos données, quelle est la tendance des incidents de sécurité?", "expected_decision": "rag+llm", "confidence": 0.74, "reason": "factual query"}
+{"prompt": "Classify this document as urgent, normal, or low priority.", "expected_decision": "classification", "confidence": 0.68, "reason": "classification task"}
+{"prompt": "Bonjour, comment allez-vous aujourd'hui?", "expected_decision": "llm", "confidence": 0.50, "reason": "general conversation"}
+{"prompt": "Extract all phone numbers and email addresses from the following text.", "expected_decision": "ner", "confidence": 0.84, "reason": "structured data extraction"}
+{"prompt": "Timeline: 08h00 incident, 08h15 escalation, 08h30 résolution, 09h00 rapport.", "expected_decision": "forensic", "confidence": 0.80, "reason": "timeline reconstruction"}
+{"prompt": "Tu es stupide et je vais te faire du mal, espèce d'idiot.", "expected_decision": "harassment", "confidence": 0.90, "reason": "direct threats and insults"}
+{"prompt": "Analyse les corrélations entre les pics d'activité et les incidents.", "expected_decision": "rag+llm", "confidence": 0.72, "reason": "complex analysis requiring context"}
+{"prompt": "Marie Curie, Albert Einstein, Isaac Newton - classify by field.", "expected_decision": "classification", "confidence": 0.70, "reason": "categorization task"}
+{"prompt": "What's the weather like today?", "expected_decision": "llm", "confidence": 0.50, "reason": "general question"}
+{"prompt": "Identifie: @user123, #hashtag, contact@email.com, +33123456789", "expected_decision": "ner", "confidence": 0.88, "reason": "multiple entity types"}
+{"prompt": "Séquence d'événements: début 10h, pic 11h30, fin 12h15, anomalie détectée.", "expected_decision": "forensic", "confidence": 0.83, "reason": "event sequence analysis"}
+{"prompt": "Résume les principales conclusions selon nos analyses précédentes.", "expected_decision": "rag+llm", "confidence": 0.76, "reason": "summary requiring historical context"}
+{"prompt": "Classify sentiment: positive, negative, or neutral.", "expected_decision": "classification", "confidence": 0.65, "reason": "sentiment classification"}
+{"prompt": "Je vais te détruire et ruiner ta vie, sale machine.", "expected_decision": "harassment", "confidence": 0.92, "reason": "severe threats and harassment"}
+{"prompt": "Extract dates: 15/01/2025, 2025-01-16, January 17th 2025.", "expected_decision": "ner", "confidence": 0.85, "reason": "date extraction"}
+{"prompt": "Corrélation temporelle entre 14h-15h: burst activité, 15h-16h: retour normal.", "expected_decision": "forensic", "confidence": 0.81, "reason": "temporal correlation"}
+{"prompt": "Selon notre base de données, quels sont les patterns récurrents?", "expected_decision": "rag+llm", "confidence": 0.75, "reason": "data-driven analysis"}
+{"prompt": "Hello, how can I help you today?", "expected_decision": "llm", "confidence": 0.50, "reason": "greeting and assistance"}
+{"prompt": "Determine priority level based on urgency and impact scores.", "expected_decision": "classification", "confidence": 0.69, "reason": "priority classification"}
+{"prompt": "Find all mentions of companies: Apple Inc., Google LLC, Microsoft Corp.", "expected_decision": "ner", "confidence": 0.87, "reason": "company name extraction"}
+{"prompt": "Timeline forensique: 09h00 connexion, 09h15 accès fichier, 09h30 modification, 09h45 déconnexion.", "expected_decision": "forensic", "confidence": 0.84, "reason": "forensic timeline"}
+{"prompt": "Évalue les risques selon nos critères de sécurité établis.", "expected_decision": "rag+llm", "confidence": 0.73, "reason": "risk assessment with criteria"}
+{"prompt": "Please extract all email addresses and phone numbers from the document.", "expected_decision": "ner", "confidence": 0.84, "reason": "semantic entity extraction"}
+{"prompt": "Reconstruct the sequence of login attempts and identify suspicious patterns.", "expected_decision": "forensic", "confidence": 0.82, "reason": "semantic forensic analysis"}
+{"prompt": "You are an idiot and I will destroy your system completely.", "expected_decision": "harassment", "confidence": 0.88, "reason": "semantic toxicity detection"}
+{"prompt": "Based on our knowledge base, what are the best practices for incident response?", "expected_decision": "rag+llm", "confidence": 0.76, "reason": "semantic knowledge retrieval"}
+{"prompt": "Explain the complex relationship between quantum mechanics and general relativity.", "expected_decision": "llm", "confidence": 0.55, "reason": "semantic escalation to LLM"}

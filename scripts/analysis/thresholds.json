@@ -1,0 +1,5 @@
+{
+  "maxLargeComponents": 30,
+  "maxDashboards": 100,
+  "maxDuplications": 40
+}

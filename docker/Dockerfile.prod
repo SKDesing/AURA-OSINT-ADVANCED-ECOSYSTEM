@@ -1,0 +1,91 @@
+# AURA BROWSER - Production Docker Image
+# Optimized for stealth operations and high performance
+FROM ubuntu:22.04
+
+LABEL maintainer="Sofiane Kaabache <contact@aura.tech>"
+LABEL version="1.0.0"
+LABEL description="AURA Browser - Professional OSINT Platform"
+
+# Prevent interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DISPLAY=:99
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    ninja-build \
+    git \
+    cmake \
+    libnss3-dev \
+    libgbm-dev \
+    libx11-dev \
+    libxcomposite-dev \
+    libxdamage-dev \
+    libxext-dev \
+    libxfixes-dev \
+    libxrandr-dev \
+    libxtst-dev \
+    libasound2-dev \
+    libpulse-dev \
+    libcups2-dev \
+    libexpat1-dev \
+    libffmpeg-dev \
+    libgles2-mesa-dev \
+    xvfb \
+    wget \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create aura user
+RUN useradd -m -s /bin/bash aura && \
+    mkdir -p /opt/aura && \
+    chown -R aura:aura /opt/aura
+
+# Switch to aura user
+USER aura
+WORKDIR /opt/aura
+
+# Copy pre-built AURA Browser binary
+COPY --chown=aura:aura aura-browser /opt/aura/aura-browser
+RUN chmod +x /opt/aura/aura-browser
+
+# Create AURA configuration
+RUN mkdir -p /opt/aura/config
+COPY --chown=aura:aura config/aura-config.json /opt/aura/config/
+
+# Create startup script
+RUN cat > /opt/aura/start-aura.sh << 'EOF'
+#!/bin/bash
+# Start Xvfb for headless operation
+Xvfb :99 -screen 0 1920x1080x24 &
+export DISPLAY=:99
+
+# Start AURA Browser with stealth configuration
+exec /opt/aura/aura-browser \
+    --enable-aura-scraping \
+    --disable-auto-update \
+    --disable-extensions \
+    --disable-sync \
+    --disable-background-networking \
+    --disable-telemetry \
+    --aura-browser-mode \
+    --no-sandbox \
+    --disable-dev-shm-usage \
+    --disable-gpu \
+    --remote-debugging-port=9222 \
+    --user-data-dir=/tmp/aura-profile \
+    "$@"
+EOF
+
+RUN chmod +x /opt/aura/start-aura.sh
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:9222/json/version || exit 1
+
+# Expose debugging port
+EXPOSE 9222
+
+# Set entrypoint
+ENTRYPOINT ["/opt/aura/start-aura.sh"]
+CMD ["--headless"]

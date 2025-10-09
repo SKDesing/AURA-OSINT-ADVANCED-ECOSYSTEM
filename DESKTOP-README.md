@@ -259,8 +259,8 @@ pub trait OSINTPlugin {
 
 ```bash
 # Setup complet
-git clone https://github.com/SKDesing/TikTok-Live-Analyser.git
-cd TikTok-Live-Analyser/desktop
+git clone https://github.com/SKDesing/AURA-OSINT-ADVANCED-ECOSYSTEM.git
+cd AURA-OSINT-ADVANCED-ECOSYSTEM/desktop
 npm install
 npm run dev
 

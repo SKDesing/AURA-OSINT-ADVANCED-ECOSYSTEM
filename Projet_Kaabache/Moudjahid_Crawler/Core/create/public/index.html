@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Creator - SCIS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0F0F0F 0%, #1A1A1A 100%);
+            color: white; min-height: 100vh; padding: 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .title { font-size: 2.5rem; color: #25F4EE; margin-bottom: 10px; }
+        .wizard { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px; padding: 40px;
+        }
+        .step { display: none; }
+        .step.active { display: block; }
+        .step-indicator { 
+            display: flex; justify-content: center; margin-bottom: 30px;
+        }
+        .step-dot { 
+            width: 40px; height: 40px; border-radius: 50%; 
+            background: rgba(255, 255, 255, 0.1); 
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 10px; color: #666;
+        }
+        .step-dot.active { background: #25F4EE; color: white; }
+        .step-dot.completed { background: #00ff00; color: white; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 8px; color: #25F4EE; }
+        .form-input, .form-select, .form-textarea { 
+            width: 100%; padding: 12px; border: 1px solid #333; 
+            border-radius: 8px; background: #1A1A1A; color: white;
+        }
+        .form-textarea { height: 100px; resize: vertical; }
+        .btn { 
+            background: linear-gradient(90deg, #FF0050, #25F4EE); 
+            border: none; padding: 12px 30px; border-radius: 8px; 
+            color: white; cursor: pointer; margin: 10px 5px;
+        }
+        .btn-secondary { background: #666; }
+        .progress-bar { 
+            width: 100%; height: 6px; background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px; margin-bottom: 30px; overflow: hidden;
+        }
+        .progress-fill { 
+            height: 100%; background: linear-gradient(90deg, #FF0050, #25F4EE);
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">➕ Profile Creator</h1>
+            <p style="color: #B0B0B0;">Assistant de création de profils forensiques - Port 3005</p>
+        </div>
+
+        <div class="wizard">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 25%;"></div>
+            </div>
+            
+            <div class="step-indicator">
+                <div class="step-dot active" id="dot1">1</div>
+                <div class="step-dot" id="dot2">2</div>
+                <div class="step-dot" id="dot3">3</div>
+                <div class="step-dot" id="dot4">4</div>
+            </div>
+
+            <!-- Étape 1: Informations de base -->
+            <div class="step active" id="step1">
+                <h3 style="color: #25F4EE; margin-bottom: 20px;">Étape 1: Informations de Base</h3>
+                <div class="form-group">
+                    <label class="form-label">Nom d'utilisateur</label>
+                    <input type="text" class="form-input" id="username" placeholder="@username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Plateforme</label>
+                    <select class="form-select" id="platform">
+                        <option value="tiktok">TikTok</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="twitter">Twitter</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nom complet</label>
+                    <input type="text" class="form-input" id="fullName" placeholder="Nom complet">
+                </div>
+                <button class="btn" onclick="nextStep()">Suivant →</button>
+            </div>
+
+            <!-- Étape 2: Informations personnelles -->
+            <div class="step" id="step2">
+                <h3 style="color: #25F4EE; margin-bottom: 20px;">Étape 2: Informations Personnelles</h3>
+                <div class="form-group">
+                    <label class="form-label">Âge estimé</label>
+                    <input type="number" class="form-input" id="age" placeholder="25">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Localisation</label>
+                    <input type="text" class="form-input" id="location" placeholder="Ville, Pays">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email (si connu)</label>
+                    <input type="email" class="form-input" id="email" placeholder="email@example.com">
+                </div>
+                <button class="btn btn-secondary" onclick="prevStep()">← Précédent</button>
+                <button class="btn" onclick="nextStep()">Suivant →</button>
+            </div>
+
+            <!-- Étape 3: Analyse comportementale -->
+            <div class="step" id="step3">
+                <h3 style="color: #25F4EE; margin-bottom: 20px;">Étape 3: Analyse Comportementale</h3>
+                <div class="form-group">
+                    <label class="form-label">Niveau de risque</label>
+                    <select class="form-select" id="riskLevel">
+                        <option value="low">Faible</option>
+                        <option value="medium">Moyen</option>
+                        <option value="high">Élevé</option>
+                        <option value="critical">Critique</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Catégories d'intérêt</label>
+                    <input type="text" class="form-input" id="interests" placeholder="Gaming, Music, Fashion...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes comportementales</label>
+                    <textarea class="form-textarea" id="behaviorNotes" placeholder="Observations sur le comportement..."></textarea>
+                </div>
+                <button class="btn btn-secondary" onclick="prevStep()">← Précédent</button>
+                <button class="btn" onclick="nextStep()">Suivant →</button>
+            </div>
+
+            <!-- Étape 4: Finalisation -->
+            <div class="step" id="step4">
+                <h3 style="color: #25F4EE; margin-bottom: 20px;">Étape 4: Finalisation</h3>
+                <div class="form-group">
+                    <label class="form-label">Tags d'enquête</label>
+                    <input type="text" class="form-input" id="tags" placeholder="suspect, surveillance, priorité...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Assigné à</label>
+                    <select class="form-select" id="assignedTo">
+                        <option value="agent1">Agent Smith</option>
+                        <option value="agent2">Agent Johnson</option>
+                        <option value="agent3">Agent Brown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes finales</label>
+                    <textarea class="form-textarea" id="finalNotes" placeholder="Notes additionnelles..."></textarea>
+                </div>
+                <button class="btn btn-secondary" onclick="prevStep()">← Précédent</button>
+                <button class="btn" onclick="createProfile()">✅ Créer le Profil</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Mise à jour des indicateurs
+            for (let i = 1; i <= totalSteps; i++) {
+                const dot = document.getElementById('dot' + i);
+                if (i < currentStep) {
+                    dot.className = 'step-dot completed';
+                    dot.innerHTML = '✓';
+                } else if (i === currentStep) {
+                    dot.className = 'step-dot active';
+                    dot.innerHTML = i;
+                } else {
+                    dot.className = 'step-dot';
+                    dot.innerHTML = i;
+                }
+            }
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + step).classList.add('active');
+            updateProgress();
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function createProfile() {
+            const profileData = {
+                username: document.getElementById('username').value,
+                platform: document.getElementById('platform').value,
+                fullName: document.getElementById('fullName').value,
+                age: document.getElementById('age').value,
+                location: document.getElementById('location').value,
+                email: document.getElementById('email').value,
+                riskLevel: document.getElementById('riskLevel').value,
+                interests: document.getElementById('interests').value,
+                behaviorNotes: document.getElementById('behaviorNotes').value,
+                tags: document.getElementById('tags').value,
+                assignedTo: document.getElementById('assignedTo').value,
+                finalNotes: document.getElementById('finalNotes').value
+            };
+
+            alert('Profil créé avec succès!\n\nDonnées: ' + JSON.stringify(profileData, null, 2));
+        }
+    </script>
+</body>
+</html>

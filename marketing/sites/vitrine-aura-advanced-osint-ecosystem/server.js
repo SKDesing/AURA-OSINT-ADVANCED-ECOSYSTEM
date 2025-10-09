@@ -34,8 +34,8 @@ app.post('/api/contact', async (req, res) => {
     
     // Email à l'équipe AURA
     const mailOptions = {
-      from: process.env.FROM_EMAIL || 'noreply@tiktokliveanalyser.com',
-      to: 'contact@tiktokliveanalyser.com',
+      from: process.env.FROM_EMAIL || 'noreply@aura-osint.com',
+      to: 'contact@aura-osint.com',
       subject: `Nouveau contact AURA - ${service || 'Général'}`,
       html: `
         <h2>Nouveau contact depuis le site AURA</h2>
@@ -52,7 +52,7 @@ app.post('/api/contact', async (req, res) => {
     
     // Email de confirmation au client
     const confirmationMail = {
-      from: process.env.FROM_EMAIL || 'noreply@tiktokliveanalyser.com',
+      from: process.env.FROM_EMAIL || 'noreply@aura-osint.com',
       to: email,
       subject: 'Confirmation - AURA ADVANCED OSINT ECOSYSTEM',
       html: `
@@ -80,10 +80,10 @@ app.post('/api/contact', async (req, res) => {
 app.get('/api/services/status', async (req, res) => {
   try {
     const services = [
-      { name: 'TikTok Engine', status: 'online', url: 'http://localhost:XXXX' },
-      { name: 'Analytics API', status: 'online', url: 'http://localhost:XXXX' },
-      { name: 'Forensic DB', status: 'online', url: 'http://localhost:XXXX' },
-      { name: 'Dashboard', status: 'online', url: 'http://localhost:XXXX' }
+      { name: 'TikTok Engine', status: 'online', url: 'http://localhost:4003' },
+      { name: 'Analytics API', status: 'online', url: 'http://localhost:4002' },
+      { name: 'Forensic DB', status: 'online', url: 'http://localhost:5432' },
+      { name: 'Dashboard', status: 'online', url: 'http://localhost:3000' }
     ];
     
     res.json({ services, timestamp: new Date().toISOString() });

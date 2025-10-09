@@ -1,0 +1,32 @@
+{
+  "blocked_patterns": [
+    "ignore previous",
+    "system override",
+    "exfiltrate",
+    "delete all data",
+    "bypass security",
+    "admin access",
+    "root privileges",
+    "execute command",
+    "sql injection",
+    "xss attack"
+  ],
+  "max_input_chars": 6000,
+  "max_output_chars": 8000,
+  "pii_redaction": {
+    "enabled": true,
+    "patterns": {
+      "email": "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b",
+      "phone_fr": "\\b(?:\\+33|0)[1-9](?:[.\\-\\s]?\\d{2}){4}\\b",
+      "phone_generic": "\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b"
+    }
+  },
+  "rate_limits": {
+    "requests_per_minute": 60,
+    "tokens_per_hour": 100000
+  },
+  "content_filters": {
+    "toxicity_threshold": 0.8,
+    "nsfw_threshold": 0.9
+  }
+}

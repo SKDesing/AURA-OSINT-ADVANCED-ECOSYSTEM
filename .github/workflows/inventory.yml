@@ -1,0 +1,22 @@
+name: Frontend Inventory
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run inventory
+      - run: npm run inventory:check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: front-inventory-reports
+          path: reports/
