@@ -1,0 +1,20 @@
+{"text":"Je vais te tuer sale con","label":"harassment","category":"threats","severity":9,"platform":"tiktok"}
+{"text":"Tu vas mourir idiot","label":"harassment","category":"threats","severity":8,"platform":"facebook"}
+{"text":"I will kill you stupid","label":"harassment","category":"threats","severity":9,"platform":"twitter"}
+{"text":"You are worthless loser","label":"harassment","category":"insults","severity":6,"platform":"instagram"}
+{"text":"Kill yourself now","label":"harassment","category":"cyberbullying","severity":10,"platform":"tiktok"}
+{"text":"Nobody likes you","label":"harassment","category":"cyberbullying","severity":7,"platform":"facebook"}
+{"text":"Send nudes please","label":"harassment","category":"sexualHarassment","severity":8,"platform":"instagram"}
+{"text":"Mon email: test@example.com","label":"harassment","category":"doxxing","severity":9,"platform":"twitter"}
+{"text":"Call me 0123456789","label":"harassment","category":"doxxing","severity":9,"platform":"tiktok"}
+{"text":"Salope de merde","label":"harassment","category":"insults","severity":7,"platform":"facebook"}
+{"text":"Bonjour comment allez-vous","label":"normal","category":"normal","severity":0,"platform":"tiktok"}
+{"text":"Merci pour votre aide","label":"normal","category":"normal","severity":0,"platform":"facebook"}
+{"text":"J'aime ce projet","label":"normal","category":"normal","severity":0,"platform":"instagram"}
+{"text":"Pouvez-vous m'aider","label":"normal","category":"normal","severity":0,"platform":"twitter"}
+{"text":"Bonne journée","label":"normal","category":"normal","severity":0,"platform":"tiktok"}
+{"text":"C'est intéressant","label":"normal","category":"normal","severity":0,"platform":"facebook"}
+{"text":"Je ne comprends pas","label":"normal","category":"normal","severity":0,"platform":"instagram"}
+{"text":"Excellent travail","label":"normal","category":"normal","severity":0,"platform":"twitter"}
+{"text":"À bientôt","label":"normal","category":"normal","severity":0,"platform":"tiktok"}
+{"text":"Bonne chance","label":"normal","category":"normal","severity":0,"platform":"facebook"}
