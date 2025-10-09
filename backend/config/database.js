@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:aura_secure_2025@localhost:5432/aura_osint',
+  connectionString: process.env.DATABASE_URL || 'postgresql://aura_user:nouveau_mot_de_passe@localhost:5432/aura_osint',
   max: 50,
   idleTimeoutMillis: 10000,
   connectionTimeoutMillis: 5000,
