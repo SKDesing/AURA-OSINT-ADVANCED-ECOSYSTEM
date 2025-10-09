@@ -1,0 +1,94 @@
+{
+  "version": "1.0.0",
+  "rules_hash": "sha256:router_rules_v1_abc123",
+  "created_at": "2025-01-09T09:00:00Z",
+  "rules": [
+    {
+      "id": "semantic_bypass_high",
+      "if": {
+        "sim_bypass": ">=0.52",
+        "sim_margin_top2": ">=0.06"
+      },
+      "decision": "ner",
+      "confidence": 0.84,
+      "reason": "semantic bypass match"
+    },
+    {
+      "id": "semantic_forensic_high",
+      "if": {
+        "sim_forensic": ">=0.52",
+        "sim_margin_top2": ">=0.05"
+      },
+      "decision": "forensic",
+      "confidence": 0.82,
+      "reason": "temporal analysis match"
+    },
+    {
+      "id": "semantic_harassment_high",
+      "if": {
+        "sim_harassment": ">=0.50",
+        "sim_margin_top2": ">=0.05"
+      },
+      "decision": "harassment",
+      "confidence": 0.78,
+      "reason": "toxicity classifier match"
+    },
+    {
+      "id": "semantic_rag_llm",
+      "if": {
+        "sim_rag_llm": ">=0.50"
+      },
+      "decision": "rag+llm",
+      "confidence": 0.72,
+      "reason": "factual / KB needed"
+    },
+    {
+      "id": "ner_entity_heavy",
+      "if": {
+        "ent_count": ">=3",
+        "length_bucket": "!long"
+      },
+      "decision": "ner",
+      "confidence": 0.76,
+      "reason": "entity-heavy short text"
+    },
+    {
+      "id": "forensic_temporal",
+      "if": {
+        "forensic_terms": ">=2"
+      },
+      "decision": "forensic",
+      "confidence": 0.72,
+      "reason": "temporal pattern analysis"
+    },
+    {
+      "id": "harassment_high_risk",
+      "if": {
+        "risk_lexical": ">=0.7"
+      },
+      "decision": "harassment",
+      "confidence": 0.75,
+      "reason": "high lexical risk detected"
+    },
+    {
+      "id": "rag_factual_question",
+      "if": {
+        "contains_policy_request": true,
+        "has_question": true
+      },
+      "decision": "rag+llm",
+      "confidence": 0.64,
+      "reason": "factual context needed"
+    }
+  ],
+  "fallback": {
+    "decision": "llm",
+    "confidence": 0.50,
+    "reason": "no specific rule matched"
+  },
+  "settings": {
+    "min_confidence_threshold": 0.60,
+    "enable_fallback": true,
+    "log_decisions": true
+  }
+}

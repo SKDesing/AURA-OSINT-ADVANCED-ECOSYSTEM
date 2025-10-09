@@ -1,0 +1,22 @@
+{
+  "pseudoEmbeddings": {
+    "pattern": "pseudoEmbed\\(",
+    "severity": "high",
+    "reason": "Remplacer pseudo vecteurs par embeddings réels"
+  },
+  "degradeLiteral": {
+    "pattern": "\\[DEGRADE\\]",
+    "severity": "medium",
+    "reason": "Utiliser structured degrade object"
+  },
+  "legacyEngine": {
+    "pattern": "engine-legacy",
+    "severity": "medium", 
+    "reason": "Fichiers legacy à migrer vers nouvelle architecture"
+  },
+  "testFiles": {
+    "pattern": "test-(email|simple|new-credentials)",
+    "severity": "low",
+    "reason": "Anciens fichiers de test à nettoyer"
+  }
+}

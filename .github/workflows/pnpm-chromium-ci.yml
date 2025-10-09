@@ -1,0 +1,76 @@
+name: AURA OSINT - PNPM + Chromium CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8.6.0
+        
+    - name: Cache PNPM dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.pnpm-store
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-
+          
+    - name: Install Chromium build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          ninja-build \
+          python3 \
+          git \
+          libnss3-dev \
+          libgbm-dev \
+          libx11-dev \
+          libxcomposite-dev
+          
+    - name: Install PNPM dependencies
+      run: pnpm install --frozen-lockfile
+      
+    - name: Build Chromium + PNPM
+      run: |
+        chmod +x scripts/build-chromium-pnpm.sh
+        ./scripts/build-chromium-pnpm.sh
+        
+    - name: Run tests
+      run: pnpm run test
+      
+    - name: Security audit
+      run: pnpm audit --audit-level moderate
+      
+    - name: Upload AURA Browser artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: aura-browser-${{ github.sha }}
+        path: |
+          01_CORE/aura_browser/out/Default/chrome
+          clients/web-react/.next
+        retention-days: 7
+        
+    - name: Performance benchmark
+      run: |
+        echo "📊 Build Metrics:"
+        du -sh node_modules/ || echo "No node_modules"
+        du -sh ~/.pnpm-store/ || echo "No pnpm store"
+        ls -la 01_CORE/aura_browser/out/Default/ || echo "No Chromium build"

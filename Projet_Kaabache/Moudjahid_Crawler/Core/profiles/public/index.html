@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profiles Manager - SCIS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0F0F0F 0%, #1A1A1A 100%);
+            color: white; min-height: 100vh; padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .title { font-size: 2.5rem; color: #25F4EE; margin-bottom: 10px; }
+        .card { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px; padding: 30px; margin-bottom: 30px;
+        }
+        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .profile-card { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px; padding: 20px; transition: all 0.3s ease;
+        }
+        .profile-card:hover { border-color: #25F4EE; transform: translateY(-2px); }
+        .btn { 
+            background: linear-gradient(90deg, #FF0050, #25F4EE); 
+            border: none; padding: 10px 20px; border-radius: 8px; 
+            color: white; cursor: pointer; margin: 5px;
+        }
+        .search-bar { 
+            width: 100%; padding: 12px; border: 1px solid #333; 
+            border-radius: 8px; background: #1A1A1A; color: white; margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">👥 Profiles Manager</h1>
+            <p style="color: #B0B0B0;">Gestion des profils forensiques - Port 3003</p>
+        </div>
+
+        <div class="card">
+            <h3 style="color: #25F4EE; margin-bottom: 20px;">Recherche de Profils</h3>
+            <input type="text" class="search-bar" placeholder="🔍 Rechercher un profil..." id="searchInput">
+            <button class="btn" onclick="addProfile()">➕ Nouveau Profil</button>
+            <button class="btn" onclick="exportProfiles()">📤 Exporter</button>
+        </div>
+
+        <div class="card">
+            <h3 style="color: #25F4EE; margin-bottom: 20px;">Profils Actifs</h3>
+            <div class="profiles-grid" id="profilesGrid">
+                <div class="profile-card">
+                    <h4 style="color: #25F4EE;">@titilepirate3</h4>
+                    <p><strong>Plateforme:</strong> TikTok</p>
+                    <p><strong>Statut:</strong> <span style="color: #00ff00;">Actif</span></p>
+                    <p><strong>Dernière analyse:</strong> 2025-01-05</p>
+                    <div style="margin-top: 15px;">
+                        <button class="btn">👁️ Voir</button>
+                        <button class="btn">✏️ Modifier</button>
+                        <button class="btn" style="background: #FF0050;">🗑️ Supprimer</button>
+                    </div>
+                </div>
+                <div class="profile-card">
+                    <h4 style="color: #25F4EE;">@suspect_user</h4>
+                    <p><strong>Plateforme:</strong> Instagram</p>
+                    <p><strong>Statut:</strong> <span style="color: #ff9900;">En surveillance</span></p>
+                    <p><strong>Dernière analyse:</strong> 2025-01-04</p>
+                    <div style="margin-top: 15px;">
+                        <button class="btn">👁️ Voir</button>
+                        <button class="btn">✏️ Modifier</button>
+                        <button class="btn" style="background: #FF0050;">🗑️ Supprimer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addProfile() {
+            alert('Redirection vers le créateur de profils...');
+            window.open('http://localhost:3005', '_blank');
+        }
+        
+        function exportProfiles() {
+            alert('Export des profils en cours...');
+        }
+        
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            console.log('Recherche:', e.target.value);
+        });
+    </script>
+</body>
+</html>
