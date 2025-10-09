@@ -18,6 +18,18 @@ CREATE TABLE IF NOT EXISTS investigations (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX idx_profiles_username ON profiles(username);
-CREATE INDEX idx_profiles_platform ON profiles(platform);
-CREATE INDEX idx_investigations_status ON investigations(status);
+-- Indexes optimisés pour performance
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_profiles_username ON profiles(username);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_profiles_platform ON profiles(platform);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_profiles_created_at ON profiles(created_at DESC);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_profiles_username_platform ON profiles(username, platform);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_profiles_data_gin ON profiles USING GIN(data);
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_investigations_status ON investigations(status);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_investigations_created_at ON investigations(created_at DESC);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_investigations_title_trgm ON investigations USING GIN(title gin_trgm_ops);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_investigations_data_gin ON investigations USING GIN(data);
+
+-- Extension pour recherche full-text
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+CREATE EXTENSION IF NOT EXISTS btree_gin;
