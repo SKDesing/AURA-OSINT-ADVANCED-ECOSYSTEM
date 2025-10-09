@@ -1,0 +1,8 @@
+{
+  "timestamp": "2025-10-09T18:56:52.187Z",
+  "npmAudit": {
+    "success": false,
+    "data": null,
+    "errors": "npm error code ENOLOCK\nnpm error audit This command requires an existing lockfile.\nnpm error audit Try creating one first with: npm i --package-lock-only\nnpm error audit Original error: loadVirtual requires existing shrinkwrap file\nnpm error A complete log of this run can be found in: /home/soufiane/.npm/_logs/2025-10-09T18_56_51_751Z-debug-0.log\n"
+  }
+}
