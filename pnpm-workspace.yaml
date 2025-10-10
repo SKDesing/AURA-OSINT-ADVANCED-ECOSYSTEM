@@ -24,6 +24,9 @@ packages:
   
   # Desktop Application
   - 'desktop'
+  
+  # AURA Browser (Electron)
+  - 'apps/browser-electron'
 
 # Exclusions (gérés manuellement)
 # - '01_CORE/aura_browser' (Chromium C++)
