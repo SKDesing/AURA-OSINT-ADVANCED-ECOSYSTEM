@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { ThemeProvider, createTheme, CssBaseline, Box, Typography, Button, Tabs, Tab } from '@mui/material';
 import TabManager from './components/TabManager';
 import OSINTTools from './components/OSINTTools';
+import JobsTable from './components/JobsTable';
+import ResultsTable from './components/ResultsTable';
+import TelemetryPanel from './components/TelemetryPanel';
 
 const theme = createTheme({
   palette: {
@@ -35,41 +38,46 @@ const App: React.FC = () => {
           mb: 2,
           fontWeight: 'bold'
         }}>
-          🚀 TikTok Live Analyser
+          AURA OSINT ADVANCED ECOSYSTEM
         </Typography>
         <Typography variant="h5" color="text.secondary" sx={{ mb: 4 }}>
-          Application forensique prête pour déploiement
-        </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 4, maxWidth: 600 }}>
-          Solution complète d'analyse forensique pour TikTok Live avec interface moderne, 
-          outils OSINT intégrés et package USB commercial.
+          Interface unifiée: outils, jobs, résultats, télémétrie
         </Typography>
         
         <Tabs 
           value={activeTab} 
           onChange={(_, newValue) => setActiveTab(newValue)}
           sx={{ mb: 3 }}
+          variant="scrollable"
+          scrollButtons
+          allowScrollButtonsMobile
         >
           <Tab label="Dashboard" />
           <Tab label="OSINT Tools" />
+          <Tab label="Jobs" />
+          <Tab label="Results" />
+          <Tab label="Telemetry" />
           <Tab label="Live Tracker" />
         </Tabs>
 
-        {activeTab === 0 && <TabManager />}
-        {activeTab === 1 && <OSINTTools />}
-        {activeTab === 2 && (
-          <Typography variant="h6" color="text.secondary">
-            🔴 Live Tracker - Coming Soon
-          </Typography>
-        )}
+        <Box sx={{ width: '100%', maxWidth: 1200, textAlign: 'left' }}>
+          {activeTab === 0 && <TabManager />}
+          {activeTab === 1 && <OSINTTools />}
+          {activeTab === 2 && <JobsTable />}
+          {activeTab === 3 && <ResultsTable />}
+          {activeTab === 4 && <TelemetryPanel />}
+          {activeTab === 5 && (
+            <Typography variant="h6" color="text.secondary">
+              🔴 Live Tracker - Coming Soon
+            </Typography>
+          )}
+        </Box>
         {activeTab === 0 && (
           <Button 
             variant="contained" 
             size="large"
             onClick={() => {
-              // Ouvrir tous les services dans des onglets de la même fenêtre
-              window.open('http://localhost:4011/health', '_blank');
-              window.open('http://localhost:5005', '_blank');
+              window.open((process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:4011') + '/health', '_blank');
             }}
             sx={{ 
               background: 'linear-gradient(45deg, #fe2c55, #ff6b35)',
@@ -81,7 +89,7 @@ const App: React.FC = () => {
               }
             }}
           >
-            Ouvrir Services OSINT
+            Open Backend Health
           </Button>
         )}
       </Box>
