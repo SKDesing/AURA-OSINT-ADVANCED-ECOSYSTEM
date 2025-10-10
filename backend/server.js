@@ -82,25 +82,23 @@ app.use('/api', contactRouter);
 // MVP routes
 app.use('/', mvpRouter);
 
-// Error handling
-app.use((err, req, res, next) => {
-  console.error('Error:', err);
-  res.status(500).json({ error: 'Internal server error' });
-});
-
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Route not found' });
-});
-
-// OSINT Phase 0 initialization
+// OSINT routes
 console.log('🔍 OSINT tools ready');
-
-// Mount OSINT routes with rate limiting
 app.use('/api/osint', osintRateLimit, osintRouter);
 
 // Telemetry endpoint
 app.use('/telemetry', require('./routes/telemetry'));
+
+// 404 handler (doit être APRES le montage des routes)
+app.use('*', (req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
+// Error handling (en dernier)
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ error: 'Internal server error' });
+});
 
 // WebSocket server
 const wsServer = new WebSocketServer(server);
