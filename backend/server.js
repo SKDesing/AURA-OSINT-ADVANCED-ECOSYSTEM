@@ -1,3 +1,6 @@
+// AURA Browser Only enforcement
+try { require('./utils/ensure-electron-launch')(); } catch { /* best-effort */ }
+
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
