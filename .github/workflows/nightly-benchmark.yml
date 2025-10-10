@@ -47,9 +47,33 @@ jobs:
           echo "# AURA Performance Report" > performance-report.md
           echo "Generated: $(date -u)" >> performance-report.md
           echo "" >> performance-report.md
+          
           if [ -f "reports/benchmarks/ingest-latency.json" ]; then
             echo "## Benchmark Results" >> performance-report.md
-            jq -r '"- **Rate**: \(.actual.ratePerMin)/min (target: \(.target.ratePerMin))", "- **Latency P95**: \(.latency.p95)ms", "- **Latency P99**: \(.latency.p99)ms", "- **Records**: \(.actual.count)", "- **Timestamp**: \(.timestamp)"' reports/benchmarks/ingest-latency.json >> performance-report.md
+            jq -r '"- **Rate**: \(.actual.ratePerMin)/min (target: \(.target.ratePerMin))", "- **Latency P50**: \(.latency.p50)ms", "- **Latency P95**: \(.latency.p95)ms", "- **Latency P99**: \(.latency.p99)ms", "- **Records**: \(.actual.count)", "- **Duration**: \(.target.durationMin) minutes", "- **Timestamp**: \(.timestamp)"' reports/benchmarks/ingest-latency.json >> performance-report.md
+            
+            # Generate CSV for analysis
+            echo "metric,value,unit,timestamp" > performance-data.csv
+            jq -r '["throughput", .actual.ratePerMin, "records/min", .timestamp], ["p50_latency", .latency.p50, "ms", .timestamp], ["p95_latency", .latency.p95, "ms", .timestamp], ["p99_latency", .latency.p99, "ms", .timestamp] | @csv' reports/benchmarks/ingest-latency.json >> performance-data.csv
+            
+            # SLO compliance check
+            P95=$(jq -r '.latency.p95' reports/benchmarks/ingest-latency.json)
+            RATE=$(jq -r '.actual.ratePerMin' reports/benchmarks/ingest-latency.json)
+            
+            echo "" >> performance-report.md
+            echo "## SLO Compliance" >> performance-report.md
+            
+            if (( $(echo "$P95 <= 800" | bc -l) )); then
+              echo "- ✅ **Latency SLO**: P95 ${P95}ms ≤ 800ms" >> performance-report.md
+            else
+              echo "- ❌ **Latency SLO**: P95 ${P95}ms > 800ms" >> performance-report.md
+            fi
+            
+            if (( $(echo "$RATE >= 120000" | bc -l) )); then
+              echo "- ✅ **Throughput SLO**: ${RATE}/min ≥ 120k/min" >> performance-report.md
+            else
+              echo "- ⚠️ **Throughput**: ${RATE}/min < 120k/min target" >> performance-report.md
+            fi
           fi
 
       - name: Upload artifacts
@@ -59,6 +83,7 @@ jobs:
           path: |
             reports/benchmarks/**
             performance-report.md
+            performance-data.csv
             backend.log
           retention-days: 30
 

@@ -3,8 +3,20 @@ name: CodeQL Security Analysis
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - 'dist/**'
+      - 'apps/**/dist/**'
+      - 'build/**'
+      - 'reports/**'
+      - 'docs/**'
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - 'dist/**'
+      - 'apps/**/dist/**'
+      - 'build/**'
+      - 'reports/**'
+      - 'docs/**'
   schedule:
     - cron: '0 6 * * 1'  # Weekly Monday 6 AM UTC
 
@@ -13,14 +25,14 @@ jobs:
     name: Analyze
     runs-on: ubuntu-22.04
     permissions:
-      actions: read
       contents: read
       security-events: write
+      actions: read
 
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript', 'typescript' ]
+        language: [ 'javascript-typescript' ]
 
     steps:
     - name: Checkout repository
