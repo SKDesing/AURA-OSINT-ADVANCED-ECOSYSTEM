@@ -1,21 +1,6 @@
 version: "3.9"
 
 services:
-  spiderfoot:
-    image: hatlord/spiderfoot:latest
-    container_name: aura_spiderfoot
-    ports:
-      - "5001:5001"
-    volumes:
-      # Persistance SpiderFoot dans var/osint/spiderfoot (gitignored)
-      - ../../../var/osint/spiderfoot:/var/lib/spiderfoot
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://127.0.0.1:5001 || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    restart: unless-stopped
-
   phoneinfoga:
     image: sundowndev/phoneinfoga:latest
     container_name: aura_phoneinfoga
@@ -23,10 +8,9 @@ services:
     ports:
       - "5005:5005"
     volumes:
-      # Persistance éventuelle (exports, cache) dans var/osint/phoneinfoga
       - ../../../var/osint/phoneinfoga:/data
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5005/"]
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5005"]
       interval: 10s
       timeout: 5s
       retries: 12
