@@ -1,6 +1,7 @@
 // AURA MVP Backend - Version corrigée
 const express = require('express');
 const cors = require('cors');
+const aiHealthRouter = require('../services/ai/health-router');
 
 const app = express();
 const PORT = 4010;
@@ -15,12 +16,18 @@ app.use(cors({
 
 app.use(express.json());
 
+// AI Health endpoints
+app.use('/ai', aiHealthRouter);
+
 // Route racine pour éviter 404
 app.get('/', (req, res) => {
   res.json({
     name: 'AURA MVP Backend',
     version: '1.0.0',
     endpoints: [
+      'GET /ai/health',
+      'GET /ai/embeddings/health',
+      'GET /ai/router/health',
       'GET /ai/observability/summary',
       'GET /ai/router/decisions',
       'GET /artifacts',
@@ -237,10 +244,13 @@ app.use('*', (req, res) => {
   res.status(404).json({ error: 'Endpoint not found', path: req.originalUrl });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`🚀 AURA MVP Backend running on http://localhost:${PORT}`);
   console.log(`📊 Available endpoints:`);
   console.log(`  GET  /                           - API info`);
+  console.log(`  GET  /ai/health                  - AI aggregate health`);
+  console.log(`  GET  /ai/embeddings/health       - Embeddings health`);
+  console.log(`  GET  /ai/router/health           - Router health`);
   console.log(`  GET  /ai/observability/summary   - Metrics`);
   console.log(`  GET  /ai/router/decisions        - Router decisions`);
   console.log(`  GET  /artifacts                  - Artifacts list`);
@@ -249,3 +259,6 @@ app.listen(PORT, () => {
   console.log(`  GET  /ai/stream/metrics          - SSE metrics stream`);
   console.log(`  GET  /health                     - Health check`);
 });
+
+// Graceful shutdown
+require('./utils/graceful-shutdown')(server);

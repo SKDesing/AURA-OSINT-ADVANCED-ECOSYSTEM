@@ -1,7 +1,7 @@
 {
   "name": "@aura/osint-advanced-ecosystem",
   "version": "2.0.0",
-  "description": "AURA TikTok Intelligence Engine - Professional OSINT Platform for TikTok Live Analysis",
+  "description": "Professional OSINT Platform for Advanced Intelligence Gathering",
   "main": "backend/api/analytics-api.js",
   "scripts": {
     "start": "node scripts/setup/startup-orchestrator.js",
@@ -160,7 +160,7 @@
     "tensorflow": "^4.10.0"
   },
   "engines": {
-    "node": ">=18.0.0",
+    "node": ">=20.0.0 <23.0.0",
     "npm": ">=9.0.0"
   },
   "keywords": [

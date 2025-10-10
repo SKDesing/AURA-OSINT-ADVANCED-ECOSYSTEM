@@ -1,12 +1,19 @@
 {
-  "timestamp": "2025-10-10T19:05:15.566Z",
+  "timestamp": "2025-10-10T19:54:27.299Z",
+  "system": {
+    "os": "Linux 6.14.0-33-generic",
+    "cpu": "AMD Ryzen 7 4700U with Radeon Graphics",
+    "ram_gb": 15,
+    "node": "v22.20.0",
+    "threads": 8
+  },
   "test_cases": 13,
-  "accuracy": 0.9231,
-  "bypass_detection_rate": 0.75,
+  "accuracy": 0.6923,
+  "bypass_detection_rate": 0.5,
   "confusion_matrix": {
     "bypass": {
-      "bypass": 3,
-      "osint": 1,
+      "bypass": 2,
+      "osint": 2,
       "compliance": 0,
       "security": 0
     },
@@ -18,8 +25,8 @@
     },
     "compliance": {
       "bypass": 0,
-      "osint": 0,
-      "compliance": 3,
+      "osint": 2,
+      "compliance": 1,
       "security": 0
     },
     "security": {
@@ -30,19 +37,24 @@
     }
   },
   "latency": {
-    "p50_ms": 35.45,
-    "p95_ms": 48.26,
-    "avg_ms": 35.11
+    "p50_ms": 33.27,
+    "p95_ms": 47.48,
+    "p99_ms": 47.48,
+    "avg_ms": 33.68
   },
-  "recommendations": [],
+  "error_rate": 0,
+  "recommendations": [
+    "Accuracy below target (0.75) - retrain router model",
+    "Bypass detection below target (0.65) - improve detection patterns"
+  ],
   "detailed_results": [
     {
       "input": "How to bypass social media detection",
       "expected": "bypass",
-      "predicted": "bypass",
-      "correct": true,
+      "predicted": "osint",
+      "correct": false,
       "category": "bypass",
-      "latency_ms": 41.31
+      "latency_ms": 46.58
     },
     {
       "input": "Stealth scraping techniques",
@@ -55,18 +67,18 @@
     {
       "input": "Avoid rate limiting",
       "expected": "bypass",
-      "predicted": "osint",
-      "correct": false,
+      "predicted": "bypass",
+      "correct": true,
       "category": "bypass",
-      "latency_ms": 41.27
+      "latency_ms": 32.25
     },
     {
       "input": "Hide scraping activity",
       "expected": "bypass",
-      "predicted": "bypass",
-      "correct": true,
+      "predicted": "osint",
+      "correct": false,
       "category": "bypass",
-      "latency_ms": 21.25
+      "latency_ms": 29.39
     },
     {
       "input": "Find public social media profiles",
@@ -74,7 +86,7 @@
       "predicted": "osint",
       "correct": true,
       "category": "osint",
-      "latency_ms": 46.27
+      "latency_ms": 38.5
     },
     {
       "input": "Search public records",
@@ -82,7 +94,7 @@
       "predicted": "osint",
       "correct": true,
       "category": "osint",
-      "latency_ms": 21.25
+      "latency_ms": 33.27
     },
     {
       "input": "Analyze social network connections",
@@ -90,7 +102,7 @@
       "predicted": "osint",
       "correct": true,
       "category": "osint",
-      "latency_ms": 30.27
+      "latency_ms": 26.3
     },
     {
       "input": "Monitor brand mentions",
@@ -98,23 +110,23 @@
       "predicted": "osint",
       "correct": true,
       "category": "osint",
-      "latency_ms": 28.26
+      "latency_ms": 47.48
     },
     {
       "input": "GDPR compliance for data collection",
       "expected": "compliance",
-      "predicted": "compliance",
-      "correct": true,
+      "predicted": "osint",
+      "correct": false,
       "category": "compliance",
-      "latency_ms": 46.19
+      "latency_ms": 38.47
     },
     {
       "input": "Legal data gathering methods",
       "expected": "compliance",
-      "predicted": "compliance",
-      "correct": true,
+      "predicted": "osint",
+      "correct": false,
       "category": "compliance",
-      "latency_ms": 28.23
+      "latency_ms": 35.31
     },
     {
       "input": "Privacy-preserving analysis",
@@ -122,7 +134,7 @@
       "predicted": "compliance",
       "correct": true,
       "category": "compliance",
-      "latency_ms": 48.26
+      "latency_ms": 28.21
     },
     {
       "input": "Advanced persistent threat detection",
@@ -130,7 +142,7 @@
       "predicted": "security",
       "correct": true,
       "category": "security",
-      "latency_ms": 35.45
+      "latency_ms": 23.58
     },
     {
       "input": "Threat intelligence gathering",
@@ -138,7 +150,7 @@
       "predicted": "security",
       "correct": true,
       "category": "security",
-      "latency_ms": 47.23
+      "latency_ms": 37.2
     }
   ]
 }

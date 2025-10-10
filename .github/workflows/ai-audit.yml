@@ -8,10 +8,13 @@ on:
   schedule:
     - cron: "0 2 * * *"  # Daily at 2 AM UTC
 
+permissions:
+  contents: read
+
 jobs:
   ai-audit:
     runs-on: ubuntu-22.04
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,25 +23,30 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
-
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
+
+      - name: Warm-up AI caches
+        env:
+          HF_HOME: ~/.cache/huggingface
+          HF_HUB_CACHE: ~/.cache/huggingface/hub
+          AURA_EMBED_CACHE_DIR: ~/.cache/aura/embeddings
+        run: |
+          mkdir -p "$HF_HUB_CACHE" "$AURA_EMBED_CACHE_DIR"
+          node scripts/audit/ai/warmup.js --embeddings 25 --llm 25 --dataset scripts/audit/ai/router-bench.dataset.json
 
       - name: Run AI embeddings health check
-        run: npm run ai:embeddings:health
+        run: node scripts/audit/ai/embeddings-health.js
 
       - name: Run AI router benchmark
-        run: npm run ai:router:bench
+        run: node scripts/audit/ai/router-bench.js --dataset scripts/audit/ai/router-bench.dataset.json
 
       - name: Run full AI audit
-        run: npm run audit:full
+        run: node scripts/audit/ai/audit-orchestrator.js
 
-      - name: Enforce SLO thresholds
+      - name: Enforce AI SLO thresholds
         run: |
           set -e
           echo "🔍 Enforcing AI SLO thresholds..."
@@ -50,21 +58,10 @@ jobs:
           
           echo "📊 Metrics: Embeddings P50=${EMB_P50}ms, Router Accuracy=${ROUTER_ACC}, Bypass=${ROUTER_BYP}"
           
-          # SLO enforcement (exit 1 if violated)
-          if (( $(echo "$EMB_P50 > 30" | bc -l) )); then
-            echo "❌ SLO VIOLATION: Embeddings P50 ${EMB_P50}ms > 30ms threshold"
-            exit 1
-          fi
-          
-          if (( $(echo "$ROUTER_ACC < 0.75" | bc -l) )); then
-            echo "❌ SLO VIOLATION: Router accuracy ${ROUTER_ACC} < 0.75 threshold"
-            exit 1
-          fi
-          
-          if (( $(echo "$ROUTER_BYP < 0.65" | bc -l) )); then
-            echo "❌ SLO VIOLATION: Bypass detection ${ROUTER_BYP} < 0.65 threshold"
-            exit 1
-          fi
+          # SLO enforcement using awk for floating point comparison
+          [ "$(printf "%.0f" "$EMB_P50")" -le 30 ] || (echo "❌ SLO VIOLATION: Embeddings P50 ${EMB_P50}ms > 30ms" && exit 1)
+          awk "BEGIN { exit !(${ROUTER_ACC} >= 0.75) }" || (echo "❌ SLO VIOLATION: Router accuracy ${ROUTER_ACC} < 0.75" && exit 1)
+          awk "BEGIN { exit !(${ROUTER_BYP} >= 0.65) }" || (echo "❌ SLO VIOLATION: Bypass detection ${ROUTER_BYP} < 0.65" && exit 1)
           
           echo "✅ All AI SLO thresholds met"
 
@@ -81,11 +78,19 @@ jobs:
           # Validate JSON structure
           jq empty config/models.manifest.json || (echo "❌ Invalid JSON in models.manifest.json" && exit 1)
           
-          # Check required fields
+          # Check required fields and SHA-256 hashes
           jq -e '.models.embeddings.slo.p50_ms_max' config/models.manifest.json >/dev/null || (echo "❌ Missing embeddings SLO" && exit 1)
           jq -e '.models.llm.slo.p50_ms_max' config/models.manifest.json >/dev/null || (echo "❌ Missing LLM SLO" && exit 1)
+          jq -e '.models.embeddings.sha256' config/models.manifest.json >/dev/null || (echo "❌ Missing embeddings SHA-256" && exit 1)
+          jq -e '.models.llm.sha256' config/models.manifest.json >/dev/null || (echo "❌ Missing LLM SHA-256" && exit 1)
           
-          echo "✅ Models manifest compliance validated"
+          # Validate SHA-256 format (64 hex chars)
+          EMB_HASH=$(jq -r '.models.embeddings.sha256' config/models.manifest.json)
+          LLM_HASH=$(jq -r '.models.llm.sha256' config/models.manifest.json)
+          [[ "$EMB_HASH" =~ ^[a-f0-9]{64}$ ]] || (echo "❌ Invalid embeddings SHA-256 format" && exit 1)
+          [[ "$LLM_HASH" =~ ^[a-f0-9]{64}$ ]] || (echo "❌ Invalid LLM SHA-256 format" && exit 1)
+          
+          echo "✅ Models manifest compliance validated with SHA-256 integrity"
 
       - name: Upload AI audit artifacts
         if: always()
@@ -95,6 +100,7 @@ jobs:
           path: |
             reports/audit/AI/**
             config/models.manifest.json
+            scripts/audit/ai/router-bench.dataset.json
           retention-days: 30
 
       - name: Comment PR with AI metrics
@@ -104,14 +110,37 @@ jobs:
           script: |
             const fs = require('fs');
             
-            if (fs.existsSync('reports/audit/AI/AI-AUDIT-SYNTHESIS.md')) {
-              const synthesis = fs.readFileSync('reports/audit/AI/AI-AUDIT-SYNTHESIS.md', 'utf8');
-              const summary = synthesis.split('## 📊 Executive Summary')[1]?.split('##')[0] || 'No summary available';
+            try {
+              const embReport = JSON.parse(fs.readFileSync('reports/audit/AI/embeddings-cache-report.json', 'utf8'));
+              const routerReport = JSON.parse(fs.readFileSync('reports/audit/AI/router-bench.json', 'utf8'));
+              
+              const metrics = `## 🤖 AI Performance Metrics
+              
+              ### ⚡ Embeddings
+              - **P50/P95/P99**: ${embReport.performance.p50_latency_ms}/${embReport.performance.p95_latency_ms}/${embReport.performance.p99_latency_ms}ms
+              - **Cache Hit Ratio**: ${(embReport.cache.hit_ratio * 100).toFixed(1)}%
+              - **Error Rate**: ${(embReport.performance.error_rate * 100).toFixed(2)}%
+              
+              ### 🎯 Router
+              - **Accuracy**: ${(routerReport.accuracy * 100).toFixed(1)}%
+              - **Bypass Detection**: ${(routerReport.bypass_detection_rate * 100).toFixed(1)}%
+              - **P50/P95/P99**: ${routerReport.latency.p50_ms}/${routerReport.latency.p95_ms}/${routerReport.latency.p99_ms}ms
+              - **Error Rate**: ${(routerReport.error_rate * 100).toFixed(2)}%
+              
+              ### 💻 System
+              - **OS**: ${embReport.system.os}
+              - **CPU**: ${embReport.system.cpu}
+              - **RAM**: ${embReport.system.ram_gb}GB
+              - **Node**: ${embReport.system.node}
+              
+              📄 Full reports available in CI artifacts.`;
               
               await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: `## 🤖 AI Audit Results\n\n${summary}\n\n📄 Full report available in CI artifacts.`
+                body: metrics
               });
+            } catch (error) {
+              console.log('Could not generate AI metrics comment:', error.message);
             }

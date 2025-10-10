@@ -1,18 +1,57 @@
 version: 2
 updates:
+  # NPM dependencies
   - package-ecosystem: "npm"
     directory: "/"
-    schedule: { interval: "daily", time: "09:00", timezone: "Europe/Paris" }
-    labels: ["dependencies", "auto-update"]
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule: { interval: "daily", time: "09:10", timezone: "Europe/Paris" }
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule: { interval: "daily", time: "09:20", timezone: "Europe/Paris" }
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    groups:
+      production-dependencies:
+        patterns:
+          - "express"
+          - "cors"
+          - "minimist"
+        update-types:
+          - "minor"
+          - "patch"
+      development-dependencies:
+        patterns:
+          - "@types/*"
+          - "typescript"
+          - "eslint*"
+          - "prettier"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
-    schedule: { interval: "weekly", day: "monday", time: "09:30", timezone: "Europe/Paris" }
-  - package-ecosystem: "terraform"
-    directory: "/infra"
-    schedule: { interval: "weekly", day: "monday", time: "09:40", timezone: "Europe/Paris" }
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns:
+          - "actions/*"
+          - "github/*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Docker
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
