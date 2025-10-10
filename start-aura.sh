@@ -25,5 +25,5 @@ echo "🔄 Starting Health Monitor..."
 nohup node monitoring/health-checks.js > logs/health.log 2>&1 &
 
 echo "✅ AURA Services Started"
-echo "📊 Check status: bash check-services.sh"
+echo "📊 Check status: bash scripts/check-services.sh"
 echo "🔍 Health check: npm run health"
