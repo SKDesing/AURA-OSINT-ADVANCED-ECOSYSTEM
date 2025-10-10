@@ -6,7 +6,6 @@ import {
   Typography,
   Button,
   TextField,
-  Grid,
   Chip,
   Alert,
   CircularProgress,
@@ -14,6 +13,7 @@ import {
   ListItem,
   ListItemText
 } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 import { Search, Security, Phone, Web, Email } from '@mui/icons-material';
 
 interface OSINTTool {
@@ -131,7 +131,7 @@ const OSINTTools: React.FC = () => {
 
       <Grid container spacing={3}>
         {tools.map((tool) => (
-          <Grid item xs={12} md={6} lg={4} key={tool.id}>
+          <Grid xs={12} md={6} lg={4} key={tool.id}>
             <Card sx={{ bgcolor: '#161823', height: '100%' }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
