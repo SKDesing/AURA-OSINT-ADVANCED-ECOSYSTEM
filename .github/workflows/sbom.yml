@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
-      attestations: write
       id-token: write
+      actions: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,26 +30,43 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Generate SBOM
+      - name: Generate SBOM (CycloneDX)
+        uses: anchore/sbom-action@v0
+        with:
+          path: ./
+          format: cyclonedx-json
+          output-file: aura-sbom.cdx.json
+
+      - name: Generate SBOM (SPDX)
         uses: anchore/sbom-action@v0
         with:
           path: ./
           format: spdx-json
           output-file: aura-sbom.spdx.json
 
-      - name: Generate provenance attestation
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-path: aura-sbom.spdx.json
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3.5.0
 
-      - name: Upload SBOM
+      - name: Attest SBOM (keyless OIDC)
+        env:
+          COSIGN_EXPERIMENTAL: "1"
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          REPO_URL="git+${{ github.server_url }}/${{ github.repository }}@${TAG}"
+          cosign attest --predicate aura-sbom.cdx.json --type cyclonedx --yes "${REPO_URL}"
+          cosign attest --predicate aura-sbom.spdx.json --type spdx --yes "${REPO_URL}"
+
+      - name: Upload SBOMs
         uses: actions/upload-artifact@v4
         with:
           name: aura-sbom
-          path: aura-sbom.spdx.json
+          path: |
+            aura-sbom.cdx.json
+            aura-sbom.spdx.json
 
-      - name: Attach SBOM to release
+      - name: Attach SBOMs to release
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: aura-sbom.spdx.json
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.ref_name }}" aura-sbom.cdx.json aura-sbom.spdx.json --repo "${{ github.repository }}" --clobber
