@@ -1,0 +1,7 @@
+{
+  "shodan": { "apiKey": "REQUIRED_IN_SECRET_MANAGER" },
+  "censys": { "apiId": "REQUIRED_IN_SECRET_MANAGER", "apiSecret": "REQUIRED_IN_SECRET_MANAGER" },
+  "virustotal": { "apiKey": "REQUIRED_IN_SECRET_MANAGER" },
+  "securitytrails": { "apiKey": "REQUIRED_IN_SECRET_MANAGER" },
+  "hunter": { "apiKey": "REQUIRED_IN_SECRET_MANAGER" }
+}
