@@ -11,6 +11,12 @@ class UpdateManager {
   }
 
   initialize() {
+    // Skip auto-update if disabled
+    if (process.env.AURA_AUTOUPDATE === 'off') {
+      logger.info('Auto-update disabled via AURA_AUTOUPDATE=off');
+      return;
+    }
+    
     // Configure updater
     autoUpdater.checkForUpdatesAndNotify();
     
