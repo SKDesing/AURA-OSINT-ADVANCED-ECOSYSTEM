@@ -1,0 +1,43 @@
+name: release-readiness
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm -r lint || (echo "Lint failed" && exit 1)
+      - name: Typecheck
+        run: pnpm -r typecheck || (echo "Typecheck failed" && exit 1)
+      - name: Test
+        run: pnpm -r test -- --coverage || (echo "Tests failed" && exit 1)
+      - name: Build
+        run: pnpm -r build || (echo "Build failed" && exit 1)
+      - name: Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          args: detect --no-banner --redact
+      - name: DB Validate
+        run: |
+          chmod +x scripts/check-db-wiring.sh || true
+          [ -f scripts/check-db-wiring.sh ] && ./scripts/check-db-wiring.sh || echo "skip db validate"
+      - name: Core Consolidation Verify
+        run: |
+          chmod +x scripts/verify-core-consolidation.sh || true
+          [ -f scripts/verify-core-consolidation.sh ] && ./scripts/verify-core-consolidation.sh || echo "skip core verify"

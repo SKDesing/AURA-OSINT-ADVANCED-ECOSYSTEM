@@ -1,0 +1,30 @@
+- name: release-blocker
+  color: D93F0B
+  description: Must fix before release
+- name: P0
+  color: B60205
+  description: Critical - stops release
+- name: P1
+  color: FBCA04
+  description: Major - must fix for GA
+- name: P2
+  color: 0E8A16
+  description: Minor - can follow-up
+- name: area:core
+  color: 1D76DB
+- name: area:security
+  color: 5319E7
+- name: area:devops
+  color: 006B75
+- name: area:api
+  color: 0052CC
+- name: area:web
+  color: 5319E7
+- name: area:browser
+  color: 0E8A16
+- name: area:tracker
+  color: 5319E7
+- name: compliance:rgpd
+  color: 5319E7
+- name: docs
+  color: 000000
