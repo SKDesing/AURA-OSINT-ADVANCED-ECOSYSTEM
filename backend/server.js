@@ -17,7 +17,9 @@ const osintRouter = require('./routes/osint');
 
 const app = express();
 const server = http.createServer(app);
-const PORT = process.env.PORT || 4010;
+const DEFAULT_PORT = 4011;
+const host = process.env.HOST || '0.0.0.0';
+const PORT = Number(process.env.API_PORT || process.env.PORT || DEFAULT_PORT);
 
 // Security middleware
 app.use(helmet({
@@ -94,8 +96,22 @@ app.use('/api/osint', osintRateLimit, osintRouter);
 // WebSocket server
 const wsServer = new WebSocketServer(server);
 
-server.listen(PORT, () => {
-  console.log(`🚀 AURA Backend running on port ${PORT}`);
+server.listen(PORT, host, () => {
+  console.log(`🚀 AURA Backend running on http://${host}:${PORT}`);
   console.log(`🔌 WebSocket server ready`);
   console.log(`🔍 OSINT tools registered and ready`);
+});
+
+server.on('error', (err) => {
+  if (err && err.code === 'EADDRINUSE') {
+    console.error(
+      `Port ${PORT} is already in use.\n` +
+      `Try one of:\n` +
+      `  - kill the existing process: lsof -nPiTCP:${PORT} -sTCP:LISTEN; kill <PID>\n` +
+      `  - run on another port: PORT=${PORT + 1} npm run dev:api`
+    );
+    process.exit(1);
+  } else {
+    throw err;
+  }
 });
