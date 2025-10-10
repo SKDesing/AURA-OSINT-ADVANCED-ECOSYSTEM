@@ -11,10 +11,10 @@ import {
   TableRow,
   Chip,
   Button,
-  Grid,
   Card,
   CardContent
 } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 
 interface NetworkEvidence {
   id: string;
@@ -75,7 +75,7 @@ const NetworkMonitor: React.FC = () => {
       </Typography>
 
       <Grid container spacing={3} sx={{ mb: 3 }}>
-        <Grid item xs={12} md={3}>
+        <Grid xs={12} md={3}>
           <Card sx={{ background: 'linear-gradient(135deg, #fe2c55, #ff6b35)' }}>
             <CardContent>
               <Typography variant="h6" color="white">Total Requests</Typography>
@@ -83,7 +83,7 @@ const NetworkMonitor: React.FC = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid xs={12} md={3}>
           <Card sx={{ background: 'linear-gradient(135deg, #25f4ee, #00d4ff)' }}>
             <CardContent>
               <Typography variant="h6" color="white">TikTok Requests</Typography>
@@ -91,7 +91,7 @@ const NetworkMonitor: React.FC = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid xs={12} md={3}>
           <Card sx={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)' }}>
             <CardContent>
               <Typography variant="h6" color="white">HTTPS Connections</Typography>
@@ -99,7 +99,7 @@ const NetworkMonitor: React.FC = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid xs={12} md={3}>
           <Card sx={{ background: 'linear-gradient(135deg, #10b981, #34d399)' }}>
             <CardContent>
               <Typography variant="h6" color="white">Evidence Saved</Typography>
