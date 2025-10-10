@@ -209,6 +209,7 @@ class ModelsInventory {
     if (filename.toLowerCase().includes('llama')) return 'llama';
     if (filename.toLowerCase().includes('mit')) return 'mit';
     if (filename.toLowerCase().includes('apache')) return 'apache-2.0';
+    if (filename.toLowerCase().includes('qwen')) return 'apache-2.0';
     return 'unknown';
   }
 

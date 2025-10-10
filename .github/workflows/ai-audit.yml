@@ -1,0 +1,117 @@
+name: AI Audit Guardrails
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: "0 2 * * *"  # Daily at 2 AM UTC
+
+jobs:
+  ai-audit:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run AI embeddings health check
+        run: npm run ai:embeddings:health
+
+      - name: Run AI router benchmark
+        run: npm run ai:router:bench
+
+      - name: Run full AI audit
+        run: npm run audit:full
+
+      - name: Enforce SLO thresholds
+        run: |
+          set -e
+          echo "🔍 Enforcing AI SLO thresholds..."
+          
+          # Extract metrics from reports
+          EMB_P50=$(jq -r '.performance.p50_latency_ms // 999' reports/audit/AI/embeddings-cache-report.json)
+          ROUTER_ACC=$(jq -r '.accuracy // 0' reports/audit/AI/router-bench.json)
+          ROUTER_BYP=$(jq -r '.bypass_detection_rate // 0' reports/audit/AI/router-bench.json)
+          
+          echo "📊 Metrics: Embeddings P50=${EMB_P50}ms, Router Accuracy=${ROUTER_ACC}, Bypass=${ROUTER_BYP}"
+          
+          # SLO enforcement (exit 1 if violated)
+          if (( $(echo "$EMB_P50 > 30" | bc -l) )); then
+            echo "❌ SLO VIOLATION: Embeddings P50 ${EMB_P50}ms > 30ms threshold"
+            exit 1
+          fi
+          
+          if (( $(echo "$ROUTER_ACC < 0.75" | bc -l) )); then
+            echo "❌ SLO VIOLATION: Router accuracy ${ROUTER_ACC} < 0.75 threshold"
+            exit 1
+          fi
+          
+          if (( $(echo "$ROUTER_BYP < 0.65" | bc -l) )); then
+            echo "❌ SLO VIOLATION: Bypass detection ${ROUTER_BYP} < 0.65 threshold"
+            exit 1
+          fi
+          
+          echo "✅ All AI SLO thresholds met"
+
+      - name: Validate models manifest compliance
+        run: |
+          echo "🔍 Validating models manifest compliance..."
+          
+          # Check if models.manifest.json exists
+          if [ ! -f "config/models.manifest.json" ]; then
+            echo "❌ Missing config/models.manifest.json"
+            exit 1
+          fi
+          
+          # Validate JSON structure
+          jq empty config/models.manifest.json || (echo "❌ Invalid JSON in models.manifest.json" && exit 1)
+          
+          # Check required fields
+          jq -e '.models.embeddings.slo.p50_ms_max' config/models.manifest.json >/dev/null || (echo "❌ Missing embeddings SLO" && exit 1)
+          jq -e '.models.llm.slo.p50_ms_max' config/models.manifest.json >/dev/null || (echo "❌ Missing LLM SLO" && exit 1)
+          
+          echo "✅ Models manifest compliance validated"
+
+      - name: Upload AI audit artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-audit-reports-${{ github.run_number }}
+          path: |
+            reports/audit/AI/**
+            config/models.manifest.json
+          retention-days: 30
+
+      - name: Comment PR with AI metrics
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            if (fs.existsSync('reports/audit/AI/AI-AUDIT-SYNTHESIS.md')) {
+              const synthesis = fs.readFileSync('reports/audit/AI/AI-AUDIT-SYNTHESIS.md', 'utf8');
+              const summary = synthesis.split('## 📊 Executive Summary')[1]?.split('##')[0] || 'No summary available';
+              
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 🤖 AI Audit Results\n\n${summary}\n\n📄 Full report available in CI artifacts.`
+              });
+            }

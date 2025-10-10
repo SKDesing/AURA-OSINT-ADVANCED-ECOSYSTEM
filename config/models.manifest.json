@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2025-01-10T19:00:00.000Z",
+  "models": {
+    "embeddings": {
+      "id": "xenova/multilingual-e5-small",
+      "provider": "huggingface",
+      "format": "onnx-quantized",
+      "dimensions": 384,
+      "size_gb": 0.1,
+      "license": "MIT",
+      "usage": "semantic_search",
+      "slo": {
+        "p50_ms_max": 30,
+        "p95_ms_max": 50,
+        "cache_hit_ratio_min": 0.8
+      },
+      "path": "@xenova/transformers",
+      "quantized": true
+    },
+    "llm": {
+      "id": "qwen2-1_5b-instruct-q4_k_m.gguf",
+      "provider": "alibaba",
+      "format": "gguf",
+      "parameters_b": 1.5,
+      "quantization": "Q4_K_M",
+      "size_gb": 0.9,
+      "license": "Apache-2.0",
+      "usage": "text_generation",
+      "slo": {
+        "p50_ms_max": 900,
+        "p95_ms_max": 1500,
+        "tokens_per_sec_min": 10
+      },
+      "path": "ai/local-llm/models/qwen2-1_5b-instruct-q4_k_m.gguf",
+      "quantized": true
+    }
+  },
+  "global_slo": {
+    "total_size_gb_max": 5.0,
+    "avg_latency_ms_max": 400,
+    "models_count_max": 5
+  },
+  "compliance": {
+    "allowed_licenses": ["MIT", "Apache-2.0", "apache-2.0", "BSD-3-Clause"],
+    "forbidden_licenses": ["GPL-3.0", "AGPL-3.0"],
+    "require_quantization": true,
+    "max_model_size_gb": 2.0
+  }
+}

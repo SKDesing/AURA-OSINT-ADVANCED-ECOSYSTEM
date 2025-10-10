@@ -98,6 +98,7 @@
     "mvp:start": "npm run ports:fix && concurrently \"npm run mvp:backend\" \"npm run mvp:frontend\"",
     "mvp:dev": "npm run ports:inventory && npm run mvp:start",
     "audit:full": "node scripts/audit/ai/full-audit.js",
+    "ai:validate:manifest": "node scripts/audit/ai/validate-manifest.js",
     "audit:ports": "npm run ports:inventory",
     "audit:security": "npm audit --audit-level=moderate && npm run security:audit",
     "audit:report": "npm run audit:full && echo 'Reports in reports/audit/'",
