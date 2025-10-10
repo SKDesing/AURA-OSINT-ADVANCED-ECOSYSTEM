@@ -1,6 +1,7 @@
-import React from 'react';
-import { ThemeProvider, createTheme, CssBaseline, Box, Typography, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { ThemeProvider, createTheme, CssBaseline, Box, Typography, Button, Tabs, Tab } from '@mui/material';
 import TabManager from './components/TabManager';
+import OSINTTools from './components/OSINTTools';
 
 const theme = createTheme({
   palette: {
@@ -12,6 +13,8 @@ const theme = createTheme({
 });
 
 const App: React.FC = () => {
+  const [activeTab, setActiveTab] = useState(0);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -42,28 +45,45 @@ const App: React.FC = () => {
           outils OSINT intégrés et package USB commercial.
         </Typography>
         
-        <TabManager />
-        <Button 
-          variant="contained" 
-          size="large"
-          onClick={() => {
-            // Ouvrir tous les services dans des onglets de la même fenêtre
-            window.open('http://localhost:4000', '_blank');
-            setTimeout(() => window.open('http://localhost:8080', '_blank'), 500);
-            setTimeout(() => window.open('http://localhost:9001', '_blank'), 1000);
-          }}
-          sx={{ 
-            background: 'linear-gradient(45deg, #fe2c55, #ff6b35)',
-            px: 4,
-            py: 1.5,
-            '&:hover': {
-              background: 'linear-gradient(45deg, #e02347, #e55a2b)',
-              transform: 'scale(1.05)'
-            }
-          }}
+        <Tabs 
+          value={activeTab} 
+          onChange={(_, newValue) => setActiveTab(newValue)}
+          sx={{ mb: 3 }}
         >
-          Ouvrir Tous les Services
-        </Button>
+          <Tab label="Dashboard" />
+          <Tab label="OSINT Tools" />
+          <Tab label="Live Tracker" />
+        </Tabs>
+
+        {activeTab === 0 && <TabManager />}
+        {activeTab === 1 && <OSINTTools />}
+        {activeTab === 2 && (
+          <Typography variant="h6" color="text.secondary">
+            🔴 Live Tracker - Coming Soon
+          </Typography>
+        )}
+        {activeTab === 0 && (
+          <Button 
+            variant="contained" 
+            size="large"
+            onClick={() => {
+              // Ouvrir tous les services dans des onglets de la même fenêtre
+              window.open('http://localhost:4011/health', '_blank');
+              window.open('http://localhost:5005', '_blank');
+            }}
+            sx={{ 
+              background: 'linear-gradient(45deg, #fe2c55, #ff6b35)',
+              px: 4,
+              py: 1.5,
+              '&:hover': {
+                background: 'linear-gradient(45deg, #e02347, #e55a2b)',
+                transform: 'scale(1.05)'
+              }
+            }}
+          >
+            Ouvrir Services OSINT
+          </Button>
+        )}
       </Box>
     </ThemeProvider>
   );
