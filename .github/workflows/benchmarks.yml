@@ -1,0 +1,54 @@
+name: Benchmarks (SLO guardrails)
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  bench:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Start backend (MVP server)
+        run: |
+          nohup node backend/mvp-server-fixed.js > backend.log 2>&1 &
+          echo $! > backend.pid
+          sleep 2
+          curl -sf http://localhost:4010/health || (echo "Backend not healthy" && exit 1)
+
+      - name: Smoke benchmark (CI-safe)
+        env:
+          RATE_PER_MIN: 3000
+          DURATION_MIN: 1
+          ENDPOINT: http://localhost:4010/ingest
+        run: |
+          chmod +x scripts/benchmarks/ci-benchmark.sh || true
+          ./scripts/benchmarks/ci-benchmark.sh
+
+      - name: Upload bench report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-reports
+          path: |
+            reports/benchmarks/**
+            backend.log
+            backend.pid

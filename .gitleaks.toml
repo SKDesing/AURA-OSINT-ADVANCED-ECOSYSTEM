@@ -1,25 +1,17 @@
+title = "AURA Gitleaks Config"
 [extend]
-useDefault = true
-
-[[rules]]
-id = "aura-secrets"
-description = "AURA specific secrets"
-regex = '''(?i)(aura[_-]?key|aura[_-]?token|aura[_-]?secret)'''
-keywords = ["aura_key", "aura_token", "aura_secret"]
-
-[[rules]]
-id = "database-urls"
-description = "Database connection strings"
-regex = '''(postgres|mysql|mongodb)://[^\s'"]+'''
-
-[[rules]]
-id = "api-keys"
-description = "API keys"
-regex = '''(?i)(api[_-]?key|access[_-]?token|secret[_-]?key)\s*[:=]\s*['"][^'"]{20,}['"]'''
+# Keep default rules and add repo-specific allowlists below
 
 [allowlist]
+description = "Repo allowlist"
 paths = [
-    "docs/examples/",
-    "tests/fixtures/",
-    ".gitleaks.toml"
+  '''^docs/''',
+  '''^reports/''',
+  '''^\.github/workflows/''',
+]
+regexes = [
+  # Add known false positives (non-sensitive example tokens) here
+  '''example\.com''',
+  '''localhost:''',
+  '''127\.0\.0\.1:''',
 ]

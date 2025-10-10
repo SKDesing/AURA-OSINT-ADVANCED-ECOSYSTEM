@@ -1,0 +1,57 @@
+name: Release AURA Browser
+
+on:
+  push:
+    tags:
+      - 'browser-v*.*.*'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-13, windows-2022, ubuntu-22.04]
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CSC_LINK: ${{ secrets.MAC_CSC_LINK }}
+      CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
+      WIN_CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
+      WIN_CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Build Browser
+        run: |
+          cd apps/browser-electron
+          pnpm run build
+      
+      - name: Package & Release
+        run: |
+          cd apps/browser-electron
+          pnpm run dist
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: aura-browser-${{ matrix.os }}
+          path: |
+            apps/browser-electron/dist/*.dmg
+            apps/browser-electron/dist/*.exe
+            apps/browser-electron/dist/*.AppImage
+            apps/browser-electron/dist/*.deb
+            apps/browser-electron/dist/*.rpm
