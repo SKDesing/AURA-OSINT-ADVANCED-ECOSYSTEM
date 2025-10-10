@@ -65,7 +65,10 @@ async function startBackend() {
     });
   }
   backendProc.on('exit', () => backendProc = null);
-  await waitOn({ resources: [`${API_URL}/health`], timeout: 60000 });
+  
+  // wait-on HTTP avec http-get://
+  const api = new URL(API_URL);
+  await waitOn({ resources: [`http-get://${api.host}/health`], timeout: 60000 });
 }
 
 async function startWebDev() {
@@ -76,7 +79,10 @@ async function startWebDev() {
     { stdio: 'inherit', env }
   );
   webProc.on('exit', () => webProc = null);
-  await waitOn({ resources: [UI_DEV_URL], timeout: 120000 });
+  
+  // wait-on HTTP avec http-get://
+  const ui = new URL(UI_DEV_URL);
+  await waitOn({ resources: [`http-get://${ui.host}`], timeout: 120000 });
 }
 
 function setupSessionPolicies() {
