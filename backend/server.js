@@ -91,6 +91,10 @@ app.use('/api/osint', osintRateLimit, require('./routes/osint-jobs'));
 app.use('/api/osint', osintRateLimit, require('./routes/osint-results'));
 app.use('/api/osint', osintRateLimit, require('./routes/osint-doctor'));
 
+// P1.1: Export & SSE
+app.use('/api/osint', osintRateLimit, require('./routes/osint-results-export'));
+app.use('/api/osint', osintRateLimit, require('./routes/osint-jobs-sse'));
+
 // Telemetry endpoints
 app.use('/telemetry', require('./routes/telemetry'));
 app.use('/telemetry', require('./routes/telemetry-stats'));

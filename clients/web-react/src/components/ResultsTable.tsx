@@ -24,6 +24,15 @@ export default function ResultsTable() {
         <TextField size="small" label="Search" value={q} onChange={(e) => setQ(e.target.value)} />
         <TextField size="small" label="Type (subdomain/account/email_usage)" value={type} onChange={(e) => setType(e.target.value)} />
         <Button variant="contained" onClick={load}>Filter</Button>
+        <Button 
+          variant="outlined" 
+          onClick={() => {
+            const base = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:4011';
+            window.open(`${base}/api/osint/results/export?format=csv&q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}`, '_blank');
+          }}
+        >
+          Export CSV
+        </Button>
       </Box>
       <Paper>
         <Table>
