@@ -1,0 +1,74 @@
+name: Nightly Full Benchmark
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 2 AM UTC daily
+  workflow_dispatch:     # Manual trigger
+
+jobs:
+  full-benchmark:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Start backend
+        run: |
+          nohup node backend/mvp-server-fixed.js > backend.log 2>&1 &
+          echo $! > backend.pid
+          sleep 5
+          curl -sf http://localhost:4010/health || (echo "Backend not healthy" && exit 1)
+
+      - name: Full benchmark (120k+/min)
+        env:
+          RATE_PER_MIN: 120000
+          DURATION_MIN: 10
+          ENDPOINT: http://localhost:4010/ingest
+        run: |
+          chmod +x scripts/benchmarks/run-benchmark.sh
+          ./scripts/benchmarks/run-benchmark.sh
+
+      - name: Generate performance report
+        run: |
+          echo "# AURA Performance Report" > performance-report.md
+          echo "Generated: $(date -u)" >> performance-report.md
+          echo "" >> performance-report.md
+          if [ -f "reports/benchmarks/ingest-latency.json" ]; then
+            echo "## Benchmark Results" >> performance-report.md
+            jq -r '"- **Rate**: \(.actual.ratePerMin)/min (target: \(.target.ratePerMin))", "- **Latency P95**: \(.latency.p95)ms", "- **Latency P99**: \(.latency.p99)ms", "- **Records**: \(.actual.count)", "- **Timestamp**: \(.timestamp)"' reports/benchmarks/ingest-latency.json >> performance-report.md
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-benchmark-${{ github.run_number }}
+          path: |
+            reports/benchmarks/**
+            performance-report.md
+            backend.log
+          retention-days: 30
+
+      - name: Comment PR if exists
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            if (fs.existsSync('performance-report.md')) {
+              const report = fs.readFileSync('performance-report.md', 'utf8');
+              console.log('Performance Report:\n' + report);
+            }
