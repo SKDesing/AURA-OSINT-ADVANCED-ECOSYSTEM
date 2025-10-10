@@ -1,0 +1,19 @@
+{
+  "timestamp": "2025-10-10T19:05:15.310Z",
+  "cache": {
+    "exists": false,
+    "vector_count": 0,
+    "total_size_mb": 0,
+    "hit_ratio": 0,
+    "files": []
+  },
+  "performance": {
+    "p50_latency_ms": 22.56,
+    "p95_latency_ms": 32.65,
+    "throughput_per_sec": 44,
+    "test_samples": 10
+  },
+  "recommendations": [
+    "Cache hit ratio < 80% - review caching strategy"
+  ]
+}

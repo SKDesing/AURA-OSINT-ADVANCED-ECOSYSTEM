@@ -1,0 +1,144 @@
+{
+  "timestamp": "2025-10-10T19:05:15.566Z",
+  "test_cases": 13,
+  "accuracy": 0.9231,
+  "bypass_detection_rate": 0.75,
+  "confusion_matrix": {
+    "bypass": {
+      "bypass": 3,
+      "osint": 1,
+      "compliance": 0,
+      "security": 0
+    },
+    "osint": {
+      "bypass": 0,
+      "osint": 4,
+      "compliance": 0,
+      "security": 0
+    },
+    "compliance": {
+      "bypass": 0,
+      "osint": 0,
+      "compliance": 3,
+      "security": 0
+    },
+    "security": {
+      "bypass": 0,
+      "osint": 0,
+      "compliance": 0,
+      "security": 2
+    }
+  },
+  "latency": {
+    "p50_ms": 35.45,
+    "p95_ms": 48.26,
+    "avg_ms": 35.11
+  },
+  "recommendations": [],
+  "detailed_results": [
+    {
+      "input": "How to bypass social media detection",
+      "expected": "bypass",
+      "predicted": "bypass",
+      "correct": true,
+      "category": "bypass",
+      "latency_ms": 41.31
+    },
+    {
+      "input": "Stealth scraping techniques",
+      "expected": "bypass",
+      "predicted": "bypass",
+      "correct": true,
+      "category": "bypass",
+      "latency_ms": 21.25
+    },
+    {
+      "input": "Avoid rate limiting",
+      "expected": "bypass",
+      "predicted": "osint",
+      "correct": false,
+      "category": "bypass",
+      "latency_ms": 41.27
+    },
+    {
+      "input": "Hide scraping activity",
+      "expected": "bypass",
+      "predicted": "bypass",
+      "correct": true,
+      "category": "bypass",
+      "latency_ms": 21.25
+    },
+    {
+      "input": "Find public social media profiles",
+      "expected": "osint",
+      "predicted": "osint",
+      "correct": true,
+      "category": "osint",
+      "latency_ms": 46.27
+    },
+    {
+      "input": "Search public records",
+      "expected": "osint",
+      "predicted": "osint",
+      "correct": true,
+      "category": "osint",
+      "latency_ms": 21.25
+    },
+    {
+      "input": "Analyze social network connections",
+      "expected": "osint",
+      "predicted": "osint",
+      "correct": true,
+      "category": "osint",
+      "latency_ms": 30.27
+    },
+    {
+      "input": "Monitor brand mentions",
+      "expected": "osint",
+      "predicted": "osint",
+      "correct": true,
+      "category": "osint",
+      "latency_ms": 28.26
+    },
+    {
+      "input": "GDPR compliance for data collection",
+      "expected": "compliance",
+      "predicted": "compliance",
+      "correct": true,
+      "category": "compliance",
+      "latency_ms": 46.19
+    },
+    {
+      "input": "Legal data gathering methods",
+      "expected": "compliance",
+      "predicted": "compliance",
+      "correct": true,
+      "category": "compliance",
+      "latency_ms": 28.23
+    },
+    {
+      "input": "Privacy-preserving analysis",
+      "expected": "compliance",
+      "predicted": "compliance",
+      "correct": true,
+      "category": "compliance",
+      "latency_ms": 48.26
+    },
+    {
+      "input": "Advanced persistent threat detection",
+      "expected": "security",
+      "predicted": "security",
+      "correct": true,
+      "category": "security",
+      "latency_ms": 35.45
+    },
+    {
+      "input": "Threat intelligence gathering",
+      "expected": "security",
+      "predicted": "security",
+      "correct": true,
+      "category": "security",
+      "latency_ms": 47.23
+    }
+  ]
+}

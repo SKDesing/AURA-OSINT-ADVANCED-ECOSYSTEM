@@ -1,0 +1,54 @@
+{
+  "timestamp": "2025-10-10T19:05:15.308Z",
+  "local_models": [
+    {
+      "name": "qwen2-1_5b-instruct-q4_k_m.gguf",
+      "type": "local",
+      "format": "gguf",
+      "size_gb": 0,
+      "device": "cpu",
+      "dimensions": 768,
+      "license": "unknown",
+      "last_modified": "2025-10-09T10:18:02.486Z",
+      "latency_p50_ms": 66.5242259005137,
+      "latency_p95_ms": 0
+    }
+  ],
+  "cached_models": [],
+  "remote_models": [
+    {
+      "name": "text-embedding-ada-002",
+      "type": "remote",
+      "provider": "openai",
+      "format": "api",
+      "size_gb": 0,
+      "device": "cloud",
+      "dimensions": 1536,
+      "license": "proprietary",
+      "latency_p50_ms": 150,
+      "latency_p95_ms": 300,
+      "cost_per_1k_tokens": 0.0001
+    },
+    {
+      "name": "gpt-3.5-turbo",
+      "type": "remote",
+      "provider": "openai",
+      "format": "api",
+      "size_gb": 0,
+      "device": "cloud",
+      "dimensions": 4096,
+      "license": "proprietary",
+      "latency_p50_ms": 800,
+      "latency_p95_ms": 1500,
+      "cost_per_1k_tokens": 0.002
+    }
+  ],
+  "summary": {
+    "total_models": 3,
+    "total_size_gb": 0,
+    "avg_latency_ms": 339
+  },
+  "recommendations": [
+    "High average latency - optimize model inference"
+  ]
+}
