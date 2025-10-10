@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="40" failures="19" errors="0" time="0.28749651">
+    <testsuite name="ai/router/router.test.ts" timestamp="2025-10-10T14:01:55.188Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="8" failures="3" errors="0" skipped="0" time="0.026057244">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to ner for Entity extraction with multiple entities" time="0.004335016">
+        </testcase>
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to forensic for Forensic timeline analysis" time="0.000718825">
+        </testcase>
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to nlp for NLP classification for toxicity" time="0.012699557">
+            <failure message="expected &apos;llm&apos; to be &apos;nlp&apos; // Object.is equality" type="AssertionError">
+AssertionError: expected &apos;llm&apos; to be &apos;nlp&apos; // Object.is equality
+
+Expected: &quot;nlp&quot;
+Received: &quot;llm&quot;
+
+ ❯ ai/router/router.test.ts:41:42
+            </failure>
+        </testcase>
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to rag+llm for RAG retrieval query" time="0.00048073">
+        </testcase>
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to llm for General knowledge query" time="0.000335945">
+        </testcase>
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should detect harassment with high lexical score" time="0.000410258">
+        </testcase>
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should extract entities correctly" time="0.001271003">
+            <failure message="expected &apos;llm&apos; to be &apos;ner&apos; // Object.is equality" type="AssertionError">
+AssertionError: expected &apos;llm&apos; to be &apos;ner&apos; // Object.is equality
+
+Expected: &quot;ner&quot;
+Received: &quot;llm&quot;
+
+ ❯ ai/router/router.test.ts:56:40
+            </failure>
+        </testcase>
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should estimate token savings" time="0.002657178">
+            <failure message="expected 0 to be greater than 0" type="AssertionError">
+AssertionError: expected 0 to be greater than 0
+ ❯ ai/router/router.test.ts:63:44
+            </failure>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/e2e/osint-flow.spec.ts" timestamp="2025-10-10T14:01:55.197Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="1" failures="1" errors="0" skipped="0" time="0">
+        <testcase classname="tests/e2e/osint-flow.spec.ts" name="tests/e2e/osint-flow.spec.ts" time="0">
+            <failure message="Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test." type="Error">
+Error: Playwright Test did not expect test.describe() to be called here.
+Most common reasons include:
+- You are calling test.describe() in a configuration file.
+- You are calling test.describe() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+ ❯ TestTypeImpl._currentSuite node_modules/.pnpm/playwright@1.56.0/node_modules/playwright/lib/common/testType.js:74:13
+ ❯ TestTypeImpl._describe node_modules/.pnpm/playwright@1.56.0/node_modules/playwright/lib/common/testType.js:114:24
+ ❯ Function.describe node_modules/.pnpm/playwright@1.56.0/node_modules/playwright/lib/transform/transform.js:275:12
+ ❯ tests/e2e/osint-flow.spec.ts:3:6
+            </failure>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/integration/roadmap-integration.test.js" timestamp="2025-10-10T14:01:55.200Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="12" failures="8" errors="0" skipped="0" time="0.091143678">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Configuration System &gt; should load unified configuration" time="0.029206815">
+            <failure message="config.get is not a function" type="TypeError">
+TypeError: config.get is not a function
+ ❯ tests/integration/roadmap-integration.test.js:14:21
+            </failure>
+        </testcase>
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Configuration System &gt; should validate configuration" time="0.002429559">
+            <failure message="Got unwanted exception.
+Actual message: &quot;config.validate is not a function&quot;" type="AssertionError">
+AssertionError: Got unwanted exception.
+Actual message: &quot;config.validate is not a function&quot;
+
+simple
+
+ ❯ tests/integration/roadmap-integration.test.js:22:14
+            </failure>
+        </testcase>
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Domain-Driven Design Architecture &gt; should create incident entity" time="0.045626142">
+        </testcase>
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Domain-Driven Design Architecture &gt; should handle business rules" time="0.000554693">
+        </testcase>
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Harassment Detection Algorithm &gt; should detect harassment in messages" time="0.001205979">
+            <failure message="Cannot find module &apos;../../ai/models/harassment-detector&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js" type="Error">
+Error: Cannot find module &apos;../../ai/models/harassment-detector&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js
+ ❯ tests/integration/roadmap-integration.test.js:69:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: &apos;MODULE_NOT_FOUND&apos;, requireStack: [ &apos;/home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js&apos; ] }
+            </failure>
+        </testcase>
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Harassment Detection Algorithm &gt; should provide detailed analysis" time="0.000696195">
+            <failure message="Cannot find module &apos;../../ai/models/harassment-detector&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js" type="Error">
+Error: Cannot find module &apos;../../ai/models/harassment-detector&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js
+ ❯ tests/integration/roadmap-integration.test.js:82:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: &apos;MODULE_NOT_FOUND&apos;, requireStack: [ &apos;/home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js&apos; ] }
+            </failure>
+        </testcase>
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Forensic Timeline Analyzer &gt; should analyze incident timeline" time="0.004623468">
+        </testcase>
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Forensic Timeline Analyzer &gt; should detect coordinated attacks" time="0.001004901">
+        </testcase>
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should initialize successfully" time="0.00069878">
+            <failure message="Cannot find module &apos;../../engines/anti-harassment/AntiHarassmentEngine&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js" type="Error">
+Error: Cannot find module &apos;../../engines/anti-harassment/AntiHarassmentEngine&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js
+ ❯ tests/integration/roadmap-integration.test.js:165:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: &apos;MODULE_NOT_FOUND&apos;, requireStack: [ &apos;/home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js&apos; ] }
+            </failure>
+        </testcase>
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should analyze messages and create incidents" time="0.0008099">
+            <failure message="Cannot find module &apos;../../engines/anti-harassment/AntiHarassmentEngine&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js" type="Error">
+Error: Cannot find module &apos;../../engines/anti-harassment/AntiHarassmentEngine&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js
+ ❯ tests/integration/roadmap-integration.test.js:178:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: &apos;MODULE_NOT_FOUND&apos;, requireStack: [ &apos;/home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js&apos; ] }
+            </failure>
+        </testcase>
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should analyze session data" time="0.000787061">
+            <failure message="Cannot find module &apos;../../engines/anti-harassment/AntiHarassmentEngine&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js" type="Error">
+Error: Cannot find module &apos;../../engines/anti-harassment/AntiHarassmentEngine&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js
+ ❯ tests/integration/roadmap-integration.test.js:207:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: &apos;MODULE_NOT_FOUND&apos;, requireStack: [ &apos;/home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js&apos; ] }
+            </failure>
+        </testcase>
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Integration Flow &gt; should handle complete harassment detection flow" time="0.000691726">
+            <failure message="Cannot find module &apos;../../engines/anti-harassment/AntiHarassmentEngine&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js" type="Error">
+Error: Cannot find module &apos;../../engines/anti-harassment/AntiHarassmentEngine&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js
+ ❯ tests/integration/roadmap-integration.test.js:250:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: &apos;MODULE_NOT_FOUND&apos;, requireStack: [ &apos;/home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/tests/integration/roadmap-integration.test.js&apos; ] }
+            </failure>
+        </testcase>
+    </testsuite>
+    <testsuite name="tests/unit/backend.test.ts" timestamp="2025-10-10T14:01:55.218Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="2" failures="0" errors="0" skipped="0" time="0.009599574">
+        <testcase classname="tests/unit/backend.test.ts" name="Backend OSINT API &gt; should validate job schema" time="0.002503523">
+        </testcase>
+        <testcase classname="tests/unit/backend.test.ts" name="Backend OSINT API &gt; should generate unique job IDs" time="0.004607964">
+        </testcase>
+    </testsuite>
+    <testsuite name="clients/web-react/src/App.test.tsx" timestamp="2025-10-10T14:01:55.219Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="1" failures="1" errors="0" skipped="0" time="0">
+        <testcase classname="clients/web-react/src/App.test.tsx" name="clients/web-react/src/App.test.tsx" time="0">
+            <failure message="Cannot find package &apos;@mui/material&apos; imported from &apos;/home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/clients/web-react/src/App.tsx&apos;" type="Error">
+Error: Cannot find package &apos;@mui/material&apos; imported from &apos;/home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/clients/web-react/src/App.tsx&apos;
+ ❯ clients/web-react/src/App.tsx:2:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: &apos;ERR_MODULE_NOT_FOUND&apos; }
+Caused by: Caused by: Error: Failed to load url @mui/material (resolved id: @mui/material) in /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/clients/web-react/src/App.tsx. Does the file exist?
+ ❯ loadAndTransform node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:26136:33
+            </failure>
+        </testcase>
+    </testsuite>
+    <testsuite name="ai/engines/harassment/tests/engine-enhanced.test.js" timestamp="2025-10-10T14:01:55.221Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="1" failures="1" errors="0" skipped="0" time="0">
+        <testcase classname="ai/engines/harassment/tests/engine-enhanced.test.js" name="ai/engines/harassment/tests/engine-enhanced.test.js" time="0">
+            <failure message="No test suite found in file /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/ai/engines/harassment/tests/engine-enhanced.test.js" type="Error">
+Error: No test suite found in file /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/ai/engines/harassment/tests/engine-enhanced.test.js
+            </failure>
+        </testcase>
+    </testsuite>
+    <testsuite name="ai/engines/harassment/tests/engine.test.js" timestamp="2025-10-10T14:01:55.223Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="1" failures="1" errors="0" skipped="0" time="0">
+        <testcase classname="ai/engines/harassment/tests/engine.test.js" name="ai/engines/harassment/tests/engine.test.js" time="0">
+            <failure message="No test suite found in file /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/ai/engines/harassment/tests/engine.test.js" type="Error">
+Error: No test suite found in file /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/ai/engines/harassment/tests/engine.test.js
+            </failure>
+        </testcase>
+    </testsuite>
+    <testsuite name="ai/gateway/src/preintel/preintel.test.ts" timestamp="2025-10-10T14:01:55.225Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="7" failures="0" errors="0" skipped="0" time="0.043592034">
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should process text and return metadata" time="0.017731118">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should detect cache hits on repeated inputs" time="0.000623349">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should handle dry run mode" time="0.000482546">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should apply pruning when enabled" time="0.001630974">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should detect language correctly" time="0.000922347">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; cache management &gt; should clear cache" time="0.003367202">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; cache management &gt; should provide cache statistics" time="0.000455027">
+        </testcase>
+    </testsuite>
+    <testsuite name="ai/gateway/src/router/decision-engine.test.ts" timestamp="2025-10-10T14:01:55.229Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="1" failures="1" errors="0" skipped="0" time="0">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="ai/gateway/src/router/decision-engine.test.ts" time="0">
+            <failure message="
+Something went wrong installing the &quot;sharp&quot; module
+
+Cannot find module &apos;../build/Release/sharp-linux-x64.node&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/.pnpm/sharp@0.32.6/node_modules/sharp/lib/sharp.js
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/.pnpm/sharp@0.32.6/node_modules/sharp/lib/constructor.js
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/.pnpm/sharp@0.32.6/node_modules/sharp/lib/index.js
+
+Possible solutions:
+- Install with verbose logging and look for errors: &quot;npm install --ignore-scripts=false --foreground-scripts --verbose sharp&quot;
+- Install for the current linux-x64 runtime: &quot;npm install --platform=linux --arch=x64 sharp&quot;
+- Consult the installation documentation: https://sharp.pixelplumbing.com/install" type="Error">
+Error: 
+Something went wrong installing the &quot;sharp&quot; module
+
+Cannot find module &apos;../build/Release/sharp-linux-x64.node&apos;
+Require stack:
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/.pnpm/sharp@0.32.6/node_modules/sharp/lib/sharp.js
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/.pnpm/sharp@0.32.6/node_modules/sharp/lib/constructor.js
+- /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/.pnpm/sharp@0.32.6/node_modules/sharp/lib/index.js
+
+Possible solutions:
+- Install with verbose logging and look for errors: &quot;npm install --ignore-scripts=false --foreground-scripts --verbose sharp&quot;
+- Install for the current linux-x64 runtime: &quot;npm install --platform=linux --arch=x64 sharp&quot;
+- Consult the installation documentation: https://sharp.pixelplumbing.com/install
+ ❯ Object.&lt;anonymous&gt; node_modules/.pnpm/sharp@0.32.6/node_modules/sharp/lib/sharp.js:37:9
+ ❯ Object.&lt;anonymous&gt; node_modules/.pnpm/sharp@0.32.6/node_modules/sharp/lib/constructor.js:11:1
+            </failure>
+        </testcase>
+    </testsuite>
+    <testsuite name="marketing/sites/vitrine-aura-advanced-osint-ecosystem/__tests__/api.test.js" timestamp="2025-10-10T14:01:55.231Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="3" failures="0" errors="0" skipped="0" time="0.11710398">
+        <testcase classname="marketing/sites/vitrine-aura-advanced-osint-ecosystem/__tests__/api.test.js" name="API Tests &gt; POST /api/contact - success" time="0.097715976">
+        </testcase>
+        <testcase classname="marketing/sites/vitrine-aura-advanced-osint-ecosystem/__tests__/api.test.js" name="API Tests &gt; POST /api/contact - validation error" time="0.005129481">
+        </testcase>
+        <testcase classname="marketing/sites/vitrine-aura-advanced-osint-ecosystem/__tests__/api.test.js" name="API Tests &gt; GET /api/services/status" time="0.004247574">
+        </testcase>
+    </testsuite>
+    <testsuite name="marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Contact.test.js" timestamp="2025-10-10T14:01:55.233Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="1" failures="1" errors="0" skipped="0" time="0">
+        <testcase classname="marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Contact.test.js" name="marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Contact.test.js" time="0">
+            <failure message="Failed to parse source for import analysis because the content contains invalid JS syntax. If you are using JSX, make sure to name the file with the .jsx or .tsx extension." type="Error">
+Error: Failed to parse source for import analysis because the content contains invalid JS syntax. If you are using JSX, make sure to name the file with the .jsx or .tsx extension.
+  Plugin: vite:import-analysis
+  File: /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Contact.test.js:8:70
+  6  |  jest.mock(&apos;framer-motion&apos;, () =&gt; ({
+  7  |    motion: {
+  8  |      div: ({ children, ...props }) =&gt; &lt;div {...props}&gt;{children}&lt;/div&gt;,
+     |                                                                        ^
+  9  |      form: ({ children, ...props }) =&gt; &lt;form {...props}&gt;{children}&lt;/form&gt;,
+  10 |      button: ({ children, ...props }) =&gt; &lt;button {...props}&gt;{children}&lt;/button&gt;
+ ❯ TransformPluginContext._formatLog node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:31219:43
+ ❯ TransformPluginContext.error node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:31216:14
+ ❯ TransformPluginContext.transform node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:29662:10
+ ❯ EnvironmentPluginContainer.transform node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:31018:14
+ ❯ loadAndTransform node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:26143:26
+            </failure>
+        </testcase>
+    </testsuite>
+    <testsuite name="marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Hero.test.js" timestamp="2025-10-10T14:01:55.236Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="1" failures="1" errors="0" skipped="0" time="0">
+        <testcase classname="marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Hero.test.js" name="marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Hero.test.js" time="0">
+            <failure message="Failed to parse source for import analysis because the content contains invalid JS syntax. If you are using JSX, make sure to name the file with the .jsx or .tsx extension." type="Error">
+Error: Failed to parse source for import analysis because the content contains invalid JS syntax. If you are using JSX, make sure to name the file with the .jsx or .tsx extension.
+  Plugin: vite:import-analysis
+  File: /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Hero.test.js:8:70
+  6  |  jest.mock(&apos;framer-motion&apos;, () =&gt; ({
+  7  |    motion: {
+  8  |      div: ({ children, ...props }) =&gt; &lt;div {...props}&gt;{children}&lt;/div&gt;,
+     |                                                                        ^
+  9  |      button: ({ children, ...props }) =&gt; &lt;button {...props}&gt;{children}&lt;/button&gt;
+  10 |    }
+ ❯ TransformPluginContext._formatLog node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:31219:43
+ ❯ TransformPluginContext.error node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:31216:14
+ ❯ TransformPluginContext.transform node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:29662:10
+ ❯ EnvironmentPluginContainer.transform node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:31018:14
+ ❯ loadAndTransform node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:26143:26
+            </failure>
+        </testcase>
+    </testsuite>
+    <testsuite name="marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Services.test.js" timestamp="2025-10-10T14:01:55.239Z" hostname="soufiane-HP-Laptop-15s-eq1xxx" tests="1" failures="1" errors="0" skipped="0" time="0">
+        <testcase classname="marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Services.test.js" name="marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Services.test.js" time="0">
+            <failure message="Failed to parse source for import analysis because the content contains invalid JS syntax. If you are using JSX, make sure to name the file with the .jsx or .tsx extension." type="Error">
+Error: Failed to parse source for import analysis because the content contains invalid JS syntax. If you are using JSX, make sure to name the file with the .jsx or .tsx extension.
+  Plugin: vite:import-analysis
+  File: /home/soufiane/AURA-OSINT-ADVANCED-ECOSYSTEM/marketing/sites/vitrine-aura-advanced-osint-ecosystem/src/components/__tests__/Services.test.js:8:69
+  6  |  jest.mock(&apos;framer-motion&apos;, () =&gt; ({
+  7  |    motion: {
+  8  |      div: ({ children, ...props }) =&gt; &lt;div {...props}&gt;{children}&lt;/div&gt;
+     |                                                                       ^
+  9  |    }
+  10 |  }));
+ ❯ TransformPluginContext._formatLog node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:31219:43
+ ❯ TransformPluginContext.error node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:31216:14
+ ❯ TransformPluginContext.transform node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:29662:10
+ ❯ EnvironmentPluginContainer.transform node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:31018:14
+ ❯ loadAndTransform node_modules/.pnpm/vite@7.1.9_@types+node@20.19.19_jiti@1.21.7_terser@5.44.0/node_modules/vite/dist/node/chunks/dep-Chhhsdoe.js:26143:26
+            </failure>
+        </testcase>
+    </testsuite>
+</testsuites>
