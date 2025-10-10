@@ -13,8 +13,7 @@ const cacheMiddleware = require('./middleware/cache');
 const WebSocketServer = require('./websocket/server');
 
 // OSINT Phase 0 integration
-const { registerOsintTools } = require('../apps/api/src/bootstrap/osint');
-const { osintRouter } = require('../apps/api/src/routes/osint');
+const osintRouter = require('./routes/osint');
 
 const app = express();
 const server = http.createServer(app);
@@ -54,6 +53,14 @@ app.use(express.json({ limit: '10mb' }));
 app.use(sanitizeInput);
 
 // Health check
+app.get('/health', (req, res) => {
+  res.json({ 
+    ok: true, 
+    timestamp: new Date().toISOString(),
+    port: PORT,
+    env: process.env.NODE_ENV || 'development'
+  });
+});
 app.use('/', healthRouter);
 
 // API routes avec cache
@@ -79,7 +86,7 @@ app.use('*', (req, res) => {
 });
 
 // OSINT Phase 0 initialization
-registerOsintTools();
+console.log('🔍 OSINT tools ready');
 
 // Mount OSINT routes with rate limiting
 app.use('/api/osint', osintRateLimit, osintRouter);
