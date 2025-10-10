@@ -10,6 +10,10 @@ const mvpRouter = require('./routes/mvp');
 const cacheMiddleware = require('./middleware/cache');
 const WebSocketServer = require('./websocket/server');
 
+// OSINT Phase 0 integration
+const { registerOsintTools } = require('../apps/api/src/bootstrap/osint');
+const { osintRouter } = require('../apps/api/src/routes/osint');
+
 const app = express();
 const server = http.createServer(app);
 const PORT = process.env.PORT || 4010;
@@ -50,10 +54,17 @@ app.use('*', (req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
+// OSINT Phase 0 initialization
+registerOsintTools();
+
+// Mount OSINT routes
+app.use('/api/osint', osintRouter);
+
 // WebSocket server
 const wsServer = new WebSocketServer(server);
 
 server.listen(PORT, () => {
   console.log(`🚀 AURA Backend running on port ${PORT}`);
   console.log(`🔌 WebSocket server ready`);
+  console.log(`🔍 OSINT tools registered and ready`);
 });
