@@ -86,8 +86,14 @@ app.use('/', mvpRouter);
 console.log('🔍 OSINT tools ready');
 app.use('/api/osint', osintRateLimit, osintRouter);
 
-// Telemetry endpoint
+// New: Jobs/Results/Doctor routes
+app.use('/api/osint', osintRateLimit, require('./routes/osint-jobs'));
+app.use('/api/osint', osintRateLimit, require('./routes/osint-results'));
+app.use('/api/osint', osintRateLimit, require('./routes/osint-doctor'));
+
+// Telemetry endpoints
 app.use('/telemetry', require('./routes/telemetry'));
+app.use('/telemetry', require('./routes/telemetry-stats'));
 
 // 404 handler (doit être APRES le montage des routes)
 app.use('*', (req, res) => {
