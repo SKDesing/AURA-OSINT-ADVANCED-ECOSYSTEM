@@ -36,6 +36,17 @@ function createWindow() {
   }
 
   mainWindow.on('closed', () => { mainWindow = null; });
+
+  // Attach telemetry
+  const { attachTelemetry } = require('./cdp/attachTelemetry');
+  const detachTelemetry = attachTelemetry(mainWindow.webContents, {
+    apiBase: process.env.AURA_API_BASE || 'http://127.0.0.1:4011',
+    appName: 'AURA OSINT ADVANCED ECOSYSTEM',
+  });
+  
+  mainWindow.on('closed', () => {
+    if (typeof detachTelemetry === 'function') detachTelemetry();
+  });
 }
 
 async function startBackend() {
