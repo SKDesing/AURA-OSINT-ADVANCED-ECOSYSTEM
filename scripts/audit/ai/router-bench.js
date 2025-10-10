@@ -6,12 +6,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { performance } = require('perf_hooks');
 
 class RouterBenchmark {
-  constructor() {
+  constructor(datasetPath = null) {
     this.reportPath = path.join(process.cwd(), 'reports/audit/AI/router-bench.json');
-    this.testCases = this.generateTestCases();
+    this.testCases = datasetPath ? this.loadDataset(datasetPath) : this.generateTestCases();
   }
 
   generateTestCases() {
@@ -44,6 +45,7 @@ class RouterBenchmark {
     
     const results = {
       timestamp: new Date().toISOString(),
+      system: this.getSystemContext(),
       test_cases: this.testCases.length,
       accuracy: 0,
       bypass_detection_rate: 0,
@@ -51,32 +53,39 @@ class RouterBenchmark {
       latency: {
         p50_ms: 0,
         p95_ms: 0,
+        p99_ms: 0,
         avg_ms: 0
       },
+      error_rate: 0,
       recommendations: []
     };
 
     const predictions = [];
     const latencies = [];
+    let errors = 0;
     
     for (const testCase of this.testCases) {
       const start = performance.now();
       
-      // Simulate router decision
-      const prediction = await this.simulateRouterDecision(testCase.input);
-      
-      const end = performance.now();
-      const latency = end - start;
-      
-      latencies.push(latency);
-      predictions.push({
-        input: testCase.input,
-        expected: testCase.expected,
-        predicted: prediction,
-        correct: prediction === testCase.expected,
-        category: testCase.category,
-        latency_ms: Math.round(latency * 100) / 100
-      });
+      try {
+        // Simulate router decision
+        const prediction = await this.simulateRouterDecision(testCase.input);
+        
+        const end = performance.now();
+        const latency = end - start;
+        
+        latencies.push(latency);
+        predictions.push({
+          input: testCase.input,
+          expected: testCase.expected,
+          predicted: prediction,
+          correct: prediction === testCase.expected,
+          category: testCase.category,
+          latency_ms: Math.round(latency * 100) / 100
+        });
+      } catch (error) {
+        errors++;
+      }
     }
 
     // Calculate metrics
@@ -96,7 +105,9 @@ class RouterBenchmark {
     latencies.sort((a, b) => a - b);
     results.latency.p50_ms = Math.round(latencies[Math.floor(latencies.length * 0.5)] * 100) / 100;
     results.latency.p95_ms = Math.round(latencies[Math.floor(latencies.length * 0.95)] * 100) / 100;
+    results.latency.p99_ms = Math.round(latencies[Math.floor(latencies.length * 0.99)] * 100) / 100;
     results.latency.avg_ms = Math.round((latencies.reduce((a, b) => a + b, 0) / latencies.length) * 100) / 100;
+    results.error_rate = errors / this.testCases.length;
 
     // Add detailed results
     results.detailed_results = predictions;
@@ -121,7 +132,8 @@ class RouterBenchmark {
     console.log(`✅ Router benchmark report: ${this.reportPath}`);
     console.log(`🎯 Accuracy: ${(results.accuracy * 100).toFixed(1)}%`);
     console.log(`🛡️ Bypass detection: ${(results.bypass_detection_rate * 100).toFixed(1)}%`);
-    console.log(`⚡ P50 latency: ${results.latency.p50_ms}ms`);
+    console.log(`⚡ P50/P95/P99: ${results.latency.p50_ms}/${results.latency.p95_ms}/${results.latency.p99_ms}ms`);
+    console.log(`❌ Error rate: ${(results.error_rate * 100).toFixed(2)}%`);
     
     return results;
   }
@@ -168,6 +180,39 @@ class RouterBenchmark {
     });
     
     return matrix;
+  }
+
+  loadDataset(datasetPath) {
+    try {
+      const raw = fs.readFileSync(datasetPath, 'utf8');
+      const dataset = JSON.parse(raw);
+      return dataset.samples.map(s => ({
+        input: s.text,
+        expected: this.inferExpectedCategory(s),
+        category: s.platform || 'general'
+      }));
+    } catch (error) {
+      console.warn(`Warning: Could not load dataset ${datasetPath}, using default`);
+      return this.generateTestCases();
+    }
+  }
+
+  inferExpectedCategory(sample) {
+    const text = sample.text.toLowerCase();
+    if (text.includes('bypass') || text.includes('stealth')) return 'bypass';
+    if (text.includes('compliance') || text.includes('gdpr')) return 'compliance';
+    if (text.includes('security') || text.includes('threat')) return 'security';
+    return 'osint';
+  }
+
+  getSystemContext() {
+    return {
+      os: `${os.type()} ${os.release()}`,
+      cpu: os.cpus()[0].model,
+      ram_gb: Math.round(os.totalmem() / 1024 / 1024 / 1024),
+      node: process.version,
+      threads: os.cpus().length
+    };
   }
 }
 

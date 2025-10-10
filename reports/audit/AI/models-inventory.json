@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-10T19:08:13.650Z",
+  "timestamp": "2025-10-10T19:14:22.406Z",
   "local_models": [
     {
       "name": "qwen2-1_5b-instruct-q4_k_m.gguf",
@@ -8,9 +8,9 @@
       "size_gb": 0,
       "device": "cpu",
       "dimensions": 768,
-      "license": "unknown",
+      "license": "apache-2.0",
       "last_modified": "2025-10-09T10:18:02.486Z",
-      "latency_p50_ms": 65.79641092665456,
+      "latency_p50_ms": 69.57918008763046,
       "latency_p95_ms": 0
     }
   ],
@@ -49,7 +49,7 @@
   "summary": {
     "total_models": 3,
     "total_size_gb": 1,
-    "avg_latency_ms": 297
+    "avg_latency_ms": 298
   },
   "recommendations": [
     "High average latency - optimize model inference"

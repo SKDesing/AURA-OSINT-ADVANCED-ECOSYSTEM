@@ -1,0 +1,50 @@
+# AURA OSINT Advanced Ecosystem - Code Ownership
+
+# Global owners (fallback)
+* @SKDesing
+
+# AI & Machine Learning
+/scripts/audit/ai/ @SKDesing
+/config/models.manifest.json @SKDesing
+/services/ai/ @SKDesing
+/ai/ @SKDesing
+
+# Security & Compliance
+/security/ @SKDesing
+/.github/workflows/security-*.yml @SKDesing
+/scripts/security/ @SKDesing
+/SECURITY.md @SKDesing
+
+# Frontend & UI
+/clients/ @SKDesing
+/apps/browser-electron/ @SKDesing
+*.tsx @SKDesing
+*.jsx @SKDesing
+
+# Backend & APIs
+/backend/ @SKDesing
+/services/ @SKDesing
+/infra/database/ @SKDesing
+
+# Infrastructure & DevOps
+/.github/workflows/ @SKDesing
+/infra/ @SKDesing
+/scripts/dev/ @SKDesing
+/scripts/release/ @SKDesing
+docker-compose*.yml @SKDesing
+Dockerfile* @SKDesing
+
+# Documentation
+/docs/ @SKDesing
+README.md @SKDesing
+*.md @SKDesing
+
+# Configuration & Manifests
+/config/ @SKDesing
+package.json @SKDesing
+tsconfig.json @SKDesing
+
+# Legal & Licensing
+LICENSE* @SKDesing
+/LEGAL/ @SKDesing
+PRICING.md @SKDesing
