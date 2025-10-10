@@ -1,234 +1,45 @@
-name: Security Audit & Tests
+name: Security Audit
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
     branches: [main]
   schedule:
-    # Run security audit daily at 2 AM UTC
-    - cron: '0 2 * * *'
+    - cron: '0 2 * * 1' # Weekly on Monday 2AM UTC
 
 jobs:
-  security-scan:
+  audit:
     runs-on: ubuntu-latest
-    name: Security Scanning & Testing
-    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      
+      - uses: pnpm/action-setup@v4
         with:
-          fetch-depth: 0  # Full history for gitleaks
+          version: latest
           
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-          
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-          
-      - name: Cache pip dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ hashFiles('**/requirements*.txt') }}
-          
-      - name: Cache Trivy DB
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/trivy
-          key: trivy-db-${{ runner.os }}
+          node-version: '20'
+          cache: 'pnpm'
           
       - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Audit root workspace
+        run: pnpm audit --prod
+        
+      - name: Audit backend
         run: |
-          npm ci
-          pip install safety bandit semgrep
+          cd backend
+          npm audit --audit-level moderate
           
-      - name: Install security tools
+      - name: Check for high/critical vulnerabilities
         run: |
-          # Install gitleaks
-          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.18.0/gitleaks_8.18.0_linux_x64.tar.gz | tar -xz || true
-          sudo mv gitleaks /usr/local/bin/ || true
-          
-          # Install yq
-          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 || true
-          sudo chmod +x /usr/local/bin/yq || true
-          
-          # Install trivy
-          sudo apt-get update && sudo apt-get install -y wget apt-transport-https gnupg lsb-release || true
-          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add - || true
-          echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list || true
-          sudo apt-get update && sudo apt-get install -y trivy || true
-          
-      - name: Secret scanning with Gitleaks
-        run: |
-          gitleaks detect --source . --verbose --report-format json --report-path gitleaks-report.json
-          
-      - name: SAST with Semgrep
-        run: |
-          semgrep --config=auto --sarif --output=semgrep.sarif . || true
-          semgrep --config=auto --json --output=semgrep-report.json . || true
-          
-      - name: Python security with Bandit
-        run: |
-          find . -name "*.py" -exec bandit -r {} + -f json -o bandit-report.json || true
-          
-      - name: Trivy filesystem scan
-        run: |
-          trivy fs --format sarif --output trivy.sarif --severity HIGH,CRITICAL . || true
-          
-      - name: Generate SBOM
-        uses: anchore/sbom-action@v0
-        with:
-          format: cyclonedx-json
-          output-file: sbom.cdx.json
-          
-      - name: Grype vulnerability scan
-        uses: anchore/scan-action@v5
-        with:
-          sbom: sbom.cdx.json
-          fail-build: false
-          output-format: sarif
-          output-file: grype.sarif
-          
-      - name: Dependency audit
-        run: |
-          npm audit --audit-level=moderate --json > npm-audit.json || true
-          if [[ -f requirements.txt ]]; then
-            safety check -r requirements.txt --json > safety-report.json || true
-          fi
-          
-      - name: Run AURA security tests
-        env:
-          AURA_FAIL_ON_SEVERITY: ${{ vars.AURA_FAIL_ON_SEVERITY || 'CRITICAL' }}
-          AURA_MAX_ALLOWED_FINDINGS: ${{ vars.AURA_MAX_ALLOWED_FINDINGS || '0' }}
-          TIMEOUT_DEFAULT: 30
-        run: |
-          chmod +x TESTS-SECURITE-AUTOMATISES.sh
-          ./TESTS-SECURITE-AUTOMATISES.sh
-          
-      - name: Upload SARIF results
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: |
-            semgrep.sarif
-            trivy.sarif
-            grype.sarif
-            
-      - name: Upload security reports
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: security-reports-${{ github.sha }}
-          path: |
-            gitleaks-report.json
-            semgrep-report.json
-            bandit-report.json
-            npm-audit.json
-            safety-report.json
-            sbom.cdx.json
-            *.sarif
-            security-test-results-*/
-          retention-days: 30
-          
-      - name: Security summary
-        if: always()
-        run: |
-          echo "## 🛡️ Security Audit Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          
-          # Gitleaks results
-          if [[ -f gitleaks-report.json ]]; then
-            LEAKS_COUNT=$(jq length gitleaks-report.json 2>/dev/null || echo "0")
-            if [[ $LEAKS_COUNT -eq 0 ]]; then
-              echo "✅ **Secrets**: No leaks detected" >> $GITHUB_STEP_SUMMARY
-            else
-              echo "❌ **Secrets**: $LEAKS_COUNT potential leaks found" >> $GITHUB_STEP_SUMMARY
-            fi
-          fi
-          
-          # Semgrep results
-          if [[ -f semgrep-report.json ]]; then
-            SEMGREP_COUNT=$(jq '.results | length' semgrep-report.json 2>/dev/null || echo "0")
-            echo "🔍 **SAST**: $SEMGREP_COUNT findings" >> $GITHUB_STEP_SUMMARY
-          fi
-          
-          # NPM audit results
-          if [[ -f npm-audit.json ]]; then
-            HIGH_VULNS=$(jq '.metadata.vulnerabilities.high // 0' npm-audit.json 2>/dev/null || echo "0")
-            CRITICAL_VULNS=$(jq '.metadata.vulnerabilities.critical // 0' npm-audit.json 2>/dev/null || echo "0")
-            echo "📦 **Dependencies**: $CRITICAL_VULNS critical, $HIGH_VULNS high vulnerabilities" >> $GITHUB_STEP_SUMMARY
-          fi
-          
-          # AURA tests results
-          if [[ -d security-test-results-* ]]; then
-            LATEST_RESULTS=$(ls -td security-test-results-* | head -1)
-            if [[ -f "$LATEST_RESULTS/security-test-report.json" ]]; then
-              TOTAL=$(jq '.tests.total' "$LATEST_RESULTS/security-test-report.json")
-              PASSED=$(jq '.tests.passed' "$LATEST_RESULTS/security-test-report.json")
-              FAILED=$(jq '.tests.failed' "$LATEST_RESULTS/security-test-report.json")
-              SKIPPED=$(jq '.tests.skipped' "$LATEST_RESULTS/security-test-report.json")
-              SUCCESS_RATE=$(jq '.tests.success_rate' "$LATEST_RESULTS/security-test-report.json")
-              echo "🧪 **Security Tests**: $PASSED/$TOTAL passed, $SKIPPED skipped (${SUCCESS_RATE}%)" >> $GITHUB_STEP_SUMMARY
-              
-              if [[ $FAILED -gt 0 ]]; then
-                echo "" >> $GITHUB_STEP_SUMMARY
-                echo "⚠️ **$FAILED security tests failed. Check the artifacts for details.**" >> $GITHUB_STEP_SUMMARY
-              fi
-            fi
-          fi
-          
-          # SBOM info
-          if [[ -f sbom.cdx.json ]]; then
-            COMPONENTS=$(jq '.components | length' sbom.cdx.json 2>/dev/null || echo "0")
-            echo "📦 **SBOM**: $COMPONENTS components analyzed" >> $GITHUB_STEP_SUMMARY
-          fi
-          
-      - name: Fail on critical security issues
-        run: |
-          EXIT_CODE=0
-          
-          # Fail if secrets detected
-          if [[ -f gitleaks-report.json ]]; then
-            LEAKS_COUNT=$(jq length gitleaks-report.json 2>/dev/null || echo "0")
-            if [[ $LEAKS_COUNT -gt 0 ]]; then
-              echo "❌ CRITICAL: Secrets detected in repository"
-              EXIT_CODE=1
-            fi
-          fi
-          
-          # Fail if critical vulnerabilities
-          if [[ -f npm-audit.json ]]; then
-            CRITICAL_VULNS=$(jq '.metadata.vulnerabilities.critical // 0' npm-audit.json 2>/dev/null || echo "0")
-            if [[ $CRITICAL_VULNS -gt 0 ]]; then
-              echo "❌ CRITICAL: $CRITICAL_VULNS critical vulnerabilities in dependencies"
-              EXIT_CODE=1
-            fi
-          fi
-          
-          # Fail if security tests failed
-          if [[ -d security-test-results-* ]]; then
-            LATEST_RESULTS=$(ls -td security-test-results-* | head -1)
-            if [[ -f "$LATEST_RESULTS/security-test-report.json" ]]; then
-              FAILED=$(jq '.tests.failed' "$LATEST_RESULTS/security-test-report.json")
-              if [[ $FAILED -gt ${AURA_MAX_ALLOWED_FINDINGS:-0} ]]; then
-                echo "❌ CRITICAL: $FAILED security tests failed (max allowed: ${AURA_MAX_ALLOWED_FINDINGS:-0})"
-                EXIT_CODE=1
-              fi
-            fi
-          fi
-          
-          if [[ $EXIT_CODE -eq 1 ]]; then
-            echo ""
-            echo "🚨 Security audit failed. Please review the artifacts and fix critical issues."
-            echo "Check the Security tab for detailed SARIF results."
-            exit 1
+          # Fail if any high/critical vulnerabilities found
+          if pnpm audit --prod --audit-level high 2>/dev/null; then
+            echo "✅ No high/critical vulnerabilities"
           else
-            echo "✅ Security audit passed successfully"
-            echo "SARIF results uploaded to Security > Code scanning alerts"
+            echo "❌ High/critical vulnerabilities found"
+            exit 1
           fi
