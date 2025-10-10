@@ -5,7 +5,7 @@
   "main": "backend/api/analytics-api.js",
   "scripts": {
     "start": "node scripts/setup/startup-orchestrator.js",
-    "test": "node tests/unit/aura-test-suite.js",
+    "test": "vitest run --reporter=junit --coverage",
     "benchmark": "node tests/performance/benchmark-suite.js",
     "audit-ports": "node backend/config/port-audit.js",
     "analytics": "node backend/api/analytics-api.js",
@@ -96,7 +96,13 @@
     "audit:full": "node scripts/audit/run-full-audit.js",
     "audit:ports": "npm run ports:inventory",
     "audit:security": "npm audit --audit-level=moderate && npm run security:audit",
-    "audit:report": "npm run audit:full && echo 'Reports in reports/audit/'"
+    "audit:report": "npm run audit:full && echo 'Reports in reports/audit/'",
+    "test:unit": "vitest run --coverage",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:a11y": "lighthouse http://localhost:3000 --quiet --only-categories=accessibility",
+    "test:all": "pnpm run test:unit && pnpm run test:e2e"
   },
   "dependencies": {
     "@xenova/transformers": "^2.17.2",
@@ -121,6 +127,7 @@
   "devDependencies": {
     "@playwright/test": "^1.56.0",
     "@types/node": "^20.8.0",
+    "@vitest/coverage-v8": "^3.2.4",
     "concurrently": "^8.2.2",
     "cross-env": "^10.1.0",
     "cypress": "^15.4.0",
@@ -131,7 +138,8 @@
     "nodemon": "^3.0.1",
     "playwright": "^1.56.0",
     "prettier": "^3.0.3",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "vitest": "^3.2.4"
   },
   "optionalDependencies": {
     "neo4j-driver": "^5.13.0",
