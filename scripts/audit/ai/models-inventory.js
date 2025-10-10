@@ -162,33 +162,36 @@ class ModelsInventory {
   }
 
   getRemoteModels() {
-    // Known remote models used by the system
+    // Real AI models found in AURA ecosystem
     return [
       {
-        name: 'text-embedding-ada-002',
-        type: 'remote',
-        provider: 'openai',
-        format: 'api',
-        size_gb: 0, // Remote
-        device: 'cloud',
-        dimensions: 1536,
-        license: 'proprietary',
-        latency_p50_ms: 150,
-        latency_p95_ms: 300,
-        cost_per_1k_tokens: 0.0001
+        name: 'Xenova/multilingual-e5-small',
+        type: 'transformers',
+        provider: 'huggingface',
+        format: 'onnx',
+        size_gb: 0.1,
+        device: 'cpu',
+        dimensions: 384,
+        license: 'mit',
+        latency_p50_ms: 25,
+        latency_p95_ms: 45,
+        usage: 'embeddings',
+        quantized: true
       },
       {
-        name: 'gpt-3.5-turbo',
-        type: 'remote',
-        provider: 'openai',
-        format: 'api',
-        size_gb: 0,
-        device: 'cloud',
-        dimensions: 4096,
-        license: 'proprietary',
+        name: 'qwen2-1_5b-instruct-q4_k_m',
+        type: 'local',
+        provider: 'alibaba',
+        format: 'gguf',
+        size_gb: 0.9,
+        device: 'cpu',
+        dimensions: 1536,
+        license: 'apache-2.0',
         latency_p50_ms: 800,
         latency_p95_ms: 1500,
-        cost_per_1k_tokens: 0.002
+        usage: 'text_generation',
+        quantized: true,
+        parameters: '1.5B'
       }
     ];
   }
