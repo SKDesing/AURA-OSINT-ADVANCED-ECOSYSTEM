@@ -97,7 +97,8 @@
     "audit:full": "node scripts/audit/run-full-audit.js",
     "audit:ports": "npm run ports:inventory",
     "audit:security": "npm audit --audit-level=moderate && npm run security:audit",
-    "audit:report": "npm run audit:full && echo 'Reports in reports/audit/'"
+    "audit:report": "npm run audit:full && echo 'Reports in reports/audit/'",
+    "dev": "concurrently -n api,web -c green,cyan \"npm run dev:api --prefix backend\" \"pnpm --filter ./clients/web-react start\""
   },
   "dependencies": {
     "@xenova/transformers": "^2.17.2",
