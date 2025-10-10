@@ -13,11 +13,11 @@ class AuraApiClient {
   private requestId = crypto.randomUUID();
 
   constructor(baseURL?: string) {
-    // Vite env variables for browser
+    // CRA env variables for browser
     const envBaseURL = typeof window !== 'undefined' 
-      ? (import.meta.env?.VITE_API_BASE_URL as string)
+      ? (process.env.REACT_APP_API_BASE_URL as string)
       : process.env.API_BASE_URL;
-    this.baseURL = baseURL || envBaseURL || 'http://localhost:4010';
+    this.baseURL = baseURL || envBaseURL || 'http://127.0.0.1:4011';
   }
 
   async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {

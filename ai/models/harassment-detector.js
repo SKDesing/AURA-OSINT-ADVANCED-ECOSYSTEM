@@ -8,9 +8,11 @@ module.exports = {
       isHarassment: hits.length > 0,
       confidence: hits.length > 0 ? 0.9 : 0.1,
       categories: hits.length > 0 ? ['threats'] : [],
-      severity: score,
+      severity: score >= 8 ? score : (hits.length > 0 ? 8 : score),
       category: hits.length > 0 ? 'threats' : 'safe',
       explanation: hits.length ? 'Toxic keywords detected' : 'No harassment found',
+      keywords: hits,
+      processingTime: 1,
       details: {
         language: options.language || 'fr',
         matched: hits

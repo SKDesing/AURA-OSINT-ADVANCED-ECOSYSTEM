@@ -2,8 +2,12 @@
 
 # Dependencies
 node_modules/
+**/node_modules/
 .pnp
 .pnp.js
+pnpm-lock.yaml
+npm-debug.log*
+.pnpm-store/
 
 # Production builds
 /build

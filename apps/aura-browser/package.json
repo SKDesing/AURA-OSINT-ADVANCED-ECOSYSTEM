@@ -1,0 +1,56 @@
+{
+  "name": "@aura/osint-advanced-ecosystem",
+  "version": "1.0.0",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "dev": "cross-env AURA_ENV=dev electron .",
+    "build": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3",
+    "electron-is-dev": "^3.0.1",
+    "wait-on": "^9.0.1"
+  },
+  "build": {
+    "appId": "com.aura.osint.advanced.ecosystem",
+    "productName": "AURA OSINT ADVANCED ECOSYSTEM",
+    "artifactName": "AURA-OSINT-ADVANCED-ECOSYSTEM-${version}-${os}-${arch}.${ext}",
+    "files": [
+      "main.js",
+      "preload.js",
+      "assets/**"
+    ],
+    "extraResources": [
+      {
+        "from": "../../clients/web-react/build",
+        "to": "app-ui"
+      }
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.productivity",
+      "icon": "assets/icon-mac.icns"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/icon-win.ico"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "assets/icons/"
+    }
+  }
+}
