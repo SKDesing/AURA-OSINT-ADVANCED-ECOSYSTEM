@@ -1,0 +1,44 @@
+{
+  "name": "@aura/browser-electron",
+  "version": "1.0.0",
+  "description": "AURA Browser - Proprietary OSINT Browser",
+  "main": "main/main.js",
+  "scripts": {
+    "dev": "electron main/main.js",
+    "build": "electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --publish=never"
+  },
+  "dependencies": {
+    "electron": "^28.0.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.0.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "build": {
+    "appId": "com.aura.osint.browser",
+    "productName": "AURA Browser",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main/**/*",
+      "renderer/**/*",
+      "../../backend/**/*",
+      "../../scripts/**/*",
+      "../../live-tracker/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "../../backend",
+        "to": "backend"
+      },
+      {
+        "from": "../../scripts",
+        "to": "scripts"
+      }
+    ]
+  }
+}
