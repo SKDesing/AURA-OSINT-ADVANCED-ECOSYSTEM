@@ -121,3 +121,18 @@ venv.bak/
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# OSINT runtime data (never commit)
+var/osint/**
+vendors/osint/**/venv/**
+vendors/osint/**/node_modules/**
+vendors/osint/**/.env
+
+# Secrets and keys (CRITICAL)
+.aura-key
+*.pem
+*.key
+*.p12
+*.pfx
+**/secrets/**
+**/keys/**
