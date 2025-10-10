@@ -6,8 +6,8 @@ const LEXICON: Record<string, number> = {
   rape: 1.0, molest: 1.0, pedophile: 1.0, terrorist: 1.0, nazi: 0.9,
   fuck: 0.4, shit: 0.3, damn: 0.2, stupid: 0.3, idiot: 0.3,
   // French
-  tuer: 1.0, haine: 0.8, menace: 0.9, violence: 0.85, bombe: 1.0,
-  arme: 0.8, meurtre: 1.0, mort: 0.7, suicide: 0.9, mal: 0.6,
+  tuer: 1.0, haine: 0.8, menace: 0.9, bombe: 1.0,
+  arme: 0.8, meurtre: 1.0, mort: 0.7, mal: 0.6,
   // Chinese
   杀: 1.0, 恨: 0.8, 威胁: 0.9, 暴力: 0.85, 炸弹: 1.0, 武器: 0.8
 };

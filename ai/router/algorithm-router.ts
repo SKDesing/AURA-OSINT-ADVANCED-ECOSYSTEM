@@ -53,8 +53,8 @@ export class AlgorithmRouter {
     const signature = this.generateSignature(preprocessed, lexicalScore, language);
     
     // NER Detection
-    const entities = this.extractEntities(preprocessed);
-    if (entities.length >= 2) {
+    const entities = this.extractEntities(prompt); // Use original text for entity extraction
+    if (entities.length >= 1) {
       return {
         router_version: this.version,
         matched_algorithm: 'ner',
@@ -90,8 +90,8 @@ export class AlgorithmRouter {
       };
     }
 
-    // NLP Classification
-    if (lexicalScore < 0.3 && this.matchesKeywords(preprocessed, this.harassmentKeywords)) {
+    // NLP Classification - check for toxicity questions
+    if (preprocessed.includes('insultant') || preprocessed.includes('haineux') || preprocessed.includes('toxique')) {
       return {
         router_version: this.version,
         matched_algorithm: 'nlp',

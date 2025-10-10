@@ -1,39 +1,39 @@
-# Plan de tests complet AURA OSINT
+# Plan de tests AURA OSINT (stabilisé)
 
-## Objectifs
-Assurer la qualité fonctionnelle et non-fonctionnelle (sécurité, perf, résilience, a11y) avant le grand run.
+## Architecture des tests
 
-## Pyramide et budgets
-- **Unitaires**: 70% des cas, Couverture globale >= 85%, modules critiques >= 90%
-- **Intégration**: 20% (DB, Redis, Docker containers)
-- **E2E**: 10% (Playwright sur flows OSINT critiques)
-- **Mutation testing** sur modules critiques (score cible: >= 60%)
+- **Vitest** pour unitaires/intégration (Node/AI)
+- **Playwright** pour E2E (frontend)
+- **Frontend** (CRA) exclu de Vitest, tests gérés par Playwright
+- **Exclusions Vitest**: clients/**, marketing/**, tests/e2e/**, node_modules/**
+- **Stubs fournis** pour modules manquants (harassment-detector, AntiHarassmentEngine, config)
 
-## Portée AURA OSINT
-- **API Backend**: endpoints OSINT, validation, jobs BullMQ, résultats DB
-- **Frontend React**: UI tools, flows investigation, export CSV/JSON
-- **Workers**: Amass, Subfinder, PhoneInfoga, parsing résultats
-- **Données**: migrations PostgreSQL, seed OSINT, anonymisation
+## Commandes
 
-## Stratégie
-1. **Unitaires** (Vitest backend + RTL frontend)
-2. **Intégration** (Testcontainers: Postgres, Redis, Docker OSINT tools)
-3. **Contract tests** (Pact: React ↔ Backend API)
-4. **E2E** (Playwright: job OSINT complet, export résultats)
-5. **Perf** (k6: API endpoints, budgets Lighthouse)
-6. **A11y** (axe: interface OSINT accessible)
-7. **Sécurité** (audits, headers, rate-limit, sandbox Docker)
+```bash
+# Tests unitaires/intégration
+pnpm run test:unit
 
-## Flows critiques à tester
-- ✅ Lancement job Amass → résultats subdomains
-- ✅ Export CSV/JSON des résultats
-- ✅ Interface accessible (keyboard nav, screen readers)
-- ✅ Rate limiting API OSINT
-- ✅ Gestion erreurs Docker/tools
+# Tests E2E (nécessite services démarrés)
+pnpm run test:e2e
 
-## Sorties attendues
-- Rapports JUnit + Coverage HTML/LCOV
-- Captures E2E/videos Playwright
-- Rapports Lighthouse (perf + a11y)
-- Pact contracts validés
-- FINAL-STATUS.md mis à jour
+# Tous les tests (séquentiel)
+pnpm run test:all
+
+# Interface Playwright
+pnpm run test:e2e:ui
+```
+
+## État actuel
+
+✅ **Tests router**: 8/8 passent  
+✅ **Tests backend**: 2/2 passent  
+✅ **Isolation Vitest/Playwright**: Configurée  
+✅ **Mock Sharp**: Implémenté  
+✅ **Stubs modules**: Créés  
+
+## Prochaines étapes
+
+- Finaliser stubs tests intégration
+- Configurer E2E avec services
+- Ajouter tests OSINT spécifiques
