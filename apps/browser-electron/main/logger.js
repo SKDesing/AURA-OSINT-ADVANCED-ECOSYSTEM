@@ -1,18 +1,39 @@
-const { app } = require('electron');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 /**
  * Structured logging for AURA Browser
  */
 class Logger {
   constructor() {
-    this.logDir = path.join(app.getPath('userData'), 'logs');
+    // Use temp dir if app not ready yet
+    const userDataPath = this.getUserDataPath();
+    this.logDir = path.join(userDataPath, 'logs');
     this.logFile = path.join(this.logDir, 'aura-browser.log');
     this.maxLogSize = 10 * 1024 * 1024; // 10MB
     this.maxLogFiles = 5;
     
     this.ensureLogDir();
+  }
+
+  getUserDataPath() {
+    try {
+      const { app } = require('electron');
+      return app.getPath('userData');
+    } catch {
+      // Fallback if app not ready
+      return path.join(os.homedir(), '.aura-browser');
+    }
+  }
+
+  getAppVersion() {
+    try {
+      const { app } = require('electron');
+      return app.getVersion();
+    } catch {
+      return '1.0.0';
+    }
   }
 
   ensureLogDir() {
@@ -29,7 +50,7 @@ class Logger {
       message,
       meta,
       pid: process.pid,
-      version: app.getVersion()
+      version: this.getAppVersion()
     };
 
     const logLine = JSON.stringify(logEntry) + '\n';

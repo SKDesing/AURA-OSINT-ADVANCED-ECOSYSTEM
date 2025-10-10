@@ -6,6 +6,7 @@ const { SecurityManager } = require('./security');
 const { IPCManager } = require('./ipc');
 const { logger } = require('./logger');
 const { UpdateManager } = require('./updater');
+const { verifyAsarIntegrity } = require('./asar-integrity-check');
 
 class AuraBrowser {
   constructor() {
@@ -20,6 +21,13 @@ class AuraBrowser {
     await app.whenReady();
     
     logger.info('🚀 AURA Browser initializing...');
+    
+    // Verify ASAR integrity (CVE mitigation)
+    const integrityOk = await verifyAsarIntegrity();
+    if (!integrityOk) {
+      logger.error('❌ ASAR integrity check failed - potential security breach');
+      app.exit(1);
+    }
     
     // Initialize security hardening
     SecurityManager.initialize();
