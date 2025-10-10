@@ -6,8 +6,10 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "dev:api": "PORT=4011 nodemon server.js",
     "test": "jest",
-    "migrate": "node scripts/migrate.js"
+    "migrate": "node scripts/migrate.js",
+    "health": "curl -sS http://localhost:4011/health || echo 'Backend not running'"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -23,7 +25,8 @@
     "nodemailer": "^6.10.1",
     "pg": "^8.16.3",
     "smtp-server": "^3.14.0",
-    "socket.io": "^4.7.4"
+    "socket.io": "^4.7.4",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "jest": "^29.7.0",
