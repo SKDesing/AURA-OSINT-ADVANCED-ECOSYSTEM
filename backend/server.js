@@ -6,12 +6,13 @@ const { searchController, searchLimiter } = require('./controllers/search.contro
 const osintController = require('./controllers/osint.controller');
 const healthRouter = require('./routes/health');
 const contactRouter = require('./routes/contact');
+const mvpRouter = require('./routes/mvp');
 const cacheMiddleware = require('./middleware/cache');
 const WebSocketServer = require('./websocket/server');
 
 const app = express();
 const server = http.createServer(app);
-const PORT = process.env.PORT || 4002;
+const PORT = process.env.PORT || 4010;
 
 // Security middleware
 app.use(securityHeaders);
@@ -34,6 +35,9 @@ app.get('/api/v1/osint/analyze/:profileId', cacheMiddleware(300), osintControlle
 
 // Contact route
 app.use('/api', contactRouter);
+
+// MVP routes
+app.use('/', mvpRouter);
 
 // Error handling
 app.use((err, req, res, next) => {
