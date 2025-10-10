@@ -9,6 +9,10 @@
     "dev:api": "PORT=${PORT:-4011} nodemon server.js",
     "worker": "node worker.js",
     "test": "jest",
+    "test:unit": "pnpm -w run test:unit",
+    "test:e2e": "pnpm -w run test:e2e",
+    "test:all": "pnpm -w run test:all",
+    "test:e2e:ui": "pnpm -w run test:e2e:ui",
     "migrate": "node scripts/migrate.js",
     "health": "curl -sS http://localhost:4011/health || echo 'Backend not running'"
   },
