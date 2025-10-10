@@ -39,6 +39,29 @@
         "from": "../../scripts",
         "to": "scripts"
       }
-    ]
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": "dmg",
+      "entitlements": "build/entitlements.mac.plist",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "win": {
+      "target": "nsis",
+      "publisherName": "AURA OSINT"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ]
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "SKDesing",
+      "repo": "AURA-OSINT-ADVANCED-ECOSYSTEM"
+    }
   }
 }

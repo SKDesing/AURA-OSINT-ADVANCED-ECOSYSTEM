@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { ServiceManager } = require('./services/service-manager');
 const { HealthMonitor } = require('./services/health-monitor');
+const { SecurityManager } = require('./security');
 
 class AuraBrowser {
   constructor() {
@@ -12,6 +13,9 @@ class AuraBrowser {
 
   async initialize() {
     await app.whenReady();
+    
+    // Initialize security hardening
+    SecurityManager.initialize();
     
     // Start backend services
     await this.startServices();
