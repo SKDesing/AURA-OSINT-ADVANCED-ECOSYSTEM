@@ -6,7 +6,7 @@ const IORedis = require('ioredis');
 const router = express.Router();
 
 const REDIS_URL = process.env.ORCHESTRATOR_REDIS_URL || 'redis://localhost:6379/5';
-const connection = new IORedis(REDIS_URL);
+const connection = new IORedis(REDIS_URL, { maxRetriesPerRequest: null });
 const queue = new Queue('osint', { connection });
 
 const CreateJobSchema = z.object({
