@@ -1,5 +1,6 @@
 // Pre-intelligence lexical risk scoring (Phase 1 MVP)
-const LEXICON: Record<string, number> = {
+export const LEXICAL_WEIGHTS: Record<string, number> = {
+  // English
   kill: 1.0, hate: 0.8, threat: 0.9, destroy: 0.85, attack: 0.9,
   violence: 0.85, bomb: 1.0, weapon: 0.8, murder: 1.0, death: 0.7,
   suicide: 0.9, harm: 0.6, abuse: 0.7, harass: 0.8, stalk: 0.8,
@@ -11,6 +12,8 @@ const LEXICON: Record<string, number> = {
   // Chinese
   杀: 1.0, 恨: 0.8, 威胁: 0.9, 暴力: 0.85, 炸弹: 1.0, 武器: 0.8
 };
+
+const LEXICON = LEXICAL_WEIGHTS;
 
 export interface RiskScore {
   score: number;

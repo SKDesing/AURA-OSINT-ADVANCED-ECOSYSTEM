@@ -26,7 +26,7 @@ class AuraGUILauncher {
         this.app.use((req, res, next) => {
             res.setHeader(
                 "Content-Security-Policy",
-                "default-src 'self'; connect-src 'self' http://localhost:4002 http://localhost:4001; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
+                "default-src 'self'; connect-src 'self' http://localhost:4011 http://localhost:4003 http://localhost:4002 ws://localhost:4011 ws://localhost:4003; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
             );
             next();
         });
