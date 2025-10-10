@@ -13,6 +13,14 @@ let mainWindow, backendProc, webProc;
 const UI_DEV_URL = process.env.AURA_UI_URL || 'http://127.0.0.1:3000';
 const API_URL = process.env.AURA_API_URL || 'http://127.0.0.1:4011';
 
+function httpGetResource(urlStr, path = '') {
+  // Construit http-get://host[:port]/path pour wait-on
+  const u = new URL(urlStr);
+  const host = u.port ? `${u.hostname}:${u.port}` : u.hostname;
+  const p = path.startsWith('/') ? path : `/${path}`;
+  return `http-get://${host}${p}`;
+}
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     title: 'AURA OSINT ADVANCED ECOSYSTEM',
@@ -66,9 +74,7 @@ async function startBackend() {
   }
   backendProc.on('exit', () => backendProc = null);
   
-  // wait-on HTTP avec http-get://
-  const api = new URL(API_URL);
-  await waitOn({ resources: [`http-get://${api.host}/health`], timeout: 60000 });
+  await waitOn({ resources: [httpGetResource(API_URL, 'health')], timeout: 60000 });
 }
 
 async function startWebDev() {
@@ -80,9 +86,7 @@ async function startWebDev() {
   );
   webProc.on('exit', () => webProc = null);
   
-  // wait-on HTTP avec http-get://
-  const ui = new URL(UI_DEV_URL);
-  await waitOn({ resources: [`http-get://${ui.host}`], timeout: 120000 });
+  await waitOn({ resources: [httpGetResource(UI_DEV_URL)], timeout: 120000 });
 }
 
 function setupSessionPolicies() {

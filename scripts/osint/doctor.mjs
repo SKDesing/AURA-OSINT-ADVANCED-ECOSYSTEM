@@ -20,11 +20,25 @@ const tools = [
 async function checkTool(t) {
   const start = Date.now();
   return new Promise((resolve) => {
-    const ps = spawn(t.name, t.args, { timeout: 8000 });
+    const ps = spawn(t.name, t.args);
     let stdout = '', stderr = '';
+    let finished = false;
+    
+    // Watchdog: kill after 8s
+    const watchdog = setTimeout(() => {
+      if (!finished) {
+        ps.kill('SIGKILL');
+      }
+    }, 8000);
+    
     ps.stdout?.on('data', (d) => stdout += d.toString());
     ps.stderr?.on('data', (d) => stderr += d.toString());
+    
     ps.on('close', (code) => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(watchdog);
+      
       if (code === 0) {
         const ver = t.parse(stdout || stderr || '');
         process.stdout.write(JSON.stringify({
@@ -47,7 +61,12 @@ async function checkTool(t) {
       }
       resolve();
     });
+    
     ps.on('error', (e) => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(watchdog);
+      
       process.stdout.write(JSON.stringify({
         t: 'osint_tool',
         ts: Date.now(),

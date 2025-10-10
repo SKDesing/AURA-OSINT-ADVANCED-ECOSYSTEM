@@ -20,11 +20,20 @@ const BatchSchema = {
   }
 };
 
+// Helper: vérifier si la requête vient du local
+function isLocal(req) {
+  const ip = (req.ip || '').replace('::ffff:', '');
+  return ip === '127.0.0.1' || ip === '::1' || ip === '::ffff:127.0.0.1';
+}
+
 router.post('/batch', express.json({ limit: '1mb' }), async (req, res) => {
   try {
     if (process.env.AURA_BROWSER_ONLY === '1') {
       if (req.get('X-AURA-TELEMETRY') !== '1') {
         return res.status(403).json({ ok: false, error: 'Forbidden' });
+      }
+      if (!isLocal(req)) {
+        return res.status(403).json({ ok: false, error: 'Localhost only' });
       }
     }
 
