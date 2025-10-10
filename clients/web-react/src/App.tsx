@@ -5,6 +5,7 @@ import OSINTTools from './components/OSINTTools';
 import JobsTable from './components/JobsTable';
 import ResultsTable from './components/ResultsTable';
 import TelemetryPanel from './components/TelemetryPanel';
+import DoctorPanel from './components/DoctorPanel';
 
 const theme = createTheme({
   palette: {
@@ -61,7 +62,14 @@ const App: React.FC = () => {
         </Tabs>
 
         <Box sx={{ width: '100%', maxWidth: 1200, textAlign: 'left' }}>
-          {activeTab === 0 && <TabManager />}
+          {activeTab === 0 && (
+            <Box>
+              <TabManager />
+              <Box sx={{ mt: 4 }}>
+                <DoctorPanel />
+              </Box>
+            </Box>
+          )}
           {activeTab === 1 && <OSINTTools />}
           {activeTab === 2 && <JobsTable />}
           {activeTab === 3 && <ResultsTable />}
