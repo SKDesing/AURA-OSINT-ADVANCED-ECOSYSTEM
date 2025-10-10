@@ -1,6 +1,9 @@
 // AURA Browser Only enforcement
 try { require('./utils/ensure-electron-launch')(); } catch { /* best-effort */ }
 
+// Set default telemetry enabled
+process.env.AURA_TELEMETRY = process.env.AURA_TELEMETRY || '1';
+
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
@@ -95,6 +98,9 @@ console.log('🔍 OSINT tools ready');
 
 // Mount OSINT routes with rate limiting
 app.use('/api/osint', osintRateLimit, osintRouter);
+
+// Telemetry endpoint
+app.use('/telemetry', require('./routes/telemetry'));
 
 // WebSocket server
 const wsServer = new WebSocketServer(server);

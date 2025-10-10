@@ -1,4 +1,6 @@
 // Worker BullMQ minimal pour OSINT
+try { require('./utils/ensure-worker-electron-launch')(); } catch { /* best-effort */ }
+
 const { Worker, QueueScheduler } = require('bullmq');
 const IORedis = require('ioredis');
 const { spawn } = require('node:child_process');
