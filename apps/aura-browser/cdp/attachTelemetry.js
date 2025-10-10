@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const os = require('os');
 const http = require('http');
+const https = require('https');
 
 function sha256(input) {
   return crypto.createHash('sha256').update(input).digest('hex');
@@ -33,10 +34,20 @@ function attachTelemetry(webContents, opts = {}) {
   const flushIntervalMs = 2000;
   const maxBuffer = 2000;
 
+  // Session ID par run (utile côté serveur pour agrégation)
+  const sessionId = (crypto.randomUUID && crypto.randomUUID()) || sha256(`${process.pid}-${Date.now()}-${Math.random()}`);
+
+  // http/https + keep-alive
+  const isHttps = apiBase.startsWith('https://');
+  const agent = isHttps
+    ? new https.Agent({ keepAlive: true })
+    : new http.Agent({ keepAlive: true });
+
   let attached = false;
   function pushEvent(evt) {
     if (!attached) return;
     if (buffer.length < maxBuffer) buffer.push(evt);
+    // Sinon on droppe silencieusement (compteur drop possible en P1)
   }
 
   function flush() {
@@ -46,26 +57,37 @@ function attachTelemetry(webContents, opts = {}) {
       node: os.hostname(),
       pid: process.pid,
       app: appName,
+      session: sessionId,
       ts: Date.now(),
       events: batch,
     });
 
-    const url = new URL('/telemetry/batch', apiBase);
-    const req = http.request({
-      hostname: url.hostname,
-      port: url.port || 80,
-      path: url.pathname,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(payload),
-        'X-AURA-TELEMETRY': '1',
-      },
-    }, (res) => res.resume());
+    try {
+      const url = new URL('/telemetry/batch', apiBase);
+      const requestFn = isHttps ? https.request : http.request;
+      const req = requestFn({
+        hostname: url.hostname,
+        port: url.port || (isHttps ? 443 : 80),
+        path: url.pathname,
+        method: 'POST',
+        agent,
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload),
+          'X-AURA-TELEMETRY': '1',
+          'X-AURA-SESSION': sessionId,
+        },
+      }, (res) => {
+        // on consomme la réponse et on ignore (best-effort)
+        res.resume();
+      });
 
-    req.on('error', () => {});
-    req.write(payload);
-    req.end();
+      req.on('error', () => { /* best-effort, on ignore en P0 */ });
+      req.write(payload);
+      req.end();
+    } catch {
+      // URL invalide ou autre — best-effort
+    }
   }
 
   const flushTimer = setInterval(flush, flushIntervalMs);
@@ -157,6 +179,8 @@ function attachTelemetry(webContents, opts = {}) {
 
   function detach() {
     try {
+      // flush final best-effort avant de détacher
+      flush();
       clearInterval(flushTimer);
       webContents.debugger.removeListener('message', onMessage);
       if (attached) dbg.detach();
