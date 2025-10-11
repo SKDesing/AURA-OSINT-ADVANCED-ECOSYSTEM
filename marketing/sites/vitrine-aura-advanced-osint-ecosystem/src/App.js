@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 import Hero from './components/Hero';
 import Hero3D from './components/Hero3D';
 import LiveDemo from './components/LiveDemo';
@@ -8,6 +9,7 @@ import ThemeToggle from './components/ThemeToggle';
 import ErrorBoundary from './components/ErrorBoundary';
 import AuraDemo from './components/AuraDemo';
 import AuraStats from './components/AuraStats';
+import AuraNotifications from './components/AuraNotifications';
 import './App.css';
 
 function App() {
@@ -51,8 +53,18 @@ function App() {
               <LiveDemo />
             </>
           )}
-          {activeSection === 'demo' && <AuraDemo />}
-          {activeSection === 'stats' && <AuraStats />}
+          {activeSection === 'demo' && (
+            <>
+              <AuraDemo />
+              <AuraNotifications />
+            </>
+          )}
+          {activeSection === 'stats' && (
+            <>
+              <AuraStats />
+              <AuraNotifications />
+            </>
+          )}
           {activeSection === 'services' && <Services />}
           {activeSection === 'contact' && <Contact />}
         
@@ -135,6 +147,40 @@ function App() {
           </div>
         </div>
       </footer>
+      
+      {/* Toast Notifications Globales */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: 'rgba(26, 31, 58, 0.95)',
+            color: '#ffffff',
+            border: '1px solid rgba(255, 215, 0, 0.3)',
+            borderRadius: '0.5rem',
+            backdropFilter: 'blur(10px)',
+            fontFamily: 'Inter, sans-serif'
+          },
+          success: {
+            iconTheme: {
+              primary: '#10B981',
+              secondary: '#ffffff'
+            }
+          },
+          error: {
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: '#ffffff'
+            }
+          },
+          loading: {
+            iconTheme: {
+              primary: '#FFD700',
+              secondary: '#0a0e27'
+            }
+          }
+        }}
+      />
     </div>
   );
 }

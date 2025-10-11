@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './AuraDemo.css';
+import { mockOsintTools, mockMetrics, generateLiveData, mockAIResponses, MockDataGenerator } from '../data/mockData';
 
 const AuraDemo = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -8,67 +9,93 @@ const AuraDemo = () => {
   const [chatMessages, setChatMessages] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
 
-  // Données factices basées sur le backend AURA
-  const mockInvestigations = [
-    {
-      id: 'INV-2024-001',
-      target: 'john.doe@example.com',
-      type: 'email',
-      status: 'completed',
-      progress: 100,
-      results: {
-        breach_check: { found: true, breaches: 3 },
-        social_media: { platforms: ['Twitter', 'LinkedIn'] },
-        whois: { domain: 'example.com', registrar: 'GoDaddy' }
-      },
-      created_at: '2024-01-15T10:30:00Z'
-    },
-    {
-      id: 'INV-2024-002', 
-      target: '+33612345678',
-      type: 'phone',
-      status: 'running',
-      progress: 65,
-      results: {
-        carrier: 'Orange France',
-        location: 'Paris, France',
-        social_links: []
-      },
-      created_at: '2024-01-15T14:20:00Z'
+  // 🎯 ALGORITHMES AVANCÉS - Génération d'investigations réalistes
+  const generateMockInvestigations = () => {
+    const investigations = [];
+    const types = ['email', 'phone', 'username', 'domain', 'ip'];
+    const statuses = ['completed', 'running', 'pending', 'failed'];
+    
+    for (let i = 0; i < 8; i++) {
+      const type = types[Math.floor(Math.random() * types.length)];
+      const status = statuses[Math.floor(Math.random() * statuses.length)];
+      
+      let target;
+      switch (type) {
+        case 'email':
+          target = MockDataGenerator.generateRealisticEmail();
+          break;
+        case 'phone':
+          target = MockDataGenerator.generatePhoneNumber();
+          break;
+        case 'username':
+          target = MockDataGenerator.generateUsername();
+          break;
+        case 'domain':
+          target = MockDataGenerator.generateDomain();
+          break;
+        case 'ip':
+          target = MockDataGenerator.generateIP();
+          break;
+        default:
+          target = 'unknown';
+      }
+      
+      investigations.push({
+        id: `INV-2024-${String(i + 1).padStart(3, '0')}`,
+        target,
+        type,
+        status,
+        progress: status === 'completed' ? 100 : Math.floor(Math.random() * 90) + 10,
+        created_at: new Date(Date.now() - Math.random() * 86400000 * 7).toISOString(),
+        risk_score: Math.floor(Math.random() * 100),
+        duration: Math.floor(Math.random() * 300) + 30,
+        tools_used: Object.keys(mockOsintTools[Object.keys(mockOsintTools)[Math.floor(Math.random() * Object.keys(mockOsintTools).length)]]).slice(0, Math.floor(Math.random() * 3) + 1)
+      });
     }
-  ];
-
-  const mockTools = {
-    email: {
-      holehe: { name: 'Holehe', status: 'active', description: 'Vérification comptes sociaux' },
-      breach_check: { name: 'Breach Check', status: 'active', description: 'Vérification fuites de données' }
-    },
-    phone: {
-      phoneinfoga: { name: 'PhoneInfoga', status: 'active', description: 'Analyse numéros téléphone' },
-      truecaller: { name: 'TrueCaller API', status: 'active', description: 'Identification appelant' }
-    },
-    social: {
-      sherlock: { name: 'Sherlock', status: 'active', description: 'Recherche username' },
-      social_analyzer: { name: 'Social Analyzer', status: 'active', description: 'Analyse profils sociaux' }
-    },
-    network: {
-      whois: { name: 'WHOIS', status: 'active', description: 'Informations domaine' },
-      nmap: { name: 'Nmap', status: 'active', description: 'Scan réseau' },
-      subfinder: { name: 'Subfinder', status: 'active', description: 'Découverte sous-domaines' }
-    }
+    
+    return investigations;
   };
 
   useEffect(() => {
-    setInvestigations(mockInvestigations);
-    setTools(mockTools);
+    // 🎯 Initialisation avec algorithmes avancés
+    setInvestigations(generateMockInvestigations());
+    setTools(mockOsintTools);
     setIsConnected(true);
     
-    // Messages de chat factices
-    setChatMessages([
-      { id: 1, sender: 'assistant', content: '👋 Bonjour! Je suis AURA IA, votre assistant OSINT.' },
-      { id: 2, sender: 'user', content: 'Peux-tu analyser cette adresse email?' },
-      { id: 3, sender: 'assistant', content: '🔍 Bien sûr! Je vais utiliser Holehe et Breach Check pour analyser cette adresse email.' }
-    ]);
+    // 🤖 Messages IA dynamiques
+    const generateChatMessages = () => {
+      const messages = [
+        { id: 1, sender: 'assistant', content: mockAIResponses.greetings[Math.floor(Math.random() * mockAIResponses.greetings.length)] },
+        { id: 2, sender: 'user', content: 'Peux-tu analyser cette adresse email: ' + MockDataGenerator.generateRealisticEmail() + '?' },
+        { id: 3, sender: 'assistant', content: mockAIResponses.tool_suggestions.email },
+        { id: 4, sender: 'user', content: 'Et ce numéro de téléphone: ' + MockDataGenerator.generatePhoneNumber() + '?' },
+        { id: 5, sender: 'assistant', content: mockAIResponses.tool_suggestions.phone }
+      ];
+      return messages;
+    };
+    
+    setChatMessages(generateChatMessages());
+    
+    // 🔄 Mise à jour temps réel des données
+    const interval = setInterval(() => {
+      const liveData = generateLiveData();
+      // Simuler des mises à jour en temps réel
+      if (Math.random() > 0.7) {
+        setInvestigations(prev => {
+          const updated = [...prev];
+          const randomIndex = Math.floor(Math.random() * updated.length);
+          if (updated[randomIndex] && updated[randomIndex].status === 'running') {
+            updated[randomIndex].progress = Math.min(100, updated[randomIndex].progress + Math.floor(Math.random() * 10) + 1);
+            if (updated[randomIndex].progress === 100) {
+              updated[randomIndex].status = 'completed';
+            }
+          }
+          return updated;
+        });
+      }
+    }, 3000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   const renderDashboard = () => (

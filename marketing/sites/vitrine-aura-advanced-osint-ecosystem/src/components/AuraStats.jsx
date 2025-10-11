@@ -1,219 +1,509 @@
 import React, { useState, useEffect } from 'react';
-import './AuraStats.css';
+import { Line, Bar, Doughnut } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import Swal from 'sweetalert2';
+import { mockMetrics, generateLiveData } from '../data/mockData';
+
+// Enregistrer les composants Chart.js
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const AuraStats = () => {
-  const [stats, setStats] = useState({
-    totalInvestigations: 0,
-    activeTools: 0,
-    successRate: 0,
-    avgResponseTime: 0
-  });
+  const [liveData, setLiveData] = useState(generateLiveData());
+  const [selectedMetric, setSelectedMetric] = useState('investigations');
 
-  const [realTimeData, setRealTimeData] = useState([]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLiveData(generateLiveData());
+    }, 2000);
 
-  // Données factices basées sur les métriques AURA
-  const mockMetrics = {
-    investigations: {
-      total: 15847,
-      today: 234,
-      thisWeek: 1653,
-      thisMonth: 6789
+    return () => clearInterval(interval);
+  }, []);
+
+  // Configuration des graphiques avec thème AURA
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: {
+          color: '#FFD700',
+          font: { size: 12 }
+        }
+      },
+      title: {
+        display: true,
+        color: '#FFD700',
+        font: { size: 14, weight: 'bold' }
+      }
     },
-    tools: {
-      email: 8,
-      phone: 5,
-      social: 12,
-      network: 15,
-      darknet: 6,
-      breach: 4
-    },
-    performance: {
-      successRate: 98.7,
-      avgResponseTime: 2.3,
-      uptime: 99.9,
-      accuracy: 96.4
-    },
-    realTimeActivity: [
-      { time: '14:30:15', action: 'Email investigation completed', target: 'user@example.com', status: 'success' },
-      { time: '14:29:42', action: 'Phone lookup started', target: '+33612345678', status: 'running' },
-      { time: '14:28:33', action: 'Social media scan finished', target: '@username123', status: 'success' },
-      { time: '14:27:18', action: 'Domain WHOIS completed', target: 'suspicious-site.com', status: 'success' },
-      { time: '14:26:05', action: 'Breach check initiated', target: 'test@company.com', status: 'running' }
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { color: '#B8C1EC' },
+        grid: { color: 'rgba(255, 215, 0, 0.1)' }
+      },
+      x: {
+        ticks: { color: '#B8C1EC' },
+        grid: { color: 'rgba(255, 215, 0, 0.1)' }
+      }
+    }
+  };
+
+  // Données pour graphique des investigations
+  const investigationsData = {
+    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+    datasets: [
+      {
+        label: 'Investigations',
+        data: [65, 89, 123, 156, 178, 134, 167],
+        borderColor: '#FFD700',
+        backgroundColor: 'rgba(255, 215, 0, 0.1)',
+        tension: 0.4
+      },
+      {
+        label: 'Succès',
+        data: [62, 85, 118, 149, 171, 128, 159],
+        borderColor: '#10B981',
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        tension: 0.4
+      }
     ]
   };
 
-  useEffect(() => {
-    // Animation des statistiques
-    const animateStats = () => {
-      const duration = 2000;
-      const steps = 60;
-      const stepDuration = duration / steps;
+  // Données pour graphique des outils
+  const toolsUsageData = {
+    labels: ['Sherlock', 'Holehe', 'WHOIS', 'Nmap', 'PhoneInfoga'],
+    datasets: [
+      {
+        label: 'Utilisations',
+        data: [2134, 1247, 3421, 1876, 756],
+        backgroundColor: [
+          'rgba(255, 215, 0, 0.8)',
+          'rgba(255, 140, 0, 0.8)',
+          'rgba(67, 97, 238, 0.8)',
+          'rgba(16, 185, 129, 0.8)',
+          'rgba(239, 68, 68, 0.8)'
+        ],
+        borderColor: [
+          '#FFD700',
+          '#FF8C00',
+          '#4361EE',
+          '#10B981',
+          '#EF4444'
+        ],
+        borderWidth: 2
+      }
+    ]
+  };
 
-      let currentStep = 0;
-      const interval = setInterval(() => {
-        const progress = currentStep / steps;
-        const easeOut = 1 - Math.pow(1 - progress, 3);
+  // Données pour graphique de performance système
+  const systemPerformanceData = {
+    labels: ['CPU', 'Mémoire', 'Réseau', 'Stockage'],
+    datasets: [
+      {
+        data: [
+          liveData.system_load.cpu,
+          liveData.system_load.memory,
+          liveData.system_load.network,
+          Math.floor(Math.random() * 30) + 10
+        ],
+        backgroundColor: [
+          'rgba(255, 215, 0, 0.8)',
+          'rgba(255, 140, 0, 0.8)',
+          'rgba(67, 97, 238, 0.8)',
+          'rgba(16, 185, 129, 0.8)'
+        ],
+        borderColor: [
+          '#FFD700',
+          '#FF8C00',
+          '#4361EE',
+          '#10B981'
+        ],
+        borderWidth: 2
+      }
+    ]
+  };
 
-        setStats({
-          totalInvestigations: Math.floor(mockMetrics.investigations.total * easeOut),
-          activeTools: Math.floor(Object.values(mockMetrics.tools).reduce((a, b) => a + b, 0) * easeOut),
-          successRate: Math.floor(mockMetrics.performance.successRate * easeOut * 10) / 10,
-          avgResponseTime: Math.floor(mockMetrics.performance.avgResponseTime * easeOut * 10) / 10
-        });
+  const showDetailedStats = async () => {
+    const result = await Swal.fire({
+      title: '📊 Statistiques Détaillées AURA OSINT',
+      html: `
+        <div style="text-align: left; color: #333;">
+          <h4>🎯 Performance Globale</h4>
+          <p><strong>Uptime:</strong> ${mockMetrics.performance.uptime.toFixed(2)}%</p>
+          <p><strong>Temps de réponse:</strong> ${mockMetrics.performance.response_time.toFixed(1)}s</p>
+          <p><strong>Investigations actives:</strong> ${liveData.active_investigations}</p>
+          
+          <h4>🤖 IA Qwen Engine</h4>
+          <p><strong>Statut:</strong> ${mockMetrics.ai_engine.qwen_status}</p>
+          <p><strong>Précision:</strong> ${mockMetrics.ai_engine.model_accuracy.toFixed(1)}%</p>
+          <p><strong>Requêtes traitées:</strong> ${mockMetrics.ai_engine.queries_processed.toLocaleString()}</p>
+          
+          <h4>📈 Tendances</h4>
+          <p><strong>Croissance mensuelle:</strong> +${mockMetrics.monthly.growth_rate}%</p>
+          <p><strong>Nouveaux utilisateurs:</strong> ${mockMetrics.monthly.new_users}</p>
+          <p><strong>Outil le plus utilisé:</strong> ${mockMetrics.weekly.most_used_tool}</p>
+        </div>
+      `,
+      icon: 'info',
+      confirmButtonText: 'Fermer',
+      confirmButtonColor: '#FFD700',
+      background: '#1a1f3a',
+      color: '#ffffff',
+      width: 600
+    });
+  };
 
-        currentStep++;
-        if (currentStep > steps) {
-          clearInterval(interval);
-        }
-      }, stepDuration);
-    };
+  const exportStats = async () => {
+    const { value: format } = await Swal.fire({
+      title: '📤 Exporter les Statistiques',
+      input: 'select',
+      inputOptions: {
+        'json': 'Format JSON',
+        'csv': 'Format CSV',
+        'pdf': 'Format PDF'
+      },
+      inputPlaceholder: 'Choisir le format',
+      showCancelButton: true,
+      confirmButtonText: 'Exporter',
+      cancelButtonText: 'Annuler',
+      confirmButtonColor: '#FFD700',
+      background: '#1a1f3a',
+      color: '#ffffff'
+    });
 
-    animateStats();
-    setRealTimeData(mockMetrics.realTimeActivity);
-
-    // Simulation de nouvelles activités
-    const activityInterval = setInterval(() => {
-      const newActivity = {
-        time: new Date().toLocaleTimeString(),
-        action: 'New investigation started',
-        target: `target-${Math.random().toString(36).substr(2, 9)}`,
-        status: Math.random() > 0.5 ? 'success' : 'running'
-      };
-
-      setRealTimeData(prev => [newActivity, ...prev.slice(0, 4)]);
-    }, 5000);
-
-    return () => clearInterval(activityInterval);
-  }, []);
+    if (format) {
+      Swal.fire({
+        title: '✅ Export Réussi!',
+        text: `Statistiques exportées en format ${format.toUpperCase()}`,
+        icon: 'success',
+        confirmButtonColor: '#FFD700',
+        background: '#1a1f3a',
+        color: '#ffffff'
+      });
+    }
+  };
 
   return (
     <div className="aura-stats">
       <div className="stats-header">
-        <h2>📊 AURA OSINT - Statistiques en Temps Réel</h2>
-        <div className="live-indicator">
-          <span className="pulse"></span>
-          LIVE
+        <h2>📊 Statistiques Temps Réel AURA OSINT</h2>
+        <div className="stats-actions">
+          <button onClick={showDetailedStats} className="stats-btn">
+            📋 Détails
+          </button>
+          <button onClick={exportStats} className="stats-btn">
+            📤 Exporter
+          </button>
         </div>
       </div>
 
-      {/* Métriques principales */}
-      <div className="main-metrics">
-        <div className="metric-card investigations">
-          <div className="metric-icon">🔍</div>
-          <div className="metric-content">
-            <div className="metric-number">{stats.totalInvestigations.toLocaleString()}</div>
-            <div className="metric-label">Investigations Totales</div>
-            <div className="metric-change">+{mockMetrics.investigations.today} aujourd'hui</div>
+      {/* Métriques en temps réel */}
+      <div className="live-metrics">
+        <div className="metric-card live">
+          <div className="metric-icon">🔄</div>
+          <div className="metric-info">
+            <h3>Investigations Actives</h3>
+            <div className="metric-value">{liveData.active_investigations}</div>
+            <div className="metric-trend">En temps réel</div>
           </div>
         </div>
 
-        <div className="metric-card tools">
-          <div className="metric-icon">🛠️</div>
-          <div className="metric-content">
-            <div className="metric-number">{stats.activeTools}</div>
-            <div className="metric-label">Outils Actifs</div>
-            <div className="metric-change">100% opérationnels</div>
-          </div>
-        </div>
-
-        <div className="metric-card success">
-          <div className="metric-icon">✅</div>
-          <div className="metric-content">
-            <div className="metric-number">{stats.successRate}%</div>
-            <div className="metric-label">Taux de Succès</div>
-            <div className="metric-change">+0.3% ce mois</div>
-          </div>
-        </div>
-
-        <div className="metric-card performance">
+        <div className="metric-card live">
           <div className="metric-icon">⚡</div>
-          <div className="metric-content">
-            <div className="metric-number">{stats.avgResponseTime}s</div>
-            <div className="metric-label">Temps Moyen</div>
-            <div className="metric-change">-0.5s optimisé</div>
+          <div className="metric-info">
+            <h3>Charge CPU</h3>
+            <div className="metric-value">{liveData.system_load.cpu}%</div>
+            <div className="metric-trend">Système</div>
+          </div>
+        </div>
+
+        <div className="metric-card live">
+          <div className="metric-icon">🧠</div>
+          <div className="metric-info">
+            <h3>Mémoire</h3>
+            <div className="metric-value">{liveData.system_load.memory}%</div>
+            <div className="metric-trend">Utilisée</div>
+          </div>
+        </div>
+
+        <div className="metric-card live">
+          <div className="metric-icon">🌐</div>
+          <div className="metric-info">
+            <h3>Réseau</h3>
+            <div className="metric-value">{liveData.system_load.network} MB/s</div>
+            <div className="metric-trend">Débit</div>
           </div>
         </div>
       </div>
 
-      {/* Répartition des outils */}
-      <div className="tools-breakdown">
-        <h3>🔧 Répartition des Outils par Catégorie</h3>
-        <div className="tools-grid">
-          {Object.entries(mockMetrics.tools).map(([category, count]) => (
-            <div key={category} className="tool-category-stat">
-              <div className="category-name">{category.toUpperCase()}</div>
-              <div className="category-count">{count}</div>
-              <div className="category-bar">
-                <div 
-                  className="category-fill" 
-                  style={{width: `${(count / 15) * 100}%`}}
-                ></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Activité en temps réel */}
-      <div className="real-time-activity">
-        <h3>🔴 Activité en Temps Réel</h3>
-        <div className="activity-feed">
-          {realTimeData.map((activity, index) => (
-            <div key={index} className={`activity-item ${activity.status}`}>
-              <div className="activity-time">{activity.time}</div>
-              <div className="activity-content">
-                <div className="activity-action">{activity.action}</div>
-                <div className="activity-target">{activity.target}</div>
-              </div>
-              <div className={`activity-status ${activity.status}`}>
-                {activity.status === 'success' ? '✅' : '🔄'}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Graphique de performance */}
-      <div className="performance-chart">
-        <h3>📈 Performance des 7 Derniers Jours</h3>
+      {/* Graphiques */}
+      <div className="charts-grid">
         <div className="chart-container">
-          <div className="chart-bars">
-            {[85, 92, 88, 95, 91, 97, 98].map((value, index) => (
-              <div key={index} className="chart-bar">
-                <div 
-                  className="bar-fill" 
-                  style={{height: `${value}%`}}
-                ></div>
-                <div className="bar-label">J-{6-index}</div>
-                <div className="bar-value">{value}%</div>
-              </div>
-            ))}
+          <h3>📈 Investigations par Jour</h3>
+          <Line data={investigationsData} options={{
+            ...chartOptions,
+            plugins: {
+              ...chartOptions.plugins,
+              title: { ...chartOptions.plugins.title, text: 'Évolution des Investigations' }
+            }
+          }} />
+        </div>
+
+        <div className="chart-container">
+          <h3>🛠️ Utilisation des Outils OSINT</h3>
+          <Bar data={toolsUsageData} options={{
+            ...chartOptions,
+            plugins: {
+              ...chartOptions.plugins,
+              title: { ...chartOptions.plugins.title, text: 'Top 5 Outils les Plus Utilisés' }
+            }
+          }} />
+        </div>
+
+        <div className="chart-container">
+          <h3>⚙️ Performance Système</h3>
+          <Doughnut data={systemPerformanceData} options={{
+            ...chartOptions,
+            plugins: {
+              ...chartOptions.plugins,
+              title: { ...chartOptions.plugins.title, text: 'Utilisation des Ressources' }
+            }
+          }} />
+        </div>
+      </div>
+
+      {/* Alertes système */}
+      <div className="system-alerts">
+        <h3>🚨 Alertes Système</h3>
+        <div className="alerts-list">
+          <div className="alert success">
+            <span className="alert-icon">✅</span>
+            <span className="alert-message">Tous les services OSINT opérationnels</span>
+            <span className="alert-time">Il y a 2 min</span>
+          </div>
+          <div className="alert warning">
+            <span className="alert-icon">⚠️</span>
+            <span className="alert-message">Charge CPU élevée détectée sur Sherlock</span>
+            <span className="alert-time">Il y a 15 min</span>
+          </div>
+          <div className="alert info">
+            <span className="alert-icon">ℹ️</span>
+            <span className="alert-message">Mise à jour IA Qwen disponible</span>
+            <span className="alert-time">Il y a 1h</span>
           </div>
         </div>
       </div>
 
-      {/* Métriques système */}
-      <div className="system-metrics">
-        <h3>⚙️ Métriques Système</h3>
-        <div className="system-grid">
-          <div className="system-metric">
-            <span className="system-label">Uptime</span>
-            <span className="system-value">{mockMetrics.performance.uptime}%</span>
-          </div>
-          <div className="system-metric">
-            <span className="system-label">Précision</span>
-            <span className="system-value">{mockMetrics.performance.accuracy}%</span>
-          </div>
-          <div className="system-metric">
-            <span className="system-label">Requêtes/min</span>
-            <span className="system-value">847</span>
-          </div>
-          <div className="system-metric">
-            <span className="system-label">Latence</span>
-            <span className="system-value">12ms</span>
-          </div>
-        </div>
-      </div>
+      <style jsx>{`
+        .aura-stats {
+          padding: 2rem;
+          background: linear-gradient(135deg, #0a0e27, #1a1f3a);
+          color: #ffffff;
+          min-height: 100vh;
+        }
+
+        .stats-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 2rem;
+          padding-bottom: 1rem;
+          border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .stats-header h2 {
+          color: #FFD700;
+          margin: 0;
+        }
+
+        .stats-actions {
+          display: flex;
+          gap: 1rem;
+        }
+
+        .stats-btn {
+          background: linear-gradient(45deg, #FFD700, #FF8C00);
+          color: #0a0e27;
+          border: none;
+          padding: 0.5rem 1rem;
+          border-radius: 0.5rem;
+          cursor: pointer;
+          font-weight: 600;
+          transition: transform 0.2s;
+        }
+
+        .stats-btn:hover {
+          transform: translateY(-2px);
+        }
+
+        .live-metrics {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1rem;
+          margin-bottom: 2rem;
+        }
+
+        .metric-card {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 215, 0, 0.3);
+          border-radius: 1rem;
+          padding: 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          transition: all 0.3s;
+        }
+
+        .metric-card.live {
+          animation: pulse 2s infinite;
+        }
+
+        .metric-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .metric-icon {
+          font-size: 2rem;
+          width: 60px;
+          height: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #FFD700, #FF8C00);
+          border-radius: 50%;
+        }
+
+        .metric-info h3 {
+          margin: 0 0 0.5rem 0;
+          color: #B8C1EC;
+          font-size: 0.9rem;
+        }
+
+        .metric-value {
+          font-size: 1.8rem;
+          font-weight: 800;
+          color: #FFD700;
+          font-family: 'JetBrains Mono', monospace;
+        }
+
+        .metric-trend {
+          font-size: 0.8rem;
+          color: #8892B0;
+        }
+
+        .charts-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+          gap: 2rem;
+          margin-bottom: 2rem;
+        }
+
+        .chart-container {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 215, 0, 0.2);
+          border-radius: 1rem;
+          padding: 1.5rem;
+        }
+
+        .chart-container h3 {
+          color: #FFD700;
+          margin-bottom: 1rem;
+        }
+
+        .system-alerts {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 215, 0, 0.2);
+          border-radius: 1rem;
+          padding: 1.5rem;
+        }
+
+        .system-alerts h3 {
+          color: #FFD700;
+          margin-bottom: 1rem;
+        }
+
+        .alerts-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .alert {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          padding: 0.75rem;
+          border-radius: 0.5rem;
+          border-left: 4px solid;
+        }
+
+        .alert.success {
+          background: rgba(16, 185, 129, 0.1);
+          border-color: #10B981;
+        }
+
+        .alert.warning {
+          background: rgba(245, 158, 11, 0.1);
+          border-color: #F59E0B;
+        }
+
+        .alert.info {
+          background: rgba(59, 130, 246, 0.1);
+          border-color: #3B82F6;
+        }
+
+        .alert-message {
+          flex: 1;
+        }
+
+        .alert-time {
+          font-size: 0.8rem;
+          color: #8892B0;
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.8; }
+        }
+
+        @media (max-width: 768px) {
+          .aura-stats {
+            padding: 1rem;
+          }
+
+          .stats-header {
+            flex-direction: column;
+            gap: 1rem;
+          }
+
+          .charts-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </div>
   );
 };
