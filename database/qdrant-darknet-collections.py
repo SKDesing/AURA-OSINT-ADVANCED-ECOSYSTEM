@@ -1,183 +1,436 @@
 #!/usr/bin/env python3
 """
-Qdrant Collections Setup for Darknet Intelligence
-Creates vector collections for darknet OSINT data
+Qdrant Collections Setup for Darknet OSINT
+Creates vector collections for all OSINT intelligence types
 """
 
+import sys
+import os
+from typing import List, Dict, Any
 from qdrant_client import QdrantClient
-from qdrant_client.models import VectorParams, Distance, OptimizersConfigDiff, HnswConfigDiff
+from qdrant_client.models import (
+    VectorParams, 
+    Distance, 
+    CollectionStatus,
+    OptimizersConfigDiff,
+    HnswConfigDiff,
+    ScalarQuantization,
+    ScalarQuantizationConfig,
+    ScalarType
+)
 
-def setup_darknet_collections():
-    """Setup Qdrant collections for darknet intelligence"""
-    
-    # Connect to Qdrant
-    client = QdrantClient(host="localhost", port=6333)
-    
-    collections = [
-        {
-            "name": "darknet_intel",
-            "description": "Darknet sites content and intelligence",
-            "size": 768,
-            "distance": Distance.COSINE
-        },
-        {
-            "name": "crypto_intel", 
-            "description": "Cryptocurrency transactions and addresses",
-            "size": 768,
-            "distance": Distance.COSINE
-        },
-        {
-            "name": "breach_intel",
-            "description": "Data breach information and leaked data",
-            "size": 768,
-            "distance": Distance.COSINE
-        },
-        {
-            "name": "tor_content",
-            "description": "Tor hidden service content analysis",
-            "size": 768,
-            "distance": Distance.COSINE
-        },
-        {
-            "name": "criminal_entities",
-            "description": "Criminal entities and network analysis",
-            "size": 768,
-            "distance": Distance.COSINE
-        }
-    ]
-    
-    for collection in collections:
-        try:
-            # Check if collection exists
-            existing_collections = [c.name for c in client.get_collections().collections]
-            
-            if collection["name"] in existing_collections:
-                print(f"✅ Collection '{collection['name']}' already exists")
-                continue
-            
-            # Create collection
-            client.create_collection(
-                collection_name=collection["name"],
-                vectors_config=VectorParams(
-                    size=collection["size"], 
-                    distance=collection["distance"]
-                ),
-                optimizers_config=OptimizersConfigDiff(
-                    memmap_threshold=20000,
-                    indexing_threshold=20000
-                ),
-                hnsw_config=HnswConfigDiff(
-                    m=16,
-                    ef_construct=100,
-                    full_scan_threshold=10000,
-                    max_indexing_threads=4
-                )
-            )
-            
-            print(f"✅ Created collection: {collection['name']}")
-            print(f"   Description: {collection['description']}")
-            print(f"   Vector size: {collection['size']}")
-            print(f"   Distance: {collection['distance']}")
-            print()
-            
-        except Exception as e:
-            print(f"❌ Error creating collection {collection['name']}: {e}")
-    
-    # Verify collections
-    print("\n📊 Collection Summary:")
-    collections_info = client.get_collections()
-    for collection in collections_info.collections:
-        if collection.name.endswith('_intel') or collection.name in ['tor_content', 'criminal_entities']:
-            info = client.get_collection(collection.name)
-            print(f"   {collection.name}: {info.vectors_count} vectors")
+# Configuration
+QDRANT_HOST = os.getenv("QDRANT_HOST", "localhost")
+QDRANT_PORT = int(os.getenv("QDRANT_PORT", "6333"))
+VECTOR_SIZE = 768  # Sentence Transformers dimension
+DISTANCE_METRIC = Distance.COSINE
 
-def create_sample_data():
-    """Create sample data for testing"""
-    
-    client = QdrantClient(host="localhost", port=6333)
-    
-    # Sample darknet intelligence
-    darknet_samples = [
-        {
-            "id": 1,
-            "vector": [0.1] * 768,  # Mock embedding
-            "payload": {
-                "onion_url": "http://3g2upl4pq6kufc4m.onion",
-                "site_type": "search_engine",
-                "risk_level": "low",
-                "content": "DuckDuckGo Tor search engine",
-                "services": ["http", "https"],
-                "timestamp": "2024-01-15T10:30:00Z"
-            }
-        },
-        {
-            "id": 2,
-            "vector": [0.2] * 768,
-            "payload": {
-                "onion_url": "http://darkmarket123456.onion",
-                "site_type": "marketplace",
-                "risk_level": "critical",
-                "content": "Dark marketplace for illegal goods",
-                "services": ["http", "bitcoin", "escrow"],
-                "timestamp": "2024-01-15T11:00:00Z"
-            }
+# Collection configurations
+COLLECTIONS_CONFIG = {
+    "email_intelligence": {
+        "description": "Email OSINT embeddings (holehe, h8mail)",
+        "vector_size": VECTOR_SIZE,
+        "distance": DISTANCE_METRIC,
+        "payload_schema": {
+            "email": "keyword",
+            "investigation_id": "keyword", 
+            "tool_name": "keyword",
+            "sites_found": "keyword",
+            "breach_count": "integer",
+            "risk_level": "keyword",
+            "created_at": "datetime"
         }
-    ]
+    },
     
-    # Sample crypto intelligence
-    crypto_samples = [
-        {
-            "id": 1,
-            "vector": [0.3] * 768,
-            "payload": {
-                "address": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
-                "blockchain": "bitcoin",
-                "risk_score": 25,
-                "cluster_type": "exchange",
-                "total_value": 1.5,
-                "transaction_count": 47
-            }
+    "social_profiles": {
+        "description": "Social media profiles embeddings (twitter, instagram)",
+        "vector_size": VECTOR_SIZE,
+        "distance": DISTANCE_METRIC,
+        "payload_schema": {
+            "platform": "keyword",
+            "username": "keyword",
+            "investigation_id": "keyword",
+            "display_name": "text",
+            "bio": "text",
+            "followers_count": "integer",
+            "bot_probability": "float",
+            "sentiment_score": "float",
+            "created_at": "datetime"
         }
-    ]
+    },
     
-    # Sample breach intelligence
-    breach_samples = [
-        {
-            "id": 1,
-            "vector": [0.4] * 768,
-            "payload": {
-                "email": "test@example.com",
-                "breach_name": "LinkedIn",
-                "breach_date": "2012-06-05",
-                "records_affected": 164000000,
-                "data_classes": ["Email addresses", "Passwords"],
-                "risk_level": "high"
-            }
+    "network_intelligence": {
+        "description": "Network and IP intelligence embeddings (shodan, ip_intelligence)",
+        "vector_size": VECTOR_SIZE,
+        "distance": DISTANCE_METRIC,
+        "payload_schema": {
+            "ip_address": "keyword",
+            "investigation_id": "keyword",
+            "asn": "integer",
+            "country_code": "keyword",
+            "threat_level": "keyword",
+            "ports_open": "integer",
+            "services": "text",
+            "created_at": "datetime"
         }
-    ]
+    },
     
+    "darknet_findings": {
+        "description": "Darknet OSINT embeddings (onionscan, torbot)",
+        "vector_size": VECTOR_SIZE,
+        "distance": DISTANCE_METRIC,
+        "payload_schema": {
+            "onion_url": "keyword",
+            "investigation_id": "keyword",
+            "site_type": "keyword",
+            "risk_level": "keyword",
+            "services_detected": "text",
+            "content_classification": "text",
+            "vulnerabilities": "text",
+            "created_at": "datetime"
+        }
+    },
+    
+    "crypto_intelligence": {
+        "description": "Cryptocurrency intelligence embeddings (blockchain analysis)",
+        "vector_size": VECTOR_SIZE,
+        "distance": DISTANCE_METRIC,
+        "payload_schema": {
+            "blockchain": "keyword",
+            "address": "keyword",
+            "investigation_id": "keyword",
+            "total_received": "float",
+            "balance": "float",
+            "risk_score": "integer",
+            "cluster_id": "keyword",
+            "aml_flags": "text",
+            "created_at": "datetime"
+        }
+    },
+    
+    "phone_intelligence": {
+        "description": "Phone number intelligence embeddings (phonenumbers)",
+        "vector_size": VECTOR_SIZE,
+        "distance": DISTANCE_METRIC,
+        "payload_schema": {
+            "phone_number": "keyword",
+            "investigation_id": "keyword",
+            "country_code": "keyword",
+            "carrier": "keyword",
+            "is_valid": "bool",
+            "location_data": "text",
+            "osint_data": "text",
+            "created_at": "datetime"
+        }
+    },
+    
+    "domain_intelligence": {
+        "description": "Domain intelligence embeddings (whois, dns)",
+        "vector_size": VECTOR_SIZE,
+        "distance": DISTANCE_METRIC,
+        "payload_schema": {
+            "domain": "keyword",
+            "investigation_id": "keyword",
+            "registrar": "keyword",
+            "creation_date": "datetime",
+            "expiration_date": "datetime",
+            "dns_records": "text",
+            "historical_data": "text",
+            "created_at": "datetime"
+        }
+    },
+    
+    "image_intelligence": {
+        "description": "Image intelligence embeddings (face_recognition, reverse search)",
+        "vector_size": VECTOR_SIZE,
+        "distance": DISTANCE_METRIC,
+        "payload_schema": {
+            "image_url": "keyword",
+            "investigation_id": "keyword",
+            "faces_detected": "text",
+            "metadata": "text",
+            "reverse_search_results": "text",
+            "created_at": "datetime"
+        }
+    }
+}
+
+def create_qdrant_client() -> QdrantClient:
+    """Create Qdrant client with error handling"""
     try:
-        # Insert sample data
-        client.upsert("darknet_intel", darknet_samples)
-        client.upsert("crypto_intel", crypto_samples)
-        client.upsert("breach_intel", breach_samples)
+        client = QdrantClient(host=QDRANT_HOST, port=QDRANT_PORT)
         
-        print("✅ Sample data inserted successfully")
+        # Test connection
+        collections = client.get_collections()
+        print(f"✅ Connected to Qdrant at {QDRANT_HOST}:{QDRANT_PORT}")
+        print(f"📊 Current collections: {len(collections.collections)}")
+        
+        return client
+    
+    except Exception as e:
+        print(f"❌ Failed to connect to Qdrant: {e}")
+        print(f"💡 Make sure Qdrant is running on {QDRANT_HOST}:{QDRANT_PORT}")
+        print("   Docker: docker run -p 6333:6333 qdrant/qdrant")
+        sys.exit(1)
+
+def collection_exists(client: QdrantClient, collection_name: str) -> bool:
+    """Check if collection exists"""
+    try:
+        collections = client.get_collections()
+        return any(coll.name == collection_name for coll in collections.collections)
+    except:
+        return False
+
+def create_collection(client: QdrantClient, name: str, config: Dict[str, Any]) -> bool:
+    """Create a single collection with optimized settings"""
+    try:
+        print(f"🔄 Creating collection: {name}")
+        
+        # Optimized HNSW configuration for OSINT workloads
+        hnsw_config = HnswConfigDiff(
+            m=16,                    # Number of bi-directional links for each node
+            ef_construct=200,        # Size of the dynamic candidate list
+            full_scan_threshold=10000,  # Threshold for full scan vs HNSW
+            max_indexing_threads=0   # Use all available threads
+        )
+        
+        # Optimizers configuration
+        optimizers_config = OptimizersConfigDiff(
+            deleted_threshold=0.2,      # Threshold for deleted vectors cleanup
+            vacuum_min_vector_number=1000,  # Minimum vectors before vacuum
+            default_segment_number=0,   # Auto-determine segment number
+            max_segment_size=None,      # No limit on segment size
+            memmap_threshold=None,      # Use default memmap threshold
+            indexing_threshold=20000,   # Start indexing after 20k vectors
+            flush_interval_sec=5,       # Flush every 5 seconds
+            max_optimization_threads=1  # Single optimization thread
+        )
+        
+        # Scalar quantization for memory efficiency
+        quantization_config = ScalarQuantization(
+            scalar=ScalarQuantizationConfig(
+                type=ScalarType.INT8,   # 8-bit quantization
+                quantile=0.99,          # Use 99th percentile for range
+                always_ram=True         # Keep quantized vectors in RAM
+            )
+        )
+        
+        # Create collection
+        client.create_collection(
+            collection_name=name,
+            vectors_config=VectorParams(
+                size=config["vector_size"],
+                distance=config["distance"]
+            ),
+            hnsw_config=hnsw_config,
+            optimizers_config=optimizers_config,
+            quantization_config=quantization_config
+        )
+        
+        print(f"✅ Collection '{name}' created successfully")
+        print(f"   📝 Description: {config['description']}")
+        print(f"   📏 Vector size: {config['vector_size']}")
+        print(f"   📐 Distance: {config['distance']}")
+        print(f"   🔧 HNSW: m={hnsw_config.m}, ef_construct={hnsw_config.ef_construct}")
+        print(f"   🗜️  Quantization: INT8 enabled")
+        
+        return True
         
     except Exception as e:
-        print(f"❌ Error inserting sample data: {e}")
+        print(f"❌ Failed to create collection '{name}': {e}")
+        return False
+
+def create_indexes(client: QdrantClient, collection_name: str, payload_schema: Dict[str, str]):
+    """Create payload indexes for efficient filtering"""
+    try:
+        print(f"🔍 Creating indexes for collection: {collection_name}")
+        
+        # Create indexes for key fields
+        key_fields = ["investigation_id", "created_at"]
+        
+        for field in key_fields:
+            if field in payload_schema:
+                try:
+                    client.create_payload_index(
+                        collection_name=collection_name,
+                        field_name=field,
+                        field_schema=payload_schema[field]
+                    )
+                    print(f"   ✅ Index created for field: {field}")
+                except Exception as e:
+                    print(f"   ⚠️  Index creation failed for {field}: {e}")
+        
+        # Create composite index for investigation_id + created_at
+        try:
+            client.create_payload_index(
+                collection_name=collection_name,
+                field_name="investigation_created",
+                field_schema="keyword"  # Will be populated as "investigation_id:created_at"
+            )
+            print(f"   ✅ Composite index created for investigation_created")
+        except Exception as e:
+            print(f"   ⚠️  Composite index creation failed: {e}")
+            
+    except Exception as e:
+        print(f"❌ Failed to create indexes for '{collection_name}': {e}")
+
+def verify_collection(client: QdrantClient, collection_name: str) -> bool:
+    """Verify collection was created correctly"""
+    try:
+        info = client.get_collection(collection_name)
+        
+        print(f"🔍 Verifying collection: {collection_name}")
+        print(f"   📊 Status: {info.status}")
+        print(f"   📏 Vector size: {info.config.params.vectors.size}")
+        print(f"   📐 Distance: {info.config.params.vectors.distance}")
+        print(f"   🔢 Points count: {info.points_count}")
+        print(f"   🗜️  Quantization: {'Enabled' if info.config.quantization_config else 'Disabled'}")
+        
+        return info.status == CollectionStatus.GREEN
+        
+    except Exception as e:
+        print(f"❌ Failed to verify collection '{collection_name}': {e}")
+        return False
+
+def setup_all_collections(recreate: bool = False) -> bool:
+    """Setup all OSINT collections"""
+    print("🚀 AURA OSINT - Qdrant Collections Setup")
+    print("=" * 50)
+    
+    # Connect to Qdrant
+    client = create_qdrant_client()
+    
+    success_count = 0
+    total_collections = len(COLLECTIONS_CONFIG)
+    
+    for collection_name, config in COLLECTIONS_CONFIG.items():
+        print(f"\n📦 Processing collection: {collection_name}")
+        
+        # Check if collection exists
+        if collection_exists(client, collection_name):
+            if recreate:
+                print(f"🗑️  Deleting existing collection: {collection_name}")
+                try:
+                    client.delete_collection(collection_name)
+                    print(f"✅ Collection '{collection_name}' deleted")
+                except Exception as e:
+                    print(f"❌ Failed to delete collection '{collection_name}': {e}")
+                    continue
+            else:
+                print(f"⚠️  Collection '{collection_name}' already exists (use --recreate to overwrite)")
+                if verify_collection(client, collection_name):
+                    success_count += 1
+                continue
+        
+        # Create collection
+        if create_collection(client, collection_name, config):
+            # Create indexes
+            create_indexes(client, collection_name, config["payload_schema"])
+            
+            # Verify creation
+            if verify_collection(client, collection_name):
+                success_count += 1
+            else:
+                print(f"❌ Collection '{collection_name}' verification failed")
+    
+    # Summary
+    print("\n" + "=" * 50)
+    print(f"📊 SETUP SUMMARY")
+    print(f"✅ Successful: {success_count}/{total_collections}")
+    print(f"❌ Failed: {total_collections - success_count}/{total_collections}")
+    
+    if success_count == total_collections:
+        print("🎉 All collections created successfully!")
+        print("\n💡 Next steps:")
+        print("   1. Start your OSINT tools")
+        print("   2. Generate embeddings with sentence-transformers")
+        print("   3. Insert vectors using the Qdrant client")
+        return True
+    else:
+        print("⚠️  Some collections failed to create")
+        return False
+
+def list_collections():
+    """List all existing collections"""
+    print("📋 QDRANT COLLECTIONS STATUS")
+    print("=" * 50)
+    
+    client = create_qdrant_client()
+    
+    try:
+        collections = client.get_collections()
+        
+        if not collections.collections:
+            print("📭 No collections found")
+            return
+        
+        for collection in collections.collections:
+            try:
+                info = client.get_collection(collection.name)
+                print(f"\n📦 {collection.name}")
+                print(f"   📊 Status: {info.status}")
+                print(f"   📏 Vector size: {info.config.params.vectors.size}")
+                print(f"   🔢 Points: {info.points_count}")
+                print(f"   💾 Disk usage: {info.config.params.vectors.size * info.points_count * 4 / 1024 / 1024:.2f} MB")
+                
+            except Exception as e:
+                print(f"   ❌ Error getting info: {e}")
+    
+    except Exception as e:
+        print(f"❌ Failed to list collections: {e}")
+
+def delete_all_collections():
+    """Delete all collections (use with caution!)"""
+    print("🗑️  DELETING ALL COLLECTIONS")
+    print("=" * 50)
+    
+    client = create_qdrant_client()
+    
+    try:
+        collections = client.get_collections()
+        
+        if not collections.collections:
+            print("📭 No collections to delete")
+            return
+        
+        for collection in collections.collections:
+            try:
+                client.delete_collection(collection.name)
+                print(f"✅ Deleted: {collection.name}")
+            except Exception as e:
+                print(f"❌ Failed to delete {collection.name}: {e}")
+    
+    except Exception as e:
+        print(f"❌ Failed to delete collections: {e}")
 
 if __name__ == "__main__":
-    print("🚀 Setting up Qdrant collections for Darknet Intelligence...")
-    print("=" * 60)
+    import argparse
     
-    setup_darknet_collections()
+    parser = argparse.ArgumentParser(description="AURA OSINT Qdrant Collections Setup")
+    parser.add_argument("--recreate", action="store_true", 
+                       help="Recreate existing collections")
+    parser.add_argument("--list", action="store_true", 
+                       help="List existing collections")
+    parser.add_argument("--delete-all", action="store_true", 
+                       help="Delete all collections (DANGEROUS!)")
+    parser.add_argument("--host", default="localhost", 
+                       help="Qdrant host (default: localhost)")
+    parser.add_argument("--port", type=int, default=6333, 
+                       help="Qdrant port (default: 6333)")
     
-    print("\n🔧 Creating sample data for testing...")
-    create_sample_data()
+    args = parser.parse_args()
     
-    print("\n✅ Darknet Qdrant setup completed!")
-    print("\nNext steps:")
-    print("1. Start Qdrant: docker-compose up qdrant")
-    print("2. Run this script: python3 qdrant-darknet-collections.py")
-    print("3. Verify in Qdrant dashboard: http://localhost:6333/dashboard")
+    # Update global config
+    QDRANT_HOST = args.host
+    QDRANT_PORT = args.port
+    
+    if args.list:
+        list_collections()
+    elif args.delete_all:
+        confirm = input("⚠️  Are you sure you want to delete ALL collections? (yes/no): ")
+        if confirm.lower() == "yes":
+            delete_all_collections()
+        else:
+            print("❌ Operation cancelled")
+    else:
+        setup_all_collections(recreate=args.recreate)

@@ -9,6 +9,11 @@ from tools.breach.h8mail import H8MailTool
 from tools.crypto.blockchain import BlockchainTool
 from tools.phone.phonenumbers import PhoneNumbersTool
 from tools.domain.whois import WhoisTool
+from tools.username.sherlock import SherlockTool
+from tools.username.maigret import MaigretTool
+from tools.domain.subfinder import SubfinderTool
+from tools.phone.phoneinfoga import PhoneInfogaTool
+from tools.image.exifread import ExifReadTool
 
 # Complete tool registry
 AVAILABLE_TOOLS = {
@@ -22,6 +27,11 @@ AVAILABLE_TOOLS = {
     'blockchain': BlockchainTool,
     'phonenumbers': PhoneNumbersTool,
     'whois': WhoisTool,
+    'sherlock': SherlockTool,
+    'maigret': MaigretTool,
+    'subfinder': SubfinderTool,
+    'phoneinfoga': PhoneInfogaTool,
+    'exifread': ExifReadTool,
 }
 
 # Tool configurations with darknet layer
@@ -85,5 +95,35 @@ TOOL_CONFIGS = {
         'priority': 1,
         'conditions': ['domain'],
         'description': 'Domain registration and DNS information'
+    },
+    'sherlock': {
+        'category': 'username',
+        'priority': 1,
+        'conditions': ['username'],
+        'description': 'Search username across 400+ social networks'
+    },
+    'maigret': {
+        'category': 'username',
+        'priority': 1,
+        'conditions': ['username'],
+        'description': 'Advanced username search on 2000+ sites'
+    },
+    'subfinder': {
+        'category': 'domain',
+        'priority': 1,
+        'conditions': ['domain'],
+        'description': 'Passive subdomain enumeration'
+    },
+    'phoneinfoga': {
+        'category': 'phone',
+        'priority': 1,
+        'conditions': ['phone'],
+        'description': 'Advanced phone number OSINT'
+    },
+    'exifread': {
+        'category': 'image',
+        'priority': 1,
+        'conditions': ['image_path'],
+        'description': 'Extract EXIF metadata from images'
     },
 }

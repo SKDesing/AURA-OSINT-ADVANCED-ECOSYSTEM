@@ -219,6 +219,10 @@ secrets/
 # Project Documentation - Keep Local
 DIRECTIVES.md
 
+# HTML Documentation - Keep Local
+*.HTML
+"AURA OSINT ADVANCED  ECOSYSTEM.HTML"
+
 # Temporary files
 temp/
 tmp/

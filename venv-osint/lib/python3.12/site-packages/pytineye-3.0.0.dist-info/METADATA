@@ -1,0 +1,87 @@
+Metadata-Version: 2.1
+Name: pytineye
+Version: 3.0.0
+Summary: Python client for the TinEye API.
+Home-page: https://api.tineye.com/
+Author: TinEye
+Author-email: support@tineye.com
+License: MIT License
+Project-URL: Documentation, https://api.tineye.com/python/docs/
+Project-URL: Source, https://github.com/TinEye/pytineye/
+Keywords: tineye,api,reverse image search
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: future (==0.18.2)
+Requires-Dist: urllib3 (==1.26.6)
+Requires-Dist: certifi (==2021.5.30)
+
+# pytineye
+
+**pytineye** is the official Python client library for the TinEye API. The TinEye API
+is TinEye's paid search alternative for professional, commercial or high-volume users.
+See <https://api.tineye.com/> for more information.
+
+# Contents
+
+- [ Installation ](#installation)
+- [ Migrating from previous versions ](#migrating-from-previous-versions)
+- [ Documentation ](#documentation)
+- [ Support ](#support)
+
+# Installation
+
+Install the latest version of the library using pip:
+
+```bash
+$ python -m pip install pytineye
+```
+
+# Migrating from previous versions
+
+If you were using any version of **pytineye** before `3.0.0`, you will need
+to make minor changes to your code.
+
+The API object is now instantiated using a single key, `api_key`. The value
+of this key is the same as your previous `private_key`. The public key is no 
+longer used.
+
+#### New ✅
+```python
+# Sandbox key
+# Note that this is the same value as the old private_key
+api_key = "6mm60lsCNIB,FwOWjJqA80QZHh9BMwc-ber4u=t^"
+api = TinEyeAPIRequest(
+    api_url="https://api.tineye.com/rest/",
+    api_key=api_key,
+)
+```
+
+#### Old ❌
+```python
+# Sandbox keys
+public_key = "LCkn,2K7osVwkX95K4Oy"
+private_key = "6mm60lsCNIB,FwOWjJqA80QZHh9BMwc-ber4u=t^"
+api = TinEyeAPIRequest(
+    api_url="https://api.tineye.com/rest/",
+    public_key=public_key,
+    private_key=private_key,
+)
+```
+
+# Documentation
+
+View [documentation](https://api.tineye.com/python/docs/).
+
+# Support
+
+Please send comments, recommendations, and bug reports to <support@tineye.com>.
+
+
