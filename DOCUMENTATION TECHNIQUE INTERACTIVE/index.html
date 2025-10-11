@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AURA OSINT – Advanced Ecosystem</title>
+  <meta name="description" content="AURA OSINT est un écosystème avancé d'intelligence open source intégrant IA, pipelines de collecte, corrélation multi-sources, sécurité et conformité RGPD.">
+  <meta name="keywords" content="OSINT, IA, Cyber Threat Intel, RGPD, Sécurité, Data Pipeline, Open Source Intelligence">
+  <meta name="theme-color" content="#5b6ef5">
+
+  <!-- Favicons -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%20viewBox='0 0 64 64'%3E%3Cpath fill='%235b6ef5' d='M8 32a24 24 0 1 1 48 0A24 24 0 0 1 8 32z'/%3E%3Ctext x='32' y='38' text-anchor='middle' font-size='20' fill='white' font-family='Arial'%3EA%3C/text%3E%3C/svg%3E">
+
+  <!-- CSS Libraries -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-gradient d-flex align-items-center gap-2" href="#home">
+        <i class="bi bi-cpu-fill"></i>
+        <span>AURA OSINT</span>
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="#ecosystem">Écosystème</a></li>
+          <li class="nav-item"><a class="nav-link" href="#tools">Outils</a></li>
+          <li class="nav-item"><a class="nav-link" href="#stats">Statistiques</a></li>
+          <li class="nav-item"><a class="nav-link" href="#architecture">Architecture</a></li>
+          <li class="nav-item">
+            <button class="btn theme-toggle ms-2" type="button">
+              <i class="bi bi-sun-fill"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="hero">
+    <div class="orbit"></div>
+    <div class="container text-center">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="hero-card glass p-5 shadow-2" data-aos="fade-up">
+            <h1 class="display-4 fw-bold mb-4">
+              <span class="text-gradient">AURA OSINT</span><br>
+              Advanced Ecosystem
+            </h1>
+            <p class="lead mb-4">
+              Plateforme OSINT de nouvelle génération avec <strong>17 outils opérationnels</strong>, 
+              architecture modulaire et intelligence artificielle intégrée.
+            </p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+              <a href="#tools" class="btn btn-gradient btn-rounded">
+                <i class="bi bi-tools me-2"></i>Découvrir les Outils
+              </a>
+              <a href="#stats" class="btn btn-outline-light btn-rounded">
+                <i class="bi bi-graph-up me-2"></i>Voir les Stats
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS SECTION -->
+  <section id="stats" class="section">
+    <div class="container">
+      <div class="row text-center mb-5">
+        <div class="col-lg-8 mx-auto">
+          <h2 class="display-5 fw-bold mb-3">Performance en Temps Réel</h2>
+          <p class="lead text-muted">Métriques de l'écosystème OSINT le plus avancé du marché</p>
+        </div>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="stats-card" data-aos="fade-up" data-aos-delay="100">
+            <i class="bi bi-tools text-primary fs-1 mb-3"></i>
+            <div class="stats-number" data-target="17" data-suffix="">0</div>
+            <p class="text-muted mb-0">Outils Opérationnels</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card" data-aos="fade-up" data-aos-delay="200">
+            <i class="bi bi-bullseye text-success fs-1 mb-3"></i>
+            <div class="stats-number" data-target="68" data-suffix="%">0%</div>
+            <p class="text-muted mb-0">Couverture Objectifs</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card" data-aos="fade-up" data-aos-delay="300">
+            <i class="bi bi-grid-3x3-gap text-warning fs-1 mb-3"></i>
+            <div class="stats-number" data-target="9" data-suffix="">0</div>
+            <p class="text-muted mb-0">Catégories OSINT</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card" data-aos="fade-up" data-aos-delay="400">
+            <i class="bi bi-lightning-charge text-danger fs-1 mb-3"></i>
+            <div class="stats-number" data-target="25" data-suffix="">0</div>
+            <p class="text-muted mb-0">Outils Cibles</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ECOSYSTEM SECTION -->
+  <section id="ecosystem" class="section bg-soft">
+    <div class="container">
+      <div class="row text-center mb-5">
+        <div class="col-lg-8 mx-auto">
+          <h2 class="display-5 fw-bold mb-3">Écosystème Complet</h2>
+          <p class="lead text-muted">Architecture modulaire et extensible pour l'intelligence gathering</p>
+        </div>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature" data-aos="fade-up">
+            <div class="text-center">
+              <i class="bi bi-person-badge text-primary fs-2"></i>
+            </div>
+            <div>
+              <h5>Username Intelligence</h5>
+              <p class="text-muted mb-0">Sherlock, Maigret - Recherche sur 2000+ sites</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature" data-aos="fade-up" data-aos-delay="100">
+            <div class="text-center">
+              <i class="bi bi-globe text-success fs-2"></i>
+            </div>
+            <div>
+              <h5>Domain Intelligence</h5>
+              <p class="text-muted mb-0">Subfinder, Whois - Énumération complète</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature" data-aos="fade-up" data-aos-delay="200">
+            <div class="text-center">
+              <i class="bi bi-diagram-3 text-warning fs-2"></i>
+            </div>
+            <div>
+              <h5>Network Intelligence</h5>
+              <p class="text-muted mb-0">Shodan, Nmap - Reconnaissance réseau</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature" data-aos="fade-up" data-aos-delay="300">
+            <div class="text-center">
+              <i class="bi bi-eye-slash text-danger fs-2"></i>
+            </div>
+            <div>
+              <h5>Darknet Intelligence</h5>
+              <p class="text-muted mb-0">OnionScan, TorBot - Dark web crawling</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature" data-aos="fade-up" data-aos-delay="400">
+            <div class="text-center">
+              <i class="bi bi-telephone text-info fs-2"></i>
+            </div>
+            <div>
+              <h5>Phone Intelligence</h5>
+              <p class="text-muted mb-0">PhoneInfoga - OSINT téléphonique avancé</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature" data-aos="fade-up" data-aos-delay="500">
+            <div class="text-center">
+              <i class="bi bi-currency-bitcoin text-secondary fs-2"></i>
+            </div>
+            <div>
+              <h5>Crypto Intelligence</h5>
+              <p class="text-muted mb-0">Blockchain analysis et tracking</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS SECTION -->
+  <section id="tools" class="section">
+    <div class="container">
+      <div class="row text-center mb-5">
+        <div class="col-lg-8 mx-auto">
+          <h2 class="display-5 fw-bold mb-3">Outils OSINT</h2>
+          <p class="lead text-muted">17 outils opérationnels sur 25 ciblés (68% de réussite)</p>
+        </div>
+      </div>
+      
+      <div id="tools-grid" class="tools-grid">
+        <!-- Les outils seront générés par JavaScript -->
+      </div>
+
+      <!-- DOCUMENTATION TECHNIQUE DÉTAILLÉE -->
+      <div class="mt-5">
+        <h3 class="text-center mb-4">📋 Documentation Technique Détaillée</h3>
+        
+        <!-- ========================================
+             📱 PHONE INTELLIGENCE (2/2 - 100%)
+             ======================================== -->
+        <section id="phone-intelligence" class="specialty-section">
+          <h2>📱 Phone Intelligence</h2>
+          <div class="completion-bar">
+            <div class="progress-fill" style="width: 100%">100% (2/2 outils)</div>
+          </div>
+
+          <!-- OUTIL 1: PhoneInfoga -->
+          <div class="tool-card operational">
+            <div class="tool-header">
+              <h3>📞 PhoneInfoga</h3>
+              <span class="status-badge success">✅ OPÉRATIONNEL</span>
+            </div>
+            
+            <div class="tool-description">
+              <p>Reconnaissance avancée de numéros de téléphone avec sources multiples (Google, Truecaller, etc.)</p>
+            </div>
+            
+            <div class="tool-specs">
+              <h4>🔧 Spécifications Techniques</h4>
+              <table class="specs-table">
+                <tr><th>Type</th><td>CLI Tool (Golang)</td></tr>
+                <tr><th>Version</th><td>v2.11.0</td></tr>
+                <tr><th>Repo GitHub</th><td><a href="https://github.com/sundowndev/phoneinfoga">sundowndev/phoneinfoga</a></td></tr>
+                <tr><th>Wrapper</th><td><code>backend/tools/phone/phoneinfoga.py</code></td></tr>
+                <tr><th>Temps d'exécution</th><td>~5-15 secondes</td></tr>
+              </table>
+            </div>
+            
+            <div class="tool-io">
+              <div class="input-section">
+                <h4>📥 INPUT (Données d'entrée)</h4>
+                <table class="io-table">
+                  <thead>
+                    <tr><th>Paramètre</th><th>Type</th><th>Requis</th><th>Format</th><th>Exemple</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>phone_number</code></td><td>String</td><td>✅ Oui</td><td>E.164 international</td><td>+33612345678</td></tr>
+                    <tr><td><code>country_code</code></td><td>String</td><td>❌ Non</td><td>ISO 3166-1 alpha-2</td><td>FR, US, GB</td></tr>
+                    <tr><td><code>scan_google</code></td><td>Boolean</td><td>❌ Non</td><td>true/false</td><td>true</td></tr>
+                  </tbody>
+                </table>
+                
+                <h5>📝 Exemple de requête API</h5>
+                <pre><code class="language-json">{
+  "tool": "phoneinfoga",
+  "target": "+33612345678",
+  "options": {
+    "scan_google": true,
+    "scan_ovh": true
+  }
+}</code></pre>
+              </div>
+              
+              <div class="output-section">
+                <h4>📤 OUTPUT (Données de sortie)</h4>
+                <table class="io-table">
+                  <thead>
+                    <tr><th>Champ</th><th>Type</th><th>Description</th><th>Exemple</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>valid</code></td><td>Boolean</td><td>Numéro valide ou non</td><td>true</td></tr>
+                    <tr><td><code>international_format</code></td><td>String</td><td>Format international E.164</td><td>+33 6 12 34 56 78</td></tr>
+                    <tr><td><code>country</code></td><td>String</td><td>Pays (code ISO)</td><td>FR</td></tr>
+                    <tr><td><code>carrier</code></td><td>String</td><td>Opérateur téléphonique</td><td>Orange France</td></tr>
+                    <tr><td><code>line_type</code></td><td>String</td><td>Type de ligne</td><td>mobile, fixe, voip</td></tr>
+                    <tr><td><code>location</code></td><td>String</td><td>Localisation géographique</td><td>Paris, Île-de-France</td></tr>
+                  </tbody>
+                </table>
+                
+                <h5>📝 Exemple de réponse JSON</h5>
+                <pre><code class="language-json">{
+  "success": true,
+  "tool": "phoneinfoga",
+  "target": "+33612345678",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "execution_time": 8.45,
+  "data": {
+    "valid": true,
+    "international_format": "+33 6 12 34 56 78",
+    "country": "FR",
+    "carrier": "Orange France",
+    "line_type": "mobile",
+    "location": "Paris, Île-de-France"
+  }
+}</code></pre>
+              </div>
+            </div>
+            
+            <div class="database-schema">
+              <h4>💾 Schéma Base de Données</h4>
+              <h5>Table: <code>phone_lookups</code></h5>
+              <table class="schema-table">
+                <thead>
+                  <tr><th>Colonne</th><th>Type</th><th>Contraintes</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>id</code></td><td>UUID</td><td>PRIMARY KEY</td><td>Identifiant unique</td></tr>
+                  <tr><td><code>investigation_id</code></td><td>UUID</td><td>FOREIGN KEY</td><td>Lien vers investigation</td></tr>
+                  <tr><td><code>phone_number</code></td><td>VARCHAR(20)</td><td>NOT NULL, INDEXED</td><td>Numéro recherché</td></tr>
+                  <tr><td><code>valid</code></td><td>BOOLEAN</td><td></td><td>Numéro valide</td></tr>
+                  <tr><td><code>country</code></td><td>VARCHAR(2)</td><td></td><td>Code pays ISO</td></tr>
+                  <tr><td><code>carrier</code></td><td>VARCHAR(255)</td><td></td><td>Opérateur</td></tr>
+                  <tr><td><code>raw_data</code></td><td>JSONB</td><td></td><td>Données brutes complètes</td></tr>
+                  <tr><td><code>created_at</code></td><td>TIMESTAMP</td><td>DEFAULT NOW()</td><td>Date de création</td></tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="tool-usage">
+              <h4>💡 Cas d'usage & Intégration</h4>
+              <ul>
+                <li>🔍 <strong>Identification d'individus</strong> : Retrouver l'opérateur et la localisation d'un numéro inconnu</li>
+                <li>🌐 <strong>OSINT social</strong> : Découvrir des profils en ligne associés au numéro via Google</li>
+                <li>🚨 <strong>Investigations fraudes</strong> : Vérifier la validité d'un numéro suspect</li>
+                <li>📊 <strong>Enrichissement de données</strong> : Compléter des profiles avec informations téléphoniques</li>
+              </ul>
+            </div>
+            
+            <div class="tool-limits">
+              <h4>⚠️ Limitations & Considérations</h4>
+              <ul class="warning-list">
+                <li>❌ Les résultats Google peuvent être bloqués par CAPTCHA (utiliser proxies)</li>
+                <li>⏱️ Les scans Google peuvent être lents (15-30 secondes)</li>
+                <li>🔒 Certaines données (carrier) peuvent être imprécises pour les VOIP</li>
+                <li>🌍 Meilleure précision pour USA, France, UK (bases de données plus complètes)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- OUTIL 2: Phonenumbers -->
+          <div class="tool-card operational">
+            <div class="tool-header">
+              <h3>📱 Phonenumbers (libphonenumber)</h3>
+              <span class="status-badge success">✅ OPÉRATIONNEL</span>
+            </div>
+            
+            <div class="tool-description">
+              <p>Bibliothèque Google officielle pour le parsing, validation et formatage de numéros de téléphone</p>
+            </div>
+            
+            <div class="tool-specs">
+              <h4>🔧 Spécifications Techniques</h4>
+              <table class="specs-table">
+                <tr><th>Type</th><td>Python Library</td></tr>
+                <tr><th>Package</th><td>phonenumbers (Google libphonenumber)</td></tr>
+                <tr><th>Version</th><td>8.13.x</td></tr>
+                <tr><th>Wrapper</th><td><code>backend/tools/phone/phonenumbers.py</code></td></tr>
+                <tr><th>Temps d'exécution</th><td>~0.1-0.5 secondes (local)</td></tr>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================
+             🧅 DARKNET & SECURITY (2/2 - 100%)
+             ======================================== -->
+        <section id="darknet-security" class="specialty-section">
+          <h2>🧅 Darknet & Security</h2>
+          <div class="completion-bar">
+            <div class="progress-fill" style="width: 100%">100% (2/2 outils)</div>
+          </div>
+
+          <!-- OUTIL 1: OnionScan -->
+          <div class="tool-card operational">
+            <div class="tool-header">
+              <h3>🧅 OnionScan</h3>
+              <span class="status-badge success">✅ OPÉRATIONNEL</span>
+            </div>
+            
+            <div class="tool-description">
+              <p>Scanner de services cachés Tor (sites .onion) pour détecter les fuites de données, configurations vulnérables et métadonnées</p>
+            </div>
+            
+            <div class="tool-specs">
+              <h4>🔧 Spécifications Techniques</h4>
+              <table class="specs-table">
+                <tr><th>Type</th><td>CLI Tool (Golang)</td></tr>
+                <tr><th>Repo GitHub</th><td><a href="https://github.com/s-rah/onionscan">s-rah/onionscan</a></td></tr>
+                <tr><th>Wrapper</th><td><code>backend/tools/darknet/onionscan.py</code></td></tr>
+                <tr><th>Temps d'exécution</th><td>~30-120 secondes (selon profondeur scan)</td></tr>
+                <tr><th>Prérequis</th><td>Tor service actif (port 9050)</td></tr>
+              </table>
+            </div>
+            
+            <div class="tool-usage">
+              <h4>💡 Cas d'usage</h4>
+              <ul>
+                <li>🕵️ <strong>Deanonymization</strong> : Détecter les fuites d'IP clearnet</li>
+                <li>🔍 <strong>Investigations darknet</strong> : Analyser les marketplaces et forums illégaux</li>
+                <li>💰 <strong>Traçage crypto</strong> : Récupérer les adresses Bitcoin pour traçage blockchain</li>
+                <li>📧 <strong>OSINT emails</strong> : Découvrir les contacts des opérateurs de services cachés</li>
+                <li>🛡️ <strong>Audit de sécurité</strong> : Identifier les vulnérabilités de services .onion</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- OUTIL 2: TorBot -->
+          <div class="tool-card operational">
+            <div class="tool-header">
+              <h3>🤖 TorBot</h3>
+              <span class="status-badge success">✅ OPÉRATIONNEL</span>
+            </div>
+            
+            <div class="tool-description">
+              <p>Crawler et scraper pour le réseau Tor - OSINT automation sur les services .onion</p>
+            </div>
+            
+            <div class="tool-specs">
+              <h4>🔧 Spécifications Techniques</h4>
+              <table class="specs-table">
+                <tr><th>Type</th><td>Python Tool</td></tr>
+                <tr><th>Repo GitHub</th><td><a href="https://github.com/DedSecInside/TorBot">DedSecInside/TorBot</a></td></tr>
+                <tr><th>Wrapper</th><td><code>backend/tools/darknet/torbot.py</code></td></tr>
+                <tr><th>Temps d'exécution</th><td>~20-90 secondes</td></tr>
+                <tr><th>Prérequis</th><td>Tor service + Python 3.8+</td></tr>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE SECTION -->
+  <section id="architecture" class="section bg-soft">
+    <div class="container">
+      <div class="row text-center mb-5">
+        <div class="col-lg-8 mx-auto">
+          <h2 class="display-5 fw-bold mb-3">Architecture Technique</h2>
+          <p class="lead text-muted">Infrastructure modulaire et sécurisée</p>
+        </div>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card-neo p-4 h-100" data-aos="fade-right">
+            <h4 class="mb-3"><i class="bi bi-layers text-primary me-2"></i>Backend Modulaire</h4>
+            <ul class="list-unstyled">
+              <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>NestJS + TypeScript</li>
+              <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Architecture microservices</li>
+              <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>API REST + WebSocket</li>
+              <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Orchestrateur IA Qwen</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card-neo p-4 h-100" data-aos="fade-left">
+            <h4 class="mb-3"><i class="bi bi-database text-success me-2"></i>Base de Données</h4>
+            <ul class="list-unstyled">
+              <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>PostgreSQL + TimescaleDB</li>
+              <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Elasticsearch + Kibana</li>
+              <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Qdrant (Vector DB)</li>
+              <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Redis (Cache)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer section-sm">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-cpu-fill text-primary fs-4"></i>
+            <span class="fw-bold">AURA OSINT Advanced Ecosystem</span>
+          </div>
+          <p class="text-muted mt-2 mb-0">Plateforme OSINT de nouvelle génération</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p class="text-muted mb-0">
+            © 2024 AURA OSINT. Développé par Sofiane Kaabache
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  
+  <!-- Custom JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
