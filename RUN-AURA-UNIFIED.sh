@@ -27,19 +27,29 @@ cd ..
 # Attendre que le backend démarre
 sleep 3
 
-# Démarrer le moteur IA
+# Démarrer le moteur IA (si disponible)
 echo "🤖 Démarrage du moteur IA Qwen..."
-cd ai-engine && node qwen-integration.js &
-AI_PID=$!
-cd ..
+if [ -d "ai-engine" ]; then
+    cd ai-engine && node qwen-integration.js &
+    AI_PID=$!
+    cd ..
+else
+    echo "⚠️  Dossier ai-engine non trouvé - IA non démarrée"
+    AI_PID=""
+fi
 
 sleep 2
 
 # Démarrer le frontend unifié
 echo "🌐 Lancement du frontend unifié..."
-cd frontend && python3 -m http.server 3000 &
-FRONTEND_PID=$!
-cd ..
+if [ -d "frontend" ]; then
+    cd frontend && python3 -m http.server 3000 &
+    FRONTEND_PID=$!
+    cd ..
+else
+    echo "⚠️  Dossier frontend non trouvé - Utilisation du backend intégré"
+    FRONTEND_PID=""
+fi
 
 # Afficher le résumé
 echo ""
@@ -69,7 +79,7 @@ echo "💡 Accédez à tout depuis: http://localhost:3000"
 echo "⚡ Ctrl+C pour arrêter l'écosystème complet"
 
 # Gérer l'arrêt propre
-trap 'echo -e "\n\n🛑 Arrêt de l\\écosystème AURA OSINT..."; kill $BACKEND_PID $AI_PID $FRONTEND_PID 2>/dev/null; docker-compose down; exit 0' INT
+trap 'echo -e "\n\n🛑 Arrêt de l\\écosystème AURA OSINT..."; [ -n "$BACKEND_PID" ] && kill $BACKEND_PID 2>/dev/null; [ -n "$AI_PID" ] && kill $AI_PID 2>/dev/null; [ -n "$FRONTEND_PID" ] && kill $FRONTEND_PID 2>/dev/null; docker-compose down; exit 0' INT
 
 # Attendre indéfiniment
 wait
