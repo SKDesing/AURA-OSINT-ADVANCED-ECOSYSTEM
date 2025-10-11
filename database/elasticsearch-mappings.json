@@ -1,0 +1,106 @@
+{
+  "osint_entities": {
+    "settings": {
+      "number_of_shards": 3,
+      "number_of_replicas": 1,
+      "analysis": {
+        "analyzer": {
+          "osint_analyzer": {
+            "type": "custom",
+            "tokenizer": "standard",
+            "filter": ["lowercase", "stop", "snowball"]
+          },
+          "username_analyzer": {
+            "type": "custom",
+            "tokenizer": "keyword",
+            "filter": ["lowercase"]
+          }
+        }
+      }
+    },
+    "mappings": {
+      "properties": {
+        "id": { "type": "keyword" },
+        "investigation_id": { "type": "keyword" },
+        "target_id": { "type": "keyword" },
+        "entity_type": { 
+          "type": "keyword",
+          "fields": {
+            "text": { "type": "text" }
+          }
+        },
+        "platform": { "type": "keyword" },
+        "username": {
+          "type": "text",
+          "analyzer": "username_analyzer",
+          "fields": {
+            "keyword": { "type": "keyword" },
+            "search": { 
+              "type": "text",
+              "analyzer": "osint_analyzer"
+            }
+          }
+        },
+        "display_name": {
+          "type": "text",
+          "analyzer": "osint_analyzer",
+          "fields": {
+            "keyword": { "type": "keyword" }
+          }
+        },
+        "content": {
+          "type": "text",
+          "analyzer": "osint_analyzer"
+        },
+        "bio": {
+          "type": "text",
+          "analyzer": "osint_analyzer"
+        },
+        "hashtags": { 
+          "type": "keyword",
+          "fields": {
+            "text": { "type": "text" }
+          }
+        },
+        "mentions": { 
+          "type": "keyword",
+          "fields": {
+            "text": { "type": "text" }
+          }
+        },
+        "email": {
+          "type": "keyword",
+          "fields": {
+            "domain": {
+              "type": "text",
+              "analyzer": "keyword"
+            }
+          }
+        },
+        "phone_number": { "type": "keyword" },
+        "domain": { "type": "keyword" },
+        "ip_address": { "type": "ip" },
+        "location": { "type": "geo_point" },
+        "country": { "type": "keyword" },
+        "city": { "type": "keyword" },
+        "followers_count": { "type": "long" },
+        "following_count": { "type": "long" },
+        "posts_count": { "type": "integer" },
+        "likes_count": { "type": "long" },
+        "engagement_rate": { "type": "float" },
+        "risk_score": { "type": "integer" },
+        "confidence_score": { "type": "integer" },
+        "is_verified": { "type": "boolean" },
+        "is_private": { "type": "boolean" },
+        "timestamp": { "type": "date" },
+        "discovered_at": { "type": "date" },
+        "posted_at": { "type": "date" },
+        "tags": { "type": "keyword" },
+        "metadata": { 
+          "type": "object", 
+          "enabled": false 
+        }
+      }
+    }
+  }
+}
