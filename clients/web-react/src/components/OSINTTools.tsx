@@ -3,7 +3,6 @@ import {
   Box, Card, CardContent, Typography, Button, TextField, Chip, Alert, CircularProgress,
   List, ListItem, ListItemText, ToggleButtonGroup, ToggleButton
 } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
 import { Search, Security, Phone, Web, Email } from '@mui/icons-material';
 import { apiGet, apiPost } from '../api/client';
 import { OsintToolDef, OsintResult, ToolId } from '../types/osint';
@@ -19,7 +18,7 @@ const BUILTIN_TOOLS: OsintToolDef[] = [
   { id: 'phoneinfoga', name: 'PhoneInfoga', description: 'Phone number investigation', category: 'Phone',
     inputs: [{ name: 'phone', label: 'Phone', type: 'tel', placeholder: '+33123456789', required: true }]
   },
-  { id: 'maigret', name: 'Maigret', description: 'Username investigation', category: 'Username',
+  { id: 'maigret', name: 'Sherlock', description: 'Username investigation (Sherlock)', category: 'Username',
     inputs: [{ name: 'username', label: 'Username', type: 'text', placeholder: 'johndoe', required: true }]
   },
   { id: 'holehe', name: 'Holehe', description: 'Email account finder', category: 'Email',
@@ -67,15 +66,57 @@ const OSINTTools: React.FC = () => {
     setError(null);
     try {
       const params = { ...(tool.defaults || {}), ...(formState[tool.id] || {}) };
-      const job = await apiPost<any>('/api/osint/jobs', { toolId: tool.id, params });
-      setTimeout(async () => {
-        try {
-          const data = await apiGet<{ results: OsintResult[] }>('/api/osint/results');
-          setResults(data.results || []);
-        } catch {}
-      }, 2000);
+      
+      // Use live OSINT endpoints
+      let endpoint = '';
+      let payload = {};
+      
+      if (tool.id === 'maigret') {
+        endpoint = '/api/osint/live/sherlock';
+        payload = { username: params.username || 'test' };
+      } else if (tool.id === 'amass') {
+        endpoint = '/api/osint/live/amass';
+        payload = { domain: params.domain || 'example.com', passive: true };
+      } else {
+        // Fallback to mock for other tools
+        const job = await apiPost<any>('/api/osint/jobs', { toolId: tool.id, params });
+        setTimeout(async () => {
+          try {
+            const data = await apiGet<{ results: OsintResult[] }>('/api/osint/results');
+            setResults(data.results || []);
+          } catch {}
+        }, 2000);
+        return;
+      }
+      
+      const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:4010';
+      const response = await fetch(`${baseUrl}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.results) {
+        const osintResults: OsintResult[] = data.results.map((r: any) => ({
+          type: r.site || r.subdomain || 'result',
+          value: r.url || r.subdomain || r.site || 'N/A',
+          source: data.tool,
+          url: r.url,
+          site: r.site
+        }));
+        setResults(osintResults);
+      } else {
+        setResults([]);
+      }
+      
     } catch (e: any) {
-      setError(e?.message || 'Failed to start job');
+      setError(e?.message || 'Failed to run tool');
     } finally {
       setLoading(false);
     }
@@ -100,9 +141,9 @@ const OSINTTools: React.FC = () => {
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
-      <Grid container spacing={3}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
         {filteredTools.map((tool) => (
-          <Grid xs={12} md={6} lg={4} key={tool.id}>
+          <Box key={tool.id} sx={{ flex: '1 1 300px', minWidth: '300px', maxWidth: '400px' }}>
             <Card sx={{ bgcolor: '#161823', height: '100%' }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -137,9 +178,9 @@ const OSINTTools: React.FC = () => {
                 </Button>
               </CardContent>
             </Card>
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
 
       {results.length > 0 && (
         <Card sx={{ mt: 3, bgcolor: '#161823' }}>

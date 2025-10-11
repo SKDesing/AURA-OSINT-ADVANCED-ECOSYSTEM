@@ -182,10 +182,26 @@ tmp/
 *.sqlite
 *.sqlite3
 
-# AI Models and Cache
+# AI Models and Cache - NEVER COMMIT THESE
 ai/local-llm/models/
+ai/local-llm/models/*
+ai/local-llm/runtime/
+*.gguf
+*.bin
+*.safetensors
 .cache/
 node_modules/@xenova/transformers/.cache/
+
+# Large binaries and builds - NEVER COMMIT
+apps/browser-electron/dist/
+apps/*/dist/
+marketing/sites/*/node_modules/
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+LICENSES.chromium.html
 
 # Reports
 reports/

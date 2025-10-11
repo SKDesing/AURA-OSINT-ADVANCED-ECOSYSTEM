@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "AURA OSINT",
+  "name": "AURA OSINT Advanced Ecosystem",
+  "description": "Professional OSINT Platform for Advanced Intelligence Gathering",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +19,9 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/dashboard",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#0056e0",
+  "background_color": "#ffffff",
+  "categories": ["security", "productivity", "utilities"]
 }

@@ -14,7 +14,6 @@ import {
   Card,
   CardContent
 } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
 
 interface NetworkEvidence {
   id: string;
@@ -74,40 +73,40 @@ const NetworkMonitor: React.FC = () => {
         🌐 Network Monitor
       </Typography>
 
-      <Grid container spacing={3} sx={{ mb: 3 }}>
-        <Grid xs={12} md={3}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 3 }}>
+        <Box sx={{ flex: '1 1 200px', minWidth: '200px' }}>
           <Card sx={{ background: 'linear-gradient(135deg, #fe2c55, #ff6b35)' }}>
             <CardContent>
               <Typography variant="h6" color="white">Total Requests</Typography>
               <Typography variant="h3" color="white">{stats.total}</Typography>
             </CardContent>
           </Card>
-        </Grid>
-        <Grid xs={12} md={3}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px', minWidth: '200px' }}>
           <Card sx={{ background: 'linear-gradient(135deg, #25f4ee, #00d4ff)' }}>
             <CardContent>
               <Typography variant="h6" color="white">TikTok Requests</Typography>
               <Typography variant="h3" color="white">{stats.tiktok}</Typography>
             </CardContent>
           </Card>
-        </Grid>
-        <Grid xs={12} md={3}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px', minWidth: '200px' }}>
           <Card sx={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)' }}>
             <CardContent>
               <Typography variant="h6" color="white">HTTPS Connections</Typography>
               <Typography variant="h3" color="white">{stats.https}</Typography>
             </CardContent>
           </Card>
-        </Grid>
-        <Grid xs={12} md={3}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px', minWidth: '200px' }}>
           <Card sx={{ background: 'linear-gradient(135deg, #10b981, #34d399)' }}>
             <CardContent>
               <Typography variant="h6" color="white">Evidence Saved</Typography>
               <Typography variant="h3" color="white">{stats.exported}</Typography>
             </CardContent>
           </Card>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h6">Intercepted Traffic</Typography>

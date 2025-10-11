@@ -19,6 +19,17 @@ app.use(express.json());
 // AI Health endpoints
 app.use('/ai', aiHealthRouter);
 
+// OSINT Routes
+const osintRouter = require('./routes/osint');
+const osintJobsRouter = require('./routes/osint-jobs');
+const osintResultsRouter = require('./routes/osint-results');
+const osintLiveRouter = require('./routes/osint-live');
+
+app.use('/api/osint', osintRouter);
+app.use('/api/osint', osintJobsRouter);
+app.use('/api/osint', osintResultsRouter);
+app.use('/api/osint/live', osintLiveRouter);
+
 // Route racine pour éviter 404
 app.get('/', (req, res) => {
   res.json({
@@ -233,6 +244,9 @@ app.get('/ai/stream/metrics', (req, res) => {
   });
 });
 
+// OSINT Live Tools
+app.use('/api/osint/live', require('./routes/osint-live'));
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -258,6 +272,8 @@ const server = app.listen(PORT, () => {
   console.log(`  GET  /artifacts/:id/meta.json    - Artifact metadata`);
   console.log(`  GET  /ai/stream/metrics          - SSE metrics stream`);
   console.log(`  GET  /health                     - Health check`);
+  console.log(`  POST /api/osint/live/sherlock    - Run Sherlock`);
+  console.log(`  POST /api/osint/live/amass       - Run Amass`);
 });
 
 // Graceful shutdown

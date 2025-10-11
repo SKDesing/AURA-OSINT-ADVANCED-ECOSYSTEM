@@ -1,134 +1,168 @@
-// AURA Browser Only enforcement
-try { require('./utils/ensure-electron-launch')(); } catch { /* best-effort */ }
-
-// Set default telemetry enabled
-process.env.AURA_TELEMETRY = process.env.AURA_TELEMETRY || '1';
-
 const express = require('express');
-const http = require('http');
 const cors = require('cors');
 const helmet = require('helmet');
+const compression = require('compression');
+const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
-const { globalRateLimit, sanitizeInput, securityHeaders } = require('./middleware/security');
-const { searchController, searchLimiter } = require('./controllers/search.controller');
-const osintController = require('./controllers/osint.controller');
-const healthRouter = require('./routes/health');
-const contactRouter = require('./routes/contact');
-const mvpRouter = require('./routes/mvp');
-const cacheMiddleware = require('./middleware/cache');
-const WebSocketServer = require('./websocket/server');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
 
-// OSINT Phase 0 integration
-const osintRouter = require('./routes/osint');
+require('dotenv').config();
+
+const logger = require('./utils/logger');
+const { connectDB } = require('./config/database');
+const { connectRedis } = require('./config/redis');
+
+// Routes
+const authRoutes = require('./routes/auth');
+const osintRoutes = require('./routes/osint');
+const forensicRoutes = require('./routes/forensic');
+const ragRoutes = require('./routes/rag');
+const metricsRoutes = require('./routes/metrics');
+
+// Middleware
+const { authenticate } = require('./middleware/auth');
+const { errorHandler } = require('./middleware/errorHandler');
+const { requestLogger } = require('./middleware/requestLogger');
 
 const app = express();
-const server = http.createServer(app);
-const DEFAULT_PORT = 4011;
-const host = process.env.HOST || '0.0.0.0';
-const PORT = Number(process.env.API_PORT || process.env.PORT || DEFAULT_PORT);
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+});
+
+const PORT = process.env.PORT || 4010;
 
 // Security middleware
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "https:"]
-    }
-  }
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    },
+  },
 }));
-app.use(securityHeaders);
-app.use(globalRateLimit);
 
-// OSINT API rate limiting
-const osintRateLimit = rateLimit({
+// Rate limiting
+const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 50, // 50 requests per window
-  message: { error: 'Too many OSINT requests' },
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
 });
 
+app.use(limiter);
+
+// CORS
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000', 'http://localhost:5173'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  credentials: true
 }));
 
+// Compression
+app.use(compression());
+
+// Body parsing
 app.use(express.json({ limit: '10mb' }));
-app.use(sanitizeInput);
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Logging
+app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
+app.use(requestLogger);
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ 
-    ok: true, 
+  res.status(200).json({
+    status: 'OK',
     timestamp: new Date().toISOString(),
-    port: PORT,
-    env: process.env.NODE_ENV || 'development'
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development'
   });
 });
-app.use('/', healthRouter);
 
-// API routes avec cache
-app.post('/api/v1/search', searchLimiter, cacheMiddleware(60), searchController.search);
-app.post('/api/v1/osint/search', searchLimiter, cacheMiddleware(120), osintController.search);
-app.get('/api/v1/osint/analyze/:profileId', cacheMiddleware(300), osintController.analyze);
+// API Routes
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/osint', authenticate, osintRoutes);
+app.use('/api/v1/forensic', authenticate, forensicRoutes);
+app.use('/api/v1/rag', authenticate, ragRoutes);
+app.use('/api/v1/metrics', authenticate, metricsRoutes);
 
-// Contact route
-app.use('/api', contactRouter);
-
-// MVP routes
-app.use('/', mvpRouter);
-
-// OSINT routes
-console.log('🔍 OSINT tools ready');
-app.use('/api/osint', osintRateLimit, osintRouter);
-
-// New: Jobs/Results/Doctor routes
-app.use('/api/osint', osintRateLimit, require('./routes/osint-jobs'));
-app.use('/api/osint', osintRateLimit, require('./routes/osint-results'));
-app.use('/api/osint', osintRateLimit, require('./routes/osint-doctor'));
-
-// P1.1: Export & SSE
-app.use('/api/osint', osintRateLimit, require('./routes/osint-results-export'));
-app.use('/api/osint', osintRateLimit, require('./routes/osint-jobs-sse'));
-
-// Telemetry endpoints
-app.use('/telemetry', require('./routes/telemetry'));
-app.use('/telemetry', require('./routes/telemetry-stats'));
-
-// 404 handler (doit être APRES le montage des routes)
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'Route not found' });
-});
-
-// Error handling (en dernier)
-app.use((err, req, res, next) => {
-  console.error('Error:', err);
-  res.status(500).json({ error: 'Internal server error' });
-});
-
-// WebSocket server
-const wsServer = new WebSocketServer(server);
-
-server.listen(PORT, host, () => {
-  console.log(`🚀 AURA Backend running on http://${host}:${PORT}`);
-  console.log(`🔌 WebSocket server ready`);
-  console.log(`🔍 OSINT tools registered and ready`);
-});
-
-server.on('error', (err) => {
-  if (err && err.code === 'EADDRINUSE') {
-    console.error(
-      `Port ${PORT} is already in use.\n` +
-      `Try one of:\n` +
-      `  - kill the existing process: lsof -nPiTCP:${PORT} -sTCP:LISTEN; kill <PID>\n` +
-      `  - run on another port: PORT=${PORT + 1} npm run dev:api`
-    );
-    process.exit(1);
+// WebSocket handling
+io.use((socket, next) => {
+  // WebSocket authentication middleware
+  const token = socket.handshake.auth.token;
+  if (token) {
+    // Verify JWT token here
+    next();
   } else {
-    throw err;
+    next(new Error('Authentication error'));
   }
 });
+
+io.on('connection', (socket) => {
+  logger.info(`Client connected: ${socket.id}`);
+
+  socket.on('osint:subscribe', (data) => {
+    const { platform, targetId } = data;
+    socket.join(`osint:${platform}:${targetId}`);
+    logger.info(`Client ${socket.id} subscribed to ${platform}:${targetId}`);
+  });
+
+  socket.on('osint:unsubscribe', (data) => {
+    const { platform, targetId } = data;
+    socket.leave(`osint:${platform}:${targetId}`);
+    logger.info(`Client ${socket.id} unsubscribed from ${platform}:${targetId}`);
+  });
+
+  socket.on('disconnect', () => {
+    logger.info(`Client disconnected: ${socket.id}`);
+  });
+});
+
+// Error handling
+app.use(errorHandler);
+
+// 404 handler
+app.use('*', (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Route not found'
+  });
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  logger.info('SIGTERM received, shutting down gracefully');
+  server.close(() => {
+    logger.info('Process terminated');
+    process.exit(0);
+  });
+});
+
+// Start server
+async function startServer() {
+  try {
+    // Connect to databases
+    await connectDB();
+    await connectRedis();
+
+    server.listen(PORT, () => {
+      logger.info(`🚀 AURA OSINT Backend running on port ${PORT}`);
+      logger.info(`📊 Health check: http://localhost:${PORT}/health`);
+      logger.info(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+  } catch (error) {
+    logger.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
+
+module.exports = { app, io };

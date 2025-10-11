@@ -1,6 +1,6 @@
 // Router Decisions - Table + Drawer
 import React, { useState, useEffect } from 'react';
-import { apiClient } from '../../core/api/client';
+import { apiClient } from '../../lib/apiClient';
 
 interface RouterDecision {
   id: string;
@@ -21,7 +21,7 @@ export const RouterDecisions: React.FC = () => {
   useEffect(() => {
     const loadDecisions = async () => {
       try {
-        const data = await (apiClient as any).request<RouterDecision[]>('/ai/router/decisions?limit=50');
+        const data = await apiClient.request<RouterDecision[]>('/ai/router/decisions?limit=50');
         setDecisions(data);
         setLoading(false);
       } catch (error) {

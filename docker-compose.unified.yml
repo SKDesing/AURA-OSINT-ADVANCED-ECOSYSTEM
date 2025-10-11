@@ -1,0 +1,225 @@
+version: '3.9'
+
+# AURA OSINT UNIFIED STACK
+# Tous les services dans un seul fichier orchestré
+
+services:
+  # === DATABASE LAYER ===
+  postgres:
+    image: postgres:16-alpine
+    container_name: aura-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-aura_osint}
+      POSTGRES_USER: ${POSTGRES_USER:-aura_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-aura_secure_2025}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./osint-tools-advanced/init-osint-db.sql:/docker-entrypoint-initdb.d/02-osint.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - aura-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: aura-redis
+    command: redis-server --requirepass ${REDIS_PASSWORD:-aura_redis_2025} --appendonly yes
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "auth", "${REDIS_PASSWORD:-aura_redis_2025}", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      - aura-network
+
+  # === SEARCH & ANALYTICS ===
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION:-8.13.4}
+    container_name: aura-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx2g
+      - cluster.name=aura-osint
+    ports:
+      - "127.0.0.1:9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    mem_limit: 3g
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - aura-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${ELASTIC_VERSION:-8.13.4}
+    container_name: aura-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - XPACK_SECURITY_ENABLED=false
+      - SERVER_NAME=aura-kibana
+    ports:
+      - "127.0.0.1:5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - aura-network
+
+  # === OSINT SEARCH ENGINE ===
+  searxng:
+    image: searxng/searxng:latest
+    container_name: aura-searxng
+    environment:
+      - SEARXNG_INSTANCE_NAME=AURA-OSINT-ENGINE
+      - SEARXNG_BASE_URL=http://localhost:8080
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./osint-tools-advanced/searxng-config:/etc/searxng:ro
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:8080/search?q=test || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - aura-network
+
+  # === VECTOR DATABASE ===
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: aura-qdrant
+    ports:
+      - "127.0.0.1:6333:6333"
+      - "127.0.0.1:6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    networks:
+      - aura-network
+
+  # === BACKEND SERVICES ===
+  aura-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: aura-backend
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-aura_admin}:${POSTGRES_PASSWORD:-aura_secure_2025}@postgres:5432/${POSTGRES_DB:-aura_osint}
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-aura_redis_2025}@redis:6379
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - SEARXNG_URL=http://searxng:8080
+      - QDRANT_URL=http://qdrant:6333
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./backend:/app
+      - ./var/osint:/app/var/osint
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - aura-network
+
+  # === LIVE TRACKER ===
+  live-tracker:
+    build:
+      context: ./live-tracker
+      dockerfile: Dockerfile
+    container_name: aura-live-tracker
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-aura_admin}:${POSTGRES_PASSWORD:-aura_secure_2025}@postgres:5432/${POSTGRES_DB:-aura_osint}
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-aura_redis_2025}@redis:6379
+    ports:
+      - "127.0.0.1:3001:3000"
+    volumes:
+      - ./live-tracker:/app
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - aura-network
+
+  # === FRONTEND ===
+  aura-frontend:
+    build:
+      context: ./clients/web-react
+      dockerfile: Dockerfile
+    container_name: aura-frontend
+    environment:
+      - REACT_APP_API_URL=http://localhost:3000
+      - REACT_APP_WS_URL=ws://localhost:3000
+      - REACT_APP_KIBANA_URL=http://localhost:5601
+    ports:
+      - "127.0.0.1:3002:3000"
+    volumes:
+      - ./clients/web-react:/app
+    depends_on:
+      - aura-backend
+    networks:
+      - aura-network
+
+  # === MONITORING ===
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: aura-prometheus
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    networks:
+      - aura-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: aura-grafana
+    ports:
+      - "127.0.0.1:3003:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana-dashboards:/etc/grafana/provisioning/dashboards:ro
+    networks:
+      - aura-network
+
+volumes:
+  postgres_data:
+  redis_data:
+  elasticsearch_data:
+  qdrant_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  aura-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

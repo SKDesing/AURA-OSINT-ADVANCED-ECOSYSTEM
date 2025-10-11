@@ -1,0 +1,156 @@
+SHELL := /usr/bin/env bash
+
+# Load unified environment
+ifneq (,$(wildcard .env.unified))
+include .env.unified
+export
+endif
+
+# Utilise le système natif AURA existant
+DC := docker compose
+PROJECT_NAME := aura-osint-ecosystem
+
+.PHONY: help setup up down restart logs status clean reset health test-all
+
+help: ## Affiche cette aide
+	@echo "🚀 AURA OSINT UNIFIED COMMANDS"
+	@echo "================================"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+setup: ## Installation complète de l'écosystème
+	@echo "🔧 Setup AURA OSINT Ecosystem..."
+	@cp .env.unified .env
+	@$(DC) pull
+	@$(DC) build --no-cache
+	@$(DC) up -d
+	@echo "⏳ Attente initialisation services..."
+	@sleep 30
+	@$(MAKE) health
+	@echo "✅ Setup terminé!"
+	@$(MAKE) status
+
+up: ## Démarre tous les services
+	@echo "🚀 Démarrage services AURA OSINT..."
+	@$(DC) up -d
+	@echo "⏳ Attente services..."
+	@sleep 15
+	@$(MAKE) health
+
+down: ## Arrête tous les services
+	@echo "🛑 Arrêt services AURA OSINT..."
+	@$(DC) down
+
+restart: ## Redémarre tous les services
+	@echo "🔄 Redémarrage services..."
+	@$(DC) restart
+
+logs: ## Affiche les logs en temps réel
+	@$(DC) logs -f --tail=100
+
+status: ## Statut des services
+	@echo "📊 Statut des services:"
+	@$(DC) ps
+	@echo ""
+	@echo "🌐 URLs d'accès:"
+	@echo "  - Frontend:      http://localhost:$(FRONTEND_PORT)"
+	@echo "  - Backend API:   http://localhost:$(API_PORT)"
+	@echo "  - Live Tracker:  http://localhost:$(LIVE_TRACKER_PORT)"
+	@echo "  - Kibana:        http://localhost:$(KIBANA_PORT)"
+	@echo "  - SearXNG:       http://localhost:$(SEARXNG_PORT)"
+	@echo "  - Grafana:       http://localhost:$(GRAFANA_PORT)"
+	@echo "  - Prometheus:    http://localhost:$(PROMETHEUS_PORT)"
+
+health: ## Vérification santé des services
+	@echo "🏥 Health Check..."
+	@echo -n "PostgreSQL: "
+	@$(DC) exec -T postgres pg_isready -U $(POSTGRES_USER) -d $(POSTGRES_DB) >/dev/null 2>&1 && echo "✅ OK" || echo "❌ KO"
+	@echo -n "Redis: "
+	@$(DC) exec -T redis redis-cli auth $(REDIS_PASSWORD) ping >/dev/null 2>&1 && echo "✅ OK" || echo "❌ KO"
+	@echo -n "Elasticsearch: "
+	@curl -fsS http://localhost:$(ELASTIC_PORT)/_cluster/health >/dev/null 2>&1 && echo "✅ OK" || echo "❌ KO"
+	@echo -n "SearXNG: "
+	@curl -fsS "http://localhost:$(SEARXNG_PORT)/search?q=test&format=json" >/dev/null 2>&1 && echo "✅ OK" || echo "❌ KO"
+	@echo -n "Backend API: "
+	@curl -fsS http://localhost:$(API_PORT)/health >/dev/null 2>&1 && echo "✅ OK" || echo "❌ KO"
+
+db-shell: ## Accès shell PostgreSQL
+	@$(DC) exec postgres psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
+
+redis-shell: ## Accès shell Redis
+	@$(DC) exec redis redis-cli -a $(REDIS_PASSWORD)
+
+# === OSINT OPERATIONS ===
+osint-recon: ## Reconnaissance OSINT sur un domaine
+	@test -n "$(DOMAIN)" || (echo "Usage: make osint-recon DOMAIN=example.com"; exit 1)
+	@echo "🔍 Reconnaissance OSINT: $(DOMAIN)"
+	@$(DC) exec aura-backend node scripts/osint-recon.js $(DOMAIN)
+
+osint-dorks: ## Exécute des dorks Google
+	@test -n "$(QUERY)" || (echo "Usage: make osint-dorks QUERY='site:example.com'"; exit 1)
+	@echo "🎯 Google Dorks: $(QUERY)"
+	@$(DC) exec aura-backend node scripts/osint-dorks.js "$(QUERY)"
+
+osint-ner: ## Analyse NER sur un texte
+	@test -n "$(TEXT)" || (echo "Usage: make osint-ner TEXT='Jean Martin travaille chez ACME'"; exit 1)
+	@echo "🧠 Analyse NER: $(TEXT)"
+	@$(DC) exec aura-backend python3 services/ner-french-enhanced.py "$(TEXT)"
+
+# === DEVELOPMENT ===
+dev-backend: ## Mode développement backend
+	@$(DC) exec aura-backend npm run dev
+
+dev-frontend: ## Mode développement frontend
+	@$(DC) exec aura-frontend npm start
+
+test-all: ## Lance tous les tests
+	@echo "🧪 Tests complets..."
+	@$(DC) exec aura-backend npm test
+	@$(DC) exec aura-frontend npm test -- --watchAll=false
+	@$(MAKE) health
+
+# === MAINTENANCE ===
+clean: ## Nettoie les containers et volumes
+	@echo "🧹 Nettoyage..."
+	@$(DC) down -v --remove-orphans
+	@docker system prune -f
+
+reset: ## Reset complet (ATTENTION: perte de données)
+	@echo "⚠️  RESET COMPLET - Perte de toutes les données!"
+	@read -p "Confirmer (y/N): " confirm && [ "$$confirm" = "y" ]
+	@$(DC) down -v --remove-orphans
+	@docker volume prune -f
+	@$(MAKE) setup
+
+backup-db: ## Sauvegarde base de données
+	@echo "💾 Sauvegarde DB..."
+	@mkdir -p ./backups
+	@$(DC) exec -T postgres pg_dump -U $(POSTGRES_USER) $(POSTGRES_DB) > ./backups/aura-db-$(shell date +%Y%m%d-%H%M%S).sql
+	@echo "✅ Sauvegarde: ./backups/aura-db-$(shell date +%Y%m%d-%H%M%S).sql"
+
+restore-db: ## Restaure base de données
+	@test -n "$(BACKUP)" || (echo "Usage: make restore-db BACKUP=./backups/aura-db-20250101-120000.sql"; exit 1)
+	@echo "📥 Restauration DB: $(BACKUP)"
+	@$(DC) exec -T postgres psql -U $(POSTGRES_USER) -d $(POSTGRES_DB) < $(BACKUP)
+
+# === MONITORING ===
+metrics: ## Affiche métriques système
+	@echo "📊 Métriques système:"
+	@$(DC) exec prometheus promtool query instant 'up'
+	@echo ""
+	@echo "🔍 Métriques OSINT:"
+	@curl -s http://localhost:$(API_PORT)/metrics | grep osint
+
+benchmark: ## Benchmark performance
+	@echo "⚡ Benchmark performance..."
+	@$(DC) exec aura-backend node scripts/benchmark.js
+
+# === SECURITY ===
+security-scan: ## Scan sécurité
+	@echo "🛡️  Scan sécurité..."
+	@$(DC) exec aura-backend npm audit
+	@$(DC) exec aura-frontend npm audit
+
+update-deps: ## Met à jour les dépendances
+	@echo "📦 Mise à jour dépendances..."
+	@$(DC) exec aura-backend npm update
+	@$(DC) exec aura-frontend npm update

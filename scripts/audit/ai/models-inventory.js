@@ -179,19 +179,19 @@ class ModelsInventory {
         quantized: true
       },
       {
-        name: 'qwen2-1_5b-instruct-q4_k_m',
+        name: 'qwen2-7b-instruct-q5_k_m',
         type: 'local',
         provider: 'alibaba',
         format: 'gguf',
-        size_gb: 0.9,
+        size_gb: 5.1,
         device: 'cpu',
-        dimensions: 1536,
+        dimensions: 4096,
         license: 'apache-2.0',
-        latency_p50_ms: 800,
-        latency_p95_ms: 1500,
+        latency_p50_ms: 200,
+        latency_p95_ms: 400,
         usage: 'text_generation',
         quantized: true,
-        parameters: '1.5B'
+        parameters: '7B'
       }
     ];
   }
