@@ -1,0 +1,281 @@
+# Configuration centralisée des outils OSINT
+# AURA OSINT ADVANCED ECOSYSTEM
+
+# =============================================================================
+# CONFIGURATION GLOBALE
+# =============================================================================
+global:
+  timeout_default: 300
+  max_concurrent_tools: 5
+  retry_attempts: 3
+  output_format: "json"
+  log_level: "INFO"
+
+# =============================================================================
+# OUTILS USERNAME & IDENTITY
+# =============================================================================
+username_tools:
+  sherlock:
+    enabled: true
+    timeout: 180
+    max_sites: 400
+    output_format: "json"
+    proxy_enabled: false
+    
+  maigret:
+    enabled: true
+    timeout: 300
+    max_sites: 2000
+    output_format: "json"
+    no_color: true
+    
+  whatsmyname:
+    enabled: false  # À installer
+    timeout: 120
+    categories: ["social", "forums", "coding"]
+
+# =============================================================================
+# OUTILS DOMAIN & SUBDOMAIN
+# =============================================================================
+domain_tools:
+  subfinder:
+    enabled: true
+    timeout: 180
+    sources: ["all"]
+    silent: true
+    recursive: false
+    
+  sublist3r:
+    enabled: false  # À installer
+    timeout: 300
+    engines: ["google", "yahoo", "bing", "baidu"]
+    
+  amass:
+    enabled: false  # À installer
+    timeout: 600
+    passive: true
+    active: false
+    
+  theharvester:
+    enabled: false  # À installer
+    timeout: 240
+    sources: ["google", "bing", "linkedin"]
+    limit: 500
+    
+  whois:
+    enabled: true
+    timeout: 30
+    detailed: true
+
+# =============================================================================
+# OUTILS EMAIL & BREACH
+# =============================================================================
+email_tools:
+  holehe:
+    enabled: true
+    timeout: 120
+    only_used: true
+    
+  h8mail:
+    enabled: true
+    timeout: 180
+    local_breach_db: false
+    chase_limit: 2
+    
+  emailrep:
+    enabled: false  # À installer
+    api_key: ""
+    timeout: 30
+    
+  haveibeenpwned:
+    enabled: false  # À installer
+    api_key: ""
+    timeout: 30
+
+# =============================================================================
+# OUTILS PHONE & SMS
+# =============================================================================
+phone_tools:
+  phonenumbers:
+    enabled: true
+    timeout: 30
+    carrier_lookup: true
+    
+  phoneinfoga:
+    enabled: true
+    timeout: 120
+    scanner: "all"
+    format: "json"
+
+# =============================================================================
+# OUTILS SOCIAL MEDIA
+# =============================================================================
+social_tools:
+  twitter:
+    enabled: true
+    timeout: 180
+    api_key: ""
+    bearer_token: ""
+    
+  instagram:
+    enabled: true
+    timeout: 180
+    session_file: ""
+    
+  tiktok:
+    enabled: false  # À développer
+    timeout: 180
+    
+  facebook:
+    enabled: false  # À développer
+    timeout: 180
+
+# =============================================================================
+# OUTILS NETWORK & INFRASTRUCTURE
+# =============================================================================
+network_tools:
+  shodan:
+    enabled: true
+    api_key: ""
+    timeout: 60
+    
+  nmap:
+    enabled: false  # À installer
+    timeout: 300
+    scan_type: "syn"
+    
+  masscan:
+    enabled: false  # À installer
+    timeout: 600
+    rate: 1000
+
+# =============================================================================
+# OUTILS DARKNET & TOR
+# =============================================================================
+darknet_tools:
+  onionscan:
+    enabled: true
+    timeout: 300
+    tor_proxy: "127.0.0.1:9050"
+    
+  torbot:
+    enabled: true
+    timeout: 600
+    depth: 2
+    
+  ahmia:
+    enabled: false  # À installer
+    timeout: 180
+
+# =============================================================================
+# OUTILS IMAGE & MEDIA
+# =============================================================================
+image_tools:
+  exifread:
+    enabled: true
+    timeout: 30
+    detailed: true
+    gps_extraction: true
+    
+  tineye:
+    enabled: false  # À installer
+    api_key: ""
+    timeout: 60
+    
+  google_images:
+    enabled: false  # À développer
+    timeout: 120
+
+# =============================================================================
+# OUTILS CRYPTO & BLOCKCHAIN
+# =============================================================================
+crypto_tools:
+  blockchain:
+    enabled: true
+    timeout: 60
+    networks: ["bitcoin", "ethereum"]
+    
+  bitcoinabuse:
+    enabled: false  # À installer
+    timeout: 30
+    
+  walletexplorer:
+    enabled: false  # À installer
+    timeout: 60
+
+# =============================================================================
+# OUTILS WEB & URL
+# =============================================================================
+web_tools:
+  wayback:
+    enabled: false  # À installer
+    timeout: 120
+    snapshots_limit: 10
+    
+  builtwith:
+    enabled: false  # À installer
+    api_key: ""
+    timeout: 60
+    
+  wappalyzer:
+    enabled: false  # À installer
+    timeout: 90
+
+# =============================================================================
+# CONFIGURATION PROXY & SÉCURITÉ
+# =============================================================================
+security:
+  tor_proxy:
+    enabled: true
+    host: "127.0.0.1"
+    port: 9050
+    
+  http_proxy:
+    enabled: false
+    host: ""
+    port: 8080
+    
+  user_agents:
+    - "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    - "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+    - "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+    
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60
+    burst_limit: 10
+
+# =============================================================================
+# CONFIGURATION BASE DE DONNÉES
+# =============================================================================
+database:
+  store_results: true
+  encrypt_sensitive: true
+  retention_days: 365
+  
+  tables:
+    investigations: "investigations"
+    results: "osint_results"
+    profiles: "social_profiles"
+    domains: "domain_intelligence"
+    emails: "email_intelligence"
+    phones: "phone_intelligence"
+
+# =============================================================================
+# CONFIGURATION API KEYS (À REMPLIR)
+# =============================================================================
+api_keys:
+  shodan: ""
+  twitter_bearer: ""
+  emailrep: ""
+  haveibeenpwned: ""
+  tineye: ""
+  builtwith: ""
+  
+# =============================================================================
+# PRIORITÉS D'EXÉCUTION
+# =============================================================================
+execution_priorities:
+  high: ["sherlock", "holehe", "shodan", "subfinder"]
+  medium: ["maigret", "phoneinfoga", "h8mail", "whois"]
+  low: ["exifread", "blockchain", "onionscan", "torbot"]
