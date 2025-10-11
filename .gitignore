@@ -216,6 +216,9 @@ secrets/
 *.pem
 *.p12
 
+# Project Documentation - Keep Local
+DIRECTIVES.md
+
 # Temporary files
 temp/
 tmp/

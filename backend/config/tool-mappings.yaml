@@ -1,0 +1,310 @@
+# AURA OSINT Tool Mappings Configuration
+# Maps tool inputs/outputs to database schema
+
+tools:
+  # Email OSINT Tools
+  holehe:
+    category: email
+    description: "Check if email is registered on 120+ sites"
+    inputs:
+      required: [email]
+      optional: []
+    outputs:
+      database_table: email_intelligence
+      fields_mapping:
+        email: email
+        sites_found: sites_found
+        total_sites: total_sites
+        high_value_sites: high_value_sites
+        data_breach_risk: risk_level
+      confidence_base: 0.95
+    
+  h8mail:
+    category: email
+    description: "Search email in data breaches and leaks"
+    inputs:
+      required: [email]
+      optional: [local_breach_db]
+    outputs:
+      database_table: email_intelligence
+      fields_mapping:
+        email: email
+        breaches_found: breach_count
+        first_breach: first_breach_date
+        last_breach: last_breach_date
+        leaked_passwords: leaked_passwords
+        risk_assessment.overall_risk_level: risk_level
+        breach_results: breach_details
+      confidence_base: 0.90
+
+  # Social Media OSINT Tools
+  twitter:
+    category: social
+    description: "Twitter profile and network analysis"
+    inputs:
+      required: [username]
+      optional: [max_tweets, include_retweets]
+    outputs:
+      database_table: social_profiles
+      fields_mapping:
+        username: username
+        profile.name: display_name
+        profile.biography: bio
+        profile.followers: followers_count
+        profile.followees: following_count
+        profile.is_verified: verified
+        profile.is_private: private_account
+        intelligence_summary.potential_bot_indicators: bot_probability
+        intelligence_summary.sentiment_analysis: sentiment_score
+        network_analysis: network_analysis
+        profile: profile_data
+      platform: twitter
+      confidence_base: 0.85
+
+  instagram:
+    category: social
+    description: "Instagram profile and content analysis"
+    inputs:
+      required: [username]
+      optional: [max_posts]
+    outputs:
+      database_table: social_profiles
+      fields_mapping:
+        username: username
+        profile.full_name: display_name
+        profile.biography: bio
+        profile.followers: followers_count
+        profile.followees: following_count
+        profile.is_verified: verified
+        profile.is_private: private_account
+        content_analysis.engagement_metrics.engagement_rate: engagement_rate
+        intelligence_summary.fake_followers_percent: fake_followers_percent
+        profile: profile_data
+        content_analysis: network_analysis
+      platform: instagram
+      confidence_base: 0.80
+
+  # Network OSINT Tools
+  shodan:
+    category: network
+    description: "Network reconnaissance and vulnerability scan"
+    inputs:
+      required: [target]
+      optional: [scan_type]
+    outputs:
+      database_table: network_intelligence
+      fields_mapping:
+        target: ip_address
+        shodan_results.ip_str: ip_address
+        shodan_results.hostnames[0]: domain
+        shodan_results.ports: ports_open
+        service_analysis.detected_services: services_detected
+        vulnerability_analysis.vulnerabilities: vulnerabilities
+        threat_assessment.overall_risk_level: threat_level
+        shodan_results.country_code: country_code
+        shodan_results.country_name: country_name
+        shodan_results.org: organization
+        shodan_results.isp: isp
+        shodan_results.asn: asn
+        shodan_results: scan_results
+      target_type: ip
+      confidence_base: 0.95
+
+  # Darknet OSINT Tools
+  onionscan:
+    category: darknet
+    description: "Tor hidden service vulnerability scanner"
+    inputs:
+      required: [onion_url]
+      optional: [scan_depth]
+    outputs:
+      database_table: darknet_findings
+      fields_mapping:
+        target_url: onion_url
+        intelligence_summary.site_classification: site_type
+        vulnerability_analysis.risk_level: risk_level
+        scan_results.services_detected: services_detected
+        vulnerability_analysis.vulnerabilities: vulnerabilities
+        intelligence_summary.operational_security.security_indicators: opsec_issues
+        intelligence_summary.site_classification: content_classification
+        intelligence_summary.operational_security.opsec_score: opsec_score
+        scan_results.bitcoinAddresses: bitcoin_addresses
+        scan_results.emailAddresses: email_addresses
+        scan_results.pgpKeys: pgp_keys
+        scan_timestamp: last_scan
+      confidence_base: 0.85
+
+  torbot:
+    category: darknet
+    description: "Dark web crawler and intelligence extractor"
+    inputs:
+      required: [onion_url]
+      optional: [depth, max_pages]
+    outputs:
+      database_table: darknet_findings
+      fields_mapping:
+        target_url: onion_url
+        threat_intelligence.threat_classification.threat_level: risk_level
+        content_analysis.illegal_content_indicators.risk_level: illegal_content_score
+        crawl_results: crawl_data
+        extracted_data.bitcoin_addresses: bitcoin_addresses
+        extracted_data.email_addresses: email_addresses
+        extracted_data.pgp_keys: pgp_keys
+        crawl_timestamp: last_scan
+      confidence_base: 0.80
+
+  # Cryptocurrency OSINT Tools
+  blockchain:
+    category: crypto
+    description: "Cryptocurrency address analysis and tracking"
+    inputs:
+      required: [crypto_address]
+      optional: [blockchain_type]
+    outputs:
+      database_table: crypto_intelligence
+      fields_mapping:
+        crypto_address: address
+        crypto_type: blockchain
+        address_info.address_type: address_type
+        address_info.total_received: total_received
+        address_info.total_sent: total_sent
+        address_info.balance: balance
+        address_info.balance_usd: balance_usd
+        address_info.transaction_count: transactions_count
+        address_info.first_seen: first_seen
+        address_info.last_seen: last_seen
+        clustering_analysis.clustering_results.wallet_clustering.cluster_id: cluster_id
+        clustering_analysis.clustering_results.behavioral_clustering.behavior_type: cluster_type
+        risk_assessment.risk_score: risk_score
+        risk_assessment.compliance_assessment: aml_flags
+        transaction_analysis.counterparty_analysis: counterparties
+        transaction_analysis.transaction_patterns: transaction_patterns
+      confidence_base: 0.88
+
+  # Phone OSINT Tools
+  phonenumbers:
+    category: phone
+    description: "Phone number validation and carrier lookup"
+    inputs:
+      required: [phone]
+      optional: [country_hint]
+    outputs:
+      database_table: phone_intelligence
+      fields_mapping:
+        phone: phone_number
+        country_code: country_code
+        country_name: country_name
+        carrier: carrier
+        line_type: line_type
+        is_valid: is_valid
+        is_possible: is_possible
+        timezone: timezone
+        region: region
+        location_data: location_data
+      confidence_base: 0.92
+
+  # Domain OSINT Tools
+  whois:
+    category: domain
+    description: "Domain registration and DNS information"
+    inputs:
+      required: [domain]
+      optional: [include_history]
+    outputs:
+      database_table: domain_intelligence
+      fields_mapping:
+        domain: domain
+        registrar: registrar
+        registrant_name: registrant_name
+        registrant_email: registrant_email
+        registrant_phone: registrant_phone
+        registrant_organization: registrant_organization
+        creation_date: creation_date
+        expiration_date: expiration_date
+        last_updated: last_updated
+        name_servers: name_servers
+        dns_records: dns_records
+        whois_history: whois_history
+      confidence_base: 0.90
+
+  # Image OSINT Tools
+  face_recognition:
+    category: image
+    description: "Face detection and recognition in images"
+    inputs:
+      required: [image_url]
+      optional: [comparison_images]
+    outputs:
+      database_table: image_intelligence
+      fields_mapping:
+        image_url: image_url
+        image_hash: image_hash
+        faces_detected: faces_detected
+        face_encodings: face_encodings
+        reverse_search_results: reverse_search_results
+        metadata: metadata
+        similar_images: similar_images
+        confidence_score: confidence_score
+      confidence_base: 0.75
+
+# Global configuration
+global_settings:
+  default_timeout: 120
+  max_retries: 3
+  rate_limit_per_minute: 60
+  
+  # Database connection settings
+  database:
+    pool_size: 20
+    max_overflow: 30
+    pool_timeout: 30
+    
+  # Qdrant settings
+  vector_db:
+    collection_prefix: "aura_osint_"
+    vector_size: 768
+    distance_metric: "cosine"
+    
+  # Monitoring settings
+  monitoring:
+    enable_metrics: true
+    enable_tracing: true
+    log_level: "INFO"
+
+# Tool execution order by category
+execution_order:
+  email: [holehe, h8mail]
+  social: [twitter, instagram]
+  network: [shodan]
+  darknet: [onionscan, torbot]
+  crypto: [blockchain]
+  phone: [phonenumbers]
+  domain: [whois]
+  image: [face_recognition]
+
+# Risk scoring weights
+risk_scoring:
+  email:
+    breach_count_weight: 0.3
+    high_value_sites_weight: 0.2
+    recent_breach_weight: 0.5
+  
+  social:
+    bot_probability_weight: 0.4
+    fake_followers_weight: 0.3
+    suspicious_activity_weight: 0.3
+  
+  network:
+    vulnerability_count_weight: 0.4
+    open_ports_weight: 0.2
+    service_exposure_weight: 0.4
+  
+  darknet:
+    illegal_content_weight: 0.5
+    opsec_issues_weight: 0.3
+    service_exposure_weight: 0.2
+  
+  crypto:
+    aml_flags_weight: 0.4
+    mixer_interaction_weight: 0.3
+    transaction_patterns_weight: 0.3

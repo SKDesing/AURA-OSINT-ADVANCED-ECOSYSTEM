@@ -1,0 +1,178 @@
+version: '3.8'
+
+services:
+  # Secure Tor Proxy
+  tor-proxy:
+    image: dperson/torproxy:latest
+    container_name: aura-tor-secure
+    ports:
+      - "127.0.0.1:9050:9050"  # SOCKS5 - localhost only
+      - "127.0.0.1:9051:9051"  # Control - localhost only
+    environment:
+      - TOR_CONTROL_PASSWORD=aura_darknet_secure_2024_!@#
+      - TOR_CONTROL_PORT=9051
+      - TOR_SOCKS_PORT=9050
+    volumes:
+      - ./tor-config/torrc:/etc/tor/torrc:ro
+      - tor-secure-data:/var/lib/tor
+      - tor-logs:/var/log/tor
+    restart: unless-stopped
+    networks:
+      - darknet-secure
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+    healthcheck:
+      test: ["CMD", "curl", "--socks5", "127.0.0.1:9050", "--max-time", "10", "https://check.torproject.org/api/ip"]
+      interval: 60s
+      timeout: 15s
+      retries: 3
+      start_period: 120s
+
+  # Darknet PostgreSQL with encryption
+  darknet-db:
+    image: postgres:16-alpine
+    container_name: aura-darknet-db-secure
+    environment:
+      - POSTGRES_DB=darknet_intel
+      - POSTGRES_USER=darknet_analyst
+      - POSTGRES_PASSWORD=${DARKNET_DB_PASSWORD:-darknet_ultra_secure_2024}
+      - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
+    volumes:
+      - darknet-db-secure:/var/lib/postgresql/data
+      - ./database/darknet-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    ports:
+      - "127.0.0.1:5434:5432"  # localhost only
+    networks:
+      - darknet-secure
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U darknet_analyst -d darknet_intel"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Secure Redis for darknet cache
+  darknet-redis:
+    image: redis:7-alpine
+    container_name: aura-darknet-redis-secure
+    command: >
+      redis-server 
+      --requirepass ${DARKNET_REDIS_PASSWORD:-redis_darknet_secure_2024}
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+    volumes:
+      - darknet-redis-secure:/data
+    ports:
+      - "127.0.0.1:6380:6379"  # localhost only
+    networks:
+      - darknet-secure
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Qdrant for darknet vectors
+  darknet-qdrant:
+    image: qdrant/qdrant:v1.7.4
+    container_name: aura-darknet-qdrant
+    ports:
+      - "127.0.0.1:6334:6333"  # localhost only
+    volumes:
+      - darknet-qdrant-data:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+      - QDRANT__LOG_LEVEL=INFO
+    networks:
+      - darknet-secure
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  # Darknet monitoring service
+  darknet-monitor:
+    build:
+      context: ./docker/darknet-monitor
+      dockerfile: Dockerfile
+    container_name: aura-darknet-monitor
+    environment:
+      - TOR_PROXY=tor-proxy:9050
+      - DATABASE_URL=postgresql://darknet_analyst:${DARKNET_DB_PASSWORD:-darknet_ultra_secure_2024}@darknet-db:5432/darknet_intel
+      - REDIS_URL=redis://:${DARKNET_REDIS_PASSWORD:-redis_darknet_secure_2024}@darknet-redis:6379/0
+      - QDRANT_URL=http://darknet-qdrant:6333
+      - MONITORING_INTERVAL=300  # 5 minutes
+    volumes:
+      - ./data/darknet-monitor:/app/data
+      - ./logs/darknet-monitor:/app/logs
+    networks:
+      - darknet-secure
+    depends_on:
+      - tor-proxy
+      - darknet-db
+      - darknet-redis
+      - darknet-qdrant
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  # Secure file storage for evidence
+  darknet-storage:
+    image: minio/minio:latest
+    container_name: aura-darknet-storage
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-darknet_admin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-darknet_storage_secure_2024}
+      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9001
+    volumes:
+      - darknet-storage-data:/data
+    ports:
+      - "127.0.0.1:9000:9000"  # API
+      - "127.0.0.1:9001:9001"  # Console
+    networks:
+      - darknet-secure
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  tor-secure-data:
+    driver: local
+  tor-logs:
+    driver: local
+  darknet-db-secure:
+    driver: local
+  darknet-redis-secure:
+    driver: local
+  darknet-qdrant-data:
+    driver: local
+  darknet-storage-data:
+    driver: local
+
+networks:
+  darknet-secure:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+    driver_opts:
+      com.docker.network.bridge.name: darknet-br0
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"

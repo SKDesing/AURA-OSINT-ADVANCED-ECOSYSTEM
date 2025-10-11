@@ -1,0 +1,23 @@
+# Tor Configuration for AURA OSINT Darknet Layer
+SocksPort 0.0.0.0:9050
+ControlPort 0.0.0.0:9051
+HashedControlPassword 16:872860B76453A77D60CA2BB8C1A7042072093276A3D701AD684053EC4C
+CookieAuthentication 1
+DataDirectory /var/lib/tor
+CircuitBuildTimeout 30
+NewCircuitPeriod 30
+NumEntryGuards 3
+KeepalivePeriod 60
+SocksTimeout 120
+BandwidthRate 1 MB
+BandwidthBurst 2 MB
+ExitPolicy reject *:*
+ExcludeNodes {cn},{ru},{ir},{kp}
+ExcludeExitNodes {cn},{ru},{ir},{kp}
+DNSPort 0.0.0.0:9053
+AutomapHostsOnResolve 1
+AutomapHostsSuffixes .onion,.exit
+IsolateClientAddr 1
+IsolateSOCKSAuth 1
+IsolateClientProtocol 1
+Log notice file /var/log/tor/notices.log
