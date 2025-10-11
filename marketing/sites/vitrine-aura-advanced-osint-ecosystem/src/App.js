@@ -6,6 +6,8 @@ import Services from './components/Services';
 import Contact from './components/Contact';
 import ThemeToggle from './components/ThemeToggle';
 import ErrorBoundary from './components/ErrorBoundary';
+import AuraDemo from './components/AuraDemo';
+import AuraStats from './components/AuraStats';
 import './App.css';
 
 function App() {
@@ -13,6 +15,8 @@ function App() {
 
   const navigation = [
     { id: 'home', label: 'Accueil' },
+    { id: 'demo', label: 'Démo Live' },
+    { id: 'stats', label: 'Statistiques' },
     { id: 'services', label: 'Services' },
     { id: 'portfolio', label: 'Réalisations' },
     { id: 'about', label: 'À propos' },
@@ -47,6 +51,8 @@ function App() {
               <LiveDemo />
             </>
           )}
+          {activeSection === 'demo' && <AuraDemo />}
+          {activeSection === 'stats' && <AuraStats />}
           {activeSection === 'services' && <Services />}
           {activeSection === 'contact' && <Contact />}
         
