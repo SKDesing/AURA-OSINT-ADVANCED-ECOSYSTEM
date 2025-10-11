@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MODEL="${AI_QWEN_MODEL_FILE:-ai/local-llm/models/qwen2-1_5b-instruct-q4_k_m.gguf}"
+MODEL="${AI_QWEN_MODEL_FILE:-ai/local-llm/models/qwen2-7b-instruct-q5_k_m.gguf}"
 PORT="${AI_QWEN_PORT:-8090}"
 CTX="${AI_QWEN_CONTEXT:-3072}"
 THREADS=${THREADS:-6}

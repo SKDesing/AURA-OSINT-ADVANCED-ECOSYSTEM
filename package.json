@@ -4,6 +4,10 @@
   "description": "Professional OSINT Platform for Advanced Intelligence Gathering",
   "main": "backend/api/analytics-api.js",
   "scripts": {
+    "postinstall": "echo '🚀 Pour installer les outils OSINT et IA: npm run setup:full'",
+    "setup:full": "bash scripts/setup/auto-install.sh",
+    "setup:osint": "bash scripts/osint/install-osint-tools.sh",
+    "setup:ai": "bash ai/local-llm/scripts/download-qwen2-1_5b.sh",
     "start": "node scripts/setup/startup-orchestrator.js",
     "test": "vitest run --reporter=junit --coverage",
     "benchmark": "node tests/performance/benchmark-suite.js",
@@ -69,6 +73,7 @@
     "prod": "pm2 start server.js --name aura-osint --max-memory-restart 1500M",
     "llm:install": "bash scripts/ai/install-llama-cpp.sh",
     "llm:download:qwen": "bash ai/local-llm/scripts/download-qwen2-1_5b.sh",
+    "llm:download:qwen7b": "bash ai/local-llm/scripts/download-qwen2-7b.sh",
     "llm:run:qwen": "bash ai/local-llm/scripts/run-llm-qwen.sh",
     "llm:bench:qwen": "bash scripts/ai/bench-qwen.sh",
     "ai:gateway": "ts-node ai/gateway/src/main.ts",

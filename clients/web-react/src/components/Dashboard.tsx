@@ -8,7 +8,7 @@ import {
   LinearProgress,
   Chip
 } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
+import { Grid, Box as GridBox } from '@mui/material';
 
 interface SystemStats {
   totalProfiles: number;
@@ -76,51 +76,51 @@ const Dashboard: React.FC = () => {
         />
       </Box>
 
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid xs={12} md={2}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 4 }}>
+        <Box sx={{ flex: '1 1 200px', minWidth: '200px' }}>
           <Card sx={{ background: 'linear-gradient(135deg, #fe2c55, #ff6b35)', color: 'white' }}>
             <CardContent>
               <Typography variant="h6">Profiles</Typography>
               <Typography variant="h3">{stats.totalProfiles}</Typography>
             </CardContent>
           </Card>
-        </Grid>
-        <Grid xs={12} md={2}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px', minWidth: '200px' }}>
           <Card sx={{ background: 'linear-gradient(135deg, #25f4ee, #00d4ff)', color: 'white' }}>
             <CardContent>
               <Typography variant="h6">Sessions</Typography>
               <Typography variant="h3">{stats.totalSessions}</Typography>
             </CardContent>
           </Card>
-        </Grid>
-        <Grid xs={12} md={2}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px', minWidth: '200px' }}>
           <Card sx={{ background: 'linear-gradient(135deg, #7c3aed, #a855f7)', color: 'white' }}>
             <CardContent>
               <Typography variant="h6">Comments</Typography>
               <Typography variant="h3">{stats.totalComments}</Typography>
             </CardContent>
           </Card>
-        </Grid>
-        <Grid xs={12} md={3}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px', minWidth: '200px' }}>
           <Card sx={{ background: 'linear-gradient(135deg, #10b981, #34d399)', color: 'white' }}>
             <CardContent>
               <Typography variant="h6">Gifts</Typography>
               <Typography variant="h3">{stats.totalGifts}</Typography>
             </CardContent>
           </Card>
-        </Grid>
-        <Grid xs={12} md={3}>
+        </Box>
+        <Box sx={{ flex: '1 1 200px', minWidth: '200px' }}>
           <Card sx={{ background: 'linear-gradient(135deg, #f59e0b, #fbbf24)', color: 'white' }}>
             <CardContent>
               <Typography variant="h6">Active</Typography>
               <Typography variant="h3">{stats.activeSessions}</Typography>
             </CardContent>
           </Card>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
-      <Grid container spacing={3}>
-        <Grid xs={12} md={6}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+        <Box sx={{ flex: '1 1 400px', minWidth: '400px' }}>
           <Card>
             <CardContent>
               <Typography variant="h6" sx={{ mb: 2 }}>🔒 Stealth System Status</Typography>
@@ -138,9 +138,9 @@ const Dashboard: React.FC = () => {
               </Box>
             </CardContent>
           </Card>
-        </Grid>
+        </Box>
         
-        <Grid xs={12} md={6}>
+        <Box sx={{ flex: '1 1 400px', minWidth: '400px' }}>
           <Card>
             <CardContent>
               <Typography variant="h6" sx={{ mb: 2 }}>🚀 Quick Actions</Typography>
@@ -172,8 +172,8 @@ const Dashboard: React.FC = () => {
               </Box>
             </CardContent>
           </Card>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </Box>
   );
 };

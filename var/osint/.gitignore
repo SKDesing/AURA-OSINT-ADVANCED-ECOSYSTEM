@@ -1,0 +1,9 @@
+# OSINT working directories - ignore all data files
+raw/
+results/
+work/
+*.log
+*.json
+*.txt
+*.csv
+*.pdf

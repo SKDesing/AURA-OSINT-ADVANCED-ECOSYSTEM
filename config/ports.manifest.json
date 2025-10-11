@@ -5,11 +5,11 @@
       "name": "web-react",
       "pathHint": "clients/web-react",
       "env": [
-        { "file": ".env.local", "key": "VITE_PORT", "value": 54112 },
+        { "file": ".env.local", "key": "VITE_PORT", "value": 3001 },
         { "file": ".env.local", "key": "VITE_API_BASE", "value": "http://localhost:4010" },
         { "file": ".env.local", "key": "VITE_SSE_BASE", "value": "http://localhost:4010" }
       ],
-      "ports": [54112],
+      "ports": [3001],
       "purpose": "Frontend dev server (Vite/React)"
     },
     {

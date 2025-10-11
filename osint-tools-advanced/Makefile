@@ -6,7 +6,7 @@ include .env
 export
 endif
 
-DC ?= docker compose
+DC ?= docker-compose
 
 .PHONY: install setup up down restart logs status db kibana recon people dorks clean selfcheck migrate db-check smoke reset-db reset-all
 

@@ -1,6 +1,6 @@
 // Artifact Viewer - HTML/CSS/JS + Meta
 import React, { useState, useEffect } from 'react';
-import { apiClient } from '../../core/api/client';
+import { apiClient } from '../../lib/apiClient';
 
 interface ArtifactMeta {
   id: string;
@@ -21,7 +21,7 @@ export const ArtifactViewer: React.FC = () => {
   useEffect(() => {
     const loadArtifacts = async () => {
       try {
-        const data = await (apiClient as any).request<ArtifactMeta[]>('/artifacts?limit=20');
+        const data = await apiClient.request<ArtifactMeta[]>('/artifacts?limit=20');
         setArtifacts(data);
         setLoading(false);
       } catch (error) {
@@ -96,8 +96,8 @@ const ArtifactModal: React.FC<{
     const loadArtifact = async () => {
       try {
         const [htmlResponse, metaResponse] = await Promise.all([
-          fetch(`${(apiClient as any).baseURL}/artifacts/${artifactId}`),
-          (apiClient as any).request<ArtifactMeta>(`/artifacts/${artifactId}/meta.json`)
+          fetch(`http://127.0.0.1:4010/artifacts/${artifactId}`),
+          apiClient.request<ArtifactMeta>(`/artifacts/${artifactId}/meta.json`)
         ]);
         
         const html = await htmlResponse.text();
