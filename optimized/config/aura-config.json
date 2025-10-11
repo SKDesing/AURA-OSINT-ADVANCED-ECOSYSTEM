@@ -1,0 +1,70 @@
+{
+  "system": {
+    "name": "AURA OSINT",
+    "version": "1.0.0",
+    "port": 4011
+  },
+  "database": {
+    "postgresql": {
+      "host": "localhost",
+      "port": 5432,
+      "database": "aura_osint",
+      "username": "aura",
+      "password": "Phi1.618Golden!"
+    },
+    "redis": {
+      "host": "localhost", 
+      "port": 6379
+    },
+    "elasticsearch": {
+      "host": "localhost",
+      "port": 9200
+    },
+    "qdrant": {
+      "host": "localhost",
+      "port": 6333
+    }
+  },
+  "ai": {
+    "qwen": {
+      "api_url": "http://localhost:8000",
+      "model": "qwen-7b",
+      "max_tokens": 1024
+    }
+  },
+  "tools": {
+    "phone": {
+      "phoneinfoga": {"enabled": true, "timeout": 30},
+      "phonenumbers": {"enabled": true}
+    },
+    "darknet": {
+      "onionscan": {"enabled": true, "timeout": 60},
+      "torbot": {"enabled": true, "timeout": 45}
+    },
+    "username": {
+      "sherlock": {"enabled": true, "timeout": 30},
+      "maigret": {"enabled": true, "timeout": 60}
+    },
+    "network": {
+      "shodan": {"enabled": true, "api_key": ""},
+      "ip_intelligence": {"enabled": true},
+      "port_scanner": {"enabled": true, "timeout": 60},
+      "ssl_analyzer": {"enabled": true},
+      "network_mapper": {"enabled": true, "timeout": 120}
+    },
+    "email": {
+      "holehe": {"enabled": true, "timeout": 45}
+    },
+    "breach": {
+      "h8mail": {"enabled": true, "timeout": 60}
+    },
+    "domain": {
+      "subfinder": {"enabled": true, "timeout": 60},
+      "whois": {"enabled": true, "timeout": 30}
+    },
+    "social": {
+      "twitter": {"enabled": true, "timeout": 30},
+      "instagram": {"enabled": true, "timeout": 30}
+    }
+  }
+}

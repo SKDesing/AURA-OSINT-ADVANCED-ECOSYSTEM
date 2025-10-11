@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA OSINT - Configuration Backend</title>
+    <style>
+        :root { 
+            --phi: 1.618; 
+            --primary: #2c3e50; 
+            --accent: #e74c3c; 
+            --success: #27ae60; 
+            --warning: #f39c12; 
+            --gold: #ffd700;
+        }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: linear-gradient(135deg, var(--primary), #34495e); 
+            margin: 0; 
+            padding: calc(20px * var(--phi)); 
+            min-height: 100vh; 
+        }
+        .config-container { 
+            max-width: calc(800px / var(--phi)); 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: calc(10px * var(--phi)); 
+            padding: calc(30px * var(--phi)); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 2px solid var(--gold);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: calc(30px * var(--phi));
+            padding-bottom: calc(20px * var(--phi));
+            border-bottom: 2px solid var(--gold);
+        }
+        .header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .header .subtitle {
+            color: var(--gold);
+            font-weight: bold;
+        }
+        .status-indicator { 
+            display: inline-block; 
+            width: 12px; 
+            height: 12px; 
+            border-radius: 50%; 
+            margin-right: 8px; 
+        }
+        .status-success { background: var(--success); } 
+        .status-error { background: var(--accent); } 
+        .status-warning { background: var(--warning); }
+        .form-group { 
+            margin-bottom: calc(20px * var(--phi)); 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: var(--primary); 
+        }
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid var(--gold); 
+            border-radius: 6px; 
+            font-size: 14px; 
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+        }
+        .btn { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: calc(12px * var(--phi)) calc(24px * var(--phi)); 
+            border-radius: 6px; 
+            cursor: pointer; 
+            margin-right: 10px; 
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .btn:hover { 
+            background: #34495e; 
+            transform: translateY(-2px);
+        } 
+        .btn-success { background: var(--success); } 
+        .btn-warning { background: var(--warning); }
+        .btn-gold { background: var(--gold); color: var(--primary); }
+        .test-results { 
+            margin-top: 20px; 
+            padding: 15px; 
+            border-radius: 6px; 
+            background: #f8f9fa;
+            border: 1px solid var(--gold);
+        }
+        .integration-status {
+            background: linear-gradient(135deg, var(--gold), #ffcc00);
+            color: var(--primary);
+            padding: calc(15px * var(--phi));
+            border-radius: 8px;
+            margin-bottom: calc(20px * var(--phi));
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="config-container">
+        <div class="header">
+            <h1>🔧 Configuration Backend AURA OSINT</h1>
+            <div class="subtitle">Système Intégré avec IA Qwen</div>
+        </div>
+        
+        <div class="integration-status">
+            🌟 NOUVEAU : Port unifié 4011 avec IA Qwen intégrée !
+        </div>
+        
+        <div class="form-group">
+            <label>URL Backend AURA (Port Unifié)</label>
+            <input type="url" id="backendUrl" value="http://localhost:4011">
+        </div>
+        <div class="form-group">
+            <label>WebSocket URL</label>
+            <input type="url" id="websocketUrl" value="ws://localhost:4011">
+        </div>
+        <div class="form-group">
+            <button class="btn" onclick="testConnection()">🔍 Tester Connexion</button>
+            <button class="btn btn-warning" onclick="testWebSocket()">⚡ Tester WebSocket</button>
+            <button class="btn btn-success" onclick="checkOsintTools()">🛠️ Vérifier Outils OSINT</button>
+            <button class="btn btn-gold" onclick="testAIEngine()">🤖 Tester IA Qwen</button>
+        </div>
+        <div id="testResults" class="test-results" style="display: none;">
+            <h3>Résultats des Tests</h3>
+            <div id="connectionStatus"></div>
+            <div id="websocketStatus"></div>
+            <div id="osintToolsStatus"></div>
+            <div id="aiEngineStatus"></div>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #e8f5e8; border-radius: 8px; border: 1px solid var(--success);">
+            <h3 style="color: var(--success); margin-top: 0;">✅ Intégration Complète Réalisée</h3>
+            <ul style="color: var(--primary);">
+                <li>🎯 <strong>Port unifié 4011</strong> pour tout l'écosystème</li>
+                <li>🤖 <strong>IA Qwen intégrée</strong> avec 17 outils OSINT</li>
+                <li>🎨 <strong>SweetAlert2</strong> avec thème Golden Ratio</li>
+                <li>💬 <strong>Chat temps réel</strong> via WebSocket</li>
+                <li>📊 <strong>Documentation interactive</strong> complète</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        async function testConnection() {
+            const url = document.getElementById('backendUrl').value;
+            const resultsDiv = document.getElementById('testResults');
+            const statusDiv = document.getElementById('connectionStatus');
+            resultsDiv.style.display = 'block';
+            statusDiv.innerHTML = '<span class="status-indicator status-warning"></span>Test connexion...';
+            
+            try {
+                const response = await fetch(`${url}/api/health`);
+                if (response.ok) {
+                    const data = await response.json();
+                    statusDiv.innerHTML = `<span class="status-indicator status-success"></span>✅ Connexion réussie - ${data.status} (v${data.version || '2.0.8'})`;
+                } else {
+                    statusDiv.innerHTML = `<span class="status-indicator status-error"></span>❌ Erreur HTTP ${response.status}`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="status-indicator status-error"></span>❌ Connexion échouée: ${error.message}`;
+            }
+        }
+        
+        async function testWebSocket() {
+            const url = document.getElementById('websocketUrl').value;
+            const statusDiv = document.getElementById('websocketStatus');
+            statusDiv.innerHTML = '<span class="status-indicator status-warning"></span>Test WebSocket...';
+            
+            try {
+                const ws = new WebSocket(url);
+                ws.onopen = () => { 
+                    statusDiv.innerHTML = '<span class="status-indicator status-success"></span>✅ WebSocket connecté avec IA Qwen'; 
+                    ws.close(); 
+                };
+                ws.onerror = () => { 
+                    statusDiv.innerHTML = '<span class="status-indicator status-error"></span>❌ Erreur WebSocket'; 
+                };
+                setTimeout(() => { 
+                    if (ws.readyState === WebSocket.CONNECTING) { 
+                        ws.close(); 
+                        statusDiv.innerHTML = '<span class="status-indicator status-error"></span>❌ Timeout WebSocket'; 
+                    } 
+                }, 5000);
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="status-indicator status-error"></span>❌ WebSocket échoué: ${error.message}`;
+            }
+        }
+        
+        async function checkOsintTools() {
+            const url = document.getElementById('backendUrl').value;
+            const statusDiv = document.getElementById('osintToolsStatus');
+            statusDiv.innerHTML = '<span class="status-indicator status-warning"></span>Vérification outils OSINT...';
+            
+            try {
+                const response = await fetch(`${url}/api/tools`);
+                if (response.ok) {
+                    const tools = await response.json();
+                    const toolCount = Object.keys(tools).length;
+                    statusDiv.innerHTML = `<span class="status-indicator status-success"></span>✅ ${toolCount} catégories d'outils OSINT disponibles`;
+                } else {
+                    statusDiv.innerHTML = `<span class="status-indicator status-error"></span>❌ Impossible de récupérer les outils OSINT`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="status-indicator status-error"></span>❌ Erreur outils OSINT: ${error.message}`;
+            }
+        }
+        
+        async function testAIEngine() {
+            const url = document.getElementById('backendUrl').value;
+            const statusDiv = document.getElementById('aiEngineStatus');
+            statusDiv.innerHTML = '<span class="status-indicator status-warning"></span>Test IA Qwen...';
+            
+            try {
+                const response = await fetch(`${url}/api/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'test système' })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    statusDiv.innerHTML = `<span class="status-indicator status-success"></span>✅ IA Qwen opérationnelle - ${data.tools_used?.length || 0} outils sélectionnés`;
+                } else {
+                    statusDiv.innerHTML = `<span class="status-indicator status-error"></span>❌ IA Qwen indisponible`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="status-indicator status-error"></span>❌ Erreur IA: ${error.message}`;
+            }
+        }
+        
+        // Test automatique au chargement
+        window.onload = () => { 
+            setTimeout(() => {
+                testConnection();
+                setTimeout(testAIEngine, 1000);
+            }, 1000); 
+        };
+    </script>
+</body>
+</html>

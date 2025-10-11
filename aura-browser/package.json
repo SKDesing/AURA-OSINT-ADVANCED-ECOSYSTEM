@@ -1,0 +1,20 @@
+{
+  "name": "aura-osint-browser",
+  "version": "1.0.0",
+  "description": "AURA OSINT Browser - Navigateur souverain pour investigations OSINT",
+  "main": "chromium-engine.js",
+  "scripts": {
+    "start": "electron chromium-engine-branded.js",
+    "dev": "electron chromium-engine-v2.js --dev",
+    "build": "electron-builder"
+  },
+  "dependencies": {
+    "electron": "^28.0.0",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.0.0"
+  },
+  "author": "AURA OSINT Team",
+  "license": "MIT"
+}

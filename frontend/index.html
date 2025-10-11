@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA OSINT - Platform Unifiée</title>
+    <meta name="description" content="AURA OSINT - Advanced Investigation Platform with AI">
+    
+    <!-- CSS unifié optimisé -->
+    <link rel="stylesheet" href="../optimized/assets/aura-unified.css">
+    
+    <style>
+        /* Styles spécifiques au dashboard */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: var(--phi-secondary);
+            padding: var(--space-lg);
+            border-right: 2px solid var(--phi-accent);
+        }
+        
+        .logo h2 {
+            color: var(--phi-accent);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .logo p {
+            color: #fff;
+            font-size: var(--font-sm);
+            opacity: 0.8;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            margin-top: var(--space-xl);
+        }
+        
+        .nav-menu li {
+            margin-bottom: var(--space-sm);
+        }
+        
+        .nav-item {
+            display: block;
+            padding: var(--space-sm) var(--space-md);
+            color: #fff;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: var(--transition-fast);
+        }
+        
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--phi-accent);
+            color: var(--phi-primary);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: var(--space-lg);
+            background: var(--phi-primary);
+        }
+        
+        .view-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            min-height: calc(100vh - 4rem);
+        }
+        
+        .dashboard-header h1 {
+            color: var(--phi-accent);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+            margin: var(--space-xl) 0;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 1px solid var(--phi-accent);
+        }
+        
+        .stat-card h3 {
+            color: var(--phi-accent);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .stat-number {
+            font-size: var(--font-xxxl);
+            font-weight: bold;
+            color: #fff;
+            margin: var(--space-sm) 0;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+        }
+        
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-md);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+        }
+        
+        .message {
+            margin-bottom: var(--space-md);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            max-width: 80%;
+        }
+        
+        .message.user {
+            background: var(--phi-accent);
+            color: var(--phi-primary);
+            margin-left: auto;
+        }
+        
+        .message.assistant {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            gap: var(--space-sm);
+        }
+        
+        .chat-input {
+            flex: 1;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-lg);
+        }
+        
+        .tool-category {
+            background: rgba(255, 255, 255, 0.1);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--phi-accent);
+        }
+        
+        .tool-category h3 {
+            color: var(--phi-accent);
+            margin-bottom: var(--space-md);
+        }
+        
+        .tool-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+        
+        .tool-btn {
+            background: var(--phi-secondary);
+            color: #fff;
+            border: 1px solid var(--phi-accent);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .tool-btn:hover {
+            background: var(--phi-accent);
+            color: var(--phi-primary);
+        }
+        
+        .config-container {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--phi-primary);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--phi-accent);
+        }
+        
+        .integration-status {
+            background: linear-gradient(135deg, var(--phi-accent), #ffcc00);
+            color: var(--phi-primary);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .integration-summary {
+            margin-top: var(--space-xl);
+            padding: var(--space-lg);
+            background: #e8f5e8;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--success);
+        }
+        
+        .integration-summary h3 {
+            color: var(--success);
+            margin-top: 0;
+        }
+        
+        .test-results {
+            margin-top: var(--space-lg);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            background: #f8f9fa;
+            border: 1px solid var(--phi-accent);
+        }
+        
+        .status-item {
+            margin-bottom: var(--space-sm);
+            padding: var(--space-sm);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-success { background: var(--success); }
+        .status-error { background: var(--accent); }
+        .status-warning { background: var(--warning); }
+    </style>
+</head>
+<body>
+    <!-- Le dashboard sera chargé dynamiquement -->
+    
+    <!-- Scripts unifiés -->
+    <script src="../optimized/assets/aura-unified.js"></script>
+    <script src="components/config.js"></script>
+    <script src="components/dashboard.js"></script>
+    
+    <script>
+        // Initialiser l'application
+        document.addEventListener('DOMContentLoaded', () => {
+            dashboard = new AuraDashboard();
+        });
+    </script>
+</body>
+</html>
