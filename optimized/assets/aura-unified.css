@@ -1,0 +1,83 @@
+/* AURA OSINT - CSS Unifié (Golden Ratio Φ = 1.618) */
+:root {
+  --phi-primary: #0a0e27;
+  --phi-secondary: #1a1f3a;
+  --phi-accent: #ffd700;
+  --space-sm: calc(0.5rem * 1.618);
+  --space-md: calc(1rem * 1.618);
+  --space-lg: calc(1.5rem * 1.618);
+  --radius-md: calc(0.5rem * 1.618);
+  --transition: 0.3s ease;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, var(--phi-primary), var(--phi-secondary));
+  color: #fff;
+  line-height: 1.618;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, var(--phi-accent), #ffcc00);
+  color: var(--phi-primary);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transition: var(--transition);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--phi-accent);
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in { animation: fadeIn var(--transition); }

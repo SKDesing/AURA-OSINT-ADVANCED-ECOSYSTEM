@@ -1,0 +1,95 @@
+{
+  "ecosystem": {
+    "name": "AURA OSINT",
+    "version": "1.0.0",
+    "description": "Configuration centralisée des ports pour l'écosystème AURA OSINT"
+  },
+  "ports": {
+    "core": {
+      "backend": {
+        "port": 4011,
+        "description": "Backend principal NestJS/Express",
+        "protocol": "HTTP",
+        "required": true
+      },
+      "frontend": {
+        "port": 3000,
+        "description": "Frontend React (si utilisé)",
+        "protocol": "HTTP",
+        "required": false
+      }
+    },
+    "databases": {
+      "postgresql": {
+        "port": 5432,
+        "description": "Base de données principale PostgreSQL",
+        "protocol": "TCP",
+        "required": true
+      },
+      "elasticsearch": {
+        "http": 9200,
+        "tcp": 9300,
+        "description": "Moteur de recherche Elasticsearch",
+        "protocol": "HTTP/TCP",
+        "required": true
+      },
+      "qdrant": {
+        "http": 6333,
+        "grpc": 6334,
+        "description": "Base de données vectorielle Qdrant",
+        "protocol": "HTTP/gRPC",
+        "required": true
+      },
+      "redis": {
+        "port": 6379,
+        "description": "Cache et sessions Redis",
+        "protocol": "TCP",
+        "required": true
+      }
+    },
+    "tools": {
+      "darknet": {
+        "tor": {
+          "socks": 9050,
+          "control": 9051,
+          "description": "Tor SOCKS proxy et Control Port",
+          "protocol": "SOCKS/HTTP",
+          "required": false
+        }
+      },
+      "network": {
+        "scanner": {
+          "port": 6001,
+          "description": "Interface du scanner réseau",
+          "protocol": "HTTP",
+          "required": false
+        }
+      }
+    },
+    "monitoring": {
+      "documentation": {
+        "port": 8080,
+        "description": "Serveur de documentation interactive",
+        "protocol": "HTTP",
+        "required": false
+      },
+      "logs": {
+        "port": 9000,
+        "description": "Agrégateur de logs",
+        "protocol": "HTTP",
+        "required": false
+      }
+    }
+  },
+  "ranges": {
+    "core_services": "4010-4020",
+    "databases": "5432,6379,6333-6334,9200-9300",
+    "tools": "6000-6100",
+    "monitoring": "8000-8100",
+    "frontend": "3000-3010"
+  },
+  "notes": {
+    "avoid": "80,443,22,21,25,53,110,143,993,995",
+    "strategy": "Utiliser des ports dans les ranges définis pour éviter les conflits"
+  }
+}

@@ -1,0 +1,626 @@
+/**
+ * 🎨 AURA OSINT - SweetAlert2 Golden Ratio Theme
+ * Thème complet basé sur le nombre d'or (Φ = 1.618)
+ * Design harmonieux et professionnel pour l'écosystème OSINT
+ */
+
+:root {
+    /* 🌟 Golden Ratio Variables */
+    --phi: 1.618;
+    --phi-inverse: 0.618;
+    
+    /* 🎨 Golden Color Palette */
+    --aura-gold: #C9A96E;
+    --aura-gold-light: #E4D4B7;
+    --aura-gold-dark: #8B7355;
+    --aura-bronze: #CD7F32;
+    --aura-copper: #B87333;
+    
+    /* 🌈 Semantic Colors */
+    --aura-success: #2ECC71;
+    --aura-warning: #F39C12;
+    --aura-error: #E74C3C;
+    --aura-info: #3498DB;
+    --aura-dark: #2C3E50;
+    --aura-light: #ECF0F1;
+    
+    /* 📏 Golden Ratio Spacing */
+    --space-xs: calc(0.5rem * var(--phi-inverse));
+    --space-sm: calc(0.75rem * var(--phi-inverse));
+    --space-md: calc(1rem * var(--phi));
+    --space-lg: calc(1.5rem * var(--phi));
+    --space-xl: calc(2rem * var(--phi));
+    --space-xxl: calc(3rem * var(--phi));
+    
+    /* 🔤 Typography Scale */
+    --font-xs: calc(0.75rem * var(--phi-inverse));
+    --font-sm: calc(0.875rem * var(--phi-inverse));
+    --font-md: 1rem;
+    --font-lg: calc(1rem * var(--phi));
+    --font-xl: calc(1.25rem * var(--phi));
+    --font-xxl: calc(1.5rem * var(--phi));
+    
+    /* 🎭 Animations */
+    --transition-fast: 0.2s ease-out;
+    --transition-normal: 0.3s ease-out;
+    --transition-slow: 0.5s ease-out;
+    
+    /* 🌊 Shadows */
+    --shadow-sm: 0 2px 4px rgba(44, 62, 80, 0.1);
+    --shadow-md: 0 4px 8px rgba(44, 62, 80, 0.15);
+    --shadow-lg: 0 8px 16px rgba(44, 62, 80, 0.2);
+    --shadow-xl: 0 16px 32px rgba(44, 62, 80, 0.25);
+}
+
+/* 🎯 Main Popup Styling */
+.aura-swal-popup {
+    border-radius: calc(var(--space-md) * var(--phi-inverse)) !important;
+    box-shadow: var(--shadow-xl) !important;
+    border: 2px solid var(--aura-gold) !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%) !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.aura-swal-popup::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--aura-gold), var(--aura-bronze), var(--aura-copper));
+    z-index: 1;
+}
+
+/* 🎨 Header Styling */
+.aura-swal-header {
+    padding: var(--space-lg) var(--space-lg) var(--space-md) !important;
+    border-bottom: 1px solid var(--aura-gold-light) !important;
+    background: linear-gradient(135deg, var(--aura-gold-light) 0%, rgba(255,255,255,0.8) 100%) !important;
+}
+
+.aura-swal-title {
+    font-size: var(--font-xl) !important;
+    font-weight: 600 !important;
+    color: var(--aura-dark) !important;
+    margin: 0 !important;
+    text-align: center !important;
+    line-height: calc(var(--font-xl) * var(--phi)) !important;
+}
+
+/* 🔘 Close Button */
+.aura-swal-close {
+    position: absolute !important;
+    top: var(--space-md) !important;
+    right: var(--space-md) !important;
+    width: calc(var(--space-lg) * var(--phi)) !important;
+    height: calc(var(--space-lg) * var(--phi)) !important;
+    background: var(--aura-gold) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    font-size: var(--font-md) !important;
+    cursor: pointer !important;
+    transition: all var(--transition-normal) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10 !important;
+}
+
+.aura-swal-close:hover {
+    background: var(--aura-gold-dark) !important;
+    transform: scale(1.1) !important;
+}
+
+/* 🎭 Icon Styling */
+.aura-swal-icon {
+    margin: var(--space-md) auto !important;
+    border-width: 3px !important;
+    width: calc(var(--space-xxl) * var(--phi)) !important;
+    height: calc(var(--space-xxl) * var(--phi)) !important;
+}
+
+.aura-swal-icon.swal2-success {
+    border-color: var(--aura-success) !important;
+}
+
+.aura-swal-icon.swal2-error {
+    border-color: var(--aura-error) !important;
+}
+
+.aura-swal-icon.swal2-warning {
+    border-color: var(--aura-warning) !important;
+}
+
+.aura-swal-icon.swal2-info {
+    border-color: var(--aura-info) !important;
+}
+
+/* 📝 Content Area */
+.aura-swal-content {
+    padding: var(--space-lg) !important;
+}
+
+.aura-swal-html-container {
+    font-size: var(--font-md) !important;
+    line-height: calc(var(--font-md) * var(--phi)) !important;
+    color: var(--aura-dark) !important;
+    text-align: left !important;
+}
+
+/* 🔘 Button Styling */
+.aura-btn {
+    padding: var(--space-sm) var(--space-lg) !important;
+    border-radius: calc(var(--space-sm) * var(--phi-inverse)) !important;
+    font-size: var(--font-md) !important;
+    font-weight: 500 !important;
+    border: 2px solid transparent !important;
+    cursor: pointer !important;
+    transition: all var(--transition-normal) !important;
+    margin: 0 var(--space-xs) !important;
+    min-width: calc(var(--space-xxl) * var(--phi)) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.aura-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left var(--transition-slow);
+}
+
+.aura-btn:hover::before {
+    left: 100%;
+}
+
+.aura-btn-primary {
+    background: linear-gradient(135deg, var(--aura-gold), var(--aura-bronze)) !important;
+    color: white !important;
+    border-color: var(--aura-gold-dark) !important;
+}
+
+.aura-btn-primary:hover {
+    background: linear-gradient(135deg, var(--aura-gold-dark), var(--aura-copper)) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.aura-btn-secondary {
+    background: var(--aura-light) !important;
+    color: var(--aura-dark) !important;
+    border-color: var(--aura-gold-light) !important;
+}
+
+.aura-btn-secondary:hover {
+    background: var(--aura-gold-light) !important;
+    border-color: var(--aura-gold) !important;
+}
+
+.aura-btn-danger {
+    background: linear-gradient(135deg, var(--aura-error), #c0392b) !important;
+    color: white !important;
+    border-color: #a93226 !important;
+}
+
+.aura-btn-danger:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* 📊 Actions Container */
+.aura-swal-actions {
+    padding: var(--space-md) var(--space-lg) var(--space-lg) !important;
+    justify-content: center !important;
+    gap: var(--space-sm) !important;
+}
+
+/* 🦶 Footer */
+.aura-swal-footer {
+    padding: var(--space-md) var(--space-lg) !important;
+    border-top: 1px solid var(--aura-gold-light) !important;
+    background: var(--aura-light) !important;
+    font-size: var(--font-sm) !important;
+    color: var(--aura-dark) !important;
+    text-align: center !important;
+}
+
+/* 📝 Input Fields */
+.aura-swal-input,
+.aura-swal-textarea {
+    border: 2px solid var(--aura-gold-light) !important;
+    border-radius: calc(var(--space-sm) * var(--phi-inverse)) !important;
+    padding: var(--space-sm) var(--space-md) !important;
+    font-size: var(--font-md) !important;
+    transition: all var(--transition-normal) !important;
+    background: white !important;
+}
+
+.aura-swal-input:focus,
+.aura-swal-textarea:focus {
+    border-color: var(--aura-gold) !important;
+    box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.2) !important;
+    outline: none !important;
+}
+
+.aura-swal-input-label {
+    font-weight: 500 !important;
+    color: var(--aura-dark) !important;
+    margin-bottom: var(--space-xs) !important;
+}
+
+/* ⚠️ Validation Messages */
+.aura-swal-validation-message {
+    background: var(--aura-error) !important;
+    color: white !important;
+    padding: var(--space-sm) var(--space-md) !important;
+    border-radius: calc(var(--space-sm) * var(--phi-inverse)) !important;
+    margin-top: var(--space-sm) !important;
+    font-size: var(--font-sm) !important;
+}
+
+/* 📈 Progress Steps */
+.aura-swal-progress-steps {
+    background: var(--aura-gold-light) !important;
+    padding: var(--space-sm) !important;
+    border-radius: calc(var(--space-lg) * var(--phi-inverse)) !important;
+}
+
+.aura-swal-progress-steps .swal2-progress-step {
+    background: var(--aura-gold) !important;
+    color: white !important;
+    width: calc(var(--space-lg) * var(--phi)) !important;
+    height: calc(var(--space-lg) * var(--phi)) !important;
+    line-height: calc(var(--space-lg) * var(--phi)) !important;
+    border-radius: 50% !important;
+    font-size: var(--font-sm) !important;
+    font-weight: 600 !important;
+}
+
+.aura-swal-progress-steps .swal2-progress-step.swal2-active-progress-step {
+    background: var(--aura-bronze) !important;
+    transform: scale(1.2) !important;
+}
+
+/* 🎨 Custom Components Styling */
+
+/* Investigation Start Component */
+.aura-investigation-start {
+    text-align: center;
+    padding: var(--space-lg);
+}
+
+.golden-spiral-icon {
+    font-size: calc(var(--font-xxl) * var(--phi));
+    margin-bottom: var(--space-md);
+    animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.target-name {
+    display: block;
+    font-size: var(--font-lg);
+    color: var(--aura-gold-dark);
+    margin: var(--space-md) 0;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--aura-gold-light);
+    border-radius: calc(var(--space-sm) * var(--phi-inverse));
+}
+
+.investigation-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: var(--space-lg);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: var(--font-xl);
+    font-weight: bold;
+    color: var(--aura-gold);
+}
+
+.stat-label {
+    font-size: var(--font-sm);
+    color: var(--aura-dark);
+}
+
+/* Progress Container */
+.aura-progress-container {
+    padding: var(--space-lg);
+}
+
+.current-tool {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    padding: var(--space-md);
+    background: var(--aura-gold-light);
+    border-radius: calc(var(--space-md) * var(--phi-inverse));
+}
+
+.tool-icon {
+    font-size: var(--font-xl);
+    margin-right: var(--space-md);
+}
+
+.tool-info h4 {
+    margin: 0 0 var(--space-xs) 0;
+    color: var(--aura-dark);
+}
+
+.tool-info p {
+    margin: 0;
+    font-size: var(--font-sm);
+    color: var(--aura-gold-dark);
+}
+
+.progress-bar-container {
+    position: relative;
+    background: var(--aura-light);
+    border-radius: calc(var(--space-lg) * var(--phi-inverse));
+    height: calc(var(--space-md) * var(--phi));
+    margin-bottom: var(--space-lg);
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--aura-gold), var(--aura-bronze));
+    border-radius: inherit;
+    transition: width var(--transition-slow);
+    position: relative;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: var(--aura-dark);
+    font-size: var(--font-sm);
+}
+
+/* Investigation Timeline */
+.investigation-timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.investigation-timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--aura-gold-light);
+    z-index: 1;
+}
+
+.timeline-item {
+    position: relative;
+    z-index: 2;
+    background: white;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: calc(var(--space-sm) * var(--phi-inverse));
+    border: 2px solid var(--aura-gold-light);
+    font-size: var(--font-xs);
+    text-align: center;
+    transition: all var(--transition-normal);
+}
+
+.timeline-item.completed {
+    background: var(--aura-success);
+    color: white;
+    border-color: var(--aura-success);
+    transform: scale(1.1);
+}
+
+/* Completion Summary */
+.aura-completion-summary {
+    text-align: center;
+    padding: var(--space-lg);
+}
+
+.success-icon {
+    font-size: calc(var(--font-xxl) * var(--phi));
+    margin-bottom: var(--space-md);
+    animation: bounce 1s ease-out;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-md);
+    margin: var(--space-lg) 0;
+}
+
+.result-card {
+    padding: var(--space-md);
+    background: var(--aura-gold-light);
+    border-radius: calc(var(--space-md) * var(--phi-inverse));
+    text-align: center;
+}
+
+.result-number {
+    display: block;
+    font-size: var(--font-xl);
+    font-weight: bold;
+    color: var(--aura-gold-dark);
+}
+
+.result-label {
+    font-size: var(--font-sm);
+    color: var(--aura-dark);
+    margin-top: var(--space-xs);
+}
+
+.completion-time {
+    margin-top: var(--space-lg);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--aura-light);
+    border-radius: calc(var(--space-sm) * var(--phi-inverse));
+    font-size: var(--font-sm);
+    color: var(--aura-dark);
+}
+
+/* Loading Steps */
+.aura-loading-steps {
+    text-align: center;
+    padding: var(--space-lg);
+}
+
+.loading-spinner {
+    margin-bottom: var(--space-lg);
+}
+
+.golden-spiral {
+    width: calc(var(--space-xxl) * var(--phi));
+    height: calc(var(--space-xxl) * var(--phi));
+    border: 3px solid var(--aura-gold-light);
+    border-top: 3px solid var(--aura-gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.step-indicator {
+    margin-bottom: var(--space-lg);
+}
+
+.step-text {
+    font-size: var(--font-lg);
+    color: var(--aura-dark);
+    margin-bottom: var(--space-md);
+    font-weight: 500;
+}
+
+.step-progress {
+    background: var(--aura-light);
+    border-radius: calc(var(--space-sm) * var(--phi-inverse));
+    height: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    overflow: hidden;
+}
+
+.step-counter {
+    font-size: var(--font-md);
+    color: var(--aura-gold-dark);
+    font-weight: bold;
+}
+
+.estimated-time {
+    font-size: var(--font-sm);
+    color: var(--aura-dark);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--aura-gold-light);
+    border-radius: calc(var(--space-sm) * var(--phi-inverse));
+    display: inline-block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .aura-swal-popup {
+        margin: var(--space-md) !important;
+        width: calc(100% - var(--space-lg)) !important;
+    }
+    
+    .results-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .investigation-timeline {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+    
+    .investigation-timeline::before {
+        display: none;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .aura-swal-popup {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+        color: var(--aura-light) !important;
+    }
+    
+    .aura-swal-title {
+        color: var(--aura-light) !important;
+    }
+    
+    .aura-swal-html-container {
+        color: var(--aura-light) !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .aura-swal-popup {
+        border-width: 3px !important;
+    }
+    
+    .aura-btn {
+        border-width: 3px !important;
+    }
+    
+    .aura-swal-input,
+    .aura-swal-textarea {
+        border-width: 3px !important;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
