@@ -59,3 +59,13 @@ browser/profiles/
 tools/sherlock/.git/
 ai/local-llm/runtime/llama.cpp/.git/
 ai/local-llm/runtime/llama.cpp/
+
+# Tools
+tools/sherlock/
+
+# Backend venv
+backend/venv/
+
+# Frontend builds
+clients/web/frontend/.next/
+**/.next/
