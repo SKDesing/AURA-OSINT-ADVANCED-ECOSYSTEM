@@ -1,0 +1,10 @@
+{
+  "backend": 4011,
+  "frontend": 3000,
+  "vitrine": 5173,
+  "tiktok": 8080,
+  "postgres": 5432,
+  "redis": 6379,
+  "elasticsearch": 9200,
+  "qdrant": 6333
+}
