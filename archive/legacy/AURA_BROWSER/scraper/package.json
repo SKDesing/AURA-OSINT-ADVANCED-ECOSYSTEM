@@ -1,8 +1,0 @@
-{
-  "name": "@aura/scraper",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "echo 'Scraper build complete'",
-    "test": "echo 'All scraper tests passed'"
-  }
-}
