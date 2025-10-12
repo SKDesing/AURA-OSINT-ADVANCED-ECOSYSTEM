@@ -33,13 +33,9 @@ const IconContainer = styled.div`
     cursor: pointer;
   }
   
-  ${props => props.pulse && `
-    animation: ${pulse} 2s ease-in-out infinite;
-  `}
+  ${props => props.pulse && `animation: ${pulse} 2s ease-in-out infinite;`}
   
-  ${props => props.rotate && `
-    animation: ${rotate} 3s linear infinite;
-  `}
+  ${props => props.rotate && `animation: ${rotate} 3s linear infinite;`}
   
   ${props => props.background && `
     background: linear-gradient(135deg, 

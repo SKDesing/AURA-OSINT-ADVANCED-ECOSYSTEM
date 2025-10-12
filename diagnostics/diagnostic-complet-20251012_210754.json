@@ -1,0 +1,60 @@
+{
+  "timestamp": "2025-10-12T21:07:54+02:00",
+  "hostname": "soufiane-HP-Laptop-15s-eq1xxx",
+  "system": "Linux 6.14.0-33-generic",
+  "diagnostics": {
+    "system_environment": {
+      "cpu": "AMD Ryzen 7 4700U with Radeon Graphics",
+      "cpu_cores": 8,
+      "ram_total": "14Gi",
+      "ram_used": "9,9Gi",
+      "ram_percent": 66,2,
+      "disk_total": "468G",
+      "disk_used": "300G",
+      "disk_percent": "68%"
+    },
+    "dependencies": {
+      "nodejs": {"installed": true, "version": "v22.20.0"},
+      "npm": {"installed": true, "version": "10.9.3"},
+      "python": {"installed": true, "version": "3.12.3"},
+      "docker": {"installed": true, "version": "28.2.2"},
+      "curl": {"installed": true, "version": "8.5.0"}
+    },
+    "project_structure": {
+      "directories": [
+        {"path": "backend", "exists": true},
+        {"path": "frontend", "exists": true},
+        {"path": "marketing/sites/vitrine-aura-advanced-osint-ecosystem", "exists": true},
+        {"path": "logs", "exists": true},
+        {"path": "scripts", "exists": true}
+      ]
+    },
+    "services": {
+      "port_6379": {"service": "Redis", "status": "active"},
+      "port_9200": {"service": "Elasticsearch", "status": "active"},
+      "port_4011": {"service": "Backend API Unifié", "status": "inactive"},
+      "port_3000": {"service": "Frontend React", "status": "active"},
+      "port_5173": {"service": "Site Vitrine", "status": "active"},
+      "port_5432": {"service": "PostgreSQL", "status": "active"},
+      "port_6333": {"service": "Qdrant", "status": "active"}
+    },
+    "osint_tools": {
+      "holehe": {"name": "Holehe (Email)", "installed": true},
+      "phoneinfoga": {"name": "PhoneInfoga", "installed": false},
+      "sherlock": {"name": "Sherlock", "installed": true},
+      "maigret": {"name": "Maigret", "installed": true},
+      "theHarvester": {"name": "TheHarvester", "installed": true},
+      "subfinder": {"name": "Subfinder", "installed": true},
+      "amass": {"name": "Amass", "installed": true},
+      "nmap": {"name": "Nmap", "installed": true},
+      "whois": {"name": "WHOIS", "installed": true},
+      "dnsenum": {"name": "DNSenum", "installed": true}
+    }
+  },
+  "summary": {
+    "total_checks": 31,
+    "passed": 25,
+    "failed": 0,
+    "warnings": 2
+  }
+}

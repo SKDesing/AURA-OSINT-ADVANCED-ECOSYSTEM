@@ -307,6 +307,9 @@ export const mockAIResponses = {
   }
 };
 
+// Export nommé pour MockDataGenerator
+export { MockDataGenerator };
+
 // Export par défaut
 export default {
   mockOsintTools,
