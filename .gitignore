@@ -58,3 +58,4 @@ browser/profiles/
 # Sous-modules Git
 tools/sherlock/.git/
 ai/local-llm/runtime/llama.cpp/.git/
+ai/local-llm/runtime/llama.cpp/
