@@ -60,8 +60,14 @@ tools/sherlock/.git/
 ai/local-llm/runtime/llama.cpp/.git/
 ai/local-llm/runtime/llama.cpp/
 
-# Tools
-tools/sherlock/
+# Tools OSINT (ne pas versionner - trop lourd)
+tools/*/
+!tools/aura-cache-monitor/
+
+# IA complète (ne pas versionner - trop lourd)
+ai/local-llm/
+ai/models/
+ai/dataset/
 
 # Backend venv
 backend/venv/
