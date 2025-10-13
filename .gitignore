@@ -1,18 +1,57 @@
+# 🔒 CODE SOURCE PRIVÉ - NE PAS VERSIONNER
+
+# Tout le code source
+00-SYSTEM-CORE/
+01-DATA-COLLECTION/
+06-INVESTIGATION-WORKFLOWS/
+ai/
+ai-engine/
+algorithms/
+apps/
+assets/
+aura-browser/
+aura-proxy/
+backend/
+clients/
+core/
+cypress/
+database/
+diagnostics/
+diagrams/
+dist/
+engines/
+extensions/
+infra/
+live-tracker/
+marketing/
+middleware/
+monitoring/
+osint-tools-advanced/
+packages/
+platform-adapters/
+public/
+server/
+services/
+shared/
+src/
+tests/
+tools/
+venv-osint/
+
+# Documentation technique
+DOCUMENTATION TECHNIQUE INTERACTIVE/
+
 # Python
 venv/
 venv-*/
 *.pyc
 __pycache__/
 *.egg-info/
-dist/
-build/
 
 # Node
 node_modules/
 npm-debug.log*
 package-lock.json
-aura-browser/node_modules/
-live-tracker/node_modules/
 
 # Secrets
 .env
@@ -30,6 +69,7 @@ logs/
 # Binaries
 phoneinfoga
 *.exe
+*.jar
 
 # IDE
 .vscode/
@@ -37,47 +77,6 @@ phoneinfoga
 .DS_Store
 
 # Build
-dist/
 build/
 coverage/
-
-# Modèles IA (GROS FICHIERS)
-ai/local-llm/models/*.gguf
-ai/local-llm/models/*.bin
-ai/local-llm/models/*.safetensors
-ai/local-llm/models/*.pt
-ai/local-llm/models/*.pth
-ai/local-llm/runtime/llama.cpp/build/
-ai/local-llm/runtime/llama.cpp/models/
-
-# Outils
-*.jar
-bfg-*.jar
-
-# Browser profiles
-browser/profiles/
-
-# Sous-modules Git
-tools/sherlock/.git/
-ai/local-llm/runtime/llama.cpp/.git/
-ai/local-llm/runtime/llama.cpp/
-
-# Tools OSINT (ne pas versionner - trop lourd)
-tools/*/
-!tools/aura-cache-monitor/
-
-# IA complète (ne pas versionner - trop lourd)
-ai/local-llm/
-ai/models/
-ai/dataset/
-
-# Backend venv
-backend/venv/
-
-# Frontend builds
-clients/web/frontend/.next/
 **/.next/
-
-# Projets lourds (ne pas versionner)
-aura-browser/
-live-tracker/
