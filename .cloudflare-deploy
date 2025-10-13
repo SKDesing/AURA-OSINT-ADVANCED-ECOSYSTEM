@@ -1,0 +1,9 @@
+# Cloudflare Pages Deployment Configuration
+
+Build Command: cd clients/web/frontend && npm install && npm run build
+Build Output: clients/web/frontend/build
+Branch: main
+
+Deployment URL: https://aura-osint-advanced-ecosystem.pages.dev
+
+Last Updated: 2025-10-13
