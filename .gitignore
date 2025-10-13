@@ -11,6 +11,8 @@ build/
 node_modules/
 npm-debug.log*
 package-lock.json
+aura-browser/node_modules/
+live-tracker/node_modules/
 
 # Secrets
 .env
@@ -75,3 +77,7 @@ backend/venv/
 # Frontend builds
 clients/web/frontend/.next/
 **/.next/
+
+# Projets lourds (ne pas versionner)
+aura-browser/
+live-tracker/
