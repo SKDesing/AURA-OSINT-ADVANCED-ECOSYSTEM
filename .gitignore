@@ -140,3 +140,5 @@ vendors/osint/**/.env
 *.pfx
 **/secrets/**
 **/keys/**
+# Test reports
+reports/
