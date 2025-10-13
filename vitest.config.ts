@@ -7,6 +7,7 @@ export default defineConfig({
     environment: 'node',
     reporters: ['default', 'junit'],
     outputFile: 'reports/junit/vitest-junit.xml',
+    passWithNoTests: true,
     coverage: {
       enabled: true,
       provider: 'v8',

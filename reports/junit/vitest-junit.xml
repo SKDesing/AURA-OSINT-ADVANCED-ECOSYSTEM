@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites name="vitest tests" tests="45" failures="12" errors="0" time="0.296027689">
-    <testsuite name="ai/router/router.test.ts" timestamp="2025-10-13T02:04:02.564Z" hostname="runnervmwhb2z" tests="8" failures="0" errors="0" skipped="0" time="0.016641887">
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to ner for Entity extraction with multiple entities" time="0.010470475">
+<testsuites name="vitest tests" tests="45" failures="12" errors="0" time="0.177800444">
+    <testsuite name="ai/router/router.test.ts" timestamp="2025-10-13T02:10:11.102Z" hostname="runnervmwhb2z" tests="8" failures="0" errors="0" skipped="0" time="0.007497584">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to ner for Entity extraction with multiple entities" time="0.00321689">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to forensic for Forensic timeline analysis" time="0.000620623">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to forensic for Forensic timeline analysis" time="0.000426659">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to nlp for NLP classification for toxicity" time="0.000378629">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to nlp for NLP classification for toxicity" time="0.000227276">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to rag+llm for RAG retrieval query" time="0.00038448">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to rag+llm for RAG retrieval query" time="0.000194545">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to llm for General knowledge query" time="0.000365905">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to llm for General knowledge query" time="0.000190206">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should detect harassment with high lexical score" time="0.000370434">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should detect harassment with high lexical score" time="0.000238447">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should extract entities correctly" time="0.001684446">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should extract entities correctly" time="0.001054626">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should estimate token savings" time="0.00029376">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should estimate token savings" time="0.00018125">
         </testcase>
     </testsuite>
-    <testsuite name="tests/integration/roadmap-integration.test.js" timestamp="2025-10-13T02:04:02.566Z" hostname="runnervmwhb2z" tests="12" failures="2" errors="0" skipped="0" time="0.078950262">
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Configuration System &gt; should load unified configuration" time="0.006097003">
+    <testsuite name="tests/integration/roadmap-integration.test.js" timestamp="2025-10-13T02:10:11.105Z" hostname="runnervmwhb2z" tests="12" failures="2" errors="0" skipped="0" time="0.050559715">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Configuration System &gt; should load unified configuration" time="0.00282752">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Configuration System &gt; should validate configuration" time="0.000397665">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Configuration System &gt; should validate configuration" time="0.000344956">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Domain-Driven Design Architecture &gt; should create incident entity" time="0.000862125">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Domain-Driven Design Architecture &gt; should create incident entity" time="0.000863478">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Domain-Driven Design Architecture &gt; should handle business rules" time="0.000245049">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Domain-Driven Design Architecture &gt; should handle business rules" time="0.000287239">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Harassment Detection Algorithm &gt; should detect harassment in messages" time="0.000877233">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Harassment Detection Algorithm &gt; should detect harassment in messages" time="0.000801472">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Harassment Detection Algorithm &gt; should provide detailed analysis" time="0.000205905">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Harassment Detection Algorithm &gt; should provide detailed analysis" time="0.00216563">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Forensic Timeline Analyzer &gt; should analyze incident timeline" time="0.001252357">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Forensic Timeline Analyzer &gt; should analyze incident timeline" time="0.000785602">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Forensic Timeline Analyzer &gt; should detect coordinated attacks" time="0.000259556">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Forensic Timeline Analyzer &gt; should detect coordinated attacks" time="0.000263714">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should initialize successfully" time="0.000780502">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should initialize successfully" time="0.000853199">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should analyze messages and create incidents" time="0.060347119">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should analyze messages and create incidents" time="0.03695258">
             <failure message="The expression evaluated to a falsy value:
 
   assert(result.isHarassment === true)
@@ -56,9 +56,9 @@ AssertionError: The expression evaluated to a falsy value:
  ❯ tests/integration/roadmap-integration.test.js:196:7
             </failure>
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should analyze session data" time="0.000678521">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should analyze session data" time="0.000590607">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Integration Flow &gt; should handle complete harassment detection flow" time="0.004302079">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Integration Flow &gt; should handle complete harassment detection flow" time="0.001395145">
             <failure message="The expression evaluated to a falsy value:
 
   assert(result.isHarassment === true)
@@ -78,30 +78,30 @@ AssertionError: The expression evaluated to a falsy value:
             </failure>
         </testcase>
     </testsuite>
-    <testsuite name="tests/unit/backend.test.ts" timestamp="2025-10-13T02:04:02.573Z" hostname="runnervmwhb2z" tests="2" failures="0" errors="0" skipped="0" time="0.009258825">
-        <testcase classname="tests/unit/backend.test.ts" name="Backend OSINT API &gt; should validate job schema" time="0.004278856">
+    <testsuite name="tests/unit/backend.test.ts" timestamp="2025-10-13T02:10:11.108Z" hostname="runnervmwhb2z" tests="2" failures="0" errors="0" skipped="0" time="0.008679007">
+        <testcase classname="tests/unit/backend.test.ts" name="Backend OSINT API &gt; should validate job schema" time="0.003375951">
         </testcase>
-        <testcase classname="tests/unit/backend.test.ts" name="Backend OSINT API &gt; should generate unique job IDs" time="0.00293565">
-        </testcase>
-    </testsuite>
-    <testsuite name="ai/gateway/src/preintel/preintel.test.ts" timestamp="2025-10-13T02:04:02.573Z" hostname="runnervmwhb2z" tests="7" failures="0" errors="0" skipped="0" time="0.031928996">
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should process text and return metadata" time="0.015528361">
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should detect cache hits on repeated inputs" time="0.000616606">
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should handle dry run mode" time="0.00051758">
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should apply pruning when enabled" time="0.001061338">
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should detect language correctly" time="0.001533603">
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; cache management &gt; should clear cache" time="0.000599854">
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; cache management &gt; should provide cache statistics" time="0.000513082">
+        <testcase classname="tests/unit/backend.test.ts" name="Backend OSINT API &gt; should generate unique job IDs" time="0.003169847">
         </testcase>
     </testsuite>
-    <testsuite name="ai/gateway/src/router/decision-engine.test.ts" timestamp="2025-10-13T02:04:02.575Z" hostname="runnervmwhb2z" tests="16" failures="10" errors="0" skipped="0" time="0.159247719">
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route entity-heavy text to NER" time="0.07257521">
+    <testsuite name="ai/gateway/src/preintel/preintel.test.ts" timestamp="2025-10-13T02:10:11.109Z" hostname="runnervmwhb2z" tests="7" failures="0" errors="0" skipped="0" time="0.014511049">
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should process text and return metadata" time="0.008730665">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should detect cache hits on repeated inputs" time="0.000598071">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should handle dry run mode" time="0.000463649">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should apply pruning when enabled" time="0.00106703">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should detect language correctly" time="0.000628688">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; cache management &gt; should clear cache" time="0.00053356">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; cache management &gt; should provide cache statistics" time="0.000427231">
+        </testcase>
+    </testsuite>
+    <testsuite name="ai/gateway/src/router/decision-engine.test.ts" timestamp="2025-10-13T02:10:11.110Z" hostname="runnervmwhb2z" tests="16" failures="10" errors="0" skipped="0" time="0.096553089">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route entity-heavy text to NER" time="0.05235291">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -137,7 +137,7 @@ AssertionError: expected 0.76 to be greater than 0.8
  ❯ ai/gateway/src/router/decision-engine.test.ts:24:35
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route forensic timeline to forensic module" time="0.021933902">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route forensic timeline to forensic module" time="0.007776958">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -177,7 +177,7 @@ Received: &quot;ner&quot;
  ❯ ai/gateway/src/router/decision-engine.test.ts:32:33
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route high-risk content to harassment detection" time="0.002705318">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route high-risk content to harassment detection" time="0.002729577">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -217,7 +217,7 @@ Received: &quot;llm&quot;
  ❯ ai/gateway/src/router/decision-engine.test.ts:41:33
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route factual questions to RAG+LLM" time="0.005600432">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route factual questions to RAG+LLM" time="0.003037834">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -253,7 +253,7 @@ AssertionError: expected 0.64 to be greater than 0.7
  ❯ ai/gateway/src/router/decision-engine.test.ts:52:35
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should fallback to LLM for general queries" time="0.002348219">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should fallback to LLM for general queries" time="0.002174325">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -285,7 +285,7 @@ AssertionError: expected 0.64 to be greater than 0.7
 
             </system-err>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should include features hash in decision" time="0.004541357">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should include features hash in decision" time="0.002689732">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -317,7 +317,7 @@ AssertionError: expected 0.64 to be greater than 0.7
 
             </system-err>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should handle simulate mode" time="0.002570164">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should handle simulate mode" time="0.001607483">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -349,9 +349,9 @@ AssertionError: expected 0.64 to be greater than 0.7
 
             </system-err>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; getStats &gt; should return empty stats initially" time="0.000553578">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; getStats &gt; should return empty stats initially" time="0.00039476">
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; getStats &gt; should calculate stats after decisions" time="0.005109782">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; getStats &gt; should calculate stats after decisions" time="0.003346082">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -409,7 +409,7 @@ AssertionError: expected 0.64 to be greater than 0.7
 
             </system-err>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should extract basic features" time="0.002469346">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should extract basic features" time="0.002352119">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -426,7 +426,7 @@ undefined
  ❯ ai/gateway/src/router/decision-engine.test.ts:117:29
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should detect questions" time="0.001642246">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should detect questions" time="0.001169822">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -443,7 +443,7 @@ undefined
  ❯ ai/gateway/src/router/decision-engine.test.ts:127:37
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should count forensic terms" time="0.003344326">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should count forensic terms" time="0.00276331">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -453,7 +453,7 @@ TypeError: actual value must be number or bigint, received &quot;undefined&quot;
  ❯ ai/gateway/src/router/decision-engine.test.ts:134:39
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should detect timeline markers" time="0.002440813">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should detect timeline markers" time="0.001324853">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -463,7 +463,7 @@ TypeError: actual value must be number or bigint, received &quot;undefined&quot;
  ❯ ai/gateway/src/router/decision-engine.test.ts:141:41
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should calculate risk score" time="0.002438479">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should calculate risk score" time="0.001306308">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -473,13 +473,13 @@ TypeError: actual value must be number or bigint, received &quot;undefined&quot;
  ❯ ai/gateway/src/router/decision-engine.test.ts:151:45
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; hashFeatures &gt; should generate consistent hash for same features" time="0.001100191">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; hashFeatures &gt; should generate consistent hash for same features" time="0.001070267">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
             </system-out>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; hashFeatures &gt; should generate different hash for different features" time="0.001646625">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; hashFeatures &gt; should generate different hash for different features" time="0.001712099">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
