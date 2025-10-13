@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
+
 const { EmbeddingsHealthChecker } = require('./embeddings-health');
 const { RouterBenchmark } = require('./router-bench');
 const { ModelsInventory } = require('./models-inventory');

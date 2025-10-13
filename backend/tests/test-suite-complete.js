@@ -1,6 +1,7 @@
-const { pool } = require('../config/database');
 const nodemailer = require('nodemailer');
 const axios = require('axios');
+
+const { pool } = require('../config/database');
 
 const BASE_URL = 'http://localhost:4002';
 

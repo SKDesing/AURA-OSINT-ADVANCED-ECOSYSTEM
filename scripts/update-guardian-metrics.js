@@ -5,10 +5,11 @@
  * Expose des métriques Prometheus pour le suivi des mises à jour
  */
 
-const express = require('express');
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+
+const express = require('express');
 
 const app = express();
 const PORT = process.env.METRICS_PORT || 9091;

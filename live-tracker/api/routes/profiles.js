@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const { createProfile, getProfiles, getProfileById, validateProfileCreation } = require('../controllers/profileController');
 

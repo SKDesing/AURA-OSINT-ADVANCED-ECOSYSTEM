@@ -3,8 +3,9 @@
  * Pipeline de traitement des données capturées
  */
 
-const { Pool } = require('pg');
 const crypto = require('crypto');
+
+const { Pool } = require('pg');
 
 class DataPipeline {
     constructor() {

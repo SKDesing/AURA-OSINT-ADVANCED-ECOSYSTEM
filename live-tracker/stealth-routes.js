@@ -3,11 +3,12 @@
  * Routes spécialisées pour interception furtive
  */
 
-const express = require('express');
-const { Pool } = require('pg');
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+
+const { Pool } = require('pg');
+const express = require('express');
 
 const router = express.Router();
 

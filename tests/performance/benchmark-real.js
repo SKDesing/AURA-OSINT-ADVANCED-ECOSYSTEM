@@ -1,5 +1,6 @@
-const axios = require('axios');
 const { performance } = require('perf_hooks');
+
+const axios = require('axios');
 
 const BASE_URL = 'http://localhost:4002';
 const CONCURRENT_REQUESTS = 10;

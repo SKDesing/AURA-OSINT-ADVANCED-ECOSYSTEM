@@ -1,5 +1,6 @@
-import { Step } from '../types';
 import fs from 'fs';
+
+import { Step } from '../types';
 
 export const securityScanStep: Step = {
   id: '020_security_scan_stub',

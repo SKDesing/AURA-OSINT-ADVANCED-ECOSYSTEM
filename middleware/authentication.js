@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+
 const forensicLogger = require('../logs/forensic-logger');
 
 class Authentication {

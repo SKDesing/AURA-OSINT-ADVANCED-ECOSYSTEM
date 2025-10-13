@@ -1,4 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
+
 import { HarassmentService } from './harassment.service';
 
 interface AnalyzeRequest {

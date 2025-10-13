@@ -1,7 +1,8 @@
-const StealthProxy = require('./stealth-proxy');
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
+
+const StealthProxy = require('./stealth-proxy');
 
 class StealthLauncher {
   constructor() {

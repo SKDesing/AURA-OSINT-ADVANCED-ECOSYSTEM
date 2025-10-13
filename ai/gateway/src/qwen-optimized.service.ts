@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { InputGuardService } from './guardrails/input-guard';
-import { OutputGuardService } from './guardrails/output-guard';
 import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
+
+import { Injectable } from '@nestjs/common';
+
+import { InputGuardService } from './guardrails/input-guard';
+import { OutputGuardService } from './guardrails/output-guard';
 import { metrics } from './metrics/metrics.registry';
 import { assessRisk } from './preintel/risk-lexical';
 import { detectLanguage } from './preintel/lang-detector';

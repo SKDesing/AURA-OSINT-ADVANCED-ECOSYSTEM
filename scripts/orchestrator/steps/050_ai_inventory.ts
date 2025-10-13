@@ -1,6 +1,7 @@
-import { Step } from '../types';
 import fs from 'fs';
 import path from 'path';
+
+import { Step } from '../types';
 
 export const aiInventoryStep: Step = {
   id: '050_ai_inventory',

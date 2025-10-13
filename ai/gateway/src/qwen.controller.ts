@@ -1,4 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
+
 import { QwenService } from './qwen.service';
 
 interface GenerateRequest {

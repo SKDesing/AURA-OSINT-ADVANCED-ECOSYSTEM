@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
+
 import { InputGuardService } from './guardrails/input-guard';
 import { OutputGuardService } from './guardrails/output-guard';
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const engine = require('../../../ai/engines/harassment/engine');
 

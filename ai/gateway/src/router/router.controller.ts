@@ -1,7 +1,9 @@
 import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
+
+import { DevOnlyGuard } from '../guards/dev-only.guard';
+
 import { RouterService } from './router.service';
 import { RouterDecisionDto, RouterDiagnoseDto } from './router.dto';
-import { DevOnlyGuard } from '../guards/dev-only.guard';
 
 @Controller('ai/router')
 export class RouterController {

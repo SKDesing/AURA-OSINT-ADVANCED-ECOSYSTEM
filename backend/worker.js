@@ -1,11 +1,12 @@
 // Worker BullMQ minimal pour OSINT
 try { require('./utils/ensure-worker-electron-launch')(); } catch { /* best-effort */ }
 
-const { Worker, QueueScheduler } = require('bullmq');
-const IORedis = require('ioredis');
 const { spawn } = require('node:child_process');
 const { mkdirSync } = require('node:fs');
 const { resolve, join } = require('node:path');
+
+const IORedis = require('ioredis');
+const { Worker, QueueScheduler } = require('bullmq');
 const { Pool } = require('pg');
 
 const REDIS_URL = process.env.ORCHESTRATOR_REDIS_URL || 'redis://localhost:6379/5';

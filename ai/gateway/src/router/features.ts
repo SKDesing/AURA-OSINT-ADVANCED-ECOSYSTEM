@@ -1,6 +1,8 @@
+import cosine from 'cosine-similarity';
+
 import { sha256 } from '../../../../packages/shared/src/utils/hash';
 import { EmbeddingService } from '../rag/embedding.service';
-import cosine from 'cosine-similarity';
+
 import prototypes from './prototypes.json';
 
 export interface RouterFeatures {

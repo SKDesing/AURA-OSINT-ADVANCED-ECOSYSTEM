@@ -1,6 +1,8 @@
 const puppeteer = require('puppeteer');
+
 const fs = require('fs').promises;
 const crypto = require('crypto');
+
 const winston = require('winston');
 
 // Configuration du logger

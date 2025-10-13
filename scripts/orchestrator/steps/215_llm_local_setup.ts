@@ -1,6 +1,7 @@
-import { Step } from '../types';
 import { execSync } from 'child_process';
 import fs from 'fs';
+
+import { Step } from '../types';
 
 export const llmLocalSetupStep: Step = {
   id: '215_llm_local_setup',

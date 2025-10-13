@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+
 import { AiModule } from './ai.module';
 import { registry } from './metrics/metrics.registry';
 
