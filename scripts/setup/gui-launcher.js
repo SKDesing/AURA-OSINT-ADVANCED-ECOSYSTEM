@@ -15,6 +15,25 @@ class AuraGUILauncher {
         this.setupRoutes();
     }
 
+    async killPortProcess(port) {
+        const { exec } = require('child_process');
+        return new Promise((resolve) => {
+            exec(`lsof -ti:${port} | xargs kill -9 2>/dev/null || true`, (error) => {
+                resolve();
+            });
+        });
+    }
+
+    async cleanupPorts() {
+        console.log('🧹 Nettoyage des ports occupés...');
+        const ports = [this.port, 4001, 4002];
+        for (const port of ports) {
+            await this.killPortProcess(port);
+        }
+        await new Promise(r => setTimeout(r, 1000));
+        console.log('✅ Ports libérés');
+    }
+
     setupMiddleware() {
         this.app.use(express.json());
         this.app.use(express.static(path.join(__dirname, 'gui')));
@@ -319,7 +338,9 @@ class AuraGUILauncher {
         };
     }
 
-    start() {
+    async start() {
+        await this.cleanupPorts();
+        
         console.log('🖥️  AURA GUI en cours de démarrage...');
         console.log('📊 Endpoints API disponibles:');
         console.log('   - /api/analytics/dashboard (Analytics temps réel)');

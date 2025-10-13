@@ -23,19 +23,16 @@ class StartupOrchestrator {
         console.log('🧹 Nettoyage des ports...');
         const { exec } = require('child_process');
         
+        // Libérer les ports spécifiques sans tuer le processus actuel
         const ports = [3000, 4001, 4002];
         for (const port of ports) {
-            try {
-                await new Promise((resolve) => {
-                    exec(`lsof -ti:${port} | xargs kill -9 2>/dev/null || true`, () => resolve());
-                });
-            } catch (error) {
-                // Port déjà libre
-            }
+            await new Promise((resolve) => {
+                exec(`lsof -ti:${port} | xargs kill -9 2>/dev/null || true`, () => resolve());
+            });
         }
         
         // Attendre que les ports se libèrent
-        await new Promise(r => setTimeout(r, 2000));
+        await new Promise(r => setTimeout(r, 1000));
         console.log('✅ Ports nettoyés');
     }
 

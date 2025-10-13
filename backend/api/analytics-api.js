@@ -332,7 +332,7 @@ app.get('/api/analytics/profiles', async (req, res) => {
     }
 });
 
-const PORT = config.backend.analyser || 4002;
+const PORT = config?.backend?.analyser || 4002;
 app.listen(PORT, () => {
     console.log(`🧠 AURA Analytics API démarrée sur port ${PORT}`);
     console.log(`📊 Endpoints disponibles:`);
