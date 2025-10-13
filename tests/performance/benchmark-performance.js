@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const { performance } = require('perf_hooks');
+
 const axios = require('axios').default;
 
 class AuraBenchmark {

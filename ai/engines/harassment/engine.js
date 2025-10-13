@@ -1,6 +1,7 @@
 // Unified Harassment Engine Wrapper
-const legacy = require('./engine-legacy');
 const crypto = require('crypto');
+
+const legacy = require('./engine-legacy');
 const VERSION = 'heuristic-1.0.0';
 
 function normalizeOutput(raw) {

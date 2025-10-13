@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites name="vitest tests" tests="45" failures="13" errors="0" time="0.181763913">
-    <testsuite name="ai/router/router.test.ts" timestamp="2025-10-13T01:59:40.788Z" hostname="runnervmwhb2z" tests="8" failures="0" errors="0" skipped="0" time="0.009685312">
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to ner for Entity extraction with multiple entities" time="0.004075981">
+<testsuites name="vitest tests" tests="45" failures="12" errors="0" time="0.296027689">
+    <testsuite name="ai/router/router.test.ts" timestamp="2025-10-13T02:04:02.564Z" hostname="runnervmwhb2z" tests="8" failures="0" errors="0" skipped="0" time="0.016641887">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to ner for Entity extraction with multiple entities" time="0.010470475">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to forensic for Forensic timeline analysis" time="0.00050753">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to forensic for Forensic timeline analysis" time="0.000620623">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to nlp for NLP classification for toxicity" time="0.000332442">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to nlp for NLP classification for toxicity" time="0.000378629">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to rag+llm for RAG retrieval query" time="0.000317134">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to rag+llm for RAG retrieval query" time="0.00038448">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to llm for General knowledge query" time="0.000298298">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should route to llm for General knowledge query" time="0.000365905">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should detect harassment with high lexical score" time="0.000290443">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should detect harassment with high lexical score" time="0.000370434">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should extract entities correctly" time="0.001495871">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should extract entities correctly" time="0.001684446">
         </testcase>
-        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should estimate token savings" time="0.000281477">
+        <testcase classname="ai/router/router.test.ts" name="AlgorithmRouter &gt; should estimate token savings" time="0.00029376">
         </testcase>
     </testsuite>
-    <testsuite name="tests/integration/roadmap-integration.test.js" timestamp="2025-10-13T01:59:40.791Z" hostname="runnervmwhb2z" tests="12" failures="2" errors="0" skipped="0" time="0.041999625">
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Configuration System &gt; should load unified configuration" time="0.002672233">
+    <testsuite name="tests/integration/roadmap-integration.test.js" timestamp="2025-10-13T02:04:02.566Z" hostname="runnervmwhb2z" tests="12" failures="2" errors="0" skipped="0" time="0.078950262">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Configuration System &gt; should load unified configuration" time="0.006097003">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Configuration System &gt; should validate configuration" time="0.000345487">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Configuration System &gt; should validate configuration" time="0.000397665">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Domain-Driven Design Architecture &gt; should create incident entity" time="0.000824544">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Domain-Driven Design Architecture &gt; should create incident entity" time="0.000862125">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Domain-Driven Design Architecture &gt; should handle business rules" time="0.000223008">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Domain-Driven Design Architecture &gt; should handle business rules" time="0.000245049">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Harassment Detection Algorithm &gt; should detect harassment in messages" time="0.000803043">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Harassment Detection Algorithm &gt; should detect harassment in messages" time="0.000877233">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Harassment Detection Algorithm &gt; should provide detailed analysis" time="0.000209152">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Harassment Detection Algorithm &gt; should provide detailed analysis" time="0.000205905">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Forensic Timeline Analyzer &gt; should analyze incident timeline" time="0.000755635">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Forensic Timeline Analyzer &gt; should analyze incident timeline" time="0.001252357">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Forensic Timeline Analyzer &gt; should detect coordinated attacks" time="0.000265648">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Forensic Timeline Analyzer &gt; should detect coordinated attacks" time="0.000259556">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should initialize successfully" time="0.000833341">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should initialize successfully" time="0.000780502">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should analyze messages and create incidents" time="0.030861503">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should analyze messages and create incidents" time="0.060347119">
             <failure message="The expression evaluated to a falsy value:
 
   assert(result.isHarassment === true)
@@ -56,9 +56,9 @@ AssertionError: The expression evaluated to a falsy value:
  ❯ tests/integration/roadmap-integration.test.js:196:7
             </failure>
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should analyze session data" time="0.000622726">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Anti-Harassment Engine &gt; should analyze session data" time="0.000678521">
         </testcase>
-        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Integration Flow &gt; should handle complete harassment detection flow" time="0.001204134">
+        <testcase classname="tests/integration/roadmap-integration.test.js" name="AURA Roadmap Integration Tests &gt; Integration Flow &gt; should handle complete harassment detection flow" time="0.004302079">
             <failure message="The expression evaluated to a falsy value:
 
   assert(result.isHarassment === true)
@@ -78,41 +78,30 @@ AssertionError: The expression evaluated to a falsy value:
             </failure>
         </testcase>
     </testsuite>
-    <testsuite name="tests/unit/backend.test.ts" timestamp="2025-10-13T01:59:40.797Z" hostname="runnervmwhb2z" tests="2" failures="0" errors="0" skipped="0" time="0.004029384">
-        <testcase classname="tests/unit/backend.test.ts" name="Backend OSINT API &gt; should validate job schema" time="0.001624271">
+    <testsuite name="tests/unit/backend.test.ts" timestamp="2025-10-13T02:04:02.573Z" hostname="runnervmwhb2z" tests="2" failures="0" errors="0" skipped="0" time="0.009258825">
+        <testcase classname="tests/unit/backend.test.ts" name="Backend OSINT API &gt; should validate job schema" time="0.004278856">
         </testcase>
-        <testcase classname="tests/unit/backend.test.ts" name="Backend OSINT API &gt; should generate unique job IDs" time="0.000953024">
-        </testcase>
-    </testsuite>
-    <testsuite name="ai/gateway/src/preintel/preintel.test.ts" timestamp="2025-10-13T01:59:40.797Z" hostname="runnervmwhb2z" tests="7" failures="1" errors="0" skipped="0" time="0.022742056">
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should process text and return metadata" time="0.00658072">
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should detect cache hits on repeated inputs" time="0.000484707">
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should handle dry run mode" time="0.000522909">
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should apply pruning when enabled" time="0.011090382">
-            <failure message="expected false to be true // Object.is equality" type="AssertionError">
-AssertionError: expected false to be true // Object.is equality
-
-- Expected
-+ Received
-
-- true
-+ false
-
- ❯ ai/gateway/src/preintel/preintel.test.ts:63:46
-            </failure>
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should detect language correctly" time="0.000498644">
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; cache management &gt; should clear cache" time="0.000836827">
-        </testcase>
-        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; cache management &gt; should provide cache statistics" time="0.000436477">
+        <testcase classname="tests/unit/backend.test.ts" name="Backend OSINT API &gt; should generate unique job IDs" time="0.00293565">
         </testcase>
     </testsuite>
-    <testsuite name="ai/gateway/src/router/decision-engine.test.ts" timestamp="2025-10-13T01:59:40.799Z" hostname="runnervmwhb2z" tests="16" failures="10" errors="0" skipped="0" time="0.103307536">
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route entity-heavy text to NER" time="0.051136488">
+    <testsuite name="ai/gateway/src/preintel/preintel.test.ts" timestamp="2025-10-13T02:04:02.573Z" hostname="runnervmwhb2z" tests="7" failures="0" errors="0" skipped="0" time="0.031928996">
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should process text and return metadata" time="0.015528361">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should detect cache hits on repeated inputs" time="0.000616606">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should handle dry run mode" time="0.00051758">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should apply pruning when enabled" time="0.001061338">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; run &gt; should detect language correctly" time="0.001533603">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; cache management &gt; should clear cache" time="0.000599854">
+        </testcase>
+        <testcase classname="ai/gateway/src/preintel/preintel.test.ts" name="PreIntelPipeline &gt; cache management &gt; should provide cache statistics" time="0.000513082">
+        </testcase>
+    </testsuite>
+    <testsuite name="ai/gateway/src/router/decision-engine.test.ts" timestamp="2025-10-13T02:04:02.575Z" hostname="runnervmwhb2z" tests="16" failures="10" errors="0" skipped="0" time="0.159247719">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route entity-heavy text to NER" time="0.07257521">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -128,7 +117,7 @@ AssertionError: expected false to be true // Object.is equality
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
 [Router] Semantic features extraction failed: Error: `local_files_only=true` or `env.allowRemoteModels=false` and file was not found locally at &quot;/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/@xenova/transformers/models/Xenova/multilingual-e5-small/tokenizer.json&quot;.
     at getModelFile [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/utils/hub.js:459:27[90m)[39m
@@ -140,7 +129,7 @@ AssertionError: expected false to be true // Object.is equality
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
             </system-err>
             <failure message="expected 0.76 to be greater than 0.8" type="AssertionError">
@@ -148,7 +137,7 @@ AssertionError: expected 0.76 to be greater than 0.8
  ❯ ai/gateway/src/router/decision-engine.test.ts:24:35
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route forensic timeline to forensic module" time="0.007307581">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route forensic timeline to forensic module" time="0.021933902">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -164,7 +153,7 @@ AssertionError: expected 0.76 to be greater than 0.8
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
 [Router] Semantic features extraction failed: Error: `local_files_only=true` or `env.allowRemoteModels=false` and file was not found locally at &quot;/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/@xenova/transformers/models/Xenova/multilingual-e5-small/tokenizer.json&quot;.
     at getModelFile [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/utils/hub.js:459:27[90m)[39m
@@ -176,7 +165,7 @@ AssertionError: expected 0.76 to be greater than 0.8
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
             </system-err>
             <failure message="expected &apos;ner&apos; to be &apos;forensic&apos; // Object.is equality" type="AssertionError">
@@ -188,7 +177,7 @@ Received: &quot;ner&quot;
  ❯ ai/gateway/src/router/decision-engine.test.ts:32:33
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route high-risk content to harassment detection" time="0.002453273">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route high-risk content to harassment detection" time="0.002705318">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -204,7 +193,7 @@ Received: &quot;ner&quot;
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
 [Router] Semantic features extraction failed: Error: `local_files_only=true` or `env.allowRemoteModels=false` and file was not found locally at &quot;/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/@xenova/transformers/models/Xenova/multilingual-e5-small/tokenizer.json&quot;.
     at getModelFile [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/utils/hub.js:459:27[90m)[39m
@@ -216,7 +205,7 @@ Received: &quot;ner&quot;
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
             </system-err>
             <failure message="expected &apos;llm&apos; to be &apos;harassment&apos; // Object.is equality" type="AssertionError">
@@ -228,7 +217,7 @@ Received: &quot;llm&quot;
  ❯ ai/gateway/src/router/decision-engine.test.ts:41:33
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route factual questions to RAG+LLM" time="0.003284398">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should route factual questions to RAG+LLM" time="0.005600432">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -244,7 +233,7 @@ Received: &quot;llm&quot;
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
 [Router] Semantic features extraction failed: Error: `local_files_only=true` or `env.allowRemoteModels=false` and file was not found locally at &quot;/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/@xenova/transformers/models/Xenova/multilingual-e5-small/tokenizer.json&quot;.
     at getModelFile [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/utils/hub.js:459:27[90m)[39m
@@ -256,7 +245,7 @@ Received: &quot;llm&quot;
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
             </system-err>
             <failure message="expected 0.64 to be greater than 0.7" type="AssertionError">
@@ -264,7 +253,7 @@ AssertionError: expected 0.64 to be greater than 0.7
  ❯ ai/gateway/src/router/decision-engine.test.ts:52:35
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should fallback to LLM for general queries" time="0.003054609">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should fallback to LLM for general queries" time="0.002348219">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -280,7 +269,7 @@ AssertionError: expected 0.64 to be greater than 0.7
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
 [Router] Semantic features extraction failed: Error: `local_files_only=true` or `env.allowRemoteModels=false` and file was not found locally at &quot;/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/@xenova/transformers/models/Xenova/multilingual-e5-small/tokenizer.json&quot;.
     at getModelFile [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/utils/hub.js:459:27[90m)[39m
@@ -292,11 +281,11 @@ AssertionError: expected 0.64 to be greater than 0.7
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
             </system-err>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should include features hash in decision" time="0.003704395">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should include features hash in decision" time="0.004541357">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -312,7 +301,7 @@ AssertionError: expected 0.64 to be greater than 0.7
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
 [Router] Semantic features extraction failed: Error: `local_files_only=true` or `env.allowRemoteModels=false` and file was not found locally at &quot;/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/@xenova/transformers/models/Xenova/multilingual-e5-small/tokenizer.json&quot;.
     at getModelFile [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/utils/hub.js:459:27[90m)[39m
@@ -324,11 +313,11 @@ AssertionError: expected 0.64 to be greater than 0.7
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
             </system-err>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should handle simulate mode" time="0.002657265">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; decide &gt; should handle simulate mode" time="0.002570164">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -344,7 +333,7 @@ AssertionError: expected 0.64 to be greater than 0.7
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
 [Router] Semantic features extraction failed: Error: `local_files_only=true` or `env.allowRemoteModels=false` and file was not found locally at &quot;/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/@xenova/transformers/models/Xenova/multilingual-e5-small/tokenizer.json&quot;.
     at getModelFile [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/utils/hub.js:459:27[90m)[39m
@@ -356,13 +345,13 @@ AssertionError: expected 0.64 to be greater than 0.7
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
             </system-err>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; getStats &gt; should return empty stats initially" time="0.000528719">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; getStats &gt; should return empty stats initially" time="0.000553578">
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; getStats &gt; should calculate stats after decisions" time="0.003905592">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="DecisionEngine &gt; getStats &gt; should calculate stats after decisions" time="0.005109782">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -380,7 +369,7 @@ AssertionError: expected 0.64 to be greater than 0.7
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
 [Router] Semantic features extraction failed: Error: `local_files_only=true` or `env.allowRemoteModels=false` and file was not found locally at &quot;/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/@xenova/transformers/models/Xenova/multilingual-e5-small/tokenizer.json&quot;.
     at getModelFile [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/utils/hub.js:459:27[90m)[39m
@@ -392,7 +381,7 @@ AssertionError: expected 0.64 to be greater than 0.7
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
 [Embeddings] Failed to load model: Error: `local_files_only=true` or `env.allowRemoteModels=false` and file was not found locally at &quot;/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/@xenova/transformers/models/Xenova/multilingual-e5-small/tokenizer.json&quot;.
     at getModelFile [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/utils/hub.js:459:27[90m)[39m
@@ -404,7 +393,7 @@ AssertionError: expected 0.64 to be greater than 0.7
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
 [Router] Semantic features extraction failed: Error: `local_files_only=true` or `env.allowRemoteModels=false` and file was not found locally at &quot;/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/node_modules/@xenova/transformers/models/Xenova/multilingual-e5-small/tokenizer.json&quot;.
     at getModelFile [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/utils/hub.js:459:27[90m)[39m
@@ -416,11 +405,11 @@ AssertionError: expected 0.64 to be greater than 0.7
     at async Promise.all (index 0)
     at loadItems [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3279:5[90m)[39m
     at pipeline [90m(file:///home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mnode_modules/[4m@xenova[24m/transformers/src/pipelines.js:3219:21[90m)[39m
-    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:55:20[90m)[39m
+    at EmbeddingService.loadLocalModel [90m(/home/runner/work/AURA-OSINT-ADVANCED-ECOSYSTEM/AURA-OSINT-ADVANCED-ECOSYSTEM/[39mai/gateway/src/rag/embedding.service.ts:56:20[90m)[39m
 
             </system-err>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should extract basic features" time="0.0021313">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should extract basic features" time="0.002469346">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -437,7 +426,7 @@ undefined
  ❯ ai/gateway/src/router/decision-engine.test.ts:117:29
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should detect questions" time="0.001525846">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should detect questions" time="0.001642246">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -454,7 +443,7 @@ undefined
  ❯ ai/gateway/src/router/decision-engine.test.ts:127:37
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should count forensic terms" time="0.002920437">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should count forensic terms" time="0.003344326">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -464,7 +453,7 @@ TypeError: actual value must be number or bigint, received &quot;undefined&quot;
  ❯ ai/gateway/src/router/decision-engine.test.ts:134:39
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should detect timeline markers" time="0.001343997">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should detect timeline markers" time="0.002440813">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -474,7 +463,7 @@ TypeError: actual value must be number or bigint, received &quot;undefined&quot;
  ❯ ai/gateway/src/router/decision-engine.test.ts:141:41
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should calculate risk score" time="0.001581621">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; extract &gt; should calculate risk score" time="0.002438479">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
@@ -484,13 +473,13 @@ TypeError: actual value must be number or bigint, received &quot;undefined&quot;
  ❯ ai/gateway/src/router/decision-engine.test.ts:151:45
             </failure>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; hashFeatures &gt; should generate consistent hash for same features" time="0.000835855">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; hashFeatures &gt; should generate consistent hash for same features" time="0.001100191">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 
             </system-out>
         </testcase>
-        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; hashFeatures &gt; should generate different hash for different features" time="0.001742252">
+        <testcase classname="ai/gateway/src/router/decision-engine.test.ts" name="FeatureExtractor &gt; hashFeatures &gt; should generate different hash for different features" time="0.001646625">
             <system-out>
 [Embeddings] Loading model: Xenova/multilingual-e5-small
 

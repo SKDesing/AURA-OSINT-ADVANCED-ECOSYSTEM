@@ -4,11 +4,13 @@ try { require('./utils/ensure-electron-launch')(); } catch { /* best-effort */ }
 // Set default telemetry enabled
 process.env.AURA_TELEMETRY = process.env.AURA_TELEMETRY || '1';
 
-const express = require('express');
 const http = require('http');
+
+const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+
 const { globalRateLimit, sanitizeInput, securityHeaders } = require('./middleware/security');
 const { searchController, searchLimiter } = require('./controllers/search.controller');
 const osintController = require('./controllers/osint.controller');

@@ -1,5 +1,6 @@
-const { pool } = require('../config/database');
 const rateLimit = require('express-rate-limit');
+
+const { pool } = require('../config/database');
 
 const searchLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,

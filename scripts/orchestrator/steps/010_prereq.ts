@@ -1,6 +1,7 @@
-import { Step } from '../types';
 import fs from 'fs';
 import { execSync } from 'child_process';
+
+import { Step } from '../types';
 
 export const prereqStep: Step = {
   id: '010_prereq',

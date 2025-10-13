@@ -1,8 +1,10 @@
-import { RouterFeatures, FeatureExtractor } from './features';
-import { sha256 } from '../../../../packages/shared/src/utils/hash';
-import { routerDecisionTotal } from '../metrics/ai-metrics';
 import fs from 'fs';
 import path from 'path';
+
+import { sha256 } from '../../../../packages/shared/src/utils/hash';
+import { routerDecisionTotal } from '../metrics/ai-metrics';
+
+import { RouterFeatures, FeatureExtractor } from './features';
 
 export interface RouterDecision {
   decision: string;

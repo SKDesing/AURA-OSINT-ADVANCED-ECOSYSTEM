@@ -1,6 +1,7 @@
 const express = require('express');
-const emailService = require('../services/email.service');
 const rateLimit = require('express-rate-limit');
+
+const emailService = require('../services/email.service');
 
 const router = express.Router();
 

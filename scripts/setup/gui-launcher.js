@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 // AURA GUI Launcher - Interface Graphique Zéro CLI
 
-const express = require('express');
 const path = require('path');
 const { spawn } = require('child_process');
 const fs = require('fs');
+
+const express = require('express');
 
 class AuraGUILauncher {
     constructor() {

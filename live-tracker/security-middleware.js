@@ -1,7 +1,8 @@
+const crypto = require('crypto');
+
 const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const rateLimit = require('express-rate-limit');
-const crypto = require('crypto');
 
 // Rate limiting
 const createRateLimit = (windowMs = 15 * 60 * 1000, max = 100) => {

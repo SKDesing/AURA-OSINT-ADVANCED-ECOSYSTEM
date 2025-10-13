@@ -1,7 +1,9 @@
+const crypto = require('crypto');
+
 const { Pool } = require('pg');
 const { v4: uuidv4 } = require('uuid');
-const crypto = require('crypto');
 const Joi = require('joi');
+
 const config = require('../../../config');
 const logger = require('../../utils/logger');
 

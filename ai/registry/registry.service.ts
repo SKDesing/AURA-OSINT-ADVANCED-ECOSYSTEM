@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { createHash } from 'crypto';
+
+import { Injectable } from '@nestjs/common';
 
 export interface RegistryComponent {
   name: string;

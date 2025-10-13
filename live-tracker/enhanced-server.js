@@ -1,9 +1,11 @@
-const express = require('express');
 const http = require('http');
+
+const express = require('express');
 const { Server } = require('socket.io');
 const { Pool } = require('pg');
 const winston = require('winston');
 const cors = require('cors');
+
 const { TikTokForensicScraper } = require('./tiktok-scraper-advanced');
 // Configuration directe pour éviter les erreurs
 const config = {

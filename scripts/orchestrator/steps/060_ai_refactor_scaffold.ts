@@ -1,6 +1,7 @@
-import { Step } from '../types';
 import fs from 'fs';
 import path from 'path';
+
+import { Step } from '../types';
 
 export const aiRefactorStep: Step = {
   id: '060_ai_refactor_scaffold',

@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
 const AUTH_CONFIG = require('../config/auth');
 
 const authenticateRoot = async (username, password) => {

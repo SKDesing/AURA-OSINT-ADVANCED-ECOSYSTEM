@@ -5,6 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
+
 import { StepResult, StepState } from './types.js';
 
 export class StateManager {

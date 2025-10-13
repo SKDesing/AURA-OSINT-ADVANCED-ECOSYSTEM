@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+
 import { QwenController } from './qwen.controller';
 import { QwenService } from './qwen.service';
 import { HarassmentController } from './harassment.controller';

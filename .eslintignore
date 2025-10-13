@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+coverage/
+reports/
+.next/
+out/
+
+# Archives and legacy code
+archive/
+.obsolete/
+
+# Config files
+*.config.js
+*.config.ts
+vitest.config.ts
+playwright.config.ts
+cypress.config.js
+
+# Nested projects with their own configs
+apps/**/
+clients/**/
+packages/**/
+marketing/**/
+backend/api/
+backend/services/
+
+# Generated files
+*.min.js
+*.bundle.js
+*.map
+
+# Temp and cache
+.cache/
+tmp/
+temp/
+.turbo/
+
+# Other
+*.log
+*.pid

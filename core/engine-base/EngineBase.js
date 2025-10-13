@@ -1,5 +1,6 @@
 const EventEmitter = require('events');
 const crypto = require('crypto');
+
 const forensicLogger = require('../../logs/forensic-logger');
 
 class EngineBase extends EventEmitter {

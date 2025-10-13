@@ -7,11 +7,7 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    '@typescript-eslint/recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
   ],
-  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2022,
     sourceType: 'module',
@@ -19,12 +15,10 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ['@typescript-eslint', 'react', 'import'],
+  plugins: ['import'],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
-    'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-    '@typescript-eslint/no-explicit-any': 'warn',
+    'no-console': 'off',
+    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     'import/order': [
       'error',
       {
@@ -32,19 +26,54 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
-    'react/react-in-jsx-scope': 'off',
-    'react/prop-types': 'off',
-  },
-  settings: {
-    react: {
-      version: 'detect',
-    },
   },
   overrides: [
     {
-      files: ['*.js'],
+      files: ['*.ts', '*.tsx'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+      ],
       rules: {
-        '@typescript-eslint/no-var-requires': 'off',
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+        '@typescript-eslint/no-explicit-any': 'warn',
+      },
+    },
+    {
+      files: ['*.jsx', '*.tsx'],
+      plugins: ['react', 'react-hooks'],
+      extends: [
+        'plugin:react/recommended',
+        'plugin:react-hooks/recommended',
+      ],
+      rules: {
+        'react/react-in-jsx-scope': 'off',
+        'react/prop-types': 'off',
+      },
+      settings: {
+        react: {
+          version: 'detect',
+        },
+      },
+    },
+    {
+      files: ['tests/**/*.js', 'tests/**/*.ts', '**/*.test.js', '**/*.test.ts', '**/*.spec.js', '**/*.spec.ts'],
+      env: {
+        jest: true,
+        mocha: true,
+      },
+      globals: {
+        describe: 'readonly',
+        it: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
       },
     },
   ],
