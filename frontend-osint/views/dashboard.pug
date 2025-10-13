@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  .header
+    h1 🔍 AURA OSINT - Dashboard
+    if status.status
+      .status.ok ✅ Backend: #{status.status}
+    else
+      .status ⚠️ Backend: #{status.error || 'Unknown'}
+  
+  .card
+    h2 🎯 Investigation OSINT
+    p Recherchez des informations sur un utilisateur, email ou domaine
+    a.btn(href="/investigate") 🚀 Nouvelle Investigation
+  
+  .card
+    h3 📊 Services
+    p • Qwen AI: Port 8080
+    p • Elasticsearch: Port 9200
+    p • Qdrant: Port 6333
+    p • PostgreSQL: Port 5432
+    p • Redis: Port 6379

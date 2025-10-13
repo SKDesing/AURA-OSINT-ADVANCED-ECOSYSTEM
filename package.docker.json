@@ -1,0 +1,18 @@
+{
+  "name": "@aura/osint-advanced-ecosystem",
+  "version": "2.0.0",
+  "description": "Professional OSINT Platform for Advanced Intelligence Gathering",
+  "main": "backend/api-server.js",
+  "scripts": {
+    "start": "node backend/api-server.js"
+  },
+  "dependencies": {
+    "axios": "^1.12.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

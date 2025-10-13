@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  .header
+    h1 🔍 Nouvelle Investigation
+    a(href="/") ← Retour
+  
+  .card
+    form#investigateForm
+      label(for="target") Cible (username, email, domain)
+      input#target(type="text" name="target" placeholder="john_doe" required)
+      
+      label(for="type") Type
+      select#type(name="type")
+        option(value="username") Username
+        option(value="email") Email
+        option(value="domain") Domain
+      
+      button.btn(type="submit") 🚀 Lancer l'investigation
+    
+    #result.result(style="display:none")
+      h3 📊 Résultats
+      pre#resultData
+  
+  script.
+    document.getElementById('investigateForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = {
+        target: formData.get('target'),
+        type: formData.get('type')
+      };
+      
+      const result = document.getElementById('result');
+      const resultData = document.getElementById('resultData');
+      
+      try {
+        const response = await fetch('/api/investigate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await response.json();
+        resultData.textContent = JSON.stringify(json, null, 2);
+        result.style.display = 'block';
+      } catch (error) {
+        resultData.textContent = 'Erreur: ' + error.message;
+        result.style.display = 'block';
+      }
+    });

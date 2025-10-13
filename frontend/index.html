@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA OSINT - Investigation Intelligence</title>
+  
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/form.css">
+  <link rel="stylesheet" href="assets/css/results.css">
+  
+  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <h1>🔍 AURA OSINT</h1>
+        <p class="tagline">Advanced Intelligence Investigation</p>
+      </div>
+      
+      <nav class="nav">
+        <button class="nav-btn active" data-view="investigate">Investigation</button>
+        <button class="nav-btn" data-view="history">Historique</button>
+        <button class="nav-btn" data-view="tools">Outils</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      
+      <section id="view-investigate" class="view active">
+        
+        <div class="investigation-form">
+          <h2>🎯 Nouvelle Investigation</h2>
+          
+          <form id="investigationForm">
+            <div class="form-group">
+              <label for="query">Que voulez-vous investiguer ?</label>
+              <textarea 
+                id="query" 
+                name="query" 
+                rows="4" 
+                placeholder="Ex: Chercher elonmusk&#10;Ex: Analyser domain: tesla.com&#10;Ex: Email: john@example.com"
+                required
+              ></textarea>
+              <small class="form-hint">
+                L'IA détectera automatiquement le type d'investigation
+              </small>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="startBtn">
+                🚀 Lancer Investigation
+              </button>
+              <button type="button" class="btn btn-secondary" id="stopBtn" disabled>
+                ⏹️ Arrêter
+              </button>
+            </div>
+          </form>
+
+          <div class="quick-examples">
+            <h3>Exemples rapides:</h3>
+            <div class="examples-grid">
+              <button class="example-btn" data-query="Chercher elonmusk">
+                👤 Username
+              </button>
+              <button class="example-btn" data-query="Analyser domain: tesla.com">
+                🌐 Domain
+              </button>
+              <button class="example-btn" data-query="Email: test@example.com">
+                📧 Email
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="live-results" id="liveResults" style="display: none;">
+          
+          <div class="results-header">
+            <h2>✅ Investigation terminée</h2>
+            <div class="session-info">
+              <span class="session-id" id="sessionId">-</span>
+              <span class="elapsed-time" id="elapsedTime">0s</span>
+            </div>
+          </div>
+
+          <div class="progress-steps" id="progressSteps">
+            <div class="step" data-step="analyze" data-status="completed">
+              <div class="step-icon">🔍</div>
+              <div class="step-label">Analyse</div>
+            </div>
+            <div class="step" data-step="execute" data-status="completed">
+              <div class="step-icon">⚙️</div>
+              <div class="step-label">Exécution</div>
+            </div>
+            <div class="step" data-step="results" data-status="completed">
+              <div class="step-icon">📊</div>
+              <div class="step-label">Résultats</div>
+            </div>
+          </div>
+
+          <div class="results-summary" id="resultsSummary" style="display: none;">
+            <h3>📈 Résultats</h3>
+            <div class="summary-grid" id="summaryGrid"></div>
+          </div>
+
+          <div class="detailed-results" id="detailedResults"></div>
+
+          <div class="results-actions">
+            <button class="btn btn-success" id="exportJsonBtn">
+              📥 Export JSON
+            </button>
+            <button class="btn btn-success" id="exportCsvBtn">
+              📊 Export CSV
+            </button>
+            <button class="btn btn-secondary" id="newInvestigationBtn">
+              🔄 Nouvelle Investigation
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <section id="view-history" class="view">
+        <h2>📜 Historique des Investigations</h2>
+        <div class="history-list" id="historyList">
+          <p class="loading">Chargement</p>
+        </div>
+      </section>
+
+      <section id="view-tools" class="view">
+        <h2>🛠️ Outils OSINT Disponibles</h2>
+        <div class="tools-grid" id="toolsGrid">
+          <p class="loading">Chargement</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>🔍 AURA OSINT v1.0 - Advanced Investigation Platform</p>
+      <p class="api-status">
+        API: <span id="apiStatus" class="status-indicator">🔴</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/websocket.js"></script>
+  <script src="assets/js/results.js"></script>
+  <script src="assets/js/history.js"></script>
+  <script src="assets/js/app.js"></script>
+
+</body>
+</html>

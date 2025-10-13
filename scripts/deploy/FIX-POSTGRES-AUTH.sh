@@ -1,3 +1,32 @@
+#!/bin/bash
+set -e
+
+echo "🔧 Correction authentification PostgreSQL..."
+
+cd backend
+
+# Créer .env avec auth système
+cat > .env << 'EOF'
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=aura_osint
+DB_USER=soufiane
+DB_PASSWORD=
+
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+QWEN_API_URL=http://localhost:8080
+ELASTICSEARCH_URL=http://localhost:9200
+QDRANT_URL=http://localhost:6333
+
+JWT_SECRET=aura-osint-secret-2024
+PORT=4011
+NODE_ENV=production
+EOF
+
+# Modifier config/database.js
+cat > config/database.js << 'EOF'
 const { Pool } = require('pg');
 require('dotenv').config();
 
@@ -11,10 +40,8 @@ const config = {
   connectionTimeoutMillis: 5000,
 };
 
-if (process.env.DB_PASSWORD && process.env.DB_PASSWORD.trim()) {
+if (process.env.DB_PASSWORD) {
   config.password = process.env.DB_PASSWORD;
-} else {
-  config.password = '';
 }
 
 const pool = new Pool(config);
@@ -40,3 +67,6 @@ module.exports = {
     }
   }
 };
+EOF
+
+echo "✅ Configuration corrigée"

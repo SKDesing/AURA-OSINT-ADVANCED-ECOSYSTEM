@@ -1,0 +1,17 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package.docker.json package.json
+RUN npm install --omit=dev
+
+COPY backend/ ./backend/
+COPY ai-interface/ ./ai-interface/
+COPY orchestrator/ ./orchestrator/
+COPY tools/ ./tools/
+
+RUN apk add --no-cache python3 py3-pip git
+
+EXPOSE 3000
+
+CMD ["node", "backend/api-server.js"]
